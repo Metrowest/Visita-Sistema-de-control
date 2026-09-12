@@ -28,7 +28,7 @@
         <div class="tarjeta-modulo contenedor-selector">
             <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-            <select id="selectorHoja" class="selector-estilizado">
+            <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                 <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                 <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
                 <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
@@ -37,8 +37,6 @@
                 <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
                 <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
                 <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                <!-- INTEGRACIÓN HISTÓRICA: Esta compuerta activa abre tu aplicación de carpetas.js -->
-                <option value="Gestor_Carpetas">📁 Gestor de Archivos (Drive)</option>
             </select>
 
             <div class="enlace-seccion-activa">
