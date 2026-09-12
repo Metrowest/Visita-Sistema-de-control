@@ -43,33 +43,51 @@ function drive_VerificarPreexistenciaNube(nombreArc) {
 
 // =========================================================================
 // SECCIÓN 4 (CONFIGURACIÓN DINÁMICA): RECEPTOR VISUAL DE REJILLAS DRIVE
+// Ubicación del bloque: PARTE MEDIA (ENCARGADO DE DIBUJAR LA INTERFAZ)
 // =========================================================================
 
-// FUNCIÓN 1: Renderiza de forma responsive la lista desplegable interna y el visor (REQ 1 y 2)
+// FUNCIÓN 1: Renderiza la lista desplegable interactiva y la tabla de archivos (REQ 1 y 2)
 window.recibirEstructuraDrive = function(resultado) {
     if (resultado.status !== "success") return;
+    
+    // Almacenamos el ID de la carpeta en la que estamos parados actualmente
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
 
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.innerHTML = "";
+        
+        // COMPUERTA DE RETORNO MAESTRA: Si no estamos en la raíz, inyectamos la opción de regresar
+        if (resultado.nombreCarpetaActual !== "Visita Actual") {
+            let optRegresar = document.createElement("option");
+            // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
+            optRegresar.value = "https://google.com";
+            optRegresar.innerText = "⬅️ Regresar a la Raíz (Visita Actual)";
+            selectorSub.appendChild(optRegresar);
+        }
+
+        // Mostramos la ubicación activa actual en el menú
         let optRaiz = document.createElement("option");
         optRaiz.value = resultado.idCarpetaActual;
         optRaiz.innerText = "📁 " + resultado.nombreCarpetaActual + " (Ubicación Activa)";
         selectorSub.appendChild(optRaiz);
 
+        // Listamos todas las subcarpetas de este nivel. Al seleccionarlas, entraremos en ellas de forma profunda
         resultado.carpetas.forEach(sub => {
             let opt = document.createElement("option");
             opt.value = sub.id;
             opt.innerText = "📁 → " + sub.nombre;
             selectorSub.appendChild(opt);
         });
+        
         selectorSub.value = drive_IdCarpetaActiva;
     }
 
+    // Botón de borrado de carpetas: visible en subcarpetas para destruirlas completas
     const btnBorrar = document.getElementById("btnBorrarCarpetaDrive");
     if (btnBorrar) btnBorrar.style.display = (resultado.nombreCarpetaActual === "Visita Actual") ? "none" : "inline-block";
 
+    // REQUERIMIENTO 2: Presenta los archivos y documentos disponibles con botones de acción
     const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
     if (tablaCuerpoDrive) {
         tablaCuerpoDrive.innerHTML = "";
@@ -81,12 +99,17 @@ window.recibirEstructuraDrive = function(resultado) {
             let htmlFila = "<tr>";
             htmlFila += `<td><strong>${arc.nombre}</strong></td>`;
             htmlFila += `<td><span class="badge">${arc.mimeType.split("/").pop().toUpperCase()}</span></td>`;
-            htmlFila += `<td><a href="${arc.url}" target="_blank" class="btn-edit" style="text-decoration:none; display:inline-block; text-align:center; padding:4px 8px;">👁️ Ver</a></td>`;
+            // Inyectamos el botón de Ver y el nuevo botón de Borrar Documento individual por ID
+            htmlFila += `<td>
+                <a href="${arc.url}" target="_blank" class="btn-edit" style="text-decoration:none; display:inline-block; padding:4px 8px; margin-right:4px;">👁️ Ver</a>
+                <button type="button" class="btn-delete" style="padding:4px 8px; background:#dc3545; color:white; border:1px solid #dc3545; cursor:pointer;" onclick="drive_EliminarDocumentoIndividual('${arc.id}', '${arc.nombre}')">🗑️ Borrar</button>
+            </td>`;
             htmlFila += "</tr>";
             tablaCuerpoDrive.insertAdjacentHTML("beforeend", htmlFila);
         });
     }
 };
+
 // =========================================================================
 // PARTE 2 DE 2: PROCESADORES LOCALES, INTERCEPTORES DE DECISIÓN Y ESCUCHAS
 // Ubicación del bloque: CONTINUACIÓN DIRECTA ABAJO DE LA PARTE 1
@@ -246,3 +269,25 @@ window.addEventListener("load", () => {
         drive_CargarEstructuraNube("RAIZ");
     }, 300);
 });
+
+// =========================================================================
+// SECCIÓN 7.5 (NUEVA): EMISOR DE ELIMINACIÓN DE DOCUMENTOS INDIVIDUALES
+// Ubicación del bloque: PARTE INFERIOR (CABLEADO DIRECTO AL BOTÓN DE LA TABLA)
+// =========================================================================
+
+// FUNCIÓN ACTIVA: Lanza la alerta de confirmación y despacha la destrucción del archivo en Drive
+function drive_EliminarDocumentoIndividual(fileId, nombreArc) {
+    let confirmarBorrado = confirm(`¿Estás seguro de que quieres eliminar el documento "${nombreArc}" de forma permanente?`);
+    if (!confirmarBorrado) return;
+
+    console.log("Despachando solicitud de borrado para el archivo ID: " + fileId);
+    
+    const scriptViejo = document.getElementById("script-drive-borrar-archivo");
+    if (scriptViejo) scriptViejo.remove();
+
+    // Enviamos la petición asíncrona al backend de Apps Script
+    const script = document.createElement("script");
+    script.id = "script-drive-borrar-archivo";
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarArchivo&fileId=${encodeURIComponent(fileId)}`;
+    document.body.appendChild(script);
+}
