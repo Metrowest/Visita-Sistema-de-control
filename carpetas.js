@@ -1,4 +1,3 @@
-// =========================================================================
 // ARCHIVO: carpetas.js (MOTOR DINÁMICO EXCLUSIVO DE CONTROL PARA DRIVE)
 // INTERFAZ: Totalmente aislado por secciones fijas y dinámicas en orden estricto
 // PARTE 1 DE 2: CONFIGURACIÓN, VARIABLES, EMISORES Y LECTURA DE INTERNET
@@ -7,7 +6,7 @@
 // =========================================================================
 // SECCIÓN 1 (CAMBIOS FRECUENTES - CONFIGURACIÓN): ENLACE DE RED WEB APP
 // =========================================================================
-// CORRECCIÓN DE RED: Esta es la URL real de tu implementación de carpetas
+// CORRECCIÓN DE RED MÁXIMA: Esta es la URL real de tu Web App de Carpetas
 const CARPETAS_WEB_APP_URL = "https://https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 
 // =========================================================================
@@ -51,7 +50,6 @@ window.recibirEstructuraDrive = function(resultado) {
     if (resultado.status !== "success") return;
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
 
-    // REQUERIMIENTO 1: Llenamos e inyectamos la lista desplegable interactiva propia
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.innerHTML = "";
@@ -69,11 +67,9 @@ window.recibirEstructuraDrive = function(resultado) {
         selectorSub.value = drive_IdCarpetaActiva;
     }
 
-    // Controlamos el botón de borrado: se apaga si estás parado en la carpeta raíz
     const btnBorrar = document.getElementById("btnBorrarCarpetaDrive");
     if (btnBorrar) btnBorrar.style.display = (resultado.nombreCarpetaActual === "Visita Actual") ? "none" : "inline-block";
 
-    // REQUERIMIENTO 2: Presenta las carpetas y archivos en la tabla responsiva
     const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
     if (tablaCuerpoDrive) {
         tablaCuerpoDrive.innerHTML = "";
@@ -142,9 +138,7 @@ function drive_ManejarSeleccionArchivo(evento) {
 window.recibirVerificacionDrive = function(respuesta) {
     if (respuesta.status !== "success") return;
 
-    // REQUERIMIENTO 4 y 5: Si se indica que es un documento ya existente
     if (respuesta.existe) {
-        // REQUERIMIENTO 8: Validación de formato idéntico
         if (respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
             alert("No es el mismo formato, no se puede actualizar.");
             drive_RestablecerFormularioCarga();
@@ -153,20 +147,15 @@ window.recibirVerificacionDrive = function(respuesta) {
 
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
-            // REQUERIMIENTO 6: Si decide "Sí", ejecuta la sobreescritura manteniendo el formato
             drive_TransmitirCargaFisicaNube("actualizarExistente", respuesta.fileIdOriginal);
         } else {
-            // REQUERIMIENTO 7: Si presiona "No", la función no subirá nada
             drive_RestablecerFormularioCarga();
         }
     } else {
-        // REQUERIMIENTO 9: Si es un documento nuevo
         let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
         if (confirmarNuevo) {
-            // REQUERIMIENTO 10: Si presiona "Sí", subirá el documento
             drive_TransmitirCargaFisicaNube("crearNuevo", null);
         } else {
-            // REQUERIMIENTO 11: Si presiona "No", la función no subirá nada
             drive_RestablecerFormularioCarga();
         }
     }
@@ -176,7 +165,6 @@ window.recibirVerificacionDrive = function(respuesta) {
 // SECCIÓN 6 (FIJA): MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE)
 // =========================================================================
 
-// FUNCIÓN 1: Empaqueta el JSON y despacha la carga física de bytes
 function drive_TransmitirCargaFisicaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if(btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
@@ -207,7 +195,6 @@ function drive_TransmitirCargaFisicaNube(tipoAccion, fileIdOriginal) {
     });
 }
 
-// FUNCIÓN 2: Restaura las cajas y limpia la memoria de la carga actual
 function drive_RestablecerFormularioCarga() {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if(btn) { btn.disabled = false; btn.innerText = "🚀 Subir Documento Seleccionado"; btn.style.display = "none"; }
@@ -216,16 +203,13 @@ function drive_RestablecerFormularioCarga() {
     document.getElementById("contenedorPrevisualizacionFoto").style.display = "none";
 }
 
-// =========================================================================
-// SECCIÓN 7 (FIJA): RECEPTOR SECUNDARIO DE CONFIRMACIONES DE ACCIONES
-// =========================================================================
 window.recibirRespuestaAccionDrive = function(res) {
-    alert(res.message || "Acción completada de forma correcta.");
+    alert(res.message || "Acción completada.");
     drive_CargarEstructuraNube(drive_IdCarpetaActiva);
 };
 
 // =========================================================================
-// SECCIÓN 8 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
+// SECCIÓN 7 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
 // =========================================================================
 
 document.getElementById("selectorSubcarpetas").addEventListener("change", (e) => {
@@ -256,13 +240,8 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
     drive_IdCarpetaActiva = "RAIZ";
 });
 
-// =========================================================================
-// SECCIÓN 8.1 (DEFINITIVA): DISPARADOR DE ARRANQUE EN MEMORIA (CARPETAS.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO CARPETAS.JS SEPARADO
-// =========================================================================
+// Inicializador forzado automático autónomo con retraso de seguridad
 window.addEventListener("load", () => {
-    console.log("¡Forzando encendido del motor de Drive en la cumbre!");
-    // Despacha la consulta inicial hacia tu carpeta raíz de Google Drive
     setTimeout(() => {
         drive_CargarEstructuraNube("RAIZ");
     }, 300);
