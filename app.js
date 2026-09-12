@@ -505,13 +505,25 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-// ESCUCHAS DE EVENTOS CONTROLADAS NATIVAS SIN REPETICIONES
+// ESCUCHAS DE EVENTOS CONTROLADAS NATIVAS CON ESCAPE PARA DRIVE
 document.getElementById("selectorHoja").addEventListener("change", () => {
+    const selector = document.getElementById("selectorHoja");
+    
+    // Si el usuario elige las carpetas, este script se detiene de golpe
+    // y no ejecuta cargarDatos() de Sheets para no congelar la pantalla
+    if (selector && selector.value === "Gestor_Carpetas") {
+        console.log("Cediendo control total visual al archivo carpetas.js...");
+        return;
+    }
+    
     actualizarEnlaceUbicacion();
     cargarDatos();
 });
 
 window.addEventListener("load", () => {
+    const selector = document.getElementById("selectorHoja");
+    if (selector && selector.value === "Gestor_Carpetas") return;
+    
     actualizarEnlaceUbicacion();
     cargarDatos();
 });
