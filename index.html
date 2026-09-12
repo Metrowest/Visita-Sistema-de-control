@@ -58,6 +58,7 @@
                 <h2 id="formTitulo">Añadir Registro</h2>
             </div>
 
+            <!-- =========================================================================
 <!-- =========================================================================
      INDEX.HTML - SECCIÓN 2: FORMULARIO DE CAPTURA CON LAS 8 CAJAS DE TEXTO
      Ubicación del bloque: CENTRO (PARTE SUPERIOR)
@@ -68,7 +69,7 @@
 
                 <!-- CONTENEDOR DE CAMPOS DINÁMICOS: Controlado por la Sección 8.2.3 de app.js -->
                 <div class="grid-formulario">
-                    
+
                     <!-- BLOQUE BASE: Campos de texto comunes (Campos 1, 2 y 3) -->
                     <div class="campo-formulario" id="contenedorCampo1">
                         <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
@@ -77,7 +78,8 @@
 
                     <div class="campo-formulario" id="contenedorCampo2">
                         <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
-                        <input type="text" id="txtSuperintendente" name="superintendente" placeholder="Nombre completo" required>
+                        <input type="text" id="txtSuperintendente" name="superintendente" placeholder="Nombre completo"
+                            required>
                     </div>
 
                     <div class="campo-formulario" id="contenedorCampo3">
@@ -123,6 +125,69 @@
             </form>
         </div>
 
+<!-- =========================================================================
+     INDEX.HTML - SECCIÓN 2.5: CONTENEDOR MODULAR INDEPENDIENTE DE DRIVE (VISITA ACTUAL)
+     Ubicación del bloque: INTERSECCIÓN INYECTADA JUSTO DEBAJO DEL CIERRE ANTERIOR
+     ========================================================================= -->
+        <div id="moduloGestorCarpetas" class="tarjeta-modulo" style="display: none;">
+            <div class="tarjeta-cabecera tarjeta-cabecera-drive">
+                <div class="icono-titulo">📁</div>
+                <h2 id="driveFormTitulo">Gestor de Archivos (Visita Actual)</h2>
+            </div>
+            
+            <div class="formulario-estilizado cuerpo-modulo-drive">
+                <!-- REQUERIMIENTO 1: Lista desplegable interactiva de subcarpetas disponibles -->
+                <div class="campo-formulario">
+                    <label for="selectorSubcarpetas">📁 Seleccionar Carpeta Interna:</label>
+                    <select id="selectorSubcarpetas" class="selector-estilizado">
+                        <option value="RAIZ">Cargando carpetas de Drive...</option>
+                    </select>
+                </div>
+
+                <!-- REQUERIMIENTO 3: Medio responsivo fluido para la carga de documentos -->
+                <div class="campo-formulario contenedor-dropzone-drive">
+                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
+                        Subir Documento o Carpeta a la Sección Activa
+                    </label>
+                    <input type="file" id="archivoSubirDrive">
+                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
+                    
+                    <!-- Contenedor responsivo para previsualizar fotos subidas antes de confirmar -->
+                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
+                        <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
+                    </div>
+
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
+                        🚀 Subir a Carpeta Activa
+                    </button>
+                </div>
+
+                <!-- REQUERIMIENTO 2: Visor y rejilla gráfica de archivos disponibles -->
+                <div class="seccion-visor-archivos">
+                    <h3 class="titulo-visor-drive">
+                        <span>📄</span> Archivos Disponibles en esta Carpeta:
+                    </h3>
+                    <div class="tabla-responsiva contenedor-scroll-drive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Formato (Tipo)</th>
+                                    <th>Enlace</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCuerpoDrive">
+                                <tr>
+                                    <td colspan="3" class="celda-carga">
+                                        Selecciona una carpeta para listar los documentos disponibles...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- =========================================================================
      INDEX.HTML - SECCIÓN 3: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES
      Ubicación del bloque: CENTRO (PARTE INFERIOR DE LA PANTALLA)
