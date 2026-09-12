@@ -435,21 +435,28 @@ function cargarDatos() {
 }
 
 // =========================================================================
-// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON ENCENDEDOR DE DIRECCIÓN (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO (VINCULADO AL TABLERO DE CONTROL)
+// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     const selector = document.getElementById("selectorHoja");
     if (!selector) return;
 
     const hojaSeleccionada = selector.value;
+    
+    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
+    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
+    if (hojaSeleccionada === "Gestor_Carpetas") {
+        console.log("Cediendo control total visual al archivo carpetas.js...");
+        return; 
+    }
+
     const etiquetaEnlace = document.getElementById("enlaceDinamico");
     const tituloFormulario = document.getElementById("formTitulo");
 
     const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
-    // 1. REESCRITURA DINÁMICA DE LA DIRECCIÓN DE ENLACE INFERIOR
     if (etiquetaEnlace) {
         etiquetaEnlace.target = "_blank";
         if (hojaSeleccionada === "Hospitalidad") {
@@ -460,11 +467,11 @@ function actualizarEnlaceUbicacion() {
             etiquetaEnlace.innerHTML = "👥 Superintendentes";
         } else {
             etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
-            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada.replace(/_/g, " ")}`;
+            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
         }
     }
 
-    // 2. CONMUTADOR VISUAL DE ENTORNO RESPONSIVO PURIFICADO SINCRO
+    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
@@ -474,7 +481,7 @@ function actualizarEnlaceUbicacion() {
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
     } else if (hojaSeleccionada.includes("Estudios")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada.replace(/_/g, " ")})`;
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
         if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
         
@@ -482,7 +489,7 @@ function actualizarEnlaceUbicacion() {
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada.replace(/_/g, " ")})`;
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
         if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
         
@@ -492,7 +499,6 @@ function actualizarEnlaceUbicacion() {
     } else {
         if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
         
-        // CORRECCIÓN DEFINITIVA: Sustituimos n5 por c5 de forma segura para eliminar el ReferenceError
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
