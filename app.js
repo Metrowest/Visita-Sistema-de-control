@@ -511,8 +511,10 @@ function actualizarEnlaceUbicacion() {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
 }
-
-// ESCUCHAS DE EVENTOS CONTROLADAS NATIVAS SIN REPETICIONES ORIGINALES
+// =========================================================================
+// SECCIÓN 8: ESCUCHAS DE EVENTOS CONTROLADAS NATIVAS (RESTABLECIDO)
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
+// =========================================================================
 document.getElementById("selectorHoja").addEventListener("change", () => {
     actualizarEnlaceUbicacion();
     cargarDatos();
