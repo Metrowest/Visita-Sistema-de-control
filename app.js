@@ -19,9 +19,16 @@ let registroEditandoIndex = null;
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // CORRECCIÓN CLAVE: Capturamos el valor en vivo del selectorHoja que agregamos en el HTML
+    // Capturamos el valor en vivo del selectorHoja que agregamos en el HTML
     const hoja = document.getElementById("selectorHoja").value;
     console.log("Solicitando registros para la sección: " + hoja);
+
+    // BLINDAJE DE RED: Si el usuario elige las carpetas, este script se apaga de inmediato
+    // y no ejecuta las llamadas de Sheets para evitar que las tablas se queden colgadas
+    if (hoja === "Gestor_Carpetas") {
+        console.log("Tablero de Sheets apagado. Cediendo control a carpetas.js...");
+        return;
+    }
 
     // Removemos ganchos viejos para evitar duplicación de scripts en memoria
     const scriptViejo = document.getElementById("script-carga-hojas");
