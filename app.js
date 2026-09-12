@@ -4,7 +4,7 @@
 // =========================================================================
 
 // Enlace exclusivo hacia la base de datos de las hojas (Google Sheets)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5f-HM7FAWTxf3oDPFafcZ4EUL-5Bbt6UtBU6JgqsHIqEGAN1Z5TFyx3af7B6nijvAvg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 
 // Enlace exclusivo hacia el gestor de documentos de las carpetas (Google Drive)
 const URL_SCRIPT_CARPETAS = "https://google.com";
