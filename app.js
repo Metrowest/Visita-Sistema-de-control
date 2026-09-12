@@ -6,9 +6,6 @@
 // Enlace exclusivo hacia la base de datos de las hojas (Google Sheets)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5f-HM7FAWTxf3oDPFafcZ4EUL-5Bbt6UtBU6JgqsHIqEGAN1Z5TFyx3af7B6nijvAvg/exec";
 
-// Enlace exclusivo hacia el gestor de documentos de las carpetas (Google Drive)
-const URL_SCRIPT_CARPETAS = "https://google.com";
-
 // Variable global interna para controlar el índice del registro que se está editando
 let registroEditandoIndex = null;
 
