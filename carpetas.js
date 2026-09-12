@@ -256,7 +256,14 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
     drive_IdCarpetaActiva = "RAIZ";
 });
 
-// Carga automática inicial aislada del panel fijo
-document.addEventListener("DOMContentLoaded", () => {
-    drive_CargarEstructuraNube("RAIZ");
+// =========================================================================
+// SECCIÓN 8.1 (DEFINITIVA): DISPARADOR DE ARRANQUE EN MEMORIA (CARPETAS.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO CARPETAS.JS SEPARADO
+// =========================================================================
+window.addEventListener("load", () => {
+    console.log("¡Forzando encendido del motor de Drive en la cumbre!");
+    // Despacha la consulta inicial hacia tu carpeta raíz de Google Drive
+    setTimeout(() => {
+        drive_CargarEstructuraNube("RAIZ");
+    }, 300);
 });
