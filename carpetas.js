@@ -204,5 +204,5 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
 });
 
 window.addEventListener("load", () => {
-    setTimeout(Secc3_Fun1_InicializarEntornoFijoCimaDrive, 150);
+    setTimeout(Secc3_Fun1_InicializarEntornoFijoCimaDrive, 300);
 });
