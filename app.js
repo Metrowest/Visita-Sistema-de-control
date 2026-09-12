@@ -6,7 +6,7 @@
 // Enlace exclusivo hacia la base de datos de las hojas (Google Sheets)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5f-HM7FAWTxf3oDPFafcZ4EUL-5Bbt6UtBU6JgqsHIqEGAN1Z5TFyx3af7B6nijvAvg/exec";
 
-// Variable global interna para controlar el índice del registro que se está editando
+// Variable global de memoria para controlar el índice del registro en edición
 let registroEditandoIndex = null;
 
 // =========================================================================
