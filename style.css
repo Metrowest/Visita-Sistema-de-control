@@ -262,9 +262,16 @@ css/* =========================================================================
    Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS
    ========================================================================= */
 
-/* 1. Degradado personalizado para el encabezado de la carpeta amarilla */
+/* 1. Degradado personalizado con texto blanco puro para la carpeta amarilla */
 .tarjeta-cabecera-drive {
     background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
+    color: #ffffff !important; /* Fuerza al icono y textos base a blanco */
+}
+
+/* Fuerza el título H2 dentro de la cabecera a color blanco de alta visibilidad */
+.tarjeta-cabecera-drive h2 {
+    color: #ffffff !important;
+    margin: 0 !important;
 }
 
 /* 2. Ajuste compacto y estético para que los botones no se vean gigantes */
