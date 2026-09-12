@@ -20,6 +20,67 @@
 
 <body>
     <div class="contenedor-principal">
+         <!-- =========================================================================
+             INDEX.HTML - SECCIÓN 0.5: PANEL SUPERIOR FIJO GESTOR DE CARPETAS (DRIVE)
+             Ubicación del bloque: CUMBRE ABSOLUTA (ARRIBA DE SELECCIONA UNA SECCIÓN)
+             ========================================================================= -->
+        <div id="moduloGestorCarpetas" class="tarjeta-modulo" style="margin-bottom: 2rem;">
+            <div class="tarjeta-cabecera" style="background: linear-gradient(135deg, #1a73e8, #0d47a1);">
+                <div class="icono-titulo">📁</div>
+                <h2>Panel Control: Archivos y Carpetas (Drive)</h2>
+            </div>
+            
+            <div class="formulario-estilizado" style="padding: 1.5rem; box-sizing: border-box;">
+                <!-- REQUERIMIENTO 1: Selector propio e independiente para las carpetas -->
+                <div class="campo-formulario" style="margin-bottom: 1rem;">
+                    <label for="selectorSubcarpetas" style="font-weight: 600;">📁 Navegación de Carpetas de "Visita Actual":</label>
+                    <select id="selectorSubcarpetas" class="selector-estilizado" style="width: 100%; box-sizing: border-box;">
+                        <option value="RAIZ">Cargando raíz "Visita Actual"...</option>
+                    </select>
+                </div>
+
+                <!-- ACCIONES DE CREAR Y BORRAR CARPETAS AUTÓNOMAS -->
+                <div class="bloque-botones" style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; width: 100%;">
+                    <button type="button" id="btnCrearCarpetaDrive" class="btn-primario" style="background: #28a745; flex: 1; min-width: 140px;">➕ Crear Carpeta</button>
+                    <button type="button" id="btnBorrarCarpetaDrive" class="btn-secundario" style="background: #dc3545; color: white; flex: 1; min-width: 140px;">🗑️ Borrar Activa</button>
+                </div>
+
+                <!-- REQUERIMIENTO 3: Medio físico responsivo para subir documentos -->
+                <div class="campo-formulario" style="background: #f8f9fa; padding: 1.5rem; border: 2px dashed #1a73e8; border-radius: 8px; text-align: center; box-sizing: border-box; width: 100%;">
+                    <label for="archivoSubirDrive" style="display: block; font-weight: 600; color: #1a73e8; cursor: pointer; margin-bottom: 0.5rem;">
+                        📤 Seleccionar Documento o Foto para Subir
+                    </label>
+                    <input type="file" id="archivoSubirDrive" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+                    <div id="nombreArchivoSeleccionado" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem; font-style: italic; word-break: break-all;">Ningún archivo seleccionado</div>
+                    
+                    <!-- Previsualización de imágenes responsive -->
+                    <div id="contenedorPrevisualizacionFoto" style="display: none; margin-top: 1rem; width: 100%; max-width: 100%; justify-content: center; overflow: hidden; border-radius: 6px;">
+                        <img id="previewFotoDriveImg" src="" alt="Preview" style="width: 100%; height: auto; max-height: 200px; object-fit: contain;">
+                    </div>
+
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="margin-top: 1rem; display: none; width: 100%;">🚀 Subir Documento Seleccionado</button>
+                </div>
+
+                <!-- REQUERIMIENTO 2: Visor y listado de archivos -->
+                <div style="margin-top: 1.5rem; width: 100%;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📄 Archivos Almacenados en esta Ubicación:</h3>
+                    <div class="tabla-responsiva" style="max-height: 250px; overflow-y: auto; width: 100%; box-sizing: border-box;">
+                        <table style="width: 100%;">
+                            <thead style="background: #f1f3f4;">
+                                <tr>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Tipo</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCuerpoDrive">
+                                <tr><td colspan="3" style="text-align: center; padding: 1rem; color: #666;">Consultando archivos de Drive...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- =========================================================================
              INDEX.HTML - SECCIÓN 1.5: SELECTOR DE NAVEGACIÓN GENERAL (PÁGINAS)
