@@ -253,6 +253,24 @@ css/* =========================================================================
 }
 
 /* =========================================================================
+   STYLE.CSS - SECCIÓN 7.1: COLOR PERSONALIZADO Y BOTONES COMPACTOS DE DRIVE
+   Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS
+   ========================================================================= */
+
+/* 1. Degradado personalizado para el encabezado de la carpeta amarilla */
+.tarjeta-cabecera-drive {
+    background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
+}
+
+/* 2. Ajuste compacto y estético para que los botones no se vean gigantes */
+#btnCrearCarpetaDrive, #btnBorrarCarpetaDrive {
+    padding: 0.5rem 1rem !important; /* Reduce el grosor interno */
+    font-size: 0.9rem !important;    /* Reduce el tamaño del texto */
+    max-width: 200px !important;     /* Evita que se estiren de más */
+    margin: 0.25rem auto !important;  /* Centra y da espacio */
+}
+
+/* =========================================================================
    STYLE.CSS - SECCIÓN 8: TABLA DE DATOS EXCLUSIVA DE SUPERINTENDENTES
    Ubicación del bloque: ABAJO DEL TODO
    ========================================================================= */
