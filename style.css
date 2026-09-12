@@ -262,13 +262,14 @@ css/* =========================================================================
    Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS
    ========================================================================= */
 
-/* 1. Degradado personalizado con texto blanco puro para la carpeta amarilla */
+/* 1. Degradado personalizado con texto blanco puro para la cabecera */
 .tarjeta-cabecera-drive {
     background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
-    color: #ffffff !important; /* Fuerza al icono y textos base a blanco */
+    color: #ffffff !important; 
+    border-bottom: 1px solid #dcdcdc !important;
 }
 
-/* Fuerza el título H2 dentro de la cabecera a color blanco de alta visibilidad */
+/* Fuerza el título H2 dentro de la cabecera de Drive a color blanco brillante */
 .tarjeta-cabecera-drive h2 {
     color: #ffffff !important;
     margin: 0 !important;
@@ -276,10 +277,10 @@ css/* =========================================================================
 
 /* 2. Ajuste compacto y estético para que los botones no se vean gigantes */
 #btnCrearCarpetaDrive, #btnBorrarCarpetaDrive {
-    padding: 0.5rem 1rem !important; /* Reduce el grosor interno */
-    font-size: 0.9rem !important;    /* Reduce el tamaño del texto */
-    max-width: 200px !important;     /* Evita que se estiren de más */
-    margin: 0.25rem auto !important;  /* Centra y da espacio */
+    padding: 0.5rem 1rem !important; 
+    font-size: 0.9rem !important;    
+    max-width: 200px !important;     
+    margin: 0.25rem auto !important;  
 }
 
 /* =========================================================================
