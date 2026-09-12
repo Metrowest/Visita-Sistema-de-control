@@ -246,22 +246,34 @@ function drive_RestablecerFormularioCarga() {
     document.getElementById("contenedorPrevisualizacionFoto").style.display = "none";
 }
 // =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS E INICIALIZADORES ASÍNCRONOS
+// SECCIÓN 8: ESCUCHAS DE EVENTOS CONTROLADAS DE ALTA SENSIBILIDAD (CARPETAS.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO CARPETAS.JS SEPARADO
 // =========================================================================
-document.getElementById("selectorHoja").addEventListener("change", Secc824_ControladorVisualDrive);
-// Escucha el selector de carpetas internas para navegar de forma infinita (REQUERIMIENTO 2)
+
+// Escucha el menú desplegable de forma nativa e inmediata
+document.getElementById("selectorHoja").addEventListener("change", () => {
+    console.log("Menú desplegable movido, ejecutando controlador de carpetas...");
+    Secc824_ControladorVisualDrive();
+});
+
+// Escucha el selector de carpetas internas de Drive para navegar de forma infinita
 document.getElementById("selectorSubcarpetas").addEventListener("change", (e) => {
     drive_IdCarpetaActiva = e.target.value;
     drive_CargarEstructuraNube(e.target.value);
 });
-// Escucha el input file responsivo cuando se selecciona un documento
+
+// Escucha el input file responsivo cuando se selecciona un documento o foto
 document.getElementById("archivoSubirDrive").addEventListener("change", drive_ManejarSeleccionArchivo);
+
 // Escucha el botón para iniciar el proceso de verificación y subida
 document.getElementById("btnIniciarCargaDrive").addEventListener("click", () => {
     if (!drive_NombreArchivoSeleccionado) return;
     drive_VerificarPreexistenciaNube(drive_NombreArchivoSeleccionado);
 });
+
+// Inicializador forzado de doble ráfaga para asegurar el arranque limpio
 window.addEventListener("load", () => {
-    setTimeout(Secc824_ControladorVisualDrive, 150);
+    setTimeout(Secc824_ControladorVisualDrive, 100);
+    setTimeout(Secc824_ControladorVisualDrive, 300);
 });
 
