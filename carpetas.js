@@ -12,7 +12,7 @@ const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2v
 // =========================================================================
 // SECCIÓN 2 (FIJA): VARIABLES DE MEMORIA INTERNA AISLADA (CARPETAS.JS)
 // =========================================================================
-let drive_IdCarpetaActiva = "RAIZ";
+let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
 let drive_NombreArchivoSeleccionado = "";
 let drive_MimeTypeSeleccionado = "";
 let drive_Base64DataSeleccionada = "";
