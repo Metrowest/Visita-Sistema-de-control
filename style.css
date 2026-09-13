@@ -76,14 +76,15 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 4: ESTILIZADO GLOBAL DE INPUTS, SELECTORES Y DROPZONES
+   SECCIÓN 4: ESTILIZADO GLOBAL DE INPUTS, SELECTORES Y DROPZONES (CORREGIDO)
+   Ubicación del bloque: PARTE MEDIA - ENTRADAS IDÉNTICAS A FORMULARIOS BASE
    ========================================================================= */
 .selector-estilizado,
 .formulario-estilizado input[type="text"],
 .formulario-estilizado input[type="file"],
 #selectorSubcarpetas,
 #archivoSubirDrive {
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: #ffffff !important; /* Blanco puro e intenso igual a tus Hojas */
     border: 1px solid #cbd5e1 !important;
     color: var(--color-texto-oscuro) !important;
     font-weight: 600 !important;
@@ -96,8 +97,20 @@ body {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Modificación exclusiva para unificar la caja del botón nativo "Examinar" */
+#archivoSubirDrive::-webkit-file-upload-button {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 0.35rem 0.75rem !important;
+    color: var(--color-texto-oscuro) !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+}
+
 .formulario-estilizado input[type="text"]:focus,
-#selectorSubcarpetas:focus {
+#selectorSubcarpetas:focus,
+#archivoSubirDrive:focus {
     border-color: var(--color-turquesa) !important;
     box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.2) !important;
     outline: none !important;
@@ -108,7 +121,7 @@ body {
     font-style: italic !important;
 }
 
-/* Zona discontinua responsiva para subir archivos (Dropzone) */
+/* Zona de carga responsiva limpia (Dropzone) */
 .campo-formulario:has(input[type="file"]),
 div[style*="dashed"] {
     background: rgba(255, 255, 255, 0.12) !important;
