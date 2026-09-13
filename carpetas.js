@@ -25,19 +25,17 @@ let drive_Base64DataSeleccionada = "";
 function drive_CargarEstructuraNube(folderId) {
     console.log(`Petición de estructura para la carpeta ID: ${folderId}`);
     
-    // Si existía un script huérfano anterior trabando la red, lo eliminamos de raíz
     const scriptViejo = document.getElementById("script-drive-carga");
     if (scriptViejo) {
         scriptViejo.remove();
     }
 
-    // Creamos el conector físico aislado con el callback requerido incorporado
+    // Vinculamos la macro con la función unificada de tu sistema original
     const script = document.createElement("script");
     script.id = "script-drive-carga";
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}&callback=drive_ProcesarRespuestaNube`;
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}`;
     script.charset = "utf-8";
     
-    // Captura de errores síncronos para evitar que se congele el hilo principal
     script.onerror = () => {
         console.error("Fallo de red al inyectar el script del servidor.");
         const contenedor = document.getElementById("contenedor-archivos");
@@ -46,7 +44,6 @@ function drive_CargarEstructuraNube(folderId) {
         }
     };
 
-    // Inyectamos el elemento de forma segura en el documento
     document.body.appendChild(script);
 }
 
@@ -62,19 +59,22 @@ function drive_VerificarPreexistenciaNube(nombreArc) {
 
 // =========================================================================
 // SECCIÓN 4 (CONFIGURACIÓN DINÁMICA): RECEPTOR VISUAL DE REJILLAS DRIVE
-// Ubicación del bloque: PARTE MEDIA (ENCARGADO DE DIBUJAR LA INTERFAZ)
+// Ubicación del bloque: CONECTOR MAESTRO COMPATIBLE CON GOOGLE APPS SCRIPT
 // =========================================================================
 
-// FUNCIÓN 1: Renderiza la lista desplegable interactiva y la tabla de archivos (REQ 1 y 2)
 window.recibirEstructuraDrive = function(resultado) {
-    if (resultado.status !== "success") return;
+    console.log("¡Datos recibidos desde Google Apps Script con éxito!");
+    if (!resultado || resultado.status !== "success") return;
+    
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
 
+    const listaSubcarpetas = document.getElementById("listaSubcarpetas");
+    const contenedorArchivos = document.getElementById("contenedor-archivos");
     const selectorSub = document.getElementById("selectorSubcarpetas");
+
+    // 1. Renderizado dinámico de subcarpetas en el selector y en el Cubículo 1
     if (selectorSub) {
         selectorSub.innerHTML = "";
-        
-        // COMPUERTA DE RETORNO INTELIGENTE: Opción de regresar a la raíz principal (REQ 2)
         if (resultado.nombreCarpetaActual !== "Visita Actual") {
             let optRegresar = document.createElement("option");
             optRegresar.value = "RETORNO_RAIZ"; 
@@ -82,68 +82,76 @@ window.recibirEstructuraDrive = function(resultado) {
             selectorSub.appendChild(optRegresar);
         }
 
-        // Muestra la carpeta en la que estás posicionado actualmente
         let optRaiz = document.createElement("option");
         optRaiz.value = resultado.idCarpetaActual;
         optRaiz.innerText = "📁 " + resultado.nombreCarpetaActual + " (Ubicación Activa)";
         selectorSub.appendChild(optRaiz);
-
-        // Enlista todas las subcarpetas del directorio actual para navegación profunda
-        resultado.carpetas.forEach(sub => {
-            let opt = document.createElement("option");
-            opt.value = sub.id;
-            opt.innerText = "📁 → " + sub.nombre;
-            selectorSub.appendChild(opt);
-        });
-        
-        selectorSub.value = drive_IdCarpetaActiva;
     }
 
+    if (listaSubcarpetas) {
+        listaSubcarpetas.innerHTML = "";
+    }
+
+    if (resultado.carpetas && resultado.carpetas.length > 0) {
+        resultado.carpetas.forEach(sub => {
+            // Inyección en selector nativo
+            if (selectorSub) {
+                let opt = document.createElement("option");
+                opt.value = sub.id;
+                opt.innerText = "📁 → " + sub.nombre;
+                selectorSub.appendChild(opt);
+            }
+            
+            // Inyección en el Cubículo 1 moderno lateral
+            if (listaSubcarpetas) {
+                const li = document.createElement("li");
+                li.className = "cat-item";
+                li.style.cursor = "pointer";
+                li.innerHTML = `📁 ${sub.nombre}`;
+                li.addEventListener("click", () => {
+                    drive_IdCarpetaActiva = sub.id;
+                    drive_CargarEstructuraNube(sub.id);
+                });
+                listaSubcarpetas.appendChild(li);
+            });
+        }
+        if (selectorSub) selectorSub.value = drive_IdCarpetaActiva;
+    } else if (listaSubcarpetas) {
+        listaSubcarpetas.innerHTML = '<li style="font-size:0.8rem; color:#94a3b8; padding:4px 12px;">Sin subcarpetas</li>';
+    }
+
+    // Ocultar o mostrar botón de borrar según raíz
     const btnBorrar = document.getElementById("btnBorrarCarpetaDrive");
     if (btnBorrar) btnBorrar.style.display = (resultado.nombreCarpetaActual === "Visita Actual") ? "none" : "inline-block";
 
-    const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
-    if (tablaCuerpoDrive) {
-        tablaCuerpoDrive.innerHTML = "";
-        if (resultado.archivos.length === 0) {
-            tablaCuerpoDrive.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:1rem; color:#666;">No hay archivos guardados en esta ubicación.</td></tr>`;
-            return;
+    // 2. Renderizado dinámico de archivos en la tabla del Cubículo 2 (Estructura de la foto antigua)
+    if (contenedorArchivos) {
+        contenedorArchivos.innerHTML = "";
+        if (resultado.archivos && resultado.archivos.length > 0) {
+            resultado.archivos.forEach(arc => {
+                const tr = document.createElement("tr");
+                tr.style.borderBottom = "1px solid #e2e8f0";
+                
+                let icono = "📄";
+                let nameL = arc.nombre.toLowerCase();
+                if (nameL.includes(".pdf")) icono = "📕";
+                if (nameL.includes(".xls") || nameL.includes(".csv") || nameL.includes(".xlsx")) icono = "📗";
+                if (nameL.includes(".doc") || nameL.includes(".docx")) icono = "📘";
+
+                tr.innerHTML = `
+                    <td style="padding: 8px; color: #0f172a; font-weight: 500; text-align: left;">${icono} ${arc.nombre}</td>
+                    <td style="padding: 8px; text-align: center; color: #64748b;">${arc.mimeType ? arc.mimeType.split("/")[1] : "Archivo"}</td>
+                    <td style="padding: 8px; text-align: center;">
+                        <button type="button" class="btn-carga-blanco" style="padding: 2px 8px !important; font-size: 0.75rem !important;" onclick="window.open('${arc.urlDownload || arc.url}', '_blank')">Ver</button>
+                    </td>
+                `;
+                contenedorArchivos.appendChild(tr);
+            });
+        } else {
+            contenedorArchivos.innerHTML = '<tr><td colspan="3" style="padding:14px; text-align:center; color:#94a3b8;">No hay archivos guardados en esta ubicación.</td></tr>';
         }
-
-        // RENDERIZADO ESTILO PORTAFOLIO: Inyección de iconos visuales según tipo de archivo
-        resultado.archivos.forEach(arc => {
-            let tipoMime = arc.mimeType.toLowerCase();
-            let iconoVisual = "📄"; // Icono por defecto para documentos genéricos
-
-            // Asignación de iconos temáticos basados en tu nueva plantilla gráfica
-            if (tipoMime.includes("image") || tipoMime.includes("png") || tipoMime.includes("jpeg")) {
-                iconoVisual = "🖼️"; // Icono nítido para fotos o capturas
-            } else if (tipoMime.includes("pdf")) {
-                iconoVisual = "📕"; // Icono rojo elegante para reportes PDF
-            } else if (tipoMime.includes("spreadsheet") || tipoMime.includes("excel")) {
-                iconoVisual = "📊"; // Icono para matrices de datos o registros
-            } else if (tipoMime.includes("folder") || arc.url.includes("folder")) {
-                iconoVisual = "📁"; // Icono de carpeta interna
-            }
-
-            let htmlFila = "<tr>";
-            // Inyectamos el icono grande al lado del nombre del archivo con alineación limpia
-            htmlFila += `<td style="display: flex; align-items: center; gap: 0.75rem;"><span style="font-size: 1.3rem;">${iconoVisual}</span> <strong>${arc.nombre}</strong></td>`;
-            htmlFila += `<td><span class="badge">${arc.mimeType.split("/").pop().toUpperCase()}</span></td>`;
-            htmlFila += `<td>
-                <a href="${arc.url}" target="_blank" class="btn-edit" style="text-decoration:none; display:inline-block; padding:4px 8px; margin-right:4px;">👁️ Ver</a>
-                <button type="button" class="btn-delete" style="padding:4px 8px; background:#e63946; color:white; border:none; border-radius:4px; cursor:pointer;" onclick="Secc75_Fun1_DispararBorradoDocumentoIndividual('${arc.id}', '${arc.nombre}')">🗑️ Borrar</button>
-            </td>`;
-            htmlFila += "</tr>";
-            tablaCuerpoDrive.insertAdjacentHTML("beforeend", htmlFila);
-        });
     }
 };
-// =========================================================================
-// PARTE 2 DE 2: PROCESADORES LOCALES, INTERCEPTORES DE DECISIÓN Y ESCUCHAS
-// Ubicación del bloque: CONTINUACIÓN DIRECTA ABAJO DE LA PARTE 1
-// =========================================================================
-
 // =========================================================================
 // SECCIÓN 5 (CONFIGURACIÓN DINÁMICA): INTERCEPTOR EVALUADOR DE ALERTAS INTERACTIVAS
 // =========================================================================
