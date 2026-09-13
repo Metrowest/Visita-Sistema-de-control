@@ -258,31 +258,95 @@ css/* =========================================================================
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 7.1: COLOR PERSONALIZADO Y BOTONES COMPACTOS DE DRIVE
-   Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE CARPETAS)
+   STYLE.CSS - SECCIÓN 7.1: ENTORNO ESTÉTICO INTEGRADO COMPACTO DE DRIVE
+   Ubicación del bloque: REEMPLAZO COMPLETO EN EL FINAL DEL ARCHIVO
    ========================================================================= */
 
-/* 1. Degradado personalizado con texto blanco puro para la cabecera */
-.tarjeta-cabecera-drive {
-    background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
-    color: #ffffff !important; 
-    border-bottom: 1px solid #dcdcdc !important;
+/* 1. Contenedor principal: Fondo verde azulado profundo como tu imagen */
+#moduloGestorCarpetas {
+    background: #4a7c73 !important; 
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
 }
 
-/* Fuerza el título H2 dentro de la cabecera de Drive a color blanco brillante */
-.tarjeta-cabecera-drive h2 {
+/* 2. Unificación tipográfica en color blanco de alta visibilidad */
+#moduloGestorCarpetas h2, 
+#moduloGestorCarpetas h3, 
+#moduloGestorCarpetas label,
+#moduloGestorCarpetas td,
+#moduloGestorCarpetas td strong,
+#moduloGestorCarpetas th {
     color: #ffffff !important;
-    margin: 0 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-/* 2. Ajuste compacto y estético para que los botones no se vean gigantes */
-#btnCrearCarpetaDrive, #btnBorrarCarpetaDrive {
-    padding: 0.5rem 1rem !important; 
-    font-size: 0.9rem !important;    
-    max-width: 200px !important;     
-    margin: 0.25rem auto !important;  
+/* 3. Zona discontinua de carga responsive (Dropzone) */
+#moduloGestorCarpetas .campo-formulario {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 2px dashed rgba(255, 255, 255, 0.7) !important;
+    border-radius: 10px !important;
+    padding: 1.5rem !important;
 }
 
+#nombreArchivoSeleccionado {
+    color: #cbd5e1 !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+}
+
+/* 4. Estilizado de la lista desplegable interna y examinar */
+#selectorSubcarpetas {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+}
+
+/* 5. Tabla de archivos del Gestor */
+#moduloGestorCarpetas table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+#moduloGestorCarpetas th {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.05em !important;
+}
+
+#moduloGestorCarpetas td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 6. Botoneras estilizadas idénticas a tu foto de muestra */
+#btnCrearCarpetaDrive, #btnIniciarCargaDrive {
+    background: #2ec4b6 !important; /* Tono turquesa brillante para crear */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 0.5rem 1.25rem !important;
+}
+
+#moduloGestorCarpetas .btn-edit {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+}
+
+#moduloGestorCarpetas .btn-delete, #btnBorrarCarpetaDrive {
+    background: #e63946 !important; /* Rojo intenso plano para borrar */
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+}
 /* =========================================================================
    STYLE.CSS - SECCIÓN 8: TABLA DE DATOS EXCLUSIVA DE SUPERINTENDENTES
    Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS
