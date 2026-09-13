@@ -167,10 +167,9 @@ div[style*="dashed"] {
     margin-top: 1rem !important;
 }
 
-/* Botoneras primarias unificadas con tu estética (Crear / Subir / Guardar) */
+/* Botoneras primarias unificadas con tu estética (Crear / Guardar) - SE REMOVIÓ EL BOTÓN DE CARGA DE AQUÍ */
 .btn-primario,
 #btnCrearCarpetaDrive,
-#btnIniciarCargaDrive,
 button[type="submit"] {
     background: var(--color-turquesa) !important;
     color: var(--color-texto-claro) !important;
@@ -190,9 +189,32 @@ button[type="submit"] {
 }
 
 .btn-primario:hover,
-#btnCrearCarpetaDrive:hover,
-#btnIniciarCargaDrive:hover {
+#btnCrearCarpetaDrive:hover {
     background: #25a196 !important;
+}
+
+/* NUEVO: Estilo Blanco Puro Sólido con Texto Gris Neutro asignado a tu clase */
+.btn-carga-blanco {
+    background-color: #ffffff !important;
+    color: #64748b !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-carga-blanco:hover {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
 }
 
 /* Botoneras secundarias unificadas (Cancelar / Eliminar Activa) */
