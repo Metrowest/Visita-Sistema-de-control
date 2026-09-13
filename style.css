@@ -324,12 +324,11 @@ tr:hover td {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 7.1: ENTORNO ESTÉTICO INTEGRADO COMPACTO DE DRIVE (1 DE 2)
-   Ubicación del bloque: REEMPLAZO DE MÁXIMA PRIORIDAD EN EL FINAL DEL ARCHIVO
+   Ubicación del bloque: CONTINUACIÓN DIRECTA DEBAJO DEL SPINNER DE CARGA
    ========================================================================= */
 
 /* 1. Encabezado superior con tu degradado azul elegido y letras blancas puras */
-.tarjeta-cabecera-drive, 
-#moduloGestorCarpetas .tarjeta-cabecera {
+.tarjeta-cabecera-drive {
     background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
     color: #ffffff !important;
     padding: 1rem !important;
@@ -340,7 +339,6 @@ tr:hover td {
     gap: 0.75rem !important;
 }
 
-#moduloGestorCarpetas .tarjeta-cabecera h2,
 .tarjeta-cabecera-drive h2 {
     color: #ffffff !important;
     margin: 0 !important;
@@ -369,20 +367,20 @@ tr:hover td {
    Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS CONSOLIDADO
    ========================================================================= */
 
-/* 3. Forzado absoluto de color blanco puro sólido para los inputs del bloque de Drive */
-#moduloGestorCarpetas select,
-#moduloGestorCarpetas #selectorSubcarpetas,
-#moduloGestorCarpetas input[type="file"],
-#moduloGestorCarpetas #archivoSubirDrive {
-    background-color: #ffffff !important; /* Destruye transparencias grises */
+/* 3. Forzado absoluto de color blanco puro sólido e inputs unificados */
+.formulario-estilizado-drive select,
+.formulario-estilizado-drive #selectorSubcarpetas,
+.formulario-estilizado-drive input[type="file"],
+.formulario-estilizado-drive #archivoSubirDrive {
+    background-color: #ffffff !important; 
     background: #ffffff !important;
     color: #0f172a !important;            /* Texto oscuro nítido igual al de abajo */
     font-weight: 600 !important;
     border: 1px solid #cbd5e1 !important;
-    opacity: 1 !important;                 /* Evita opacidades del navegador */
+    opacity: 1 !important;                 /* Elimina transparencias opacas */
 }
 
-/* 4. Sincronía total para las cabeceras de la tabla de archivos de Drive (Inputs 3 y 4) */
+/* 4. Sincronía total para las cabeceras de la tabla de archivos de Drive */
 #moduloGestorCarpetas table thead,
 #moduloGestorCarpetas table tr th {
     background-color: #ffffff !important; /* Fondo blanco sólido como los inputs */
@@ -394,14 +392,14 @@ tr:hover td {
 }
 
 /* 5. Unificación simétrica para las fuentes y opciones de los listados desplegables */
-#moduloGestorCarpetas select option {
+.formulario-estilizado-drive select option {
     background-color: #ffffff !important;
     color: #0f172a !important;
     font-weight: 600 !important;
 }
 
 /* Modificación del botón nativo interno "Examinar..." */
-#moduloGestorCarpetas input[type="file"]::-webkit-file-upload-button {
+.formulario-estilizado-drive input[type="file"]::-webkit-file-upload-button {
     background: #f1f5f9 !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 4px !important;
