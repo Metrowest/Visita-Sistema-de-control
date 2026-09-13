@@ -520,4 +520,46 @@ document.getElementById("selectorHoja").addEventListener("change", () => {
 window.addEventListener("load", () => {
     actualizarEnlaceUbicacion();
     cargarDatos();
+}); // <-- ESTA ES LA LLAVE DE CIERRE QUE ME MOSTRASTE
+
+// =========================================================================
+// SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
+// =========================================================================
+let disparadorInstalacionPWA = null;
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js")
+            .then(reg => console.log("¡Service Worker registrado con éxito! Scope: ", reg.scope))
+            .catch(err => console.error("Fallo al dar de alta el Service Worker: ", err));
+    });
+}
+
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    disparadorInstalacionPWA = e;
+    
+    const banner = document.getElementById("bannerInstalacionPWA");
+    if (banner) banner.style.display = "block";
+});
+
+document.getElementById("btnInstalarPWA").addEventListener("click", async () => {
+    if (!disparadorInstalacionPWA) return;
+    
+    disparadorInstalacionPWA.prompt();
+    
+    const { outcome } = await disparadorInstalacionPWA.userChoice;
+    console.log(`El usuario respondió a la instalación con la opción: ${outcome}`);
+    
+    disparadorInstalacionPWA = null;
+    const banner = document.getElementById("bannerInstalacionPWA");
+    if (banner) banner.style.display = "none";
+});
+
+window.addEventListener("appinstalled", () => {
+    console.log("¡Éxito total! La aplicación ha sido instalada de forma nativa.");
+    disparadorInstalacionPWA = null;
+    const banner = document.getElementById("bannerInstalacionPWA");
+    if (banner) banner.style.display = "none";
 });
