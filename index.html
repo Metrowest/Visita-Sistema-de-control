@@ -24,63 +24,85 @@
     <div class="contenedor-principal">
 
         <!-- =========================================================================
-             INDEX.HTML - SECCIÓN 1.1: PANEL SUPERIOR FIJO GESTOR DE CARPETAS (DRIVE)
-             Ubicación del bloque: PRIMERA TARJETA FIJA CON ESTILOS PURIFICADOS
+             INDEX.HTML - SECCIÓN 1.1 A 1.4: PANEL MODULAR EN CUBÍCULOS GESTOR DE DRIVE
+             Ubicación del bloque: ESTRUCTURA DE REEMPLAZO INTELIGENTE POR CATEGORÍAS
              ========================================================================= -->
-        <div id="moduloGestorCarpetas" class="tarjeta-modulo">
-            <div class="tarjeta-cabecera-drive">
-                <div class="icono-titulo">📁</div>
-                <h2>Panel Control: Archivos y Carpetas (Drive)</h2>
-            </div>
+        <div class="dashboard-container">
             
-            <div class="formulario-estilizado-drive">
-                <!-- REQUERIMIENTO 1: Selector propio e independiente para las carpetas -->
-                <div class="campo-formulario">
-                    <label for="selectorSubcarpetas">📁 Navegación de Carpetas de "Visita Actual":</label>
-                    <select id="selectorSubcarpetas" class="selector-estilizado">
-                        <option value="RAIZ">Cargando raíz "Visita Actual"...</option>
-                    </select>
-                </div>
+            <!-- CUBÍCULO 1: FILTROS POR TIPO DE DOCUMENTO (PANEL IZQUIERDO) -->
+            <aside class="modulo-cubiculo cubiculo-categorias">
+                <h3 class="modulo-titulo">🗂️ Tipos de Archivo</h3>
+                <ul class="lista-categorias">
+                    <li class="cat-item active" data-tipo="todos">
+                        <span class="icono-cat bg-todos">🌐</span> Todos los Archivos
+                    </li>
+                    <li class="cat-item" data-tipo="pdf">
+                        <span class="icono-cat bg-pdf">📕</span> Documentos PDF
+                    </li>
+                    <li class="cat-item" data-tipo="word">
+                        <span class="icono-cat bg-word">📘</span> Procesador Word
+                    </li>
+                    <li class="cat-item" data-tipo="excel">
+                        <span class="icono-cat bg-excel">📗</span> Hojas de Cálculo
+                    </li>
+                    <li class="cat-item" data-tipo="carpetas">
+                        <span class="icono-cat bg-folder">📂</span> Carpetas del Sistema
+                    </li>
+                </ul>
+            </aside>
 
-                <!-- ACCIONES DE CREAR Y BORRAR CARPETAS AUTÓNOMAS -->
-                <div class="bloque-botones grid-botones-drive">
-                    <button type="button" id="btnCrearCarpetaDrive" class="btn-primario">➕ Crear Carpeta</button>
-                    <button type="button" id="btnBorrarCarpetaDrive" class="btn-secundario">🗑️ Borrar Activa</button>
-                </div>
+            <!-- CUBÍCULO 2: EXPLORADOR CENTRAL Y ACCIONES DE CARGA -->
+            <main class="modulo-cubiculo cubiculo-principal">
+                
+                <header class="barra-herramientas-cub">
+                    <input type="text" placeholder="Buscar en el Sistema de Control..." class="input-busqueda-cub" id="input-busqueda-control">
+                    <!-- Botón Blanco Puro Sólido Integrado con su ID original -->
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
+                </header>
 
-                <!-- REQUERIMIENTO 3: Medio físico responsivo para subir documentos -->
-                <div class="campo-formulario contenedor-dropzone-drive">
-                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
-                        📤 Seleccionar Documento o Foto para Subir
-                    </label>
-                    <input type="file" id="archivoSubirDrive">
-                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
+                <!-- Grilla dinámica vinculada con app.js -->
+                <div class="grilla-documentos" id="contenedor-archivos">
                     
-                    <div id="contenedorPrevisualizacionFoto" style="display: none;">
-                        <img id="previewFotoDriveImg" src="" alt="Preview">
-                    </div>
-                         <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
+                    <!-- Ejemplo visual de Tarjeta PDF -->
+                    <div class="tarjeta-documento item-pdf">
+                        <div class="documento-badge pdf">PDF</div>
+                        <div class="documento-icono">📕</div>
+                        <div class="documento-info">
+                            <h4>Manual_Procedimientos.pdf</h4>
+                            <p>Modificado: Reciente</p>
+                        </div>
                     </div>
 
-                <!-- REQUERIMIENTO 2: Visor gráfico de archivos disponibles en la subcarpeta -->
-                <div class="seccion-visor-archivos">
-                    <h3>📄 Archivos Almacenados en esta Ubicación:</h3>
-                    <div class="tabla-responsiva">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Archivo</th>
-                                    <th>Tipo</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaCuerpoDrive">
-                                <tr><td colspan="3">Consultando archivos de Drive...</td></tr>
-                            </tbody>
-                        </table>
+                    <!-- Ejemplo visual de Tarjeta Excel -->
+                    <div class="tarjeta-documento item-excel">
+                        <div class="documento-badge excel">EXCEL</div>
+                        <div class="documento-icono">📗</div>
+                        <div class="documento-info">
+                            <h4>Control_Inventario.xlsx</h4>
+                            <p>Modificado: Reciente</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejemplo visual de Tarjeta Carpeta -->
+                    <div class="tarjeta-documento item-carpetas">
+                        <div class="documento-badge folder">FOLDER</div>
+                        <div class="documento-icono">📂</div>
+                        <div class="documento-info">
+                            <h4>Auditorías Internas</h4>
+                            <p>Carpetas de Control</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
+
+            <!-- CUBÍCULO 3: PANEL ASÍNCRONO DE DETALLES Y REEMPLAZOS -->
+            <aside class="modulo-cubiculo cubiculo-detalles">
+                <h3 class="modulo-titulo">📊 Actividad del Módulo</h3>
+                <div class="panel-actividad-vacio" id="panel-meta-detalles">
+                    <p>Selecciona un documento de la grilla para validar su URL permanente, ID único e historial del Reemplazo Inteligente.</p>
+                </div>
+            </aside>
+
         </div>
 
         <!-- =========================================================================
