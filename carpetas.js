@@ -310,3 +310,19 @@ function Secc75_Fun1_DispararBorradoDocumentoIndividual(fileId, nombreArc) {
     script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarArchivo&fileId=${encodeURIComponent(fileId)}`;
     document.body.appendChild(script);
 }
+
+// =========================================================================
+// SECCIÓN 8 (NUEVA): ARRANQUE AUTÓNOMO RETARDADO DE SEGURIDAD (ANTI-CONGELAMIENTO)
+// Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO CARPETAS.JS CONSOLIDADO
+// =========================================================================
+// Rompemos el evento window.load nativo para evitar colisiones con app.js
+setTimeout(() => {
+    console.log("¡Despertando motor de Drive de forma autónoma y segura!");
+    
+    // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
+    const idOriginalDrive = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
+    
+    drive_IdCarpetaActiva = idOriginalDrive;
+    drive_CargarEstructuraNube(idOriginalDrive);
+}, 1500); // Le da 1.5 segundos de ventaja a la pantalla para evitar bucles de carga
+
