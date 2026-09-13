@@ -1,209 +1,111 @@
 /* =========================================================================
-   ARCHIVO: style.css (DISEÑO VISUAL INTEGRADO RESPONSIVE DE ALTA FIDELIDAD)
-   INTERFAZ: Totalmente consolidado por secciones consecutivas ordenadas
-   PARTE 1 DE 2: VARIABLES, CUERPO BASE, TARJETAS MODULARES Y CAMPOS DE TEXTO
+   SECCIÓN 1: VARIABLES GLOBALMENTE CONFIGURADAS Y PALETA DE COLORES
    ========================================================================= */
-
-/* =========================================================================
-   SECCIÓN 1: DECLARACIÓN DE FUENTES Y VARIABLES RAÍZ
-   ========================================================================= */
-@import url('https://googleapis.com');
-
 :root {
-    --color-fondo-app: #38665f;       /* Tono verde azulado profundo general */
-    --color-tarjeta: #4a7c73;         /* Tono exacto de tus bloques integrados */
-    --color-texto-claro: #ffffff;     /* Letras blancas de alta visibilidad */
-    --color-texto-oscuro: #0f172a;    /* Texto para lectura dentro de inputs */
-    --color-turquesa: #2ec4b6;        /* Color brillante para botones positivos */
-    --color-rojo-plano: #e63946;      /* Rojo estético e intenso para borrados */
-    --color-borde-suave: rgba(255, 255, 255, 0.15);
-    --sombra-maestra: 0 4px 15px rgba(0, 0, 0, 0.15);
+    --color-turquesa: #2cbbb0;
+    --color-turquesa-hover: #25a196;
+    --color-texto-oscuro: #0f172a;
+    --color-texto-medio: #475569;
+    --color-texto-mutado: #94a3b8;
+    --color-borde: #e2e8f0;
+    --color-fondo-app: #f8fafc;
+    --fuente-sistema: 'Plus Jakarta Sans', 'Inter', sans-serif;
 }
 
 /* =========================================================================
-   SECCIÓN 2: CONFIGURACIÓN ESTRUCTURAL DEL CUERPO (BODY & LAYOUT)
+   SECCIÓN 2: RESETEO DE NAVEGADOR Y CAPAS BASE DE PANTALLA
    ========================================================================= */
-body {
-    background-color: var(--color-fondo-app) !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+* {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--fuente-sistema);
+    background-color: var(--color-fondo-app);
+    color: var(--color-texto-oscuro);
+    -webkit-font-smoothing: antialiased;
 }
 
 .contenedor-principal {
-    width: 100% !important;
-    max-width: 900px !important;
-    padding: 1.5rem !important;
-    box-sizing: border-box !important;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 /* =========================================================================
-   SECCIÓN 3: COMPONENTES MODULARES Y TARJETAS UNIFICADAS
+   SECCIÓN 3: DISEÑO DE CUBÍCULOS COMPACTOS (ACOMODO LADO A LADO)
    ========================================================================= */
-.tarjeta-modulo {
-    background: var(--color-tarjeta) !important;
-    border-radius: 12px !important;
-    padding: 1.5rem !important;
-    box-shadow: var(--sombra-maestra) !important;
-    margin-bottom: 2rem !important;
-    border: none !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap; /* Provoca salto automático cuando falta espacio horizontal */
+    gap: 16px;
+    width: 100%;
+    align-items: flex-start;
 }
 
-/* Estructura responsiva flexible para las cabeceras de cada módulo */
-.tarjeta-cabecera, .tarjeta-cabecera-drive {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.75rem !important;
-    margin-bottom: 1.5rem !important;
-    border-bottom: 1px solid var(--color-borde-suave) !important;
-    padding-bottom: 0.75rem !important;
+.modulo-cubiculo {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid var(--color-borde);
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    flex: 1 1 260px; /* Tamaño base balanceado para encaje horizontal */
+    min-width: 240px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.tarjeta-modulo h2,
-.tarjeta-modulo h3,
-.tarjeta-modulo label,
-.etiqueta-seleccion {
-    color: var(--color-texto-claro) !important;
-    font-weight: 600 !important;
-    margin: 0 !important;
+.cubiculo-principal {
+    flex: 2.5 1 480px; /* Expande más el módulo de archivos central */
+}
+
+.modulo-titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-texto-oscuro);
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 8px;
 }
 
 /* =========================================================================
-   SECCIÓN 4: ESTILIZADO GLOBAL DE INPUTS, SELECTORES Y DROPZONES (CORREGIDO)
-   Ubicación del bloque: PARTE MEDIA - ENTRADAS IDÉNTICAS A FORMULARIOS BASE
+   SECCIÓN 4: COMPONENTES OPERATIVOS (BOTONERAS Y BUSCADOR)
    ========================================================================= */
-.selector-estilizado,
-.formulario-estilizado input[type="text"],
-.formulario-estilizado input[type="file"],
-#selectorSubcarpetas,
-#archivoSubirDrive {
-    background: #ffffff !important; /* Blanco puro e intenso igual a tus Hojas */
-    border: 1px solid #cbd5e1 !important;
-    color: var(--color-texto-oscuro) !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-    padding: 0.65rem !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    font-size: 0.95rem !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-/* Modificación exclusiva para unificar la caja del botón nativo "Examinar" */
-#archivoSubirDrive::-webkit-file-upload-button {
-    background: #f1f5f9 !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 4px !important;
-    padding: 0.35rem 0.75rem !important;
-    color: var(--color-texto-oscuro) !important;
-    font-weight: 600 !important;
-    cursor: pointer !important;
-}
-
-.formulario-estilizado input[type="text"]:focus,
-#selectorSubcarpetas:focus,
-#archivoSubirDrive:focus {
-    border-color: var(--color-turquesa) !important;
-    box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.2) !important;
-    outline: none !important;
-}
-
-.formulario-estilizado input::placeholder {
-    color: #64748b !important;
-    font-style: italic !important;
-}
-
-/* Zona de carga responsiva limpia (Dropzone) */
-.campo-formulario:has(input[type="file"]),
-div[style*="dashed"] {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border: 2px dashed rgba(255, 255, 255, 0.7) !important;
-    border-radius: 10px !important;
-    padding: 1.5rem !important;
-    text-align: center !important;
-    box-sizing: border-box !important;
-}
-
-#nombreArchivoSeleccionado {
-    color: #cbd5e1 !important;
-    font-style: italic !important;
-    font-weight: 500 !important;
-    margin-top: 0.5rem !important;
-}
-/* =========================================================================
-   PARTE 2 DE 2: REJILLAS DE FORMULARIOS, TABLAS DE DATOS Y BOTONES COMBINADOS
-   Ubicación del bloque: CONTINUACIÓN DIRECTA ABAJO DE LA PARTE 1
-   ========================================================================= */
-
-/* =========================================================================
-   SECCIÓN 5: DISEÑO DE REJILLAS Y BOTONES DE ACCIÓN COMBINADOS
-   ========================================================================= */
-.grid-formulario {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
-    gap: 1.25rem !important;
-    margin-bottom: 1.5rem !important;
-}
-
-.campo-formulario {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.5rem !important;
-}
-
-.bloque-botones {
-    display: flex !important;
-    gap: 0.75rem !important;
-    flex-wrap: wrap !important;
-    width: 100% !important;
-    margin-top: 1rem !important;
-}
-
-/* Botoneras primarias unificadas con tu estética (Crear / Guardar) - SE REMOVIÓ EL BOTÓN DE CARGA DE AQUÍ */
 .btn-primario,
 #btnCrearCarpetaDrive,
 button[type="submit"] {
     background: var(--color-turquesa) !important;
-    color: var(--color-texto-claro) !important;
+    color: #ffffff !important;
     font-weight: 600 !important;
     border: none !important;
-    border-radius: 6px !important;
-    padding: 0.6rem 1.5rem !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 1.4rem !important;
     cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 0.5rem !important;
-    font-size: 0.95rem !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 0.9rem !important;
     transition: background-color 0.2s !important;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
 }
 
 .btn-primario:hover,
 #btnCrearCarpetaDrive:hover {
-    background: #25a196 !important;
+    background: var(--color-turquesa-hover) !important;
 }
 
-/* NUEVO: Estilo Blanco Puro Sólido con Texto Gris Neutro asignado a tu clase */
 .btn-carga-blanco {
     background-color: #ffffff !important;
     color: #64748b !important;
-    border: 1px solid #e2e8f0 !important;
-    padding: 10px 20px;
-    font-size: 0.95rem;
+    border: 1px solid var(--color-borde) !important;
+    padding: 10px 18px;
+    font-size: 0.9rem;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -217,238 +119,145 @@ button[type="submit"] {
     transform: translateY(-1px);
 }
 
-/* Botoneras secundarias unificadas (Cancelar / Eliminar Activa) */
-.btn-secundario,
-#btnBorrarCarpetaDrive {
-    background: var(--color-rojo-plano) !important;
-    color: var(--color-texto-claro) !important;
-    font-weight: 600 !important;
-    border: none !important;
-    border-radius: 6px !important;
-    padding: 0.6rem 1.5rem !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
-    font-size: 0.95rem !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    transition: background-color 0.2s !important;
+.barra-herramientas-cub {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.input-busqueda-cub {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    font-size: 0.9rem;
+    color: var(--color-texto-oscuro);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-busqueda-cub:focus {
+    border-color: var(--color-turquesa);
 }
 
 /* =========================================================================
-   SECCIÓN 6: TABLA DE ARCHIVOS Y REGISTROS RESPONSIVA (AMBAS APLICACIONES)
+   SECCIÓN 5: CATEGORÍAS LATERALES POR TIPO DE ARCHIVO
    ========================================================================= */
-.tabla-responsiva {
-    width: 100% !important;
-    overflow-x: auto !important;
-    border-radius: 8px !important;
-    margin-top: 1rem !important;
+.lista-categorias {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    text-align: left !important;
+.cat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-texto-medio);
+    transition: background 0.15s, color 0.15s;
 }
 
-th {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-    color: var(--color-texto-claro) !important;
-    border-bottom: 2px solid var(--color-borde-suave) !important;
-    padding: 0.85rem 1rem !important;
-    font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+.cat-item:hover, 
+.cat-item.active {
+    background-color: #f1f5f9;
+    color: var(--color-texto-oscuro);
 }
 
-td {
-    padding: 0.85rem 1rem !important;
-    border-bottom: 1px solid var(--color-borde-suave) !important;
-    color: var(--color-texto-claro) !important;
-    font-size: 0.95rem !important;
-}
-
-td strong {
-    color: var(--color-texto-claro) !important;
-}
-
-tr:hover td {
-    background-color: rgba(255, 255, 255, 0.04) !important;
-}
-
-/* Botones de acción incrustados dentro de las filas de las tablas */
-.btn-edit {
-    background: var(--color-texto-claro) !important;
-    color: var(--color-texto-oscuro) !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    padding: 4px 10px !important;
-    cursor: pointer !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    font-size: 0.85rem !important;
-}
-
-.btn-edit:hover {
-    background-color: #f8fafc !important;
-}
-
-.btn-delete {
-    background: var(--color-rojo-plano) !important;
-    color: var(--color-texto-claro) !important;
-    border: none !important;
-    border-radius: 4px !important;
-    font-weight: 500 !important;
-    padding: 4px 10px !important;
-    cursor: pointer !important;
-    font-size: 0.85rem !important;
-}
-
-.btn-delete:hover {
-    background-color: #bd2d3a !important;
-}
-
-.celda-carga {
-    text-align: center !important;
-    color: #cbd5e1 !important;
-    padding: 2rem !important;
-}
-
-.badge {
-    background-color: rgba(255, 255, 255, 0.15) !important;
-    color: var(--color-texto-claro) !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-    font-size: 0.75rem !important;
-    font-weight: 600 !important;
+.icono-cat {
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* =========================================================================
-   SECCIÓN 7: INTERRUPTOR RECEPTOR ANIMADO DE ESPERA (SPINNER)
+   SECCIÓN 6: GRILLA MULTIMEDIA Y TARJETAS IDENTIFICADORAS
    ========================================================================= */
-.spinner-carga {
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border-left-color: var(--color-texto-claro);
-    animation: girarSpinner 1s linear infinite;
-    margin: 0 auto;
+.grilla-documentos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
 }
 
-@keyframes girarSpinner {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.tarjeta-documento {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tarjeta-documento:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border-color: #cbd5e1;
+}
+
+.documento-icono {
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+}
+
+.documento-info h4 {
+    font-size: 0.8rem;
+    color: var(--color-texto-oscuro);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.documento-info p {
+    font-size: 0.7rem;
+    color: var(--color-texto-mutado);
+}
+
+.documento-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.pdf { background: #fee2e2; color: #ef4444; }
+.excel { background: #dcfce7; color: #22c55e; }
+.word { background: #dbeafe; color: #3b82f6; }
+.folder { background: #fef9c3; color: #eab308; }
+
+.panel-actividad-vacio {
+    font-size: 0.8rem;
+    color: var(--color-texto-mutado);
+    line-height: 1.4;
+    text-align: center;
+    padding: 20px 10px;
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 7.1: ENTORNO ESTÉTICO INTEGRADO COMPACTO DE DRIVE (1 DE 2)
-   Ubicación del bloque: CONTINUACIÓN DIRECTA DEBAJO DEL SPINNER DE CARGA
+   SECCIÓN 7: CONDICIONES RESPONSIVAS (MÓVILES)
    ========================================================================= */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-/* 1. Encabezado superior con tu nuevo degradado verde azulado y texto blanco */
-.tarjeta-cabecera-drive {
-  background: linear-gradient(135deg, #395752, #43736c) !important;
-  color: #ffffff !important;
-  padding: 1rem !important;
-  border-radius: 8px 8px 0 0 !important;
-  margin-bottom: 1.5rem !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.75rem !important;
-}
-
-.tarjeta-cabecera-drive h2 {
-    color: #ffffff !important;
-    margin: 0 !important;
-}
-
-/* 2. Alineación y redimensionamiento exacto para los botones superiores */
-.grid-botones-drive {
-    display: flex !important;
-    gap: 0.75rem !important;
-    justify-content: flex-start !important;
-    width: 100% !important;
-    margin-bottom: 1.5rem !important;
-}
-
-#btnCrearCarpetaDrive, 
-#btnBorrarCarpetaDrive {
-    max-width: 210px !important;  /* Tamaño exacto al de Cancelar Edición de abajo */
-    width: 100% !important;
-    padding: 0.6rem 1.5rem !important;
-    font-size: 0.95rem !important;
-    box-sizing: border-box !important;
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 7.2: NUEVA INTENSIDAD DE COLORES E INPUTS UNIFICADOS (2 DE 2)
-   Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS CONSOLIDADO
-   ========================================================================= */
-
-/* 3. Forzado de color blanco puro con el nuevo tono de texto propuesto por ti */
-.formulario-estilizado-drive select, 
-.formulario-estilizado-drive #selectorSubcarpetas, 
-.formulario-estilizado-drive input[type="file"], 
-.formulario-estilizado-drive #archivoSubirDrive {
-  background-color: #ffffff !important;
-  background: #ffffff !important;
-  color: #64748b !important; /* Tu color de texto gris neutro ideal */
-  font-weight: 600 !important;
-  border: 1px solid #cbd5e1 !important;
-  opacity: 1 !important;
-}
-
-/* 4. Sincronía total para las cabeceras de la tabla de archivos de Drive */
-#moduloGestorCarpetas table thead,
-#moduloGestorCarpetas table tr th {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
-    color: #64748b !important; /* Sincroniza las letras de la tabla con los inputs */
-    font-weight: 600 !important;
-    text-transform: none !important;
-    border: 1px solid #cbd5e1 !important;
-    padding: 0.85rem 1rem !important;
-}
-
-/* 5. Unificación simétrica para los selectores de opciones desplegables */
-.formulario-estilizado-drive select option {
-    background-color: #ffffff !important;
-    color: #64748b !important;
-    font-weight: 600 !important;
-}
-
-/* Sincronización del botón nativo interno "Examinar..." */
-.formulario-estilizado-drive input[type="file"]::-webkit-file-upload-button {
-    background: #f1f5f9 !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 4px !important;
-    color: #64748b !important;
-    font-weight: 600 !important;
-}
-
-/* Ajuste del texto informativo flotante en la zona de Drive */
-#moduloGestorCarpetas .texto-archivo-seleccionado,
-#moduloGestorCarpetas #nombreArchivoSeleccionado {
-    color: #cbd5e1 !important;
-    font-style: italic !important;
-    font-weight: 500 !important;
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 7.3: ESTILO DEFINITIVO UNIFICADO PARA BOTÓN DE CARGA
-   Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO (REEMPLAZO DE 7.3 Y 7.4)
-   ========================================================================= */
-#moduloGestorCarpetas #btnIniciarCargaDrive,
-.formulario-estilizado-drive #btnIniciarCargaDrive,
-#btnIniciarCargaDrive {
-    background-color: #ffffff !important;
-    background: #ffffff !important;
-    color: #64748b !important; /* Tu tono gris neutro elegido e idéntico a tus inputs */
-    font-weight: 600 !important;
-    border: 1px solid #cbd5e1 !important;
-    opacity: 1 !important;
+    .modulo-cubiculo {
+        width: 100%;
+        flex: 1 1 100%;
+    }
 }
