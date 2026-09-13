@@ -324,35 +324,40 @@ tr:hover td {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 7.1: ENTORNO ESTÉTICO INTEGRADO COMPACTO DE DRIVE (1 DE 2)
-   Ubicación del bloque: CONTINUACIÓN DIRECTA DEBAJO DEL SPINNER DE CARGA
+   Ubicación del bloque: REEMPLAZO DE MÁXIMA PRIORIDAD EN EL FINAL DEL ARCHIVO
    ========================================================================= */
 
-/* 1. Encabezado superior con degradado idéntico para la carpeta amarilla */
-.tarjeta-cabecera-drive {
+/* 1. Encabezado superior con tu degradado azul elegido y letras blancas puras */
+.tarjeta-cabecera-drive, 
+#moduloGestorCarpetas .tarjeta-cabecera {
     background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
     color: #ffffff !important;
     padding: 1rem !important;
     border-radius: 8px 8px 0 0 !important;
     margin-bottom: 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
 }
 
+#moduloGestorCarpetas .tarjeta-cabecera h2,
 .tarjeta-cabecera-drive h2 {
     color: #ffffff !important;
     margin: 0 !important;
 }
 
-/* 2. Alineación y redimensionamiento exacto para los botones superiores */
+/* 2. Alineación y redimensionamiento de botones para igualar a la Sección de abajo */
 .grid-botones-drive {
     display: flex !important;
     gap: 0.75rem !important;
-    justify-content: flex-start !important; /* Alineación perfecta a la izquierda */
+    justify-content: flex-start !important;
     width: 100% !important;
     margin-bottom: 1.5rem !important;
 }
 
 #btnCrearCarpetaDrive, 
 #btnBorrarCarpetaDrive {
-    max-width: 210px !important;  /* Tamaño exacto al botón de Cancelar Edición */
+    max-width: 210px !important;  /* Tamaño exacto al de Cancelar Edición de abajo */
     width: 100% !important;
     padding: 0.6rem 1.5rem !important;
     font-size: 0.95rem !important;
@@ -360,68 +365,54 @@ tr:hover td {
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 7.2: UNIFICACIÓN MAESTRA DE INPUTS Y TEXTOS DE DRIVE (2 DE 2)
+   STYLE.CSS - SECCIÓN 7.2: TRIPLE FUERZA PARA INPUTS Y TEXTOS DE DRIVE (2 DE 2)
    Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS CONSOLIDADO
    ========================================================================= */
 
-/* 3. Forzado de color blanco puro sólido para los 4 inputs del bloque de Drive */
-#selectorSubcarpetas,
-#archivoSubirDrive,
-#btnIniciarCargaDrive,
-#moduloGestorCarpetas thead {
-    background: #ffffff !important; /* Blanco sólido puro sin transparencias grises */
-    color: #0f172a !important;     /* Letras oscuras e intensas de alta definición */
+/* 3. Forzado absoluto de color blanco puro sólido para los inputs del bloque de Drive */
+#moduloGestorCarpetas select,
+#moduloGestorCarpetas #selectorSubcarpetas,
+#moduloGestorCarpetas input[type="file"],
+#moduloGestorCarpetas #archivoSubirDrive {
+    background-color: #ffffff !important; /* Destruye transparencias grises */
+    background: #ffffff !important;
+    color: #0f172a !important;            /* Texto oscuro nítido igual al de abajo */
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e1 !important;
+    opacity: 1 !important;                 /* Evita opacidades del navegador */
+}
+
+/* 4. Sincronía total para las cabeceras de la tabla de archivos de Drive (Inputs 3 y 4) */
+#moduloGestorCarpetas table thead,
+#moduloGestorCarpetas table tr th {
+    background-color: #ffffff !important; /* Fondo blanco sólido como los inputs */
+    background: #ffffff !important;
+    color: #0f172a !important;            /* Letras oscuras de alta definición */
+    font-weight: 600 !important;
+    text-transform: none !important;
     border: 1px solid #cbd5e1 !important;
 }
 
-/* 4. Color blanco puro sólido con texto idéntico para las cabeceras de la tabla */
-#moduloGestorCarpetas th {
-    background: #ffffff !important;
-    color: #0f172a !important;     /* Texto gris/oscuro igual al de tus inputs base */
+/* 5. Unificación simétrica para las fuentes y opciones de los listados desplegables */
+#moduloGestorCarpetas select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
     font-weight: 600 !important;
-    text-transform: none !important; /* Quita las mayúsculas forzadas para igualar abajo */
-    border-bottom: 1px solid #cbd5e1 !important;
-    padding: 0.85rem 1rem !important;
 }
 
-/* 5. Modificación exclusiva para unificar el botón interno nativo "Examinar..." */
-#archivoSubirDrive::-webkit-file-upload-button {
+/* Modificación del botón nativo interno "Examinar..." */
+#moduloGestorCarpetas input[type="file"]::-webkit-file-upload-button {
     background: #f1f5f9 !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 4px !important;
-    padding: 0.35rem 0.75rem !important;
     color: #0f172a !important;
     font-weight: 600 !important;
-    cursor: pointer !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
-/* Sincronizamos las tipografías y fuentes internas de las opciones */
-#moduloGestorCarpetas select,
-#moduloGestorCarpetas option,
-#moduloGestorCarpetas label {
-    color: #0f172a !important;
-    font-weight: 600 !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-}
-
-#moduloGestorCarpetas label {
-    color: #ffffff !important; /* Mantiene la etiqueta del campo en blanco sobre el fondo verde */
-}
-
-/* Contenedor responsivo discontinuo limpio (Dropzone) */
-.contenedor-dropzone-drive {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border: 2px dashed rgba(255, 255, 255, 0.7) !important;
-    border-radius: 10px !important;
-    padding: 1.5rem !important;
-    text-align: center !important;
-    margin-bottom: 1.5rem !important;
-}
-
-.texto-archivo-seleccionado {
+/* Texto informativo flotante en la zona de Drive */
+#moduloGestorCarpetas .texto-archivo-seleccionado,
+#moduloGestorCarpetas #nombreArchivoSeleccionado {
     color: #cbd5e1 !important;
     font-style: italic !important;
     font-weight: 500 !important;
-    margin-top: 0.5rem !important;
 }
