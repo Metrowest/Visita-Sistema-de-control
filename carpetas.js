@@ -90,14 +90,30 @@ window.recibirEstructuraDrive = function(resultado) {
             tablaCuerpoDrive.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:1rem; color:#666;">No hay archivos guardados en esta ubicación.</td></tr>`;
             return;
         }
+
+        // RENDERIZADO ESTILO PORTAFOLIO: Inyección de iconos visuales según tipo de archivo
         resultado.archivos.forEach(arc => {
+            let tipoMime = arc.mimeType.toLowerCase();
+            let iconoVisual = "📄"; // Icono por defecto para documentos genéricos
+
+            // Asignación de iconos temáticos basados en tu nueva plantilla gráfica
+            if (tipoMime.includes("image") || tipoMime.includes("png") || tipoMime.includes("jpeg")) {
+                iconoVisual = "🖼️"; // Icono nítido para fotos o capturas
+            } else if (tipoMime.includes("pdf")) {
+                iconoVisual = "📕"; // Icono rojo elegante para reportes PDF
+            } else if (tipoMime.includes("spreadsheet") || tipoMime.includes("excel")) {
+                iconoVisual = "📊"; // Icono para matrices de datos o registros
+            } else if (tipoMime.includes("folder") || arc.url.includes("folder")) {
+                iconoVisual = "📁"; // Icono de carpeta interna
+            }
+
             let htmlFila = "<tr>";
-            htmlFila += `<td><strong>${arc.nombre}</strong></td>`;
+            // Inyectamos el icono grande al lado del nombre del archivo con alineación limpia
+            htmlFila += `<td style="display: flex; align-items: center; gap: 0.75rem;"><span style="font-size: 1.3rem;">${iconoVisual}</span> <strong>${arc.nombre}</strong></td>`;
             htmlFila += `<td><span class="badge">${arc.mimeType.split("/").pop().toUpperCase()}</span></td>`;
-            // Inyectamos el botón de Ver y el botón de Borrar Documento individual por ID
             htmlFila += `<td>
                 <a href="${arc.url}" target="_blank" class="btn-edit" style="text-decoration:none; display:inline-block; padding:4px 8px; margin-right:4px;">👁️ Ver</a>
-                <button type="button" class="btn-delete" style="padding:4px 8px; background:#dc3545; color:white; border:1px solid #dc3545; cursor:pointer;" onclick="Secc75_Fun1_DispararBorradoDocumentoIndividual('${arc.id}', '${arc.nombre}')">🗑️ Borrar</button>
+                <button type="button" class="btn-delete" style="padding:4px 8px; background:#e63946; color:white; border:none; border-radius:4px; cursor:pointer;" onclick="Secc75_Fun1_DispararBorradoDocumentoIndividual('${arc.id}', '${arc.nombre}')">🗑️ Borrar</button>
             </td>`;
             htmlFila += "</tr>";
             tablaCuerpoDrive.insertAdjacentHTML("beforeend", htmlFila);
@@ -241,7 +257,7 @@ document.getElementById("selectorSubcarpetas").addEventListener("change", (e) =>
         const selectorM = document.getElementById("selectorSubcarpetas");
         const carpetaMadreId = selectorM.options[1] ? selectorM.options[1].value : "RAIZ";
         // Buscamos el ID original respaldado en las variables de la cabecera
-        const idOriginalDrive = document.getElementById("moduloGestorCarpetas") ? "AQUÍ_PEGA_TU_ID_REAL_DE_LA_CARPETA_VISITA_ACTUAL" : "RAIZ";
+        const idOriginalDrive = document.getElementById("moduloGestorCarpetas") ? "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM" : "RAIZ";
         drive_IdCarpetaActiva = idOriginalDrive;
         drive_CargarEstructuraNube(idOriginalDrive);
         return;
@@ -271,13 +287,13 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
     script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
     document.body.appendChild(script);
     // Tras la eliminación, forzamos el retorno inmediato al ID de la carpeta raíz
-    drive_IdCarpetaActiva = "AQUÍ_PEGA_TU_ID_REAL_DE_LA_CARPETA_VISITA_ACTUAL";
+    drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
 });
 
 // Inicializador forzado automático autónomo con retraso de seguridad
 window.addEventListener("load", () => {
     setTimeout(() => {
-        const idOriginalDrive = "AQUÍ_PEGA_TU_ID_REAL_DE_LA_CARPETA_VISITA_ACTUAL";
+        const idOriginalDrive = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
         drive_CargarEstructuraNube(idOriginalDrive);
     }, 300);
 });
