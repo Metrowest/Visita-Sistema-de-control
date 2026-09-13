@@ -248,21 +248,21 @@ window.recibirRespuestaAccionDrive = function(res) {
 };
 
 // =========================================================================
-// SECCIÓN 7 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS (CORREGIDO)
-// Ubicación del bloque: PARTE INFERIOR - CAPTURA DE NAVEGACIÓN PROFUNDA MULTINIVEL
+// SECCIÓN 7 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS (REPARADO)
+// Ubicación del bloque: PARTE INFERIOR - CAPTURA DE NAVEGACIÓN PROFUNDA
 // =========================================================================
 
 document.getElementById("selectorSubcarpetas").addEventListener("change", (e) => {
-    // COMPUERTA DE ESCAPE: Si elige regresar a la raíz principal, lee tu variable de la Sección 2
+    // COMPUERTA DE ESCAPE: Si elige regresar a la raíz principal, inyectamos tu ID real
     if (e.target.value === "RETORNO_RAIZ") {
-        // Tomamos de forma dinámica la variable respaldada en la cabecera del archivo
-        const idOriginalDrive = drive_IdCarpetaActiva;
-        // Forzamos la consulta apuntando directo a la raíz de Visita Actual
-        drive_CargarEstructuraNube("RAIZ");
+        // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
+        const idOriginalDrive = "TU_ID_DE_CARPETA_VISITA_ACTUAL_AQUÍ";
+        drive_IdCarpetaActiva = idOriginalDrive;
+        drive_CargarEstructuraNube(idOriginalDrive);
         return;
     }
     
-    // NAVEGACIÓN MULTINIVEL DE PORTAFOLIO: Si elige una subcarpeta, actualiza la memoria y entra en ella
+    // NAVEGACIÓN MULTINIVEL: Si elige una subcarpeta, actualiza la memoria y entra de forma profunda
     drive_IdCarpetaActiva = e.target.value;
     drive_CargarEstructuraNube(e.target.value);
 });
@@ -288,7 +288,8 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
     const script = document.createElement("script");
     script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
     document.body.appendChild(script);
-    drive_IdCarpetaActiva = "RAIZ";
+    // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
+    drive_IdCarpetaActiva = "TU_ID_DE_CARPETA_VISITA_ACTUAL_AQUÍ";
 });
 
 // =========================================================================
