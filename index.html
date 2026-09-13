@@ -76,8 +76,12 @@
             <main class="modulo-cubiculo cubiculo-principal">
                 <header class="barra-herramientas-cub">
                     <input type="text" placeholder="Buscar en el Sistema de Control..." class="input-busqueda-cub" id="input-busqueda-control">
-                    <!-- Botón Blanco Puro Sólido con su ID Nativo Operativo -->
-                    <button type="button" id="btnIniciarCargaDriveControl" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
+                    
+                    <!-- CONECTOR ESENCIAL: Input oculto nativo recuperado para amarrar la carga asíncrona -->
+                    <input type="file" id="archivoSubirDrive" style="display: none;">
+                    
+                    <!-- Botón Blanco Sólido con su ID Nativo Operativo -->
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
                 </header>
 
                 <div class="grilla-documentos" id="contenedor-archivos">
