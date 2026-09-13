@@ -417,11 +417,13 @@ const bannerPWA = document.getElementById('banner-pwa');
 const btnInstalarPWA = document.getElementById('btn-instalar-pwa');
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Corregido: Uso de e.preventDefault() para entornos compatibles
+    // Corregido de forma definitiva a 'e.preventDefault()' para entornos compatibles
     e.preventDefault(); 
+    
+    // Almacena el evento para detonarlo con el botón de la interfaz
     deferredPrompt = e; 
     
-    // Disparo automático del banner personalizado
+    // Muestra automáticamente el banner turquesa si el entorno es compatible
     if (bannerPWA) {
         bannerPWA.classList.remove('d-none');
         bannerPWA.style.display = 'flex';
@@ -432,11 +434,16 @@ if (btnInstalarPWA) {
     btnInstalarPWA.addEventListener('click', async () => {
         if (!deferredPrompt) return;
         
+        // Ejecuta el prompt de instalación nativo guardado
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`Respuesta de la instalación: ${outcome}`);
         
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`El usuario respondió a la instalación: ${outcome}`);
+        
+        // Limpia la variable para que no pueda ser reutilizada
         deferredPrompt = null;
+        
+        // Oculta el banner de forma limpia tras la acción
         if (bannerPWA) bannerPWA.style.display = 'none';
     });
 }
