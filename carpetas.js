@@ -21,13 +21,32 @@ let drive_Base64DataSeleccionada = "";
 // SECCIÓN 3 (FIJA): EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS)
 // =========================================================================
 
-// FUNCIÓN 1: Lanza la petición script para consultar la estructura de una carpeta (REQ 1 y 2)
+// FUNCIÓN 1: Lanza la petición script para consultar la estructura de una carpeta (REPARADO CORS)
 function drive_CargarEstructuraNube(folderId) {
+    console.log(`Petición de estructura para la carpeta ID: ${folderId}`);
+    
+    // Si existía un script huérfano anterior trabando la red, lo eliminamos de raíz
     const scriptViejo = document.getElementById("script-drive-carga");
-    if (scriptViejo) scriptViejo.remove();
+    if (scriptViejo) {
+        scriptViejo.remove();
+    }
+
+    // Creamos el conector físico aislado con el callback requerido incorporado
     const script = document.createElement("script");
     script.id = "script-drive-carga";
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}`;
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}&callback=drive_ProcesarRespuestaNube`;
+    script.charset = "utf-8";
+    
+    // Captura de errores síncronos para evitar que se congele el hilo principal
+    script.onerror = () => {
+        console.error("Fallo de red al inyectar el script del servidor.");
+        const contenedor = document.getElementById("contenedor-archivos");
+        if (contenedor) {
+            contenedor.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#ef4444;">Error de respuesta con Google Drive. Por favor, refresca.</td></tr>';
+        }
+    };
+
+    // Inyectamos el elemento de forma segura en el documento
     document.body.appendChild(script);
 }
 
