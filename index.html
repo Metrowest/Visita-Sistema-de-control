@@ -103,29 +103,43 @@
              ========================================================================= -->
         <div class="bloque-inferior-registros dashboard-container">
             
-            <!-- CUBÍCULO 4: MÓDULO INTERACTIVO DE REGISTRO -->
+            <!-- CUBÍCULO 4: MÓDULO INTERACTIVO DE REGISTRO CON IDS OPERATIVOS -->
             <div class="modulo-cubiculo cubiculo-formulario">
                 <h3 class="modulo-titulo">📝 Añadir Registro</h3>
                 <div id="moduloFormulario">
                     <div class="campo-grupo">
-                        <label>Grupo / Día <span class="ejemplo-label">Ej. #89</span></label>
-                        <input type="text" placeholder="Introduce el grupo o día">
+                        <label for="grupoDia">Grupo / Día <span class="ejemplo-label">Ej. #89</span></label>
+                        <!-- Se restauró el ID 'grupoDia' para lectura de app.js -->
+                        <input type="text" id="grupoDia" placeholder="Introduce el grupo o día">
                     </div>
                     <div class="campo-grupo">
-                        <label>Superintendente / Visitante</label>
-                        <input type="text" placeholder="Nombre completo">
+                        <label for="superintendente">Superintendente / Visitante</label>
+                        <!-- Se restauró el ID 'superintendente' para lectura de app.js -->
+                        <input type="text" id="superintendente" placeholder="Nombre completo">
                     </div>
                     <div class="campo-grupo">
-                        <label>Teléfono / Acompañante</label>
-                        <input type="text" placeholder="Información de contacto o acompañante">
+                        <label for="telefono">Teléfono / Acompañante</label>
+                        <!-- Se restauró el ID 'telefono' para lectura de app.js -->
+                        <input type="text" id="telefono" placeholder="Información de contacto o acompañante">
                     </div>
                     <button type="button" id="btnGuardarRegistro" class="btn-primario">💾 Guardar Registro</button>
                 </div>
             </div>
 
-            <!-- CUBÍCULO 5: MÓDULO DE LA BASE DE DATOS -->
+            <!-- CUBÍCULO 5: MÓDULO DE LA BASE DE DATOS REAL CON CONECTORES -->
             <div class="modulo-cubiculo cubiculo-registros">
                 <h3 class="modulo-titulo">📋 Registros Almacenados en la Hoja</h3>
+                
+                <!-- Selector de sección integrado con su ID original para gatillar la carga asíncrona -->
+                <div class="control-seccion-grilla" style="margin-bottom: 12px;">
+                    <label for="selectorSeccionApp" style="font-size: 0.8rem; font-weight: 600; color: var(--color-texto-medio);">Cambiar Sección:</label>
+                    <select id="selectorSeccionApp" style="margin-left: 6px; padding: 4px 8px;">
+                        <option value="Pastores Día 1 (Vertical)">Pastores Día 1 (Vertical)</option>
+                        <option value="Superintendentes (Horizontal)">Superintendentes (Horizontal)</option>
+                    </select>
+                </div>
+
+                <!-- Contenedor con su ID nativo intacto para la inyección de la tabla de Google Sheets -->
                 <div id="contenedor-registros">
                     <p class="texto-carga-sistema">Cargando base de datos desde Google Sheets...</p>
                 </div>
