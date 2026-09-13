@@ -252,45 +252,62 @@ window.recibirRespuestaAccionDrive = function(res) {
 // Ubicación del bloque: PARTE INFERIOR - CAPTURA DE NAVEGACIÓN PROFUNDA
 // =========================================================================
 
-document.getElementById("selectorSubcarpetas").addEventListener("change", (e) => {
-    // COMPUERTA DE ESCAPE: Si elige regresar a la raíz principal, inyectamos tu ID real
-    if (e.target.value === "RETORNO_RAIZ") {
-        // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
-        const idOriginalDrive = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
-        drive_IdCarpetaActiva = idOriginalDrive;
-        drive_CargarEstructuraNube(idOriginalDrive);
-        return;
-    }
-    
-    // NAVEGACIÓN MULTINIVEL: Si elige una subcarpeta, actualiza la memoria y entra de forma profunda
-    drive_IdCarpetaActiva = e.target.value;
-    drive_CargarEstructuraNube(e.target.value);
-});
+// 1. Protección para el Selector de Subcarpetas
+const selectorSubcarpetas = document.getElementById("selectorSubcarpetas");
+if (selectorSubcarpetas) {
+    selectorSubcarpetas.addEventListener("change", (e) => {
+        if (e.target.value === "RETORNO_RAIZ") {
+            const idOriginalDrive = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
+            drive_IdCarpetaActiva = idOriginalDrive;
+            drive_CargarEstructuraNube(idOriginalDrive);
+            return;
+        }
+        drive_IdCarpetaActiva = e.target.value;
+        drive_CargarEstructuraNube(e.target.value);
+    });
+}
 
-document.getElementById("archivoSubirDrive").addEventListener("change", drive_ManejarSeleccionArchivo);
+// 2. Protección para el Input Oculto de Archivos
+const archivoSubirDrive = document.getElementById("archivoSubirDrive");
+if (archivoSubirDrive) {
+    archivoSubirDrive.addEventListener("change", drive_ManejarSeleccionArchivo);
+}
 
-document.getElementById("btnIniciarCargaDrive").addEventListener("click", () => {
-    if (!drive_NombreArchivoSeleccionado) return;
-    // Detona el escáner automatizado invisible de preexistencia
-    drive_VerificarPreexistenciaNube(drive_NombreArchivoSeleccionado);
-});
+// 3. Protección para tu Botón Blanco 🚀 Subir Documento Seleccionado
+const btnIniciarCargaDrive = document.getElementById("btnIniciarCargaDrive");
+if (btnIniciarCargaDrive) {
+    btnIniciarCargaDrive.addEventListener("click", () => {
+        if (typeof drive_NombreArchivoSeleccionado !== 'undefined' && drive_NombreArchivoSeleccionado) {
+            drive_VerificarPreexistenciaNube(drive_NombreArchivoSeleccionado);
+        } else {
+            console.log("No hay ningún archivo seleccionado para detonar el escáner de preexistencia.");
+        }
+    });
+}
 
-document.getElementById("btnCrearCarpetaDrive").addEventListener("click", () => {
-    let nom = prompt("Escribe el nombre de la nueva carpeta:");
-    if (!nom || !nom.trim()) return;
-    const script = document.createElement("script");
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=crearCarpeta&nombreCarpeta=${encodeURIComponent(nom.trim())}&padreId=${drive_IdCarpetaActiva}`;
-    document.body.appendChild(script);
-});
+// 4. Protección para el Botón Crear Carpeta (Ignora seguro si se removió del HTML)
+const btnCrearCarpetaDrive = document.getElementById("btnCrearCarpetaDrive");
+if (btnCrearCarpetaDrive) {
+    btnCrearCarpetaDrive.addEventListener("click", () => {
+        let nom = prompt("Escribe el nombre de la nueva carpeta:");
+        if (!nom || !nom.trim()) return;
+        const script = document.createElement("script");
+        script.src = `${CARPETAS_WEB_APP_URL}?accion=crearCarpeta&nombreCarpeta=${encodeURIComponent(nom.trim())}&padreId=${drive_IdCarpetaActiva}`;
+        document.body.appendChild(script);
+    });
+}
 
-document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () => {
-    if (!confirm("¿Está seguro de borrar esta carpeta interna y todos sus archivos?")) return;
-    const script = document.createElement("script");
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
-    document.body.appendChild(script);
-    // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
-    drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
-});
+// 5. Protección para el Botón Borrar Carpeta (Ignora seguro si se removió del HTML)
+const btnBorrarCarpetaDrive = document.getElementById("btnBorrarCarpetaDrive");
+if (btnBorrarCarpetaDrive) {
+    btnBorrarCarpetaDrive.addEventListener("click", () => {
+        if (!confirm("¿Está seguro de borrar esta carpeta interna y todos sus archivos?")) return;
+        const script = document.createElement("script");
+        script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
+        document.body.appendChild(script);
+        drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
+    });
+}
 
 // =========================================================================
 // SECCIÓN 7.5 (NUEVA): EMISOR DE ELIMINACIÓN DE DOCUMENTOS INDIVIDUALES
