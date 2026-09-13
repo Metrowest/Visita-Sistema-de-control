@@ -528,9 +528,10 @@ window.addEventListener("load", () => {
 // =========================================================================
 let disparadorInstalacionPWA = null;
 
+// Registro nativo con ruta forzada a la raíz del servidor de GitHub Pages
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js")
+        navigator.serviceWorker.register("./sw.js") // <-- Añadimos ./ al inicio de la ruta
             .then(reg => console.log("¡Service Worker registrado con éxito! Scope: ", reg.scope))
             .catch(err => console.error("Fallo al dar de alta el Service Worker: ", err));
     });
