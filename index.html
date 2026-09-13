@@ -1,73 +1,64 @@
 <!-- =========================================================================
-     INDEX.HTML - SECCIÓN 1: CONFIGURACIÓN Y CABECERA MODERNA
-     Ubicación del bloque: ARRIBA DEL TODO
+     INDEX.HTML - SECCIÓN 1: CONFIGURACIÓN Y ENCABEZADOS DE ESTRUCTURA BASE
+     Ubicación del bloque: CUMBRE ABSOLUTA DEL DOCUMENTO HTML
      ========================================================================= -->
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Control Modular - Superintendentes</title>
-
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
 </head>
-
 <body>
     <div class="contenedor-principal">
 
-<!-- =========================================================================
-     INDEX.HTML - SECCIÓN 0.5: PANEL SUPERIOR FIJO GESTOR DE CARPETAS (DRIVE)
-     Ubicación del bloque: CUMBRE ABSOLUTA (ARRIBA DE SELECCIONA UNA SECCIÓN)
+        <!-- =========================================================================
+             INDEX.HTML - SECCIÓN 1.1: PANEL SUPERIOR FIJO GESTOR DE CARPETAS (DRIVE)
+             Ubicación del bloque: PRIMERA TARJETA FIJA CON ESTILOS PURIFICADOS
              ========================================================================= -->
-        <div id="moduloGestorCarpetas" class="tarjeta-modulo" style="margin-bottom: 2rem;">
+        <div id="moduloGestorCarpetas" class="tarjeta-modulo">
             <div class="tarjeta-cabecera tarjeta-cabecera-drive">
                 <div class="icono-titulo">📁</div>
                 <h2>Panel Control: Archivos y Carpetas (Drive)</h2>
             </div>
             
-            <div class="formulario-estilizado" style="padding: 1.5rem; box-sizing: border-box;">
+            <div class="formulario-estilizado">
                 <!-- REQUERIMIENTO 1: Selector propio e independiente para las carpetas -->
-                <div class="campo-formulario" style="margin-bottom: 1rem;">
-                    <label for="selectorSubcarpetas" style="font-weight: 600;">📁 Navegación de Carpetas de "Visita Actual":</label>
-                    <select id="selectorSubcarpetas" class="selector-estilizado" style="width: 100%; box-sizing: border-box;">
+                <div class="campo-formulario">
+                    <label for="selectorSubcarpetas">📁 Navegación de Carpetas de "Visita Actual":</label>
+                    <select id="selectorSubcarpetas" class="selector-estilizado">
                         <option value="RAIZ">Cargando raíz "Visita Actual"...</option>
                     </select>
                 </div>
 
                 <!-- ACCIONES DE CREAR Y BORRAR CARPETAS AUTÓNOMAS -->
-                <div class="bloque-botones" style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; width: 100%;">
-                    <button type="button" id="btnCrearCarpetaDrive" class="btn-primario" style="background: #28a745; flex: 1; min-width: 140px;">➕ Crear Carpeta</button>
-                    <button type="button" id="btnBorrarCarpetaDrive" class="btn-secundario" style="background: #dc3545; color: white; flex: 1; min-width: 140px;">🗑️ Borrar Activa</button>
+                <div class="bloque-botones grid-botones-drive">
+                    <button type="button" id="btnCrearCarpetaDrive" class="btn-primario">➕ Crear Carpeta</button>
+                    <button type="button" id="btnBorrarCarpetaDrive" class="btn-secundario">🗑️ Borrar Activa</button>
                 </div>
 
                 <!-- REQUERIMIENTO 3: Medio físico responsivo para subir documentos -->
-                <div class="campo-formulario" style="background: #f8f9fa; padding: 1.5rem; border: 2px dashed #1a73e8; border-radius: 8px; text-align: center; box-sizing: border-box; width: 100%;">
-                    <label for="archivoSubirDrive" style="display: block; font-weight: 600; color: #1a73e8; cursor: pointer; margin-bottom: 0.5rem;">
+                <div class="campo-formulario contenedor-dropzone-drive">
+                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
                         📤 Seleccionar Documento o Foto para Subir
                     </label>
-                    <input type="file" id="archivoSubirDrive" style="width: 100%; max-width: 100%; box-sizing: border-box;">
-                    <div id="nombreArchivoSeleccionado" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem; font-style: italic; word-break: break-all;">Ningún archivo seleccionado</div>
+                    <input type="file" id="archivoSubirDrive">
+                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
                     
-                    <!-- Previsualización de imágenes responsive -->
-                    <div id="contenedorPrevisualizacionFoto" style="display: none; margin-top: 1rem; width: 100%; max-width: 100%; justify-content: center; overflow: hidden; border-radius: 6px;">
-                        <img id="previewFotoDriveImg" src="" alt="Preview" style="width: 100%; height: auto; max-height: 200px; object-fit: contain;">
+                    <div id="contenedorPrevisualizacionFoto" style="display: none;">
+                        <img id="previewFotoDriveImg" src="" alt="Preview">
                     </div>
 
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="margin-top: 1rem; display: none; width: 100%;">🚀 Subir Documento Seleccionado</button>
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">🚀 Subir Documento Seleccionado</button>
                 </div>
 
-                <!-- REQUERIMIENTO 2: Visor y listado de archivos -->
-                <div style="margin-top: 1.5rem; width: 100%;">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">📄 Archivos Almacenados en esta Ubicación:</h3>
-                    <div class="tabla-responsiva" style="max-height: 250px; overflow-y: auto; width: 100%; box-sizing: border-box;">
-                        <table style="width: 100%;">
-                            <thead style="background: #f1f3f4;">
+                <!-- REQUERIMIENTO 2: Visor gráfico de archivos disponibles en la subcarpeta -->
+                <div class="seccion-visor-archivos">
+                    <h3>📄 Archivos Almacenados en esta Ubicación:</h3>
+                    <div class="tabla-responsiva">
+                        <table>
+                            <thead>
                                 <tr>
                                     <th>Nombre del Archivo</th>
                                     <th>Tipo</th>
@@ -75,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tablaCuerpoDrive">
-                                <tr><td colspan="3" style="text-align: center; padding: 1rem; color: #666;">Consultando archivos de Drive...</td></tr>
+                                <tr><td colspan="3">Consultando archivos de Drive...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -85,11 +76,10 @@
 
         <!-- =========================================================================
              INDEX.HTML - SECCIÓN 1.5: SELECTOR DE NAVEGACIÓN GENERAL (PÁGINAS)
-             Ubicación del bloque: CONTENEDOR DE NAVEGACIÓN SUPERIOR PRINCIPAL
+             Ubicación del bloque: INTERSECCIÓN DE MENÚ DESPLEGABLE CENTRAL
              ========================================================================= -->
         <div class="tarjeta-modulo contenedor-selector">
             <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
-
             <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                 <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                 <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
@@ -100,38 +90,19 @@
                 <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
                 <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
             </select>
-
-            <div class="enlace-seccion-activa">
-                Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico" class="link-moderno">🏨
-                    Hospitalidad</a>
-            </div>
         </div>
-
-        <!-- ABAJO DE ESTO CONTINÚA TU SECCIÓN 2 (LA TARJETA DEL FORMULARIO BLANCO) -->
         <!-- =========================================================================
-     INDEX.HTML - <!-- =========================================================================
-     INDEX.HTML - SECCIÓN 2: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO
-     Ubicación del bloque: CENTRO (PARTE SUPERIOR)
-     ========================================================================= -->
+             INDEX.HTML - SECCIÓN 2: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO
+             Ubicación del bloque: CENTRO (PARTE SUPERIOR)
+             ========================================================================= -->
         <div class="tarjeta-modulo">
             <div class="tarjeta-cabecera">
                 <div class="icono-titulo">📋</div>
                 <h2 id="formTitulo">Añadir Registro</h2>
             </div>
 
-            <!-- =========================================================================
-<!-- =========================================================================
-     INDEX.HTML - SECCIÓN 2: FORMULARIO DE CAPTURA CON LAS 8 CAJAS DE TEXTO
-     Ubicación del bloque: CENTRO (PARTE SUPERIOR)
-     ========================================================================= -->
             <form id="formularioSuperintendentes" class="formulario-estilizado">
-                <!-- Selector oculto para la base de datos remota -->
-                <input type="hidden" id="selectorHoja" value="Superintendentes">
-
-                <!-- CONTENEDOR DE CAMPOS DINÁMICOS: Controlado por la Sección 8.2.3 de app.js -->
                 <div class="grid-formulario">
-
-                    <!-- BLOQUE BASE: Campos de texto comunes (Campos 1, 2 y 3) -->
                     <div class="campo-formulario" id="contenedorCampo1">
                         <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
                         <input type="text" id="txtGrupo" name="grupo" placeholder="Ej. #89" required>
@@ -139,8 +110,7 @@
 
                     <div class="campo-formulario" id="contenedorCampo2">
                         <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
-                        <input type="text" id="txtSuperintendente" name="superintendente" placeholder="Nombre completo"
-                            required>
+                        <input type="text" id="txtSuperintendente" name="superintendente" placeholder="Nombre completo" required>
                     </div>
 
                     <div class="campo-formulario" id="contenedorCampo3">
@@ -148,7 +118,7 @@
                         <input type="text" id="txtTelefono" name="telefono" placeholder="Información" required>
                     </div>
 
-                    <!-- CORRECCIÓN CLAVE: Inyectamos físicamente los 5 bloques extra que hacían falta -->
+                    <!-- BLOQUES EXTRA DINÁMICOS DESPLEGABLES VERTICALES -->
                     <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                         <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                         <input type="text" id="txtCampo4" name="campo4" placeholder="Información extra">
@@ -176,83 +146,16 @@
                 </div>
 
                 <div class="bloque-botones">
-                    <button type="submit" id="btnGuardar" class="btn-primario">
-                        <span class="icono-btn">💾</span> Guardar Registro
-                    </button>
-                    <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">
-                        <span class="icono-btn">❌</span> Cancelar Edición
-                    </button>
+                    <button type="submit" id="btnGuardar" class="btn-primario">💾 Guardar Registro</button>
+                    <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">❌ Cancelar Edición</button>
                 </div>
             </form>
         </div>
 
-<!-- =========================================================================
-     INDEX.HTML - SECCIÓN 2.5: CONTENEDOR MODULAR INDEPENDIENTE DE DRIVE (VISITA ACTUAL)
-     Ubicación del bloque: INTERSECCIÓN INYECTADA JUSTO DEBAJO DEL CIERRE ANTERIOR
-     ========================================================================= -->
-        <div id="moduloGestorCarpetas" class="tarjeta-modulo" style="display: none;">
-            <div class="tarjeta-cabecera tarjeta-cabecera-drive">
-                <div class="icono-titulo">📁</div>
-                <h2 id="driveFormTitulo">Gestor de Archivos (Visita Actual)</h2>
-            </div>
-            
-            <div class="formulario-estilizado cuerpo-modulo-drive">
-                <!-- REQUERIMIENTO 1: Lista desplegable interactiva de subcarpetas disponibles -->
-                <div class="campo-formulario">
-                    <label for="selectorSubcarpetas">📁 Seleccionar Carpeta Interna:</label>
-                    <select id="selectorSubcarpetas" class="selector-estilizado">
-                        <option value="RAIZ">Cargando carpetas de Drive...</option>
-                    </select>
-                </div>
-
-                <!-- REQUERIMIENTO 3: Medio responsivo fluido para la carga de documentos -->
-                <div class="campo-formulario contenedor-dropzone-drive">
-                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
-                        Subir Documento o Carpeta a la Sección Activa
-                    </label>
-                    <input type="file" id="archivoSubirDrive">
-                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
-                    
-                    <!-- Contenedor responsivo para previsualizar fotos subidas antes de confirmar -->
-                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
-                        <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
-                    </div>
-
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
-                        🚀 Subir a Carpeta Activa
-                    </button>
-                </div>
-
-                <!-- REQUERIMIENTO 2: Visor y rejilla gráfica de archivos disponibles -->
-                <div class="seccion-visor-archivos">
-                    <h3 class="titulo-visor-drive">
-                        <span>📄</span> Archivos Disponibles en esta Carpeta:
-                    </h3>
-                    <div class="tabla-responsiva contenedor-scroll-drive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Archivo</th>
-                                    <th>Formato (Tipo)</th>
-                                    <th>Enlace</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaCuerpoDrive">
-                                <tr>
-                                    <td colspan="3" class="celda-carga">
-                                        Selecciona una carpeta para listar los documentos disponibles...
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- =========================================================================
-     INDEX.HTML - SECCIÓN 3: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES
-     Ubicación del bloque: CENTRO (PARTE INFERIOR DE LA PANTALLA)
-     ========================================================================= -->
+             INDEX.HTML - SECCIÓN 3: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES
+             Ubicación del bloque: CENTRO (PARTE INFERIOR DE LA PANTALLA)
+             ========================================================================= -->
         <div class="tarjeta-modulo">
             <div class="tarjeta-cabecera">
                 <div class="icono-titulo">📂</div>
@@ -261,10 +164,7 @@
 
             <div class="tabla-responsiva">
                 <table id="tablaRegistros">
-                    <!-- CORRECCIÓN MAESTRA: Dejamos la cabecera 100% libre para que app.js inyecte 
-                         los 3, 4 u 8 encabezados en tiempo real según la pestaña activa -->
                     <thead id="tablaCabecera"></thead>
-
                     <tbody id="tablaCuerpo">
                         <tr>
                             <td class="celda-carga">
@@ -278,14 +178,13 @@
         </div>
 
 <!-- =========================================================================
-     INDEX.HTML - SECCIÓN 4: ENLACES LÓGICOS DE CIERRE (CONSOLIDADO)
+     INDEX.HTML - SECCIÓN 4: ENLACES LÓGICOS DE CIERRE Y MAQUINARIA JS
      Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO INDEX.HTML
      ========================================================================= -->
     </div> <!-- Cierre de contenedor-principal -->
 
-    <!-- SECCIÓN 9: ENLACES FÍSICOS DE SCRIPT LOCAL (APP.JS CENTRAL) -->
+    <!-- MAQUINARIA DE ENLACE DE RED INDEPENDIENTE AISLADA -->
     <script src="app.js"></script>
-    <!-- ENLACE DE RED EXCLUSIVO PARA EL MOTOR DE GOOGLE DRIVE -->
     <script src="carpetas.js"></script>
 </body>
 </html>
