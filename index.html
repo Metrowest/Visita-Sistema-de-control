@@ -1,105 +1,54 @@
-<!-- =========================================================================
-     INDEX.HTML - SECCIÓN 1: CONFIGURACIÓN Y ENCABEZADOS DE ESTRUCTURA BASE
-     Ubicación del bloque: CUMBRE ABSOLUTA DEL DOCUMENTO HTML
-     ========================================================================= --> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebApp Modular Unificada - Sistema de Control</title>
-    
-    <!-- Enlaces de Fuentes e Iconos (Corregidos) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Enlace a tu Hoja de Estilos Purificada -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Configuración Básica de Manifiesto PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2cbbb0">
-
-    <!-- Configuración de Metadatos Open Graph para Vistas Previas -->
     <meta property="og:description" content="Con esta aplicacion puedes actualizar los registros para la visita.">
-    <meta property="og:image" content="https://github.com/Metrowest/Visita-Sistema-de-control/blob/main/img/og-image.png?raw=true">
+    <meta property="og:image" content="https://github.com">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-    <meta property="og:url" content="https://github.com/Metrowest/Visita-Sistema-de-control/blob/main/img/og-image.png?raw=true">
+    <meta property="og:url" content="https://github.com">
 </head>
 <body>
-
-    <!-- BANNER PERSONALIZADO TURQUESA PWA (SECCIÓN 9) -->
-    <div id="banner-pwa" style="display: none; background-color: #2cbbb0; color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: 'Plus Jakarta Sans', sans-serif;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">📱</span>
-            <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un acceso rápido sin conexión.</p>
-        </div>
-        <div style="display: flex; gap: 8px;">
-            <button id="btn-instalar-pwa" style="background-color: #ffffff; color: #2cbbb0; border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Instalar</button>
-        </div>
+    <div id="banner-pwa" style="display: none; background-color: #2cbbb0; color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; font-family: 'Plus Jakarta Sans', sans-serif;">
+        <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un acceso rápido sin conexión.</p>
+        <button id="btn-instalar-pwa" style="background-color: #ffffff; color: #2cbbb0; border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer;">Instalar</button>
     </div>
-
-    <!-- CONTENEDOR GENERAL DE LA WEBAPP -->
     <div class="contenedor-principal">
-
-        <!-- =========================================================================
-             CONTENEDOR SUPERIOR: SISTEMA DE CARPETAS Y CONTROL (CUBÍCULOS 1, 2 Y 3)
-             ========================================================================= -->
         <div class="bloque-superior-drive dashboard-container">
-            
-            <!-- CUBÍCULO 1: FILTROS POR TIPO DE DOCUMENTO (PANEL IZQUIERDO) -->
             <aside class="modulo-cubiculo cubiculo-categorias">
                 <h3 class="modulo-titulo">🗂️ Tipos de Archivo</h3>
                 <ul class="lista-categorias">
-                    <li class="cat-item active" data-tipo="todos">
-                        <span class="icono-cat bg-todos">🌐</span> Todos los Archivos
-                    </li>
-                    <li class="cat-item" data-tipo="pdf">
-                        <span class="icono-cat bg-pdf">📕</span> Documentos PDF
-                    </li>
-                    <li class="cat-item" data-tipo="word">
-                        <span class="icono-cat bg-word">📘</span> Procesador Word
-                    </li>
-                    <li class="cat-item" data-tipo="excel">
-                        <span class="icono-cat bg-excel">📗</span> Hojas de Cálculo
-                    </li>
-                    <li class="cat-item" data-tipo="carpetas">
-                        <span class="icono-cat bg-folder">📂</span> Carpetas del Sistema
-                    </li>
+                    <li class="cat-item active" data-tipo="todos"><span class="icono-cat">🌐</span> Todos los Archivos</li>
+                    <li class="cat-item" data-tipo="pdf"><span class="icono-cat">📕</span> Documentos PDF</li>
+                    <li class="cat-item" data-tipo="word"><span class="icono-cat">📘</span> Procesador Word</li>
+                    <li class="cat-item" data-tipo="excel"><span class="icono-cat">📗</span> Hojas de Cálculo</li>
+                    <li class="cat-item" data-tipo="carpetas"><span class="icono-cat">📂</span> Carpetas del Sistema</li>
                 </ul>
             </aside>
-
-            <!-- CUBÍCULO 2: EXPLORADOR CENTRAL Y ACCIONES DE DRIVE -->
             <main class="modulo-cubiculo cubiculo-principal">
                 <header class="barra-herramientas-cub">
                     <input type="text" placeholder="Buscar en el Sistema de Control..." class="input-busqueda-cub" id="input-busqueda-control">
-                    
-                    <!-- CONECTOR ESENCIAL: Input oculto nativo recuperado para amarrar la carga asíncrona -->
+                    <select id="selectorSubcarpetas" class="input-busqueda-cub" style="max-width: 200px;"><option value="RETORNO_RAIZ">📁 Volver a Raíz</option></select>
                     <input type="file" id="archivoSubirDrive" style="display: none;">
-                    
-                    <!-- Botón Blanco Sólido con su ID Nativo Operativo -->
                     <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
                 </header>
-
-                <div class="grilla-documentos" id="contenedor-archivos">
-                    <!-- Las tarjetas dinámicas e iconos temáticos serán inyectados aquí de forma automatizada por carpetas.js -->
-                </div>
+                <div class="grilla-documentos" id="contenedor-archivos"></div>
             </main>
-
-            <!-- CUBÍCULO 3: PANEL ASÍNCRONO DE DETALLES Y METADATA -->
             <aside class="modulo-cubiculo cubiculo-detalles">
                 <h3 class="modulo-titulo">📊 Actividad del Módulo</h3>
-                <div class="panel-actividad-vacio" id="panel-meta-detalles">
-                    <p>Selecciona un documento de la grilla para validar su URL permanente, ID único e historial del Reemplazo Inteligente.</p>
-                </div>
+                <div class="panel-actividad-vacio" id="panel-meta-detalles"><p>Selecciona un documento para validar su metadata e historial.</p></div>
             </aside>
-
         </div>
-
-        <!-- =========================================================================
+                <!-- =========================================================================
              CONTENEDOR INFERIOR: FORMULARIO ÚNICO Y BASE DE DATOS REAL (CUBÍCULOS 4 Y 5)
              ========================================================================= -->
         <div class="bloque-inferior-registros dashboard-container">
@@ -126,7 +75,7 @@
                         <input type="text" id="txtTelefono" name="telefono" placeholder="Información" required>
                     </div>
 
-                    <!-- BLOQUES EXTRA EXIGIDOS POR TU MÁQUINA RECEPTORA DE JAVASCRIPT -->
+                    <!-- BLOQUES EXTRA REQUERIDOS POR TU MAQUINARIA JAVASCRIPT -->
                     <div class="campo-grupo" id="contenedorCampo4" style="display: none;">
                         <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                         <input type="text" id="txtCampo4" name="campo4" placeholder="Información extra">
@@ -168,13 +117,13 @@
                         <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
                         <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
                         <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                        <option value="Pastores Día 1 (Vertical)">🐑 Pastoreo Día 1 (Vertical)</option>
                         <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
                         <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
                     </select>
                 </div>
 
-                <!-- Tabla Dinámica Única -->
+                <!-- Tabla Dinámica Unificada -->
                 <div class="tabla-responsiva" style="overflow-x: auto; width: 100%;">
                     <table id="tablaRegistros" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
                         <thead id="tablaCabecera" style="background-color: #f1f5f9; color: #0f172a; font-weight: 600;"></thead>
