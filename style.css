@@ -327,16 +327,16 @@ tr:hover td {
    Ubicación del bloque: CONTINUACIÓN DIRECTA DEBAJO DEL SPINNER DE CARGA
    ========================================================================= */
 
-/* 1. Encabezado superior con tu degradado azul elegido y letras blancas puras */
+/* 1. Encabezado superior con tu nuevo degradado verde azulado y texto blanco */
 .tarjeta-cabecera-drive {
-    background: linear-gradient(135deg, #8db0dd, #1d63d0) !important;
-    color: #ffffff !important;
-    padding: 1rem !important;
-    border-radius: 8px 8px 0 0 !important;
-    margin-bottom: 1.5rem !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.75rem !important;
+  background: linear-gradient(135deg, #395752, #43736c) !important;
+  color: #ffffff !important;
+  padding: 1rem !important;
+  border-radius: 8px 8px 0 0 !important;
+  margin-bottom: 1.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
 }
 
 .tarjeta-cabecera-drive h2 {
@@ -344,7 +344,7 @@ tr:hover td {
     margin: 0 !important;
 }
 
-/* 2. Alineación y redimensionamiento de botones para igualar a la Sección de abajo */
+/* 2. Alineación y redimensionamiento exacto para los botones superiores */
 .grid-botones-drive {
     display: flex !important;
     gap: 0.75rem !important;
@@ -363,51 +363,52 @@ tr:hover td {
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 7.2: TRIPLE FUERZA PARA INPUTS Y TEXTOS DE DRIVE (2 DE 2)
+   STYLE.CSS - SECCIÓN 7.2: NUEVA INTENSIDAD DE COLORES E INPUTS UNIFICADOS (2 DE 2)
    Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS CONSOLIDADO
    ========================================================================= */
 
-/* 3. Forzado absoluto de color blanco puro sólido e inputs unificados */
-.formulario-estilizado-drive select,
-.formulario-estilizado-drive #selectorSubcarpetas,
-.formulario-estilizado-drive input[type="file"],
+/* 3. Forzado de color blanco puro con el nuevo tono de texto propuesto por ti */
+.formulario-estilizado-drive select, 
+.formulario-estilizado-drive #selectorSubcarpetas, 
+.formulario-estilizado-drive input[type="file"], 
 .formulario-estilizado-drive #archivoSubirDrive {
-    background-color: #ffffff !important; 
-    background: #ffffff !important;
-    color: #0f172a !important;            /* Texto oscuro nítido igual al de abajo */
-    font-weight: 600 !important;
-    border: 1px solid #cbd5e1 !important;
-    opacity: 1 !important;                 /* Elimina transparencias opacas */
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #64748b !important; /* Tu color de texto gris neutro ideal */
+  font-weight: 600 !important;
+  border: 1px solid #cbd5e1 !important;
+  opacity: 1 !important;
 }
 
 /* 4. Sincronía total para las cabeceras de la tabla de archivos de Drive */
 #moduloGestorCarpetas table thead,
 #moduloGestorCarpetas table tr th {
-    background-color: #ffffff !important; /* Fondo blanco sólido como los inputs */
+    background-color: #ffffff !important;
     background: #ffffff !important;
-    color: #0f172a !important;            /* Letras oscuras de alta definición */
+    color: #64748b !important; /* Sincroniza las letras de la tabla con los inputs */
     font-weight: 600 !important;
     text-transform: none !important;
     border: 1px solid #cbd5e1 !important;
+    padding: 0.85rem 1rem !important;
 }
 
-/* 5. Unificación simétrica para las fuentes y opciones de los listados desplegables */
+/* 5. Unificación simétrica para los selectores de opciones desplegables */
 .formulario-estilizado-drive select option {
     background-color: #ffffff !important;
-    color: #0f172a !important;
+    color: #64748b !important;
     font-weight: 600 !important;
 }
 
-/* Modificación del botón nativo interno "Examinar..." */
+/* Sincronización del botón nativo interno "Examinar..." */
 .formulario-estilizado-drive input[type="file"]::-webkit-file-upload-button {
     background: #f1f5f9 !important;
     border: 1px solid #cbd5e1 !important;
     border-radius: 4px !important;
-    color: #0f172a !important;
+    color: #64748b !important;
     font-weight: 600 !important;
 }
 
-/* Texto informativo flotante en la zona de Drive */
+/* Ajuste del texto informativo flotante en la zona de Drive */
 #moduloGestorCarpetas .texto-archivo-seleccionado,
 #moduloGestorCarpetas #nombreArchivoSeleccionado {
     color: #cbd5e1 !important;
