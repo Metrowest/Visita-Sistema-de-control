@@ -21,13 +21,12 @@
      
 </head>
 <body>
-    <div class="contenedor-principal">
+<div class="contenedor-principal">
 
         <!-- =========================================================================
-             INDEX.HTML - SECCIÓN 1.1 A 1.4: PANEL MODULAR EN CUBÍCULOS GESTOR DE DRIVE
-             Ubicación del bloque: ESTRUCTURA DE REEMPLAZO INTELIGENTE POR CATEGORÍAS
+             CONTENEDOR SUPERIOR: GESTOR DE ARCHIVOS Y DRIVE (CUBÍCULOS 1, 2 Y 3)
              ========================================================================= -->
-        <div class="dashboard-container">
+        <div class="bloque-superior-drive dashboard-container">
             
             <!-- CUBÍCULO 1: FILTROS POR TIPO DE DOCUMENTO (PANEL IZQUIERDO) -->
             <aside class="modulo-cubiculo cubiculo-categorias">
@@ -53,17 +52,13 @@
 
             <!-- CUBÍCULO 2: EXPLORADOR CENTRAL Y ACCIONES DE CARGA -->
             <main class="modulo-cubiculo cubiculo-principal">
-                
                 <header class="barra-herramientas-cub">
                     <input type="text" placeholder="Buscar en el Sistema de Control..." class="input-busqueda-cub" id="input-busqueda-control">
-                    <!-- Botón Blanco Puro Sólido Integrado con su ID original -->
                     <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
                 </header>
 
-                <!-- Grilla dinámica vinculada con app.js -->
                 <div class="grilla-documentos" id="contenedor-archivos">
-                    
-                    <!-- Ejemplo visual de Tarjeta PDF -->
+                    <!-- Tarjeta PDF -->
                     <div class="tarjeta-documento item-pdf">
                         <div class="documento-badge pdf">PDF</div>
                         <div class="documento-icono">📕</div>
@@ -72,8 +67,7 @@
                             <p>Modificado: Reciente</p>
                         </div>
                     </div>
-
-                    <!-- Ejemplo visual de Tarjeta Excel -->
+                    <!-- Tarjeta Excel -->
                     <div class="tarjeta-documento item-excel">
                         <div class="documento-badge excel">EXCEL</div>
                         <div class="documento-icono">📗</div>
@@ -82,8 +76,7 @@
                             <p>Modificado: Reciente</p>
                         </div>
                     </div>
-
-                    <!-- Ejemplo visual de Tarjeta Carpeta -->
+                    <!-- Tarjeta Carpeta -->
                     <div class="tarjeta-documento item-carpetas">
                         <div class="documento-badge folder">FOLDER</div>
                         <div class="documento-icono">📂</div>
@@ -102,6 +95,41 @@
                     <p>Selecciona un documento de la grilla para validar su URL permanente, ID único e historial del Reemplazo Inteligente.</p>
                 </div>
             </aside>
+
+        </div>
+
+        <!-- =========================================================================
+             CONTENEDOR INFERIOR: FORMULARIO Y BASE DE DATOS (CUBÍCULOS 4 Y 5)
+             ========================================================================= -->
+        <div class="bloque-inferior-registros dashboard-container">
+            
+            <!-- CUBÍCULO 4: MÓDULO INTERACTIVO DE REGISTRO -->
+            <div class="modulo-cubiculo cubiculo-formulario">
+                <h3 class="modulo-titulo">📝 Añadir Registro</h3>
+                <div id="moduloFormulario">
+                    <div class="campo-grupo">
+                        <label>Grupo / Día <span class="ejemplo-label">Ej. #89</span></label>
+                        <input type="text" placeholder="Introduce el grupo o día">
+                    </div>
+                    <div class="campo-grupo">
+                        <label>Superintendente / Visitante</label>
+                        <input type="text" placeholder="Nombre completo">
+                    </div>
+                    <div class="campo-grupo">
+                        <label>Teléfono / Acompañante</label>
+                        <input type="text" placeholder="Información de contacto o acompañante">
+                    </div>
+                    <button type="button" id="btnGuardarRegistro" class="btn-primario">💾 Guardar Registro</button>
+                </div>
+            </div>
+
+            <!-- CUBÍCULO 5: MÓDULO DE LA BASE DE DATOS -->
+            <div class="modulo-cubiculo cubiculo-registros">
+                <h3 class="modulo-titulo">📋 Registros Almacenados en la Hoja</h3>
+                <div id="contenedor-registros">
+                    <p class="texto-carga-sistema">Cargando base de datos desde Google Sheets...</p>
+                </div>
+            </div>
 
         </div>
 
