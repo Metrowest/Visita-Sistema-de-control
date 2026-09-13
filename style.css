@@ -415,3 +415,17 @@ tr:hover td {
     font-style: italic !important;
     font-weight: 500 !important;
 }
+
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 7.3: FORZADO DE ESTILO PARA EL BOTÓN DE CARGA DE DRIVE
+   Ubicación del bloque: FINAL ABSOLUTO DE TODO EL ARCHIVO STYLE.CSS
+   ========================================================================= */
+#moduloGestorCarpetas #btnIniciarCargaDrive,
+#btnIniciarCargaDrive {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #64748b !important;       /* Tu tono gris neutro elegido */
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e1 !important;
+    opacity: 1 !important;
+}
