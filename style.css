@@ -429,3 +429,17 @@ tr:hover td {
     border: 1px solid #cbd5e1 !important;
     opacity: 1 !important;
 }
+
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 7.4: SINCRONIZACIÓN DE COLOR PARA BOTÓN SUBIR DOCUMENTO
+   Ubicación del bloque: FINAL ABSOLUTO DE TODO EL ARCHIVO STYLE.CSS
+   ========================================================================= */
+#moduloGestorCarpetas #btnIniciarCargaDrive,
+.formulario-estilizado-drive #btnIniciarCargaDrive {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #64748b !important; /* Mismo color gris neutro que elegiste para tus textos */
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e1 !important;
+    opacity: 1 !important;
+}
