@@ -359,28 +359,55 @@ async function verificarYReemplazarArchivo(nuevoArchivo) {
 // =========================================================================
 // SECCIÓN 8-B: FILTRADO MODULAR POR CUBÍCULOS Y TIPOS DE DOCUMENTO
 // =========================================================================
+
 function inicializarFiltrosCubiculos() {
+    // Captura todos los cubículos/categorías del panel izquierdo
     const itemsCategoria = document.querySelectorAll('.cat-item');
-    
+    if (!itemsCategoria.length) return;
+
     itemsCategoria.forEach(item => {
         item.addEventListener('click', (e) => {
-            // Remueve clase activa de todos los cubículos
+            // 1. Remueve la clase activa visual de todos los botones
             itemsCategoria.forEach(i => i.classList.remove('active'));
             
-            // Activa el cubículo seleccionado
+            // 2. Aplica la clase activa al cubículo presionado
             const cubiculoSeleccionado = e.currentTarget;
             cubiculoSeleccionado.classList.add('active');
             
+            // 3. Extrae el tipo de archivo (todos, pdf, excel, word, carpetas)
             const tipoFiltro = cubiculoSeleccionado.getAttribute('data-tipo');
+            
+            // 4. Ejecuta el filtro visual en la grilla
             filtrarVistaDocumentos(tipoFiltro);
         });
     });
 }
 
 function filtrarVistaDocumentos(tipo) {
+    // Captura todas las tarjetas presentes en el cubículo principal
+    const tarjetas = document.querySelectorAll('.tarjeta-documento');
     console.log(`Filtrando cubículo principal por tipo: ${tipo}`);
-    // Lógica para ocultar/mostrar tarjetas (.item-pdf, .item-excel, etc.) en la grilla
+
+    tarjetas.forEach(tarjeta => {
+        // Si el usuario selecciona "todos", muestra todo el universo de archivos
+        if (tipo === 'todos') {
+            tarjeta.style.display = 'block';
+        } 
+        // Si la tarjeta coincide exactamente con la clase del tipo seleccionado
+        else if (tarjeta.classList.contains(`item-${tipo}`)) {
+            tarjeta.style.display = 'block';
+        } 
+        // Oculta las tarjetas que no correspondan al cubículo activo
+        else {
+            tarjeta.style.display = 'none';
+        }
+    });
 }
+
+// Inicializa el escuchador de cubículos automáticamente al cargar el documento
+document.addEventListener('DOMContentLoaded', () => {
+    inicializarFiltrosCubiculos();
+});
 
 // =========================================================================
 // SECCIÓN 9: GESTIÓN DE INSTALACIÓN PWA (BANNER TURQUESA AUTOMÁTICO)
