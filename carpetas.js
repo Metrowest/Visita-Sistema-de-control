@@ -248,20 +248,21 @@ window.recibirRespuestaAccionDrive = function(res) {
 };
 
 // =========================================================================
-// SECCIÓN 7 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
+// SECCIÓN 7 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS (CORREGIDO)
+// Ubicación del bloque: PARTE INFERIOR - CAPTURA DE NAVEGACIÓN PROFUNDA MULTINIVEL
 // =========================================================================
 
 document.getElementById("selectorSubcarpetas").addEventListener("change", (e) => {
-    // Si elige regresar a la raíz principal, inyectamos la variable fija de la Sección 1
+    // COMPUERTA DE ESCAPE: Si elige regresar a la raíz principal, lee tu variable de la Sección 2
     if (e.target.value === "RETORNO_RAIZ") {
-        const selectorM = document.getElementById("selectorSubcarpetas");
-        const carpetaMadreId = selectorM.options[1] ? selectorM.options[1].value : "RAIZ";
-        // Buscamos el ID original respaldado en las variables de la cabecera
-        const idOriginalDrive = document.getElementById("moduloGestorCarpetas") ? "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM" : "RAIZ";
-        drive_IdCarpetaActiva = idOriginalDrive;
-        drive_CargarEstructuraNube(idOriginalDrive);
+        // Tomamos de forma dinámica la variable respaldada en la cabecera del archivo
+        const idOriginalDrive = drive_IdCarpetaActiva;
+        // Forzamos la consulta apuntando directo a la raíz de Visita Actual
+        drive_CargarEstructuraNube("RAIZ");
         return;
     }
+    
+    // NAVEGACIÓN MULTINIVEL DE PORTAFOLIO: Si elige una subcarpeta, actualiza la memoria y entra en ella
     drive_IdCarpetaActiva = e.target.value;
     drive_CargarEstructuraNube(e.target.value);
 });
@@ -270,6 +271,7 @@ document.getElementById("archivoSubirDrive").addEventListener("change", drive_Ma
 
 document.getElementById("btnIniciarCargaDrive").addEventListener("click", () => {
     if (!drive_NombreArchivoSeleccionado) return;
+    // Detona el escáner automatizado invisible de preexistencia
     drive_VerificarPreexistenciaNube(drive_NombreArchivoSeleccionado);
 });
 
@@ -286,16 +288,7 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
     const script = document.createElement("script");
     script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
     document.body.appendChild(script);
-    // Tras la eliminación, forzamos el retorno inmediato al ID de la carpeta raíz
-    drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
-});
-
-// Inicializador forzado automático autónomo con retraso de seguridad
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        const idOriginalDrive = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
-        drive_CargarEstructuraNube(idOriginalDrive);
-    }, 300);
+    drive_IdCarpetaActiva = "RAIZ";
 });
 
 // =========================================================================
