@@ -259,7 +259,7 @@ css/* =========================================================================
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 7.1: ENTORNO ESTÉTICO INTEGRADO COMPACTO DE DRIVE
-   Ubicación del bloque: REEMPLAZO COMPLETO EN EL FINAL DEL ARCHIVO
+   Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE CARPETAS)
    ========================================================================= */
 
 /* 1. Contenedor principal: Fondo verde azulado profundo como tu imagen */
@@ -305,7 +305,7 @@ css/* =========================================================================
     border-radius: 6px !important;
 }
 
-/* 5. Tabla de archivos del Gestor */
+/* 5. Tabla de archivos exclusiva del Gestor de Carpetas */
 #moduloGestorCarpetas table {
     width: 100% !important;
     border-collapse: collapse !important;
@@ -322,7 +322,7 @@ css/* =========================================================================
     border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
-/* 6. Botoneras estilizadas idénticas a tu foto de muestra */
+/* 6. Botoneras estilizadas del componente de Drive */
 #btnCrearCarpetaDrive, #btnIniciarCargaDrive {
     background: #2ec4b6 !important; /* Tono turquesa brillante para crear */
     color: #ffffff !important;
