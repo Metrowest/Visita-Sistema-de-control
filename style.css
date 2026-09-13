@@ -1,423 +1,310 @@
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 5: VARIABLES DE COLOR Y MAQUETACIÓN BASE
-   Ubicación del bloque: ARRIBA DEL TODO
+   ARCHIVO: style.css (DISEÑO VISUAL INTEGRADO RESPONSIVE DE ALTA FIDELIDAD)
+   INTERFAZ: Totalmente consolidado por secciones consecutivas ordenadas
+   PARTE 1 DE 2: VARIABLES, CUERPO BASE, TARJETAS MODULARES Y CAMPOS DE TEXTO
    ========================================================================= */
+
+/* =========================================================================
+   SECCIÓN 1: DECLARACIÓN DE FUENTES Y VARIABLES RAÍZ
+   ========================================================================= */
+@import url('https://googleapis.com');
+
 :root {
-    --color-fondo: #f8fafc;
-    --color-tarjeta: #ffffff;
-    --color-texto-principal: #0f172a;
-    --color-texto-mutado: #64748b;
-    --color-azul-primario: #2563eb;
-    --color-azul-hover: #1d4ed8;
-    --color-borde: #e2e8f0;
-    --sombra-suave: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-    --sombra-tarjeta: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    --color-fondo-app: #38665f;       /* Tono verde azulado profundo general */
+    --color-tarjeta: #4a7c73;         /* Tono exacto de tus bloques integrados */
+    --color-texto-claro: #ffffff;     /* Letras blancas de alta visibilidad */
+    --color-texto-oscuro: #0f172a;    /* Texto para lectura dentro de inputs */
+    --color-turquesa: #2ec4b6;        /* Color brillante para botones positivos */
+    --color-rojo-plano: #e63946;      /* Rojo estético e intenso para borrados */
+    --color-borde-suave: rgba(255, 255, 255, 0.15);
+    --sombra-maestra: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-* {
-    margin: 0;
-    padding: 0;
+/* =========================================================================
+   SECCIÓN 2: CONFIGURACIÓN ESTRUCTURAL DEL CUERPO (BODY & LAYOUT)
+   ========================================================================= */
+body {
+    background-color: var(--color-fondo-app) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--color-fondo);
-    color: var(--color-texto-principal);
-    padding: 2rem 1rem;
-    line-height: 1.5;
-}
-
 .contenedor-principal {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    width: 100% !important;
+    max-width: 900px !important;
+    padding: 1.5rem !important;
+    box-sizing: border-box !important;
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 6: DISEÑO DE TARJETAS Y GRID DE INPUTS RESPONSIVOS
-   Ubicación del bloque: CENTRO (PARTE MEDIA)
+   SECCIÓN 3: COMPONENTES MODULARES Y TARJETAS UNIFICADAS
    ========================================================================= */
 .tarjeta-modulo {
-    background-color: var(--color-tarjeta);
-    border-radius: 12px;
-    border: 1px solid var(--color-borde);
-    box-shadow: var(--sombra-tarjeta);
-    padding: 1.75rem;
+    background: var(--color-tarjeta) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: var(--sombra-maestra) !important;
+    margin-bottom: 2rem !important;
+    border: none !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+/* Estructura responsiva flexible para las cabeceras de cada módulo */
+.tarjeta-cabecera, .tarjeta-cabecera-drive {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 1px solid var(--color-borde-suave) !important;
+    padding-bottom: 0.75rem !important;
+}
+
+.tarjeta-modulo h2,
+.tarjeta-modulo h3,
+.tarjeta-modulo label,
+.etiqueta-seleccion {
+    color: var(--color-texto-claro) !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 3.2: ENTORNO RESPONSIVO FLUIDO PARA CABECERAS
-   Ubicación del bloque: PARTE MEDIA (ZONA DE COMPONENTES VISUALES GENERALES)
+   SECCIÓN 4: ESTILIZADO GLOBAL DE INPUTS, SELECTORES Y DROPZONES
    ========================================================================= */
-.tarjeta-cabecera {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--color-borde);
-    padding-bottom: 0.75rem;
-    border-radius: 10px;
-}
-
-.tarjeta-cabecera h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.icono-titulo {
-    font-size: 1.25rem;
-}
-
-.formulario-estilizado {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-/* REGLA RESPONSIVA: Por defecto en celulares los inputs ocuparán el 100% del ancho */
-.grid-formulario {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    width: 100%;
-}
-
-.campo-formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 0.37rem;
-    width: 100%;
-}
-
-.campo-formulario label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-texto-mutado);
-}
-
-/* INPUTS COMPLETAMENTE RESPONSIVOS */
-.campo-formulario input {
-    width: 100%;
-    padding: 0.75rem 0.875rem;
-    /* Un poco más amplio para facilitar el toque en pantallas móviles */
-    border-radius: 6px;
-    border: 1px solid var(--color-borde);
-    font-family: inherit;
-    font-size: 0.95rem;
-    outline: none;
-    background-color: #ffffff;
+.selector-estilizado,
+.formulario-estilizado input[type="text"],
+.formulario-estilizado input[type="file"],
+#selectorSubcarpetas,
+#archivoSubirDrive {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #cbd5e1 !important;
+    color: var(--color-texto-oscuro) !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    padding: 0.65rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.95rem !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.campo-formulario input:focus {
-    border-color: var(--color-azul-primario);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+.formulario-estilizado input[type="text"]:focus,
+#selectorSubcarpetas:focus {
+    border-color: var(--color-turquesa) !important;
+    box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.2) !important;
+    outline: none !important;
 }
 
-/* MEDIA QUERY: Cuando la pantalla sea más grande que un celular (tablets y monitores), 
-   los tres inputs se ordenarán de forma elegante en una sola línea horizontal */
-@media (min-width: 600px) {
-    .grid-formulario {
-        grid-template-columns: 1fr 2fr 1.5fr;
-        /* Distribución proporcional de espacio */
-    }
-}
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 6.1: REGLA DE REJILLA FLUIDA AUTO-ADAPTATIVA
-   Ubicación del bloque: DETRÁS DE LAS MEDIA QUERIES DEL FORMULARIO
-   ========================================================================= */
-@media (min-width: 600px) {
-    /* Permite que los inputs se organicen de 2 en 2 de forma elegante si hay muchos campos visibles */
-    .grid-formulario {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-    }
-}
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 6.2: AJUSTE DE MEDIA QUERY PARA BOTONES EN CELULARES
-   Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS
-   ========================================================================= */
-@media (max-width: 480px) {
-    /* En celulares muy pequeños, los botones también se apilarán verticalmente */
-    .bloque-botones {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .btn-primario, .btn-secundario {
-        width: 100%;
-        justify-content: center;
-    }
-} /* <-- ESTA LLAVE CIERRA EL @MEDIA CORRECTAMENTE AL FINAL ABSOLUTO */
-
-css/* =========================================================================
-   STYLE.CSS - SECCIÓN 6.3: ESTILOS DEL SELECTOR Y ENLACE DINÁMICO
-   Ubicación del bloque: CONTINUACIÓN DE LA SECCIÓN MEDIA
-   ========================================================================= */
-.contenedor-selector {
-    padding: 1.5rem !important;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.formulario-estilizado input::placeholder {
+    color: #64748b !important;
+    font-style: italic !important;
 }
 
-.etiqueta-seleccion {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-texto-principal);
-}
-
-.selector-estilizado {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    font-family: inherit;
-    font-size: 1rem;
-    background-color: #ffffff;
-    outline: none;
-    cursor: pointer;
-    box-shadow: var(--sombra-suave);
-    transition: border-color 0.2s;
-}
-
-.selector-estilizado:focus {
-    border-color: var(--color-azul-primario);
-}
-
-.enlace-seccion-activa {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--color-texto-mutado);
-    margin-top: 0.25rem;
-}
-
-.link-moderno {
-    color: #2563eb;
-    text-decoration: underline;
-    font-weight: 600;
-    transition: color 0.2s;
-}
-
-.link-moderno:hover {
-    color: #1d4ed8;
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 7: BOTONES Y ESTILOS INTERACTIVOS
-   Ubicación del bloque: CENTRO (PARTE INFERIOR)
-   ========================================================================= */
-.bloque-botones {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-}
-
-.btn-primario,
-.btn-secundario {
-    padding: 0.625rem 1.25rem;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: background-color 0.2s, transform 0.1s;
-}
-
-.btn-primario {
-    background-color: var(--color-azul-primario);
-    color: white;
-}
-
-.btn-primario:hover {
-    background-color: var(--color-azul-hover);
-}
-
-.btn-primario:active {
-    transform: scale(0.98);
-}
-
-.btn-secundario {
-    background-color: #ef4444;
-    color: white;
-}
-
-.btn-secundario:hover {
-    background-color: #dc2626;
-}
-
-.btn-secundario:active {
-    transform: scale(0.98);
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 7.1: ENTORNO ESTÉTICO INTEGRADO COMPACTO DE DRIVE
-   Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE CARPETAS)
-   ========================================================================= */
-
-/* 1. Contenedor principal: Fondo verde azulado profundo como tu imagen */
-#moduloGestorCarpetas {
-    background: #4a7c73 !important; 
-    border-radius: 12px !important;
-    padding: 1.5rem !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
-    border: none !important;
-}
-
-/* 2. Unificación tipográfica en color blanco de alta visibilidad */
-#moduloGestorCarpetas h2, 
-#moduloGestorCarpetas h3, 
-#moduloGestorCarpetas label,
-#moduloGestorCarpetas td,
-#moduloGestorCarpetas td strong,
-#moduloGestorCarpetas th {
-    color: #ffffff !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-}
-
-/* 3. Zona discontinua de carga responsive (Dropzone) */
-#moduloGestorCarpetas .campo-formulario {
+/* Zona discontinua responsiva para subir archivos (Dropzone) */
+.campo-formulario:has(input[type="file"]),
+div[style*="dashed"] {
     background: rgba(255, 255, 255, 0.12) !important;
     border: 2px dashed rgba(255, 255, 255, 0.7) !important;
     border-radius: 10px !important;
     padding: 1.5rem !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
 }
 
 #nombreArchivoSeleccionado {
     color: #cbd5e1 !important;
     font-style: italic !important;
     font-weight: 500 !important;
-}
-
-/* 4. Estilizado de la lista desplegable interna y examinar */
-#selectorSubcarpetas {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid #cbd5e1 !important;
-    color: #0f172a !important;
-    font-weight: 600 !important;
-    border-radius: 6px !important;
-}
-
-/* 5. Tabla de archivos exclusiva del Gestor de Carpetas */
-#moduloGestorCarpetas table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-}
-
-#moduloGestorCarpetas th {
-    background-color: rgba(255, 255, 255, 0.08) !important;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
-    font-size: 0.85rem !important;
-    letter-spacing: 0.05em !important;
-}
-
-#moduloGestorCarpetas td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
-/* 6. Botoneras estilizadas del componente de Drive */
-#btnCrearCarpetaDrive, #btnIniciarCargaDrive {
-    background: #2ec4b6 !important; /* Tono turquesa brillante para crear */
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    border: none !important;
-    border-radius: 6px !important;
-    padding: 0.5rem 1.25rem !important;
-}
-
-#moduloGestorCarpetas .btn-edit {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 4px !important;
-    font-weight: 500 !important;
-}
-
-#moduloGestorCarpetas .btn-delete, #btnBorrarCarpetaDrive {
-    background: #e63946 !important; /* Rojo intenso plano para borrar */
-    color: #ffffff !important;
-    border: none !important;
-    border-radius: 4px !important;
-    font-weight: 500 !important;
+    margin-top: 0.5rem !important;
 }
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 8: TABLA DE DATOS EXCLUSIVA DE SUPERINTENDENTES
-   Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO STYLE.CSS
+   PARTE 2 DE 2: REJILLAS DE FORMULARIOS, TABLAS DE DATOS Y BOTONES COMBINADOS
+   Ubicación del bloque: CONTINUACIÓN DIRECTA ABAJO DE LA PARTE 1
+   ========================================================================= */
+
+/* =========================================================================
+   SECCIÓN 5: DISEÑO DE REJILLAS Y BOTONES DE ACCIÓN COMBINADOS
+   ========================================================================= */
+.grid-formulario {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+    gap: 1.25rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.campo-formulario {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+}
+
+.bloque-botones {
+    display: flex !important;
+    gap: 0.75rem !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+}
+
+/* Botoneras primarias unificadas con tu estética (Crear / Subir / Guardar) */
+.btn-primario,
+#btnCrearCarpetaDrive,
+#btnIniciarCargaDrive,
+button[type="submit"] {
+    background: var(--color-turquesa) !important;
+    color: var(--color-texto-claro) !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.5rem !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.95rem !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    transition: background-color 0.2s !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn-primario:hover,
+#btnCrearCarpetaDrive:hover,
+#btnIniciarCargaDrive:hover {
+    background: #25a196 !important;
+}
+
+/* Botoneras secundarias unificadas (Cancelar / Eliminar Activa) */
+.btn-secundario,
+#btnBorrarCarpetaDrive {
+    background: var(--color-rojo-plano) !important;
+    color: var(--color-texto-claro) !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 0.6rem 1.5rem !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.95rem !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    transition: background-color 0.2s !important;
+}
+
+/* =========================================================================
+   SECCIÓN 6: TABLA DE ARCHIVOS Y REGISTROS RESPONSIVA (AMBAS APLICACIONES)
    ========================================================================= */
 .tabla-responsiva {
-    width: 100%;
-    overflow-x: auto;
+    width: 100% !important;
+    overflow-x: auto !important;
+    border-radius: 8px !important;
+    margin-top: 1rem !important;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.95rem;
-}
-
-th,
-td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    text-align: left !important;
 }
 
 th {
-    background-color: #f1f5f9;
-    color: #475569;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: var(--color-texto-claro) !important;
+    border-bottom: 2px solid var(--color-borde-suave) !important;
+    padding: 0.85rem 1rem !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+td {
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid var(--color-borde-suave) !important;
+    color: var(--color-texto-claro) !important;
+    font-size: 0.95rem !important;
+}
+
+td strong {
+    color: var(--color-texto-claro) !important;
 }
 
 tr:hover td {
-    background-color: #f8fafc;
+    background-color: rgba(255, 255, 255, 0.04) !important;
 }
 
-.columna-acciones {
-    text-align: center;
-    width: 120px;
-}
-
-td:last-child {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-/* Rediseño estilizado para tus dos botones de acción */
-.btn-edit,
-.btn-delete {
-    padding: 0.375rem 0.625rem;
-    border-radius: 4px;
-    border: 1px solid #cbd5e1;
-    background-color: white;
-    font-size: 0.9rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s;
+/* Botones de acción incrustados dentro de las filas de las tablas */
+.btn-edit {
+    background: var(--color-texto-claro) !important;
+    color: var(--color-texto-oscuro) !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    padding: 4px 10px !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    font-size: 0.85rem !important;
 }
 
 .btn-edit:hover {
-    background-color: #fef3c7;
-    border-color: #f59e0b;
+    background-color: #f8fafc !important;
+}
+
+.btn-delete {
+    background: var(--color-rojo-plano) !important;
+    color: var(--color-texto-claro) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+    padding: 4px 10px !important;
+    cursor: pointer !important;
+    font-size: 0.85rem !important;
 }
 
 .btn-delete:hover {
-    background-color: #fee2e2;
-    border-color: #ef4444;
+    background-color: #bd2d3a !important;
 }
 
 .celda-carga {
-    text-align: center;
-    color: #64748b;
+    text-align: center !important;
+    color: #cbd5e1 !important;
     padding: 2rem !important;
+}
+
+.badge {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: var(--color-texto-claro) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+}
+
+/* =========================================================================
+   SECCIÓN 7: INTERRUPTOR RECEPTOR ANIMADO DE ESPERA (SPINNER)
+   ========================================================================= */
+.spinner-carga {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border-left-color: var(--color-texto-claro);
+    animation: girarSpinner 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes girarSpinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
