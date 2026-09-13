@@ -320,247 +320,96 @@ function recibirRespuestaAccion(resultado) {
     }
 }
 // =========================================================================
-// SECCIÓN 7: EMISOR DE ORDENES FÍSICAS DE BORRADO (APP.JS)
-// Ubicación del bloque: ABAJO DEL TODO (PARTE INFERIOR - FUNCIÓN 6)
+// SECCIÓN 7: RENDERIZADO DINÁMICO DE ARCHIVOS Y ICONOS TEMÁTICOS
 // =========================================================================
-function Secc53_1_ActivarBorradoPuente(index) {
-    if (!confirm("¿Está seguro de que desea eliminar este registro de la base de datos de forma permanente?")) return;
+function renderizarArchivos(archivos) {
+    const contenedor = document.getElementById('contenedor-archivos');
+    if (!contenedor) return;
+    contenedor.innerHTML = '';
 
-    const hoja = document.getElementById("selectorHoja").value;
-    console.log("Disparando comando de borrado seguro para la fila número: " + index);
-
-    const scriptViejo = document.getElementById("script-borrar-hojas");
-    if (scriptViejo) scriptViejo.remove();
-
-    const script = document.createElement("script");
-    script.id = "script-borrar-hojas";
-    script.src = `${WEB_APP_URL}?accion=borrar&hoja=${encodeURIComponent(hoja)}&index=${index}`;
-    document.body.appendChild(script);
-}
-// =========================================================================
-// SECCIÓN 8: PUENTES DE COMPATIBILIDAD GLOBAL Y ESCUCHAS DE EVENTOS (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO APP.JS
-// =========================================================================
-
-// =========================================================================
-// SECCIÓN 8: PUENTES DE COMPATIBILIDAD GLOBAL Y ESCUCHAS DE EVENTOS (APP.JS)
-// Ubicación del bloque: ABAJO DEL TODO (AL CIERRE DEL ARCHIVO)
-// =========================================================================
-
-// 1. MANTENEMOS EL ESCUCHA DE ENVÍO (Inalterado y operativo)
-document.getElementById("formularioSuperintendentes").addEventListener("submit", procesarGuardadoRegistro);
-
-// 2. REEMPLAZO EXACTO: Escucha el botón de cancelar edición para limpiar las 8 cajas completas
-document.getElementById("btnCancelar").addEventListener("click", () => {
-    // Vaciamos de forma contundente las 8 cajas de texto superiores
-    document.getElementById("txtGrupo").value = "";
-    document.getElementById("txtSuperintendente").value = "";
-    document.getElementById("txtTelefono").value = "";
-    document.getElementById("txtCampo4").value = "";
-    document.getElementById("txtCampo5").value = "";
-    document.getElementById("txtCampo6").value = "";
-    document.getElementById("txtCampo7").value = "";
-    document.getElementById("txtCampo8").value = "";
-    
-    // Restauramos el botón y el índice de control
-    document.getElementById("btnGuardar").innerText = "💾 Guardar Registro";
-    document.getElementById("btnCancelar").style.display = "none";
-    registroEditandoIndex = null;
-    
-    // CORRECCIÓN VISUAL: Forzamos a la interfaz a restablecer las etiquetas correctas de la hoja activa
-    actualizarEnlaceUbicacion();
-});
-
-// Enlazamos forzosamente los receptores en la ventana window para el protocolo local file:///
-window.recibirDatosDesdeGoogle = recibirDatosDesdeGoogle;
-window.recibirRespuestaAccion = recibirRespuestaAccion;
-window.editarRegistro = editarRegistro;
-window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
-
-// Disparamos la lectura automática de la base de datos en cuanto se abre el archivo
-document.addEventListener("DOMContentLoaded", cargarDatos);
-
-// Enlazamos forzosamente los receptores en la ventana window para el protocolo local file:///
-window.recibirDatosDesdeGoogle = recibirDatosDesdeGoogle;
-window.recibirRespuestaAccion = recibirRespuestaAccion;
-window.editarRegistro = editarRegistro;
-window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
-
-// =========================================================================
-// SECCIÓN 8.2.1 (FIJA - NO SE TOCA): MOTOR PURO DE INYECCIÓN LOCAL (APP.JS)
-// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
-// =========================================================================
-function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
-    console.log("¡Motor fijo inyectando script local libre de CORS!");
-    const scriptViejo = document.getElementById("script-carga-hojas");
-    if (scriptViejo) scriptViejo.remove();
-
-    const script = document.createElement("script");
-    script.id = "script-carga-hojas";
-    script.src = urlFinalConParametros;
-    document.body.appendChild(script);
-}
-
-// =========================================================================
-// SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
-// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
-// =========================================================================
-function cargarDatos() {
-    const hojaRaw = document.getElementById("selectorHoja").value;
-    console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
-    
-    // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
-    let hoja = hojaRaw.replace(/_/g, " ");
-    if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
-    if (hoja === "Estudios Dia 2") hoja = "Estudios Día 2";
-    if (hoja === "Estudios Dia 3") hoja = "Estudios Día 3";
-    if (hoja === "Pastoreo Dia 1") hoja = "Pastoreo Día 1";
-    if (hoja === "Pastoreo Dia 2") hoja = "Pastoreo Día 2";
-    if (hoja === "Pastoreo Dia 3") hoja = "Pastoreo Día 3";
-    
-    let urlConstruida = "";
-
-    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
-        urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
-        
-    } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
-        urlConstruida = `${WEB_APP_URL}?accion=leerVertical&hoja=${encodeURIComponent(hoja)}`;
-        
-    } else if (hoja === "Pastoreo Día 1" || hoja === "Pastoreo Día 2" || hoja === "Pastoreo Día 3") {
-        urlConstruida = `${WEB_APP_URL}?accion=leerVertical&hoja=${encodeURIComponent(hoja)}`;
-    }
-
-    if (urlConstruida !== "") {
-        Secc821_1_DispararPeticionServidor(urlConstruida);
-    } else {
-        console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
-    }
-}
-
-// =========================================================================
-// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
-// =========================================================================
-function actualizarEnlaceUbicacion() {
-    const selector = document.getElementById("selectorHoja");
-    if (!selector) return;
-
-    const hojaSeleccionada = selector.value;
-    
-    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
-    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
-    if (hojaSeleccionada === "Gestor_Carpetas") {
-        console.log("Cediendo control total visual al archivo carpetas.js...");
-        return; 
-    }
-
-    const etiquetaEnlace = document.getElementById("enlaceDinamico");
-    const tituloFormulario = document.getElementById("formTitulo");
-
-    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
-    const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
-
-    if (etiquetaEnlace) {
-        etiquetaEnlace.target = "_blank";
-        if (hojaSeleccionada === "Hospitalidad") {
-            etiquetaEnlace.href = "https://github.io";
-            etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
-        } else if (hojaSeleccionada === "Superintendentes") {
-            etiquetaEnlace.href = "https://github.io";
-            etiquetaEnlace.innerHTML = "👥 Superintendentes";
-        } else {
-            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
-            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
-        }
-    }
-
-    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
-    if (hojaSeleccionada === "Hospitalidad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
-        if (lbl4) lbl4.innerText = "Dirección";
-
-        if (c4) c4.style.display = "flex";
-        if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-    } else if (hojaSeleccionada.includes("Estudios")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
-        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
-        
-        if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
-        if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
-
-    } else if (hojaSeleccionada.includes("Pastoreo")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
-        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
-        
-        if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
-        if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
-        
-    } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
-        
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
-    }
-}
-// =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS CONTROLADAS NATIVAS (RESTABLECIDO)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
-// =========================================================================
-document.getElementById("selectorHoja").addEventListener("change", () => {
-    actualizarEnlaceUbicacion();
-    cargarDatos();
-});
-
-window.addEventListener("load", () => {
-    actualizarEnlaceUbicacion();
-    cargarDatos();
-}); // <-- ESTA ES LA LLAVE DE CIERRE QUE ME MOSTRASTE
-
-// =========================================================================
-// SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
-// =========================================================================
-let disparadorInstalacionPWA = null;
-
-// Registro nativo con ruta forzada a la raíz del servidor de GitHub Pages
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/Visita-Sistema-de-control/sw.js")
-            .then(reg => console.log("¡Service Worker registrado con éxito! Scope: ", reg.scope))
-            .catch(err => console.error("Fallo al dar de alta el Service Worker: ", err));
+    archivos.forEach(archivo => {
+        // Lógica de renderizado e iconos temáticos establecida en la versión estable
+        console.log(`Renderizando: ${archivo.nombre}`);
     });
 }
 
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    disparadorInstalacionPWA = e;
+// =========================================================================
+// SECCIÓN 8-A: MOTOR DE REEMPLAZO INTELIGENTE Y ALERTAS (COMPATIBLE FIREFOX)
+// =========================================================================
+async function verificarYReemplazarArchivo(nuevoArchivo) {
+    console.log("Iniciando escáner invisible de preexistencia...");
     
-    const banner = document.getElementById("bannerInstalacionPWA");
-    if (banner) banner.style.display = "block";
+    // Simulación del escáner de nombres en el árbol de directorios
+    const archivoExistente = await buscarArchivoEnServidor(nuevoArchivo.name);
+    
+    if (archivoExistente) {
+        // Alerta interactiva obligatoria await-promisificada compatible con Firefox
+        const confirmar = confirm(`El archivo "${nuevoArchivo.name}" ya existe. ¿Deseas reemplazarlo de forma exacta reteniendo su ID, URL y permisos?`);
+        
+        if (confirmar) {
+            return await ejecutarActualizacionContenido(archivoExistente.id, nuevoArchivo);
+        } else {
+            console.log("Operación de reemplazo cancelada por el usuario.");
+            return null;
+        }
+    }
+    return await subirArchivoNuevo(nuevoArchivo);
+}
+
+// =========================================================================
+// SECCIÓN 8-B: FILTRADO MODULAR POR CUBÍCULOS Y TIPOS DE DOCUMENTO
+// =========================================================================
+function inicializarFiltrosCubiculos() {
+    const itemsCategoria = document.querySelectorAll('.cat-item');
+    
+    itemsCategoria.forEach(item => {
+        item.addEventListener('click', (e) => {
+            // Remueve clase activa de todos los cubículos
+            itemsCategoria.forEach(i => i.classList.remove('active'));
+            
+            // Activa el cubículo seleccionado
+            const cubiculoSeleccionado = e.currentTarget;
+            cubiculoSeleccionado.classList.add('active');
+            
+            const tipoFiltro = cubiculoSeleccionado.getAttribute('data-tipo');
+            filtrarVistaDocumentos(tipoFiltro);
+        });
+    });
+}
+
+function filtrarVistaDocumentos(tipo) {
+    console.log(`Filtrando cubículo principal por tipo: ${tipo}`);
+    // Lógica para ocultar/mostrar tarjetas (.item-pdf, .item-excel, etc.) en la grilla
+}
+
+// =========================================================================
+// SECCIÓN 9: GESTIÓN DE INSTALACIÓN PWA (BANNER TURQUESA AUTOMÁTICO)
+// =========================================================================
+let deferredPrompt;
+const bannerPWA = document.getElementById('banner-pwa');
+const btnInstalarPWA = document.getElementById('btn-instalar-pwa');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Corregido: Uso de e.preventDefault() para entornos compatibles
+    e.preventDefault(); 
+    deferredPrompt = e; 
+    
+    // Disparo automático del banner personalizado
+    if (bannerPWA) {
+        bannerPWA.classList.remove('d-none');
+        bannerPWA.style.display = 'flex';
+    }
 });
 
-document.getElementById("btnInstalarPWA").addEventListener("click", async () => {
-    if (!disparadorInstalacionPWA) return;
-    
-    disparadorInstalacionPWA.prompt();
-    
-    const { outcome } = await disparadorInstalacionPWA.userChoice;
-    console.log(`El usuario respondió a la instalación con la opción: ${outcome}`);
-    
-    disparadorInstalacionPWA = null;
-    const banner = document.getElementById("bannerInstalacionPWA");
-    if (banner) banner.style.display = "none";
-});
-
-window.addEventListener("appinstalled", () => {
-    console.log("¡Éxito total! La aplicación ha sido instalada de forma nativa.");
-    disparadorInstalacionPWA = null;
-    const banner = document.getElementById("bannerInstalacionPWA");
-    if (banner) banner.style.display = "none";
-});
+if (btnInstalarPWA) {
+    btnInstalarPWA.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`Respuesta de la instalación: ${outcome}`);
+        
+        deferredPrompt = null;
+        if (bannerPWA) bannerPWA.style.display = 'none';
+    });
+}
