@@ -256,7 +256,7 @@ document.getElementById("selectorSubcarpetas").addEventListener("change", (e) =>
     // COMPUERTA DE ESCAPE: Si elige regresar a la raíz principal, inyectamos tu ID real
     if (e.target.value === "RETORNO_RAIZ") {
         // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
-        const idOriginalDrive = "TU_ID_DE_CARPETA_VISITA_ACTUAL_AQUÍ";
+        const idOriginalDrive = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
         drive_IdCarpetaActiva = idOriginalDrive;
         drive_CargarEstructuraNube(idOriginalDrive);
         return;
@@ -289,7 +289,7 @@ document.getElementById("btnBorrarCarpetaDrive").addEventListener("click", () =>
     script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
     document.body.appendChild(script);
     // CORRECCIÓN CLAVE: Coloca aquí entre las comillas tu ID real de tu carpeta Visita Actual
-    drive_IdCarpetaActiva = "TU_ID_DE_CARPETA_VISITA_ACTUAL_AQUÍ";
+    drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
 });
 
 // =========================================================================
