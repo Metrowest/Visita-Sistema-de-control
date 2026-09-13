@@ -261,3 +261,67 @@ button[type="submit"] {
         flex: 1 1 100%;
     }
 }
+
+/* =========================================================================
+   SECCIÓN 8: ORGANIZACIÓN DE CONTENEDORES Y AJUSTES DE REGISTROS
+   ========================================================================= */
+
+/* Espaciador e independencia entre los bloques principales de la app */
+.bloque-superior-drive {
+    margin-bottom: 24px; /* Separa el bloque del drive del bloque de registros */
+}
+
+.bloque-inferior-registros {
+    margin-top: 12px;
+}
+
+/* Equilibrio adaptativo para los cubículos inferiores */
+.cubiculo-formulario {
+    flex: 1 1 350px;
+}
+
+.cubiculo-registros {
+    flex: 2 1 450px;
+}
+
+/* Estilos de los campos del formulario */
+.campo-grupo {
+    margin-bottom: 12px;
+}
+
+.campo-grupo label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-texto-medio);
+    margin-bottom: 4px;
+}
+
+.ejemplo-label {
+    font-weight: 400;
+    color: var(--color-texto-mutado);
+    font-size: 0.75rem;
+}
+
+.campo-grupo input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    font-size: 0.85rem;
+    color: var(--color-texto-oscuro);
+    font-family: var(--fuente-sistema);
+    outline: none;
+    transition: border-color 0.2s;
+    background-color: #ffffff;
+}
+
+.campo-grupo input[type="text"]:focus {
+    border-color: var(--color-turquesa);
+}
+
+.texto-carga-sistema {
+    font-size: 0.85rem;
+    color: var(--color-texto-medio);
+    padding: 10px 0;
+}
