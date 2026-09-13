@@ -35,13 +35,49 @@
                 </ul>
             </aside>
             <main class="modulo-cubiculo cubiculo-principal">
-                <header class="barra-herramientas-cub">
-                    <input type="text" placeholder="Buscar en el Sistema de Control..." class="input-busqueda-cub" id="input-busqueda-control">
-                    <select id="selectorSubcarpetas" class="input-busqueda-cub" style="max-width: 200px;"><option value="RETORNO_RAIZ">📁 Volver a Raíz</option></select>
-                    <input type="file" id="archivoSubirDrive" style="display: none;">
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco">🚀 Subir Documento Seleccionado</button>
-                </header>
-                <div class="grilla-documentos" id="contenedor-archivos"></div>
+                <h3 class="modulo-titulo">📂 Explorador y Carga de Documentos</h3>
+                
+                <!-- Botoneras e interfaces de control de carpetas recuperadas -->
+                <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <button type="button" id="btnCrearCarpetaDrive" class="btn-primario" style="padding: 6px 12px !important; font-size: 0.8rem !important;">➕ Crear Carpeta</button>
+                    <button type="button" id="btnBorrarCarpetaDrive" class="btn-carga-blanco" style="color: #ef4444 !important; border-color: #fca5a5 !important; padding: 6px 12px !important; font-size: 0.8rem !important;">🗑️ Borrar Activa</button>
+                </div>
+
+                <!-- Zona de Selección de Documentos para Subir (Estilo Caja del Historial) -->
+                <div style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 14px; text-align: center; background-color: #f8fafc; margin-bottom: 16px;">
+                    <span style="font-size: 0.8rem; font-weight: 600; color: #475569; display: block; margin-bottom: 8px;">📁 Seleccionar Documento o Foto para Subir</span>
+                    
+                    <!-- Selector de subcarpetas integrado para navegación profunda -->
+                    <select id="selectorSubcarpetas" class="input-busqueda-cub" style="max-width: 100%; margin-bottom: 10px; padding: 6px 10px; font-size: 0.85rem; border-radius: 6px;">
+                        <option value="RETORNO_RAIZ">📁 Volver a Raíz Principal</option>
+                    </select>
+
+                    <!-- Input de tipo archivo real requerido por carpetas.js -->
+                    <input type="file" id="archivoSubirDrive" style="display: block; margin: 0 auto 10px auto; font-size: 0.8rem; color: #64748b;">
+                    
+                    <!-- Botón Blanco Sólido Puro con su ID Operativo exacto -->
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco" style="width: 100%; justify-content: center;">🚀 Subir Documento Seleccionado</button>
+                </div>
+
+                <!-- Tabla de Archivos Almacenados en esta Ubicación (Estructura de la foto antigua) -->
+                <h4 style="font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">📄 Archivos Almacenados en esta Ubicación:</h4>
+                <div class="tabla-responsiva" style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8rem;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; color: #475569; font-weight: 600; border-bottom: 1px solid #e2e8f0;">
+                                <th style="padding: 8px;">Nombre del Archivo</th>
+                                <th style="padding: 8px; width: 80px; text-align: center;">Tipo</th>
+                                <th style="padding: 8px; width: 120px; text-align: center;">Acción</th>
+                            </tr>
+                        </thead>
+                        <!-- ID crítico 'contenedor-archivos' restaurado en el tbody para inyección de filas de la API -->
+                        <tbody id="contenedor-archivos">
+                            <tr>
+                                <td colspan="3" style="padding: 14px; text-align: center; color: #94a3b8;">Escaneando archivos en la nube...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </main>
             <aside class="modulo-cubiculo cubiculo-detalles">
                 <h3 class="modulo-titulo">📊 Actividad del Módulo</h3>
