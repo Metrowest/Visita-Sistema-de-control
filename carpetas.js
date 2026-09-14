@@ -6,7 +6,7 @@
 // =========================================================================
 // SECCIÓN 1 (CONFIGURACIÓN): ENLACE DE RED WEB APP EXCLUSIVO DRIVE
 // =========================================================================
-const CARPETAS_WEB_APP_URL = "https://google.com";
+const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 
 // =========================================================================
 // SECCIÓN 2 (FIJA): VARIABLES DE MEMORIA INTERNA AISLADA
