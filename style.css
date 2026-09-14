@@ -1,5 +1,5 @@
 /* =========================================================================
-   STYLE.CSS - PARTE 1: VARIABLES GLOBALES Y MAQUETACIÓN MODULAR
+   STYLE.CSS - PARTE 1: VARIABLES GLOBALES Y ESTRUCTURA EN BLOQUES LADO A LADO
    ========================================================================= */
 :root {
     --color-fondo: #f8fafc;
@@ -27,50 +27,45 @@ body {
     line-height: 1.5;
 }
 
-3. Vamos a actualizar esta regla y a inyectar el conmutador de rejilla para los cubículos modulares. Reemplaza esa regla específica y añade la configuración para pantallas grandes copiando este fragmento:
-
-```css
+/* Contenedor Principal Adaptativo en Rejilla Modular Inteligente */
 .contenedor-principal {
- max-width: 1300px;
- margin: 0 auto;
- display: grid;
- grid-template-columns: 1fr; /* Una sola columna por defecto en celulares */
- gap: 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna por defecto en dispositivos móviles */
+    gap: 24px;
 }
 
-/* =========================================================================
-   REORGANIZACIÓN ESTRUCTURAL: ORDENAMIENTO DE CUBÍCULOS INDEPENDIENTES
-   ========================================================================= */
-@media (min-width: 768px) {
+/* DISTRIBUCIÓN AVANZADA: Reorganiza los bloques lado a lado en pantallas grandes (Estilo Foto 2) */
+@media (min-width: 992px) {
     .contenedor-principal {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
+        grid-template-columns: repeat(2, 1fr); /* Divide la pantalla en dos columnas idénticas */
     }
 
-    /* POSICIÓN 1: El menú selector de secciones se mantiene arriba del todo */
+    /* El selector de secciones superior se extiende a todo lo ancho de la cumbre */
     .contenedor-selector {
-        order: 1;
+        grid-column: span 2;
     }
 
-    /* POSICIÓN 2 (ARRIBA): El Gestor de Archivos sube a la primera posición operativa */
+    /* EL GESTOR DE ARCHIVOS FLOTA ARRIBA PANORÁMICO: Se extiende completo sobre las hojas */
     #moduloGestorCarpetas {
-        order: 2;
-        border-left: 4px solid var(--color-turquesa); /* Detalle visual distintivo para Drive */
+        grid-column: span 2;
     }
 
-    /* POSICIÓN 3 (MEDIO): El Formulario de Añadir Registro se ubica al centro */
+    /* EL FORMULARIO DE AÑADIR REGISTRO SE CLAVA EN LA COLUMNA IZQUIERDA */
     .contenedor-principal > .tarjeta-modulo:nth-of-type(2) {
-        order: 3;
+        grid-column: 1;
+        align-self: start;
     }
 
-    /* POSICIÓN 4 (ABAJO): La tabla de Registros Almacenados en la Hoja se queda al fondo */
+    /* LA TABLA DE REGISTROS ALMACENADOS SE CLAVA EN LA COLUMNA DERECHA */
     .contenedor-principal > .tarjeta-modulo:last-child {
-        order: 4;
+        grid-column: 2;
+        align-self: start;
     }
 }
 
-/* El nuevo diseño de cubículos independientes (Tarjetas Modulares) */
+/* El diseño de cubículos independientes (Tarjetas Modulares Limpias) */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
     border-radius: 12px;
@@ -100,7 +95,6 @@ h2 {
     color: var(--color-texto-oscuro);
 }
 
-/* Contenedor del selector superior */
 .contenedor-selector {
     display: flex;
     flex-direction: column;
@@ -120,6 +114,7 @@ h2 {
     font-weight: 600;
     color: var(--color-texto-medio);
 }
+
 /* =========================================================================
    STYLE.CSS - PARTE 2: COMPONENTES, FORMULARIOS Y RESPONSIVIDAD ESTRICTA
    ========================================================================= */
@@ -159,17 +154,23 @@ h2 {
     text-decoration: underline;
 }
 
-/* Grilla Responsiva para los campos del formulario */
+/* Grilla del Formulario interna (Campos 1, 2, 3...) */
 .grid-formulario {
     display: grid;
-    grid-template-columns: 1fr; /* Una columna por defecto en celulares */
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 20px;
 }
 
+/* En pantallas de computadoras, los campos se dividen para no amontonarse */
+@media (min-width: 576px) {
+    .grid-formulario {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 @media (min-width: 768px) {
     .grid-formulario {
-        grid-template-columns: repeat(3, 1fr); /* Tres columnas automáticas en pantallas medianas/grandes */
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -205,13 +206,13 @@ h2 {
 /* Bloque de Botones Flexibles y Adaptativos */
 .bloque-botones {
     display: flex;
-    flex-direction: column; /* Botones uno abajo del otro en móvil */
+    flex-direction: column;
     gap: 10px;
 }
 
 @media (min-width: 480px) {
     .bloque-botones {
-        flex-direction: row; /* Botones uno al lado del otro si hay espacio */
+        flex-direction: row;
     }
 }
 
@@ -256,7 +257,7 @@ h2 {
 /* Blindaje de Tablas Responsivas con scroll interno */
 .tabla-responsiva {
     width: 100%;
-    overflow-x: auto; /* Permite deslizar la tabla horizontalmente en celulares sin romper la pantalla */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: 8px;
     border: 1px solid var(--color-borde);
@@ -311,7 +312,7 @@ tr:last-child td {
     to { transform: rotate(360deg); }
 }
 
-/* Clases específicas nativas para los botones de acción dentro de la tabla */
+/* Botones de acción originales de las celdas de Sheets */
 .btn-edit, .btn-delete {
     background: none;
     border: none;
