@@ -128,10 +128,9 @@ window.recibirVerificacionDrive = function (respuesta) {
 };
 
 // =========================================================================
-// SECCIÓN 6: INTERCEPTOR EVALUADOR DE ARCHIVOS LOCALES Y VISTA PREVIA
+// SECCIÓN 6: INTERCEPTOR EVALUADOR DE ARCHIVOS LOCALES Y VISTA PREVIA (CORREGIDO)
+// Ubicación del bloque: MITAD INFERIOR DEL ARCHIVO CARPETAS.JS
 // =========================================================================
-
-// REQUISITO 3: Procesa el documento seleccionado y genera la previsualización responsiva fluida
 function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
     const listaArchivos = evento.target.files;
     const txtNombre = document.getElementById("nombreArchivoSeleccionado");
@@ -146,32 +145,30 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
         return;
     }
 
-    // Extraemos de forma segura el elemento indexado del vector local
-    const archivo = listaArchivos[0];
-    drive_NombreArchivoSeleccionado = archivo.name;
-    drive_MimeTypeSeleccionado = archivo.type;
+    // CORRECCIÓN REDUNDANTE: Extraemos el primer archivo real indexado del vector local
+    const archivoFisico = listaArchivos[0];
+    drive_NombreArchivoSeleccionado = archivoFisico.name;
+    drive_MimeTypeSeleccionado = archivoFisico.type;
     
-    if (txtNombre) txtNombre.innerText = archivo.name;
+    if (txtNombre) txtNombre.innerText = archivoFisico.name;
     if (btnSubir) btnSubir.style.display = "inline-block";
 
-    // RESPONSIVE DE FOTOS: Si es imagen, encendemos el cuadro visual fluido
-    if (archivo.type.startsWith("image/")) {
+    if (archivoFisico.type.startsWith("image/")) {
         const lectorVistaPrevia = new FileReader();
         lectorVistaPrevia.onload = function (e) {
             if (previewImg) previewImg.src = e.target.result;
             if (previewContenedor) previewContenedor.style.display = "flex";
         };
-        lectorVistaPrevia.readAsDataURL(archivo);
+        lectorVistaPrevia.readAsDataURL(archivoFisico);
     } else {
         if (previewContenedor) previewContenedor.style.display = "none";
     }
 
-    // Extractor binario puro en base64 libre de encabezados corruptos
     const lectorBase64 = new FileReader();
     lectorBase64.onload = function (e) {
         drive_Base64DataSeleccionada = e.target.result.split(",")[1];
     };
-    lectorBase64.readAsDataURL(archivo);
+    lectorBase64.readAsDataURL(archivoFisico);
 }
 // =========================================================================
 // SECCIÓN 7: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE)
