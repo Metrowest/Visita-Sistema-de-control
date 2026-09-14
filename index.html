@@ -1,201 +1,213 @@
+<!-- =========================================================================
+     INDEX.HTML - SECCIÓN 1: CONFIGURACIÓN Y CABECERA ESTILIZADA UNIFICADA
+     Ubicación del bloque: CUMBRE ABSOLUTA DEL DOCUMENTO HTML
+     ========================================================================= -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <!-- Limpieza estricta de cookies y caché de red para llamadas de Google -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebApp Modular Unificada - Sistema de Control</title>
+    <title>Sistema de Control Modular - Superintendentes</title>
+
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2cbbb0">
-    <meta property="og:description" content="Con esta aplicacion puedes actualizar los registros para la visita.">
-    <meta property="og:image" content="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="512">
-    <meta property="og:image:height" content="512">
-    <meta property="og:url" content="https://github.com">
 </head>
+
 <body>
-    <div id="banner-pwa" style="display: none; background-color: #2cbbb0; color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; font-family: 'Plus Jakarta Sans', sans-serif;">
-        <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un acceso rápido sin conexión.</p>
-        <button id="btn-instalar-pwa" style="background-color: #ffffff; color: #2cbbb0; border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer;">Instalar</button>
-    </div>
     <div class="contenedor-principal">
-        <div class="bloque-superior-drive dashboard-container">
-            <aside class="modulo-cubiculo cubiculo-categorias">
-                <h3 class="modulo-titulo">🗂️ Tipos de Archivo</h3>
-                <ul class="lista-categorias">
-                    <li class="cat-item active" data-tipo="todos"><span class="icono-cat">🌐</span> Todos los Archivos</li>
-                    <li class="cat-item" data-tipo="pdf"><span class="icono-cat">📕</span> Documentos PDF</li>
-                    <li class="cat-item" data-tipo="word"><span class="icono-cat">📘</span> Procesador Word</li>
-                    <li class="cat-item" data-tipo="excel"><span class="icono-cat">📗</span> Hojas de Cálculo</li>
-                    <li class="cat-item" data-tipo="carpetas"><span class="icono-cat">📂</span> Carpetas del Sistema</li>
-                </ul>
-            </aside>
-            <main class="modulo-cubiculo cubiculo-principal">
-                <h3 class="modulo-titulo">📂 Explorador y Carga de Documentos</h3>
-                
-                <!-- Botoneras e interfaces de control de carpetas recuperadas -->
-                <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-                    <button type="button" id="btnCrearCarpetaDrive" class="btn-primario" style="padding: 6px 12px !important; font-size: 0.8rem !important;">➕ Crear Carpeta</button>
-                    <button type="button" id="btnBorrarCarpetaDrive" class="btn-carga-blanco" style="color: #ef4444 !important; border-color: #fca5a5 !important; padding: 6px 12px !important; font-size: 0.8rem !important;">🗑️ Borrar Activa</button>
-                </div>
 
-                <!-- Zona de Selección de Documentos para Subir (Estilo Caja del Historial) -->
-                <div style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 14px; text-align: center; background-color: #f8fafc; margin-bottom: 16px;">
-                    <span style="font-size: 0.8rem; font-weight: 600; color: #475569; display: block; margin-bottom: 8px;">📁 Seleccionar Documento o Foto para Subir</span>
-                    
-                    <!-- Selector de subcarpetas integrado para navegación profunda -->
-                    <select id="selectorSubcarpetas" class="input-busqueda-cub" style="max-width: 100%; margin-bottom: 10px; padding: 6px 10px; font-size: 0.85rem; border-radius: 6px;">
-                        <option value="RETORNO_RAIZ">📁 Volver a Raíz Principal</option>
-                    </select>
-
-                    <!-- Input de tipo archivo real requerido por carpetas.js -->
-                    <input type="file" id="archivoSubirDrive" style="display: block; margin: 0 auto 10px auto; font-size: 0.8rem; color: #64748b;">
-                    
-                    <!-- Botón Blanco Sólido Puro con su ID Operativo exacto -->
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-carga-blanco" style="width: 100%; justify-content: center;">🚀 Subir Documento Seleccionado</button>
-                </div>
-
-                <!-- Tabla de Archivos Almacenados en esta Ubicación (Estructura de la foto antigua) -->
-                <h4 style="font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 8px;">📄 Archivos Almacenados en esta Ubicación:</h4>
-                <div class="tabla-responsiva" style="overflow-x: auto; width: 100%;">
-                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8rem;">
-                        <thead>
-                            <tr style="background-color: #f1f5f9; color: #475569; font-weight: 600; border-bottom: 1px solid #e2e8f0;">
-                                <th style="padding: 8px;">Nombre del Archivo</th>
-                                <th style="padding: 8px; width: 80px; text-align: center;">Tipo</th>
-                                <th style="padding: 8px; width: 120px; text-align: center;">Acción</th>
-                            </tr>
-                        </thead>
-                        <!-- ID crítico 'contenedor-archivos' restaurado en el tbody para inyección de filas de la API -->
-                        <tbody id="contenedor-archivos">
-                            <tr>
-                                <td colspan="3" style="padding: 14px; text-align: center; color: #94a3b8;">Escaneando archivos en la nube...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </main>
-            <aside class="modulo-cubiculo cubiculo-detalles">
-                <h3 class="modulo-titulo">📊 Actividad del Módulo</h3>
-                <div class="panel-actividad-vacio" id="panel-meta-detalles"><p>Selecciona un documento para validar su metadata e historial.</p></div>
-            </aside>
-        </div>
-                <!-- =========================================================================
-             CONTENEDOR INFERIOR: FORMULARIO ÚNICO Y BASE DE DATOS REAL (CUBÍCULOS 4 Y 5)
-             ========================================================================= -->
         <!-- =========================================================================
-             CONTENEDOR INFERIOR REESTRUCTURADO: FORMULARIO REAL Y BASE DE DATOS ACTIVA
+             INDEX.HTML - SECCIÓN 1.5: SELECTOR DE NAVEGACIÓN GENERAL (PÁGINAS)
              ========================================================================= -->
-        <div class="bloque-inferior-registros dashboard-container">
-            
-            <!-- CUBÍCULO 4: MÓDULO INTERACTIVO DE REGISTRO REAL (AÑADIR / EDITAR) -->
-            <div class="modulo-cubiculo cubiculo-formulario">
-                <div class="tarjeta-cabecera">
-                    <!-- ENLACE DINÁMICO CRÍTICO RECUPERADO: Evita error null en la línea 24 de app.js -->
-                    <h3 class="modulo-titulo">📝 <span id="formTitulo">Añadir Registro</span> <a id="enlaceDinamico" style="font-size: 0.8rem; margin-left: 8px; color: #2cbbb0;"></a></h3>
-                </div>
+        <div class="tarjeta-modulo contenedor-selector">
+            <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                <form id="formularioSuperintendentes" class="formulario-estilizado">
-                    <div class="campo-grupo" id="contenedorCampo1" style="display: flex;">
+            <!-- Menú desplegable original que detona tu función cargarDatos() -->
+            <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
+                <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+            </select>
+
+            <div class="enlace-seccion-activa">
+                Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico" class="link-moderno">🏨 Hospitalidad</a>
+            </div>
+        </div>
+
+        <!-- =========================================================================
+             INDEX.HTML - SECCIÓN 2: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO
+             ========================================================================= -->
+        <div class="tarjeta-modulo">
+            <div class="tarjeta-cabecera">
+                <div class="icono-titulo">📋</div>
+                <h2 id="formTitulo">Añadir Registro</h2>
+            </div>
+
+            <form id="formularioSuperintendentes" class="formulario-estilizado">
+                <!-- CORREGIDO: Se cambió el ID de este campo oculto a 'selectorHojaOculto' 
+                     para evitar que colisione con el menú y congele la lectura de JavaScript -->
+                <input type="hidden" id="selectorHojaOculto" value="Superintendentes">
+
+                <!-- CONTENEDOR DE CAMPOS DINÁMICOS: Controlado nativamente por tu app.js -->
+                <div class="grid-formulario">
+
+                    <!-- BLOQUE BASE: Campos de texto comunes originales (Campos 1, 2 y 3) -->
+                    <div class="campo-formulario" id="contenedorCampo1">
                         <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
                         <input type="text" id="txtGrupo" name="grupo" placeholder="Ej. #89" required>
                     </div>
 
-                    <div class="campo-grupo" id="contenedorCampo2" style="display: flex;">
+                    <div class="campo-formulario" id="contenedorCampo2">
                         <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
                         <input type="text" id="txtSuperintendente" name="superintendente" placeholder="Nombre completo" required>
                     </div>
 
-                    <div class="campo-grupo" id="contenedorCampo3" style="display: flex;">
+                    <div class="campo-formulario" id="contenedorCampo3">
                         <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
                         <input type="text" id="txtTelefono" name="telefono" placeholder="Información" required>
                     </div>
 
-                    <!-- BLOQUES EXTRA DINÁMICOS COMPATIBLES CON TU CONMUTADOR VISUAL FLEX -->
-                    <div class="campo-grupo" id="contenedorCampo4" style="display: none;">
+                    <!-- BLOQUES EXTRA DINÁMICOS REQUERIDOS POR TU CONMUTADOR FLEX -->
+                    <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                         <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                         <input type="text" id="txtCampo4" name="campo4" placeholder="Información extra">
                     </div>
-                    <div class="campo-grupo" id="contenedorCampo5" style="display: none;">
+
+                    <div class="campo-formulario" id="contenedorCampo5" style="display: none;">
                         <label id="lblCampo5" for="txtCampo5">Campo 5</label>
                         <input type="text" id="txtCampo5" name="campo5" placeholder="Información extra">
                     </div>
-                    <div class="campo-grupo" id="contenedorCampo6" style="display: none;">
+
+                    <div class="campo-formulario" id="contenedorCampo6" style="display: none;">
                         <label id="lblCampo6" for="txtCampo6">Campo 6</label>
                         <input type="text" id="txtCampo6" name="campo6" placeholder="Información extra">
                     </div>
-                    <div class="campo-grupo" id="contenedorCampo7" style="display: none;">
+
+                    <div class="campo-formulario" id="contenedorCampo7" style="display: none;">
                         <label id="lblCampo7" for="txtCampo7">Campo 7</label>
                         <input type="text" id="txtCampo7" name="campo7" placeholder="Información extra">
                     </div>
-                    <div class="campo-grupo" id="contenedorCampo8" style="display: none;">
+
+                    <div class="campo-formulario" id="contenedorCampo8" style="display: none;">
                         <label id="lblCampo8" for="txtCampo8">Campo 8</label>
                         <input type="text" id="txtCampo8" name="campo8" placeholder="Información extra">
                     </div>
+                </div>
 
-                    <div style="display: flex; gap: 10px; margin-top: 14px;">
-                        <button type="submit" id="btnGuardar" class="btn-primario">💾 Guardar Registro</button>
-                        <button type="button" id="btnCancelar" class="btn-carga-blanco" style="display: none; color: #ef4444 !important; border-color: #fca5a5 !important;">❌ Cancelar Edición</button>
-                    </div>
-                </form>
+                <div class="bloque-botones">
+                    <button type="submit" id="btnGuardar" class="btn-primario">
+                        <span class="icono-btn">💾</span> Guardar Registro
+                    </button>
+                    <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">
+                        <span class="icono-btn">❌</span> Cancelar Edición
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- =========================================================================
+             INDEX.HTML - SECCIÓN 2.5: CONTENEDOR MODULAR NATIVO DE DRIVE (VISITA ACTUAL)
+             Ubicación del bloque: INTERSECCIÓN INYECTADA REQUERIDA POR TU MAQUINARIA DRIVE
+             ========================================================================= -->
+        <div id="moduloGestorCarpetas" class="tarjeta-modulo" style="display: none;">
+            <div class="tarjeta-cabecera tarjeta-cabecera-drive">
+                <div class="icono-titulo">📁</div>
+                <h2 id="driveFormTitulo">Gestor de Archivos (Visita Actual)</h2>
             </div>
-            <!-- CUBÍCULO 5: MÓDULO ÚNICO DE BASE DE DATOS DINÁMICA (GOOGLE SHEETS) -->
-            <div class="modulo-cubiculo cubiculo-registros">
-                <h3 class="modulo-titulo">📋 Registros Almacenados en la Hoja</h3>
-                
-                <!-- Selector de sección maestro integrado con su ID original -->
-                <div class="control-seccion-grilla" style="margin-bottom: 16px;">
-                    <label for="selectorHoja" class="etiqueta-seleccion" style="font-size: 0.8rem; font-weight: 600; color: #475569;">Sección activa:</label>
-                    <select id="selectorHoja" style="margin-left: 6px; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px;">
-                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+
+            <div class="formulario-estilizado cuerpo-modulo-drive">
+                <!-- REQUERIMIENTO 1: Lista desplegable interactiva de subcarpetas disponibles -->
+                <div class="campo-formulario">
+                    <label for="selectorSubcarpetas">📁 Seleccionar Carpeta Interna:</label>
+                    <select id="selectorSubcarpetas" class="selector-estilizado">
+                        <option value="RAIZ">Cargando carpetas de Drive...</option>
                     </select>
                 </div>
 
-                <!-- Tabla Interactiva donde se renderiza tu base de datos real -->
-                <div class="tabla-responsiva" style="overflow-x: auto; width: 100%;">
-                    <table id="tablaRegistros" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
-                        <thead id="tablaCabecera" style="background-color: #f1f5f9; color: #0f172a; font-weight: 600;"></thead>
-                        <tbody id="tablaCuerpo">
-                            <tr>
-                                <td class="celda-carga" style="padding: 20px; text-align: center; color: #475569;">
-                                    Cargando base de datos desde Google Sheets...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- REQUERIMIENTO 3: Medio responsivo fluido para la carga de documentos -->
+                <div class="campo-formulario contenedor-dropzone-drive">
+                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
+                        Subir Documento o Carpeta a la Sección Activa
+                    </label>
+                    <input type="file" id="archivoSubirDrive">
+                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
+
+                    <!-- Contenedor responsivo para previsualizar fotos subidas antes de confirmar -->
+                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
+                        <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
+                    </div>
+
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
+                        🚀 Subir a Carpeta Activa
+                    </button>
+                </div>
+
+                <!-- REQUERIMIENTO 2: Visor y rejilla gráfica de archivos disponibles -->
+                <div class="seccion-visor-archivos">
+                    <h3 class="titulo-visor-drive">
+                        <span>📄</span> Archivos Disponibles en esta Carpeta:
+                    </h3>
+                    <div class="tabla-responsiva contenedor-scroll-drive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Formato (Tipo)</th>
+                                    <th>Enlace</th>
+                                </tr>
+                            </thead>
+                            <!-- ID nativo crítico 'tablaCuerpoDrive' devuelto para inyección asíncrona -->
+                            <tbody id="tablaCuerpoDrive">
+                                <tr>
+                                    <td colspan="3" class="celda-carga">
+                                        Selecciona una carpeta para listar los documentos disponibles...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+        </div>
 
+        <!-- =========================================================================
+             INDEX.HTML - SECCIÓN 3: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES
+             ========================================================================= -->
+        <div class="tarjeta-modulo">
+            <div class="tarjeta-cabecera">
+                <div class="icono-titulo">📂</div>
+                <h2>Registros Almacenados en la Hoja</h2>
+            </div>
+
+            <div class="tabla-responsiva">
+                <table id="tablaRegistros">
+                    <!-- Cabecera libre requerida por tu app.js viejo para evitar desajustes horizontales -->
+                    <thead id="tablaCabecera"></thead>
+
+                    <tbody id="tablaCuerpo">
+                        <tr>
+                            <td class="celda-carga">
+                                <div class="spinner-carga"></div>
+                                Cargando base de datos desde Google Sheets...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div> <!-- Cierre de contenedor-principal -->
 
-    <!-- BANNER DE INSTALACIÓN PWA COMPATIBLE RECUPERADO: Evita errores null en la sección 9 de app.js -->
-    <div id="bannerInstalacionPWA" style="display: none; background-color: #2cbbb0; color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: 'Plus Jakarta Sans', sans-serif;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">📱</span>
-            <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un acceso rápido sin conexión.</p>
-        </div>
-        <button id="btnInstalarPWA" style="background-color: #ffffff; color: #2cbbb0; border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Instalar</button>
-    </div>
-
-    <!-- MAQUINARIA DE ENLACE DE RED INDEPENDIENTE AISLADA -->
+    <!-- Inyección única de la maquinaria JavaScript local de las Hojas -->
     <script src="app.js"></script>
-    <script src="carpetas.js"></script>
 </body>
+
 </html>
