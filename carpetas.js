@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================================================================
-// SECCIÓN 2: MOTORES EMISORES DE PETICIONES (JSONP ENGINE - CALIBRADO)
+// SECCIÓN 2: MOTORES EMISORES DE PETICIONES (JSONP ENGINE - RECTIFICADO)
 // Ubicación del bloque: PARTE MEDIA DEL ARCHIVO CARPETAS.JS
 // =========================================================================
 function drive_CargarEstructuraNube(folderId) {
@@ -34,8 +34,8 @@ function drive_CargarEstructuraNube(folderId) {
     const script = document.createElement("script");
     script.id = "script-drive-carga";
     
-    // Forzamos la inyección limpia adjuntando el callback explícito que busca el servidor
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}&callback=recibirEstructuraDrive`;
+    // CORRECCIÓN DE PROTOCOLO: Reemplaza callback por prefix para sincronizar con la salida de tu macro
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}&prefix=recibirEstructuraDrive`;
     script.charset = "utf-8";
 
     document.body.appendChild(script);
