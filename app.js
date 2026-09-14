@@ -524,3 +524,28 @@ window.editarRegistro = function(indice, objetoCampos) {
     const btnGuardar = document.getElementById("btnGuardar");
     if (btnGuardar) btnGuardar.innerHTML = "💾 Actualizar Registro";
 };
+// =========================================================================
+// SECCIÓN 10-A: MANEJADOR DEL BOTÓN CANCELAR Y RESTABLECIMIENTO (REPARADO)
+// Ubicación del bloque: DETECTOR DE CLICS PARA DESTRABAR EL CUBÍCULO
+// =========================================================================
+const btnCancelar = document.getElementById("btnCancelar");
+if (btnCancelar) {
+    btnCancelar.addEventListener("click", () => {
+        console.log("Cancelando edición y restableciendo el cubículo...");
+        
+        // Devuelve el título original al formulario
+        const formTitulo = document.getElementById("formTitulo");
+        if (formTitulo) formTitulo.innerText = "Añadir Registro";
+        
+        // Restablece el texto del botón principal
+        const btnGuardar = document.getElementById("btnGuardar");
+        if (btnGuardar) btnGuardar.innerHTML = "💾 Guardar Registro";
+        
+        // Oculta el botón de cancelar de nuevo de forma limpia
+        btnCancelar.style.display = "none";
+        
+        // Vacía físicamente el formulario para que quede listo para un nuevo registro
+        const formulario = document.getElementById("formularioSuperintendentes");
+        if (formulario) formulario.reset();
+    });
+}
