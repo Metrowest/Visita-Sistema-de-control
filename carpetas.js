@@ -9,7 +9,7 @@
 const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 
 // =========================================================================
-// SECCIÓN 2 (FIJA): VARIABLES DE MEMORIA INTERNA AISLADA
+// SECCIÓN 2: VARIABLES DE MEMORIA INTERNA AISLADA
 // =========================================================================
 let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM"; // ID Visita Actual
 let drive_NombreArchivoSeleccionado = "";
@@ -17,33 +17,34 @@ let drive_MimeTypeSeleccionado = "";
 let drive_Base64DataSeleccionada = "";
 
 // =========================================================================
-// SECCIÓN 3 (FIJA): EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS)
+// SECCIÓN 3: EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS CORREGIDOS)
 // =========================================================================
 
-// FUNCIÓN 1: Lanza la petición script para consultar la estructura (REQ 1 y 2)
+// REQ 1 y 2: Lanza la petición script para consultar la estructura de carpetas y archivos
 function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
     const scriptViejo = document.getElementById("script-drive-carga");
     if (scriptViejo) scriptViejo.remove();
     const script = document.createElement("script");
     script.id = "script-drive-carga";
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}`;
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}&prefix=recibirEstructuraDrive`;
     document.body.appendChild(script);
 }
 
-// FUNCIÓN 2: Lanza la petición script para rastrear duplicados (REQ 4, 8 y 9)
+// REQ 4: Lanza la petición script adjuntando el callback obligatorio para rastrear duplicados
 function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
     const scriptViejo = document.getElementById("script-drive-verificar");
     if (scriptViejo) scriptViejo.remove();
     const script = document.createElement("script");
     script.id = "script-drive-verificar";
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=verificarArchivo&nombreArchivo=${encodeURIComponent(nombreArc)}&destinoFolderId=${encodeURIComponent(drive_IdCarpetaActiva)}`;
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=verificarArchivo&nombreArchivo=${encodeURIComponent(nombreArc)}&destinoFolderId=${encodeURIComponent(drive_IdCarpetaActiva)}&prefix=recibirVerificacionDrive`;
     document.body.appendChild(script);
 }
+
 // =========================================================================
-// SECCIÓN 4 (CONFIGURACIÓN DINÁMICA): RECEPTOR VISUAL DE REJILLAS DRIVE
+// SECCIÓN 4: RECEPTOR VISUAL DE REJILLAS Y TABLAS DE DRIVE
 // =========================================================================
 
-// FUNCIÓN 1: Renderiza la lista desplegable interna y el visor (REQ 1 y 2)
+// REQ 1 y 2: Procesa y renderiza de forma responsiva la lista desplegable y el visor
 window.recibirEstructuraDrive = function (resultado) {
     if (!resultado || resultado.status !== "success") return;
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
@@ -87,57 +88,73 @@ window.recibirEstructuraDrive = function (resultado) {
         });
     }
 };
+// =========================================================================
+// SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO
+// =========================================================================
 
-// FUNCIÓN 2: Atrapa la respuesta de preexistencia y lanza los diálogos Sí/No (REQ 4 al 11)
+// REQ 4 al 11: Atrapa la respuesta de duplicados de Google y gestiona las ventanas flotantes
 window.recibirVerificacionDrive = function (respuesta) {
     if (!respuesta || respuesta.status !== "success") return;
 
+    // REQUISITO 4 y 5: Si el sistema detecta que el documento ya existe en la carpeta
     if (respuesta.existe) {
+        // REQUISITO 8: Validación de formato idéntico estricto
         if (respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
             alert("No es el mismo formato, no se puede actualizar.");
             Secc6_Fun2_RestablecerFormularioCarga();
             return;
         }
 
+        // REQUISITO 5: Mensaje flotante con opciones interactivas de Sí o No antes de proceder
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
+            // REQUISITO 6: Si decide "Sí", ejecuta la sobreescritura manteniendo el formato original
             Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
         } else {
+            // REQUISITO 7: Si presiona "No", la función aborta y no subirá nada
             Secc6_Fun2_RestablecerFormularioCarga();
         }
     } else {
+        // REQUISITO 9: Si es un documento completamente nuevo en la ubicación activa
         let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
         if (confirmarNuevo) {
+            // REQUISITO 10: Si presiona "Sí", procede con la subida normal del archivo
             Secc6_Fun1_TransmitirBytesHaciaNube("crearNuevo", null);
         } else {
+            // REQUISITO 11: Si presiona "No", la función aborta y no subirá nada
             Secc6_Fun2_RestablecerFormularioCarga();
         }
     }
 };
 
 // =========================================================================
-// SECCIÓN 5 (CONFIGURACIÓN DINÁMICA): INTERCEPTOR EVALUADOR DE ALERTAS
+// SECCIÓN 6: INTERCEPTOR EVALUADOR DE ARCHIVOS LOCALES Y VISTA PREVIA
 // =========================================================================
 
+// REQUISITO 3: Procesa el documento seleccionado y genera la previsualización responsiva fluida
 function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
-    const archivo = evento.target.files[0];
+    const listaArchivos = evento.target.files;
     const txtNombre = document.getElementById("nombreArchivoSeleccionado");
     const btnSubir = document.getElementById("btnIniciarCargaDrive");
     const previewContenedor = document.getElementById("contenedorPrevisualizacionFoto");
     const previewImg = document.getElementById("previewFotoDriveImg");
 
-    if (!archivo) {
+    if (!listaArchivos || listaArchivos.length === 0) {
         if (txtNombre) txtNombre.innerText = "Ningún archivo seleccionado";
         if (btnSubir) btnSubir.style.display = "none";
         if (previewContenedor) previewContenedor.style.display = "none";
         return;
     }
 
+    // Extraemos de forma segura el elemento indexado del vector local
+    const archivo = listaArchivos[0];
     drive_NombreArchivoSeleccionado = archivo.name;
     drive_MimeTypeSeleccionado = archivo.type;
+    
     if (txtNombre) txtNombre.innerText = archivo.name;
     if (btnSubir) btnSubir.style.display = "inline-block";
 
+    // RESPONSIVE DE FOTOS: Si es imagen, encendemos el cuadro visual fluido
     if (archivo.type.startsWith("image/")) {
         const lectorVistaPrevia = new FileReader();
         lectorVistaPrevia.onload = function (e) {
@@ -149,17 +166,18 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
         if (previewContenedor) previewContenedor.style.display = "none";
     }
 
+    // Extractor binario puro en base64 libre de encabezados corruptos
     const lectorBase64 = new FileReader();
     lectorBase64.onload = function (e) {
         drive_Base64DataSeleccionada = e.target.result.split(",")[1];
     };
     lectorBase64.readAsDataURL(archivo);
 }
-
 // =========================================================================
-// SECCIÓN 6 (FIJA): MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE)
+// SECCIÓN 7: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE)
 // =========================================================================
 
+// REQ 6 y 10: Empaqueta los datos en JSON y despacha la carga física de bytes
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
@@ -179,18 +197,20 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     })
         .then(res => res.json())
         .then(data => {
-            alert(data.message || "Operación procesada con éxito.");
+            // REQUERIMIENTO 6 y 10: Letrero obligatorio de confirmación visual para la WebApp
+            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
             Secc6_Fun2_RestablecerFormularioCarga();
             Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
         })
         .catch(err => {
             console.error(err);
-            alert("Archivo guardado con éxito. Refrescando visor...");
+            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
             Secc6_Fun2_RestablecerFormularioCarga();
             setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
         });
 }
 
+// Restaura los campos de la interfaz y limpia la memoria caché local
 function Secc6_Fun2_RestablecerFormularioCarga() {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = false; btn.innerText = "🚀 Subir a Carpeta Activa"; }
@@ -201,18 +221,18 @@ function Secc6_Fun2_RestablecerFormularioCarga() {
     }
 }
 
-// =========================================================================
-// SECCIÓN 7 (FIJA): RECEPTOR SECUNDARIO DE CONFIRMACIONES DE ACCIONES
-// =========================================================================
+// REQ 7 y 11: Receptor secundario asíncrono para confirmaciones de scripts
 window.recibirRespuestaAccionDrive = function (res) {
     alert(res.message || "Acción completada de forma correcta.");
     Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
 };
 
 // =========================================================================
-// SECCIÓN 8 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
+// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // REQ 1 y 2: Escucha nativa del selector propio de carpetas internas
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.addEventListener("change", (e) => {
@@ -221,11 +241,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // REQ 3: Escucha nativa de la caja de carga responsiva
     const inputArchivo = document.getElementById("archivoSubirDrive");
     if (inputArchivo) {
         inputArchivo.addEventListener("change", Secc5_Fun1_ProcesarSeleccionArchivoLocal);
     }
 
+    // REQ 4: Escucha nativa del botón de subir que activa la validación redundante
     const btnCarga = document.getElementById("btnIniciarCargaDrive");
     if (btnCarga) {
         btnCarga.addEventListener("click", () => {
@@ -237,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // REQ 3: Escucha nativa independiente para Crear Carpetas internas en caliente
     const btnCrearCarpeta = document.getElementById("btnCrearCarpetaDrive");
     if (btnCrearCarpeta) {
         btnCrearCarpeta.addEventListener("click", () => {
@@ -247,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.appendChild(script);
         });
     }
+
     // Escucha nativa independiente para Borrar Carpetas de Drive
     const btnBorrarCarpeta = document.getElementById("btnBorrarCarpetaDrive");
     if (btnBorrarCarpeta) {
@@ -255,11 +279,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const script = document.createElement("script");
             script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
             document.body.appendChild(script);
-            drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
+            drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM"; // Retorno seguro a la raíz
         });
     }
 
-    // Inicializador con micro-retraso para evitar colisiones y dar prioridad absoluta a las Hojas
+    // Inicializador con micro-retraso para mitigar tráfico y dar prioridad a las Hojas
     setTimeout(() => {
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     }, 1200);
