@@ -126,20 +126,20 @@ window.recibirEstructuraDrive = recibirEstructuraDrive;
 // Ubicación del bloque: BASE ABSOLUTA DEL ARCHIVO CARPETAS.JS
 // =========================================================================
 
-// 1. Manejador de selección de archivos locales
+// INTERCEPTOR BINARIO DE ARCHIVOS LOCALES (CORREGIDO)
 function drive_ManejarSeleccionArchivo(evento) {
-    const archivos = evento.target.files;
-    if (!archivos || archivos.length === 0) return;
+    const listaArchivos = evento.target.files;
+    if (!listaArchivos || listaArchivos.length === 0) return;
     
-    // Almacenamos el archivo seleccionado en las variables globales de arriba
-    drive_ArchivoSeleccionadoBinario = archivos;
-    drive_NombreArchivoSeleccionado = archivos.name;
+    // CORRECCIÓN RECTIFICADA: Extrae y almacena el archivo exacto en el índice 0
+    drive_ArchivoSeleccionadoBinario = listaArchivos[0];
+    drive_NombreArchivoSeleccionado = listaArchivos[0].name;
     
     const textoNombre = document.getElementById("nombreArchivoSeleccionado");
     if (textoNombre) {
-        textoNombre.innerText = `Preparado: ${archivos.name}`;
+        textoNombre.innerText = `Preparado: ${listaArchivos[0].name}`;
     }
-    console.log(`Archivo loaded localmente en memoria: ${archivos.name}`);
+    console.log(`Archivo cargado localmente en memoria: ${listaArchivos[0].name}`);
 }
 
 // 2. Vinculación estricta de las escuchas al cargar el DOM de forma protegida
