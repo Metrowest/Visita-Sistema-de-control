@@ -12,12 +12,11 @@
 
     <!-- METADATOS OPEN GRAPH CORREGIDOS BAJO NORMA OFICIAL DE REDES -->
     <meta property="og:description" content="Controla y actualiza los registros para la visita.">
-    <meta property="og:image" content="https://github.com/Metrowest/Visita-Sistema-de-control/blob/main/img/og-image.png?raw=true">
+    <meta property="og:image" content="https://github.com">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
-    <!-- NORMA: og:url debe ser el enlace público de la aplicación para permitir redirección interactiva -->
-    <meta property="og:url" content="https://github.com/Metrowest/Visita-Sistema-de-control/blob/main/img/og-image.png?raw=true">
+    <meta property="og:url" content="https://github.io">
 
     <!-- CDN DE FUENTES Y ESTILOS MAESTROS -->
     <link rel="preconnect" href="https://googleapis.com">
@@ -31,30 +30,8 @@
     <div class="contenedor-principal">
 
         <!-- =========================================================================
-             SECCIÓN 1.5: SELECTOR DE NAVEGACIÓN GENERAL DE HOJAS NATIVO
-             ========================================================================= -->
-        <div class="tarjeta-modulo contenedor-selector">
-            <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
-
-            <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
-                <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-            </select>
-
-            <div class="enlace-seccion-activa">
-                Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico" class="link-moderno">🏨 Hospitalidad</a>
-            </div>
-        </div>
-
-        <!-- =========================================================================
-             SECCIÓN 2.5: GESTOR MODULAR DE DRIVE (VISITA ACTUAL) - SUBIDO A LA CUMBRE
-             Ubicación del bloque: POSICIONADO ARRIBA DE LOS MÓDULOS DE HOJAS
+             SECCIÓN 2: GESTOR MODULAR DE DRIVE (VISITA ACTUAL)
+             Ubicación del bloque: PRIMER COMPONENTE VISIBLE EN LA CUMBRE
              ========================================================================= -->
         <div id="moduloGestorCarpetas" class="tarjeta-modulo">
             <div class="tarjeta-cabecera tarjeta-cabecera-drive">
@@ -112,8 +89,31 @@
             </div>
         </div>
                 <!-- =========================================================================
-             SECCIÓN 2: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO - MUDADO ABAJO
-             Ubicación del bloque: INTERSECCIÓN INYECTADA DEBAJO DEL GESTOR DE DRIVE
+             SECCIÓN 3: SELECTOR DE NAVEGACIÓN GENERAL DE HOJAS NATIVO
+             Ubicación del bloque: DETRÁS DEL EXPLORADOR CENTRAL DE CARPETAS
+             ========================================================================= -->
+        <div class="tarjeta-modulo contenedor-selector">
+            <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
+
+            <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
+                <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+            </select>
+
+            <div class="enlace-seccion-activa">
+                Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico" class="link-moderno">🏨 Hospitalidad</a>
+            </div>
+        </div>
+
+        <!-- =========================================================================
+             SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
+             Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
              ========================================================================= -->
         <div class="tarjeta-modulo">
             <div class="tarjeta-cabecera">
@@ -122,13 +122,9 @@
             </div>
 
             <form id="formularioSuperintendentes" class="formulario-estilizado">
-                <!-- Sincronizador nativo idéntico exigido por tu app.js viejo -->
                 <input type="hidden" id="selectorHoja" value="Superintendentes">
 
-                <!-- CONTENEDOR DE CAMPOS DINÁMICOS: Controlado por tu app.js de las Hojas -->
                 <div class="grid-formulario">
-
-                    <!-- BLOQUE BASE: Campos de texto comunes originales (Campos 1, 2 y 3) -->
                     <div class="campo-formulario" id="contenedorCampo1">
                         <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
                         <input type="text" id="txtGrupo" name="grupo" placeholder="Ej. #89" required>
@@ -144,7 +140,6 @@
                         <input type="text" id="txtTelefono" name="telefono" placeholder="Información" required>
                     </div>
 
-                    <!-- CONTENEDOR DE CAMPOS DINÁMICOS ORIGINALES RESTABLECIDOS -->
                     <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                         <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                         <input type="text" id="txtCampo4" name="campo4" placeholder="Información extra">
@@ -183,7 +178,8 @@
         </div>
 
         <!-- =========================================================================
-             SECCIÓN 3: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
+             SECCIÓN 5: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
+             Ubicación del bloque: BASE ABSOLUTA DE LA INTERFAZ
              ========================================================================= -->
         <div class="tarjeta-modulo">
             <div class="tarjeta-cabecera">
@@ -193,7 +189,6 @@
 
             <div class="tabla-responsiva">
                 <table id="tablaRegistros">
-                    <!-- Cabecera libre requerida por tu app.js viejo para evitar desajustes horizontales -->
                     <thead id="tablaCabecera"></thead>
                     <tbody id="tablaCuerpo">
                         <tr>
@@ -209,13 +204,11 @@
 
     </div> <!-- Cierre de contenedor-principal -->
 
-    <!-- BANNER DE INSTALACIÓN PWA COMPATIBLE EXIGEDO POR LA LÍNEA 547 DE TU SCRIPT VIEJO -->
     <div id="bannerInstalacionPWA" style="display: none; background-color: var(--color-turquesa); color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
         <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un acceso rápido.</p>
         <button id="btnInstalarPWA" style="background-color: #ffffff; color: var(--color-turquesa); border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Instalar</button>
     </div>
 
-    <!-- MAQUINARIA DE ENLACE DE RED INDEPENDIENTE AISLADA -->
     <script src="app.js"></script>
     <script src="carpetas.js"></script>
 </body>
