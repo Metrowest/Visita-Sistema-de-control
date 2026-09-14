@@ -57,6 +57,7 @@ function drive_VerificarPreexistenciaNube(nombreArc) {
     script.charset = "utf-8";
     document.body.appendChild(script);
 }
+
 // =========================================================================
 // CARPETAS.JS - PARTE 2: RECEPTOR COMPATIBLE GOOGLE Y ESCUCHAS DE EVENTOS
 // =========================================================================
@@ -72,33 +73,36 @@ window.recibirEstructuraDrive = function(resultado) {
     const contenedorArchivos = document.getElementById("contenedor-archivos");
     const selectorSub = document.getElementById("selectorSubcarpetas");
 
-    // 1. Renderizado dinámico de subcarpetas en el selector y en el Cubículo 1
+    // 1. RECONSTRUCCIÓN DINÁMICA INTEGRADA DEL SELECTOR FLOTANTE
     if (selectorSub) {
         selectorSub.innerHTML = "";
-        if (resultado.nombreCarpetaActual !== "Visita Actual") {
-            let optRegresar = document.createElement("option");
-            optRegresar.value = "RETORNO_RAIZ"; 
-            optRegresar.innerText = "⬅️ Regresar a la Raíz (Visita Actual)";
-            selectorSub.appendChild(optRegresar);
-        }
+        
+        // Mapea la opción obligatoria para regresar a la raíz
+        let optRegresar = document.createElement("option");
+        optRegresar.value = "RETORNO_RAIZ"; 
+        optRegresar.innerText = "⬅️ Regresar a la Raíz (Visita Actual)";
+        selectorSub.appendChild(optRegresar);
 
-        let optRaiz = document.createElement("option");
-        optRaiz.value = resultado.idCarpetaActual;
-        optRaiz.innerText = "📁 " + resultado.nombreCarpetaActual + " (Ubicación Activa)";
-        selectorSub.appendChild(optRaiz);
+        // Si estás dentro de una subcarpeta profunda, muestra dónde estás parado
+        if (resultado.nombreCarpetaActual && resultado.nombreCarpetaActual !== "Visita Actual") {
+            let optUbicacion = document.createElement("option");
+            optUbicacion.value = resultado.idCarpetaActual;
+            optUbicacion.innerText = `📁 ${resultado.nombreCarpetaActual} (Ubicación Activa)`;
+            selectorSub.appendChild(optUbicacion);
+        }
     }
 
     if (listaSubcarpetas) {
         listaSubcarpetas.innerHTML = "";
     }
 
-    // CORREGIDO: Cierre sintáctico perfecto del forEach para evitar SyntaxError
+    // Llenado simultáneo del selector y de la lista lateral (Cubículo 1)
     if (resultado.carpetas && resultado.carpetas.length > 0) {
         resultado.carpetas.forEach(sub => {
             if (selectorSub) {
                 let opt = document.createElement("option");
                 opt.value = sub.id;
-                opt.innerText = "📁 → " + sub.nombre;
+                opt.innerText = `📁 → ${sub.nombre}`;
                 selectorSub.appendChild(opt);
             }
             if (listaSubcarpetas) {
@@ -121,7 +125,7 @@ window.recibirEstructuraDrive = function(resultado) {
     const btnBorrar = document.getElementById("btnBorrarCarpetaDrive");
     if (btnBorrar) btnBorrar.style.display = (resultado.nombreCarpetaActual === "Visita Actual") ? "none" : "inline-block";
 
-    // 2. Renderizado dinámico de archivos en la tabla del Cubículo 2 (Módulo de Control)
+    // 2. INYECCIÓN PROTEGIDA DE FILAS EN LA TABLA DEL EXPLORADOR CENTRAL
     if (contenedorArchivos) {
         contenedorArchivos.innerHTML = "";
         if (resultado.archivos && resultado.archivos.length > 0) {
@@ -135,17 +139,23 @@ window.recibirEstructuraDrive = function(resultado) {
                 if (nameL.includes(".xls") || nameL.includes(".csv") || nameL.includes(".xlsx")) icono = "📗";
                 if (nameL.includes(".doc") || nameL.includes(".docx")) icono = "📘";
 
+                // Protección condicional para evitar excepciones undefined en el tipo MIME
+                let tipoTexto = "Archivo";
+                if (arc.mimeType && arc.mimeType.includes("/")) {
+                    tipoTexto = arc.mimeType.split("/")[1].toUpperCase();
+                }
+
                 tr.innerHTML = `
-                    <td style="padding: 8px; color: #0f172a; font-weight: 500; text-align: left;">${icono} ${arc.nombre}</td>
-                    <td style="padding: 8px; text-align: center; color: #64748b;">${arc.mimeType ? arc.mimeType.split("/")[1] : "Archivo"}</td>
-                    <td style="padding: 8px; text-align: center;">
-                        <button type="button" class="btn-carga-blanco" style="padding: 2px 8px !important; font-size: 0.75rem !important;" onclick="window.open('${arc.urlDownload || arc.url}', '_blank')">Ver</button>
+                    <td style="padding: 10px 8px; color: #0f172a; font-weight: 500; text-align: left;">${icono} ${arc.nombre}</td>
+                    <td style="padding: 10px 8px; text-align: center; color: #64748b; font-size: 0.75rem;">${tipoTexto}</td>
+                    <td style="padding: 10px 8px; text-align: center;">
+                        <button type="button" class="btn-carga-blanco" style="padding: 3px 10px !important; font-size: 0.75rem !important;" onclick="window.open('${arc.urlDownload || arc.url}', '_blank')">Ver</button>
                     </td>
                 `;
                 contenedorArchivos.appendChild(tr);
             });
         } else {
-            contenedorArchivos.innerHTML = '<tr><td colspan="3" style="padding:14px; text-align:center; color:#94a3b8;">No hay archivos guardados en esta ubicación.</td></tr>';
+            contenedorArchivos.innerHTML = '<tr><td colspan="3" style="padding:16px; text-align:center; color:#94a3b8;">No hay archivos guardados en esta ubicación.</td></tr>';
         }
     }
 };
