@@ -11,13 +11,18 @@ let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
 let drive_ArchivoSeleccionadoBinario = null;
 let drive_NombreArchivoSeleccionado = "";
 
-/**
- * SECCIÓN 1: INICIALIZACIÓN AUTÓNOMA LIBRE DE CONFUGURACIONES CON APPS.JS
- * Despierta el motor de Drive en cuanto el documento HTML está completamente listo.
- */
+// =========================================================================
+// SECCIÓN 1: INICIALIZACIÓN AUTÓNOMA REGULADA (PROTECCIÓN DE TRÁFICO MÁXIMA)
+// Ubicación del bloque: CUMBRE DE CARPETAS.JS - AISLAMIENTO DE CONFLICTOS
+// =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("¡Despertando motor de Drive de forma autónoma y segura!");
-    drive_CargarEstructuraNube(drive_IdCarpetaActiva);
+    console.log("Dando prioridad absoluta a la base de datos de las Hojas...");
+    
+    // Retrasamos la salida de Drive 1.2 segundos para evitar la colisión MIME y corrupción de red
+    setTimeout(() => {
+        console.log("¡Canal libre detectado! Despertando subcarpeta raíz de Drive de forma segura.");
+        drive_CargarEstructuraNube(drive_IdCarpetaActiva);
+    }, 1200);
 });
 
 // =========================================================================
