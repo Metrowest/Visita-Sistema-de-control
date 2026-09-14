@@ -183,36 +183,27 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 }
 
 // =========================================================================
-// SECCIÓN 6: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE - FORM)
-// Ubicación del bloque: PARTE INFERIOR DEL ARCHIVO CARPETAS.JS
+// SECCIÓN 6: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (ORIGINAL CALIBRADO)
+// Ubicación del bloque: PARTE INFERIOR DE CARPETAS.JS - EDICIÓN DE RECOLECCIÓN
 // =========================================================================
-
-// REQ 6 y 10: Despacha la carga física de bytes en formato URL plano inmune a bloqueos
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // Fragmentamos la cadena base64 de forma segura extrayendo estrictamente los datos limpios
-    const base64Limpia = drive_Base64DataSeleccionada.split(",")[1];
-
-    // Empaquetamos la información en formato de formulario plano
-    const parametrosFormulario = new URLSearchParams();
-    parametrosFormulario.append("accion", tipoAccion);
-    parametrosFormulario.append("destinoFolderId", drive_IdCarpetaActiva);
-    parametrosFormulario.append("nombreArchivo", drive_NombreArchivoSeleccionado);
-    parametrosFormulario.append("mimeType", drive_MimeTypeSeleccionado);
-    parametrosFormulario.append("base64Data", base64Limpia);
-    parametrosFormulario.append("fileIdOriginal", fileIdOriginal || "");
+    let paqueteCarga = {
+        accion: tipoAccion,
+        destinoFolderId: drive_IdCarpetaActiva,
+        nombreArchivo: drive_NombreArchivoSeleccionado,
+        mimeType: drive_MimeTypeSeleccionado,
+        base64Data: drive_Base64DataSeleccionada,
+        fileIdOriginal: fileIdOriginal
+    };
 
     fetch(CARPETAS_WEB_APP_URL, {
         method: "POST",
-        body: parametrosFormulario,
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
+        body: JSON.stringify(paqueteCarga)
     })
     .then(() => {
-        // REQUERIMIENTO 6 y 10: Letrero de confirmación visual obligatorio
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
@@ -225,7 +216,6 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     });
 }
 
-// FUNCIÓN 2: Restaura las cajas y limpia la memoria de la carga actual
 function Secc6_Fun2_RestablecerFormularioCarga() {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = false; btn.innerText = "🚀 Subir a Carpeta Activa"; }
@@ -237,66 +227,18 @@ function Secc6_Fun2_RestablecerFormularioCarga() {
 }
 
 // =========================================================================
-// SECCIÓN 7: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE)
+// SECCIÓN 7 (FIJA): RECEPTOR SECUNDARIO DE CONFIRMACIONES DE ACCIONES
 // =========================================================================
-
-// REQ 6 y 10: Empaqueta los datos en JSON y despacha la carga física de bytes
-function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
-    const btn = document.getElementById("btnIniciarCargaDrive");
-    if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
-
-    let paqueteCarga = {
-        accion: tipoAccion,
-        destinoFolderId: drive_IdCarpetaActiva,
-        nombreArchivo: drive_NombreArchivoSeleccionado,
-        mimeType: drive_MimeTypeSeleccionado,
-        // CORRECCIÓN DE TRANSMISIÓN: Envía estrictamente la cadena de bytes pura del índice 1
-        base64Data: drive_Base64DataSeleccionada[1],
-        fileIdOriginal: fileIdOriginal
-    };
-
-    fetch(CARPETAS_WEB_APP_URL, {
-        method: "POST",
-        body: JSON.stringify(paqueteCarga)
-    })
-        .then(res => res.json())
-        .then(data => {
-            // REQUERIMIENTO 6 y 10: Letrero obligatorio de confirmación visual para la WebApp
-            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
-            Secc6_Fun2_RestablecerFormularioCarga();
-            Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
-            Secc6_Fun2_RestablecerFormularioCarga();
-            setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
-        });
-}
-
-// Restaura los campos de la interfaz y limpia la memoria caché local
-function Secc6_Fun2_RestablecerFormularioCarga() {
-    const btn = document.getElementById("btnIniciarCargaDrive");
-    if (btn) { btn.disabled = false; btn.innerText = "🚀 Subir a Carpeta Activa"; }
-    document.getElementById("archivoSubirDrive").value = "";
-    document.getElementById("nombreArchivoSeleccionado").innerText = "Ningún archivo seleccionado";
-    if (document.getElementById("contenedorPrevisualizacionFoto")) {
-        document.getElementById("contenedorPrevisualizacionFoto").style.display = "none";
-    }
-}
-
-// REQ 7 y 11: Receptor secundario asíncrono para confirmaciones de scripts
 window.recibirRespuestaAccionDrive = function (res) {
     alert(res.message || "Acción completada de forma correcta.");
     Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
 };
+
 // =========================================================================
-// SECCIÓN 8 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS (PURIFICADO)
-// Ubicación del bloque: CIERRE TOTAL Y EXCLUSIVO DE CARPETAS.JS
+// SECCIÓN 8 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS NATIVOS
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     
-    // REQ 1 y 2: Escucha interactiva que actualiza la ID activa al cambiar de subcarpeta
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.addEventListener("change", (e) => {
@@ -311,13 +253,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // REQ 3: Escucha nativa independiente de la caja de carga responsiva
     const inputArchivo = document.getElementById("archivoSubirDrive");
     if (inputArchivo) {
         inputArchivo.addEventListener("change", Secc5_Fun1_ProcesarSeleccionArchivoLocal);
     }
 
-    // REQ 4: Escucha nativa del botón de subir que activa la validación redundante
     const btnCarga = document.getElementById("btnIniciarCargaDrive");
     if (btnCarga) {
         btnCarga.addEventListener("click", () => {
@@ -329,7 +269,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // REQ 3: Escucha nativa independiente para Crear Carpetas internas en caliente
     const btnCrearCarpeta = document.getElementById("btnCrearCarpetaDrive");
     if (btnCrearCarpeta) {
         btnCrearCarpeta.addEventListener("click", () => {
@@ -341,7 +280,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Escucha nativa independiente para Borrar Carpetas de Drive
     const btnBorrarCarpeta = document.getElementById("btnBorrarCarpetaDrive");
     if (btnBorrarCarpeta) {
         btnBorrarCarpeta.addEventListener("click", () => {
@@ -353,7 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Inicializador con micro-retraso para mitigar tráfico y dar prioridad a las Hojas
     setTimeout(() => {
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     }, 1200);
