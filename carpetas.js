@@ -1,12 +1,9 @@
 // =========================================================================
-// ARCHIVO: carpetas.js (MOTOR DINÁMICO EXCLUSIVO DE CONTROL - PARTE 1)
-// INTERFAZ: Totalmente aislado por secciones fijas en orden estricto
+// SECCIÓN 1 (CONFIGURACIÓN): ENLACE DE RED MAESTRO DE PRUEBAS DETECTADO
+// Ubicación del bloque: CUMBRE ABSOLUTA DEL ARCHIVO CARPETAS.JS
 // =========================================================================
+const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTjFd6E3bbZvfdK0ltV85SFqLHukNOQsKBhxB5HXtj2GBa3SegPSaMl2eOmyccCnK7CQ/exec";
 
-// =========================================================================
-// SECCIÓN 1 (CONFIGURACIÓN): ENLACE DE RED WEB APP EXCLUSIVO DRIVE
-// =========================================================================
-const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 
 // =========================================================================
 // SECCIÓN 2: VARIABLES DE MEMORIA INTERNA AISLADA
