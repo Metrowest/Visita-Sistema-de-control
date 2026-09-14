@@ -88,6 +88,7 @@ window.recibirEstructuraDrive = function (resultado) {
         });
     }
 };
+
 // =========================================================================
 // SECCIÓN 5: RECEPTOR DE PREEXISTENCIA CON VALIDADOR LOCAL DE SEGURIDAD (BLINDADO)
 // Ubicación del bloque: PARTE MEDIA DEL ARCHIVO CARPETAS.JS
@@ -95,23 +96,23 @@ window.recibirEstructuraDrive = function (resultado) {
 window.recibirVerificacionDrive = function (respuesta) {
     if (!respuesta || respuesta.status !== "success") return;
 
-    // VALIDACIÓN FÍSICA EN PANTALLA: Rastrear si el nombre ya aparece escrito en la tabla visual
-    let existeEnPantalla = false;
+    // VALIDACIÓN VISUAL EN PANTALLA: Inspeccionamos si el nombre está escrito en la tabla real
+    let seMuestraEnPantalla = false;
     const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
     
     if (tablaCuerpoDrive) {
-        // Inspeccionamos cada fila de la tabla buscando coincidencias exactas de nombre
         const filas = tablaCuerpoDrive.getElementsByTagName("tr");
         for (let i = 0; i < filas.length; i++) {
+            // Buscamos coincidencia exacta de texto en la fila del visor
             if (filas[i].innerText.includes(drive_NombreArchivoSeleccionado)) {
-                existeEnPantalla = true;
+                seMuestraEnPantalla = true;
                 break;
             }
         }
     }
 
-    // CRUCIAL: Si la macro dice que existe O si físicamente se encuentra en la pantalla, es un REEMPLAZO
-    if (respuesta.existe === true || respuesta.existe === "true" || existeEnPantalla === true) {
+    // NORMA DE SEGURIDAD: Solo si el archivo FÍSICAMENTE SE VE EN LA PANTALLA, es un REEMPLAZO
+    if (seMuestraEnPantalla === true) {
         
         // REQUISITO 8: Validación de formato idéntico estricto
         if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
@@ -128,7 +129,7 @@ window.recibirVerificacionDrive = function (respuesta) {
             Secc6_Fun2_RestablecerFormularioCarga();
         }
     } else {
-        // REQUISITO 9: Si no se halló coincidencia en la tabla de la pantalla, es un DOCUMENTO NUEVO
+        // REQUISITO 9: Si la tabla de la pantalla está limpia (como en Firefox), es un DOCUMENTO NUEVO
         let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
         if (confirmarNuevo) {
             Secc6_Fun1_TransmitirBytesHaciaNube("crearNuevo", null);
