@@ -4,7 +4,7 @@
 // =========================================================================
 
 // Enlace exclusivo hacia la implementación del Apps Script de las carpetas
-const CARPETAS_WEB_APP_URL = "https://google.com";
+const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 
 // Variables globales de control para la navegación profunda en la nube
 let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
