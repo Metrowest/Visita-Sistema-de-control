@@ -238,14 +238,23 @@ window.recibirRespuestaAccionDrive = function (res) {
 // =========================================================================
 // SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
 // =========================================================================
-document.addEventListener("DOMContentLoaded", () => {
-    
-    // REQ 1 y 2: Escucha nativa del selector propio de carpetas internas
+    // REQ 1 y 2 CORREGIDO: Escucha interactiva que actualiza la ID activa al cambiar de subcarpeta
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.addEventListener("change", (e) => {
-            drive_IdCarpetaActiva = e.target.value;
-            Secc3_Fun1_DispararCargaEstructuraNube(e.target.value);
+            const idSeleccionada = e.target.value;
+            
+            // Sincronizamos la memoria global con la subcarpeta real elegida por el usuario
+            drive_IdCarpetaActiva = idSeleccionada;
+            
+            // Limpiamos visualmente la tabla para evitar que archivos viejos engañen al validador
+            const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
+            if (tablaCuerpoDrive) {
+                tablaCuerpoDrive.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:1rem; color:var(--color-texto-medio);">⏳ Sincronizando archivos de la subcarpeta...</td></tr>`;
+            }
+
+            // Disparamos la consulta real hacia la subcarpeta en Google Drive
+            Secc3_Fun1_DispararCargaEstructuraNube(idSeleccionada);
         });
     }
 
