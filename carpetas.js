@@ -89,15 +89,15 @@ window.recibirEstructuraDrive = function (resultado) {
     }
 };
 // =========================================================================
-// SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO
+// SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO (ALINEADO)
+// Ubicación del bloque: PARTE MEDIA DEL ARCHIVO CARPETAS.JS
 // =========================================================================
-
-// REQ 4 al 11: Atrapa la respuesta de duplicados de Google y gestiona las ventanas flotantes
 window.recibirVerificacionDrive = function (respuesta) {
     if (!respuesta || respuesta.status !== "success") return;
 
-    // REQUISITO 4 y 5: Si el sistema detecta que el documento ya existe en la carpeta
-    if (respuesta.existe) {
+    // REQUISITO 4 y 5 CORREGIDO: Si la respuesta de Google Drive confirma que el archivo SÍ existe (True)
+    if (respuesta.existe === true || respuesta.existe === "true") {
+        
         // REQUISITO 8: Validación de formato idéntico estricto
         if (respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
             alert("No es el mismo formato, no se puede actualizar.");
@@ -105,7 +105,7 @@ window.recibirVerificacionDrive = function (respuesta) {
             return;
         }
 
-        // REQUISITO 5: Mensaje flotante con opciones interactivas de Sí o No antes de proceder
+        // REQUISITO 5: Mensaje flotante con opciones interactivas de Sí o No para documentos ya existentes
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
             // REQUISITO 6: Si decide "Sí", ejecuta la sobreescritura manteniendo el formato original
@@ -115,10 +115,10 @@ window.recibirVerificacionDrive = function (respuesta) {
             Secc6_Fun2_RestablecerFormularioCarga();
         }
     } else {
-        // REQUISITO 9: Si es un documento completamente nuevo en la ubicación activa
+        // REQUISITO 9 CORREGIDO: Si la respuesta confirma que el archivo NO existe en la ubicación activa (False)
         let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
         if (confirmarNuevo) {
-            // REQUISITO 10: Si presiona "Sí", procede con la subida normal del archivo
+            // REQUISITO 10: Si presiona "Sí", procede con la subida normal del archivo nuevo
             Secc6_Fun1_TransmitirBytesHaciaNube("crearNuevo", null);
         } else {
             // REQUISITO 11: Si presiona "No", la función aborta y no subirá nada
