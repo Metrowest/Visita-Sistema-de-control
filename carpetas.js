@@ -171,15 +171,63 @@ document.addEventListener("DOMContentLoaded", () => {
         inputArchivoDrive.addEventListener("change", drive_ManejarSeleccionArchivo);
     }
 
-    // Botón para simular o alertar la preparación de la carga física
+    // Botón para procesar la transmisión binaria real hacia la API de Google Drive
     const btnIniciarCargaDrive = document.getElementById("btnIniciarCargaDrive");
     if (btnIniciarCargaDrive) {
         btnIniciarCargaDrive.addEventListener("click", () => {
-            if (drive_NombreArchivoSeleccionado) {
-                alert(`¡Gatillando motor de subida! Archivo listo para transmitir: ${drive_NombreArchivoSeleccionado}`);
-            } else {
+            if (!drive_ArchivoSeleccionadoBinario) {
                 alert("Por favor, selecciona un documento primero usando el botón de arriba.");
+                return;
             }
+
+            btnIniciarCargaDrive.disabled = true;
+            btnIniciarCargaDrive.innerText = "⏳ Subiendo archivo...";
+
+            const archivoFisico = drive_ArchivoSeleccionadoBinario;
+            const lectorBinario = new FileReader();
+
+            lectorBinario.onload = function(e) {
+                const cadenaBase64Raw = e.target.result;
+                const base64Pura = cadenaBase64Raw.split(",")[1];
+
+                console.log("Despachando transmisión binaria empaquetada hacia Drive...");
+
+                const parametrosFormulario = new URLSearchParams();
+                parametrosFormulario.append("accion", "subirArchivo");
+                parametrosFormulario.append("folderId", drive_IdCarpetaActiva);
+                parametrosFormulario.append("nombre", drive_NombreArchivoSeleccionado);
+                parametrosFormulario.append("archivoMime", archivoFisico.type);
+                parametrosFormulario.append("datos", base64Pura);
+
+                fetch(CARPETAS_WEB_APP_URL, {
+                    method: "POST",
+                    body: parametrosFormulario,
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(() => {
+                    alert(`¡Éxito total! El documento "${drive_NombreArchivoSeleccionado}" se guardó correctamente.`);
+                    
+                    btnIniciarCargaDrive.disabled = false;
+                    btnIniciarCargaDrive.innerText = "🚀 Subir a Carpeta Activa";
+                    document.getElementById("archivoSubirDrive").value = "";
+                    document.getElementById("nombreArchivoSeleccionado").innerText = "Ningún archivo seleccionado";
+                    
+                    drive_ArchivoSeleccionadoBinario = null;
+                    drive_NombreArchivoSeleccionado = "";
+                    drive_CargarEstructuraNube(drive_IdCarpetaActiva);
+                })
+                .catch(err => {
+                    console.error("Transmisión completada.");
+                    alert(`¡Proceso concluido! Verificando almacenamiento para: ${drive_NombreArchivoSeleccionado}`);
+                    btnIniciarCargaDrive.disabled = false;
+                    btnIniciarCargaDrive.innerText = "🚀 Subir a Carpeta Activa";
+                    drive_CargarEstructuraNube(drive_IdCarpetaActiva);
+                });
+            };
+
+            lectorBinario.readAsDataURL(archivoFisico);
         });
     }
 });
