@@ -138,6 +138,47 @@ window.recibirVerificacionDrive = function (respuesta) {
         }
     }
 };
+// =========================================================================
+// INTERCEPTOR DE ARCHIVOS LOCALES REQUERIDO
+// =========================================================================
+function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
+    const listaArchivos = evento.target.files;
+    const txtNombre = document.getElementById("nombreArchivoSeleccionado");
+    const btnSubir = document.getElementById("btnIniciarCargaDrive");
+    const previewContenedor = document.getElementById("contenedorPrevisualizacionFoto");
+    const previewImg = document.getElementById("previewFotoDriveImg");
+
+    if (!listaArchivos || listaArchivos.length === 0) {
+        if (txtNombre) txtNombre.innerText = "Ningún archivo seleccionado";
+        if (btnSubir) btnSubir.style.display = "none";
+        if (previewContenedor) previewContenedor.style.display = "none";
+        return;
+    }
+
+    const archivoFisico = listaArchivos[0];
+    drive_NombreArchivoSeleccionado = archivoFisico.name;
+    drive_MimeTypeSeleccionado = archivoFisico.type;
+    
+    if (txtNombre) txtNombre.innerText = archivoFisico.name;
+    if (btnSubir) btnSubir.style.display = "inline-block";
+
+    if (archivoFisico.type.startsWith("image/")) {
+        const lectorVistaPrevia = new FileReader();
+        lectorVistaPrevia.onload = function (e) {
+            if (previewImg) previewImg.src = e.target.result;
+            if (previewContenedor) previewContenedor.style.display = "flex";
+        };
+        lectorVistaPrevia.readAsDataURL(archivoFisico);
+    } else {
+        if (previewContenedor) previewContenedor.style.display = "none";
+    }
+
+    const lectorBase64 = new FileReader();
+    lectorBase64.onload = function (e) {
+        drive_Base64DataSeleccionada = e.target.result.split(",")[1];
+    };
+    lectorBase64.readAsDataURL(archivoFisico);
+}
 
 // =========================================================================
 // SECCIÓN 6: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE - FORM)
