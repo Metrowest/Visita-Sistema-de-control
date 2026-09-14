@@ -488,3 +488,39 @@ if (btnInstalarPWA) {
         if (bannerPWA) bannerPWA.style.display = 'none';
     });
 }
+// =========================================================================
+// SECCIÓN 10: MOTOR INTERACTIVO DE EDICIÓN DE REGISTROS (RECONECTADO)
+// Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO APP.JS
+// =========================================================================
+window.editarRegistro = function(indice, objetoCampos) {
+    console.log(`Gatillando edición para el índice: ${indice}`, objetoCampos);
+    
+    // Cambia el título del formulario para avisar que estás editando
+    const formTitulo = document.getElementById("formTitulo");
+    if (formTitulo) formTitulo.innerText = "Editar Registro";
+
+    // Mapea y rellena los 3 inputs obligatorios del cubículo de arriba
+    const txtGrupo = document.getElementById("txtGrupo");
+    const txtSuperintendente = document.getElementById("txtSuperintendente");
+    const txtTelefono = document.getElementById("txtTelefono");
+
+    if (txtGrupo) txtGrupo.value = objetoCampos.grupo || "";
+    if (txtSuperintendente) txtSuperintendente.value = objetoCampos.superintendente || "";
+    if (txtTelefono) txtTelefono.value = objetoCampos.telefono || "";
+
+    // Mapea y rellena los 5 campos opcionales (del 4 al 8) si existen en la fila
+    for (let i = 4; i <= 8; i++) {
+        const inputExtra = document.getElementById(`txtCampo${i}`);
+        if (inputExtra) {
+            inputExtra.value = objetoCampos[`campo${i}`] || "";
+        }
+    }
+
+    // Muestra el botón de cancelar por si el usuario se arrepiente
+    const btnCancelar = document.getElementById("btnCancelar");
+    if (btnCancelar) btnCancelar.style.display = "inline-block";
+    
+    // Cambia el texto del botón principal a Actualizar
+    const btnGuardar = document.getElementById("btnGuardar");
+    if (btnGuardar) btnGuardar.innerHTML = "💾 Actualizar Registro";
+};
