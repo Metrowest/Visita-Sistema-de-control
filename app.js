@@ -99,7 +99,7 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
 }
 
 // =========================================================================
-// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
+// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES (REPARADO)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
 function recibirDatosDesdeGoogle(json) {
@@ -115,13 +115,15 @@ function recibirDatosDesdeGoogle(json) {
     }
 
     if (!datosMatriz || !Array.isArray(datosMatriz) || datosMatriz.length === 0) {
-        const hojaActiva = document.getElementById("selectorHoja").value;
+        const selectorHoja = document.getElementById("selectorHoja");
+        const hojaActiva = selectorHoja ? selectorHoja.value : "";
         const totalColumnas = (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) ? 9 : (hojaActiva === "Hospitalidad" ? 5 : 4);
         if(tablaCuerpo) tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">No hay registros guardados en esta sección.</td></tr>`;
         return;
     }
 
-    const hojaActiva = document.getElementById("selectorHoja").value;
+    const selectorHoja = document.getElementById("selectorHoja");
+    const hojaActiva = selectorHoja ? selectorHoja.value : "";
     let encabezadosTextos = [];
     let llavesMapeo = [];
 
@@ -145,6 +147,11 @@ function recibirDatosDesdeGoogle(json) {
         llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
     }
 
+    // DISPARADOR DE DESCONGELAMIENTO AUTOMÁTICO DE INPUTS MODULARES
+    if (typeof configurarCamposFormulario === "function") {
+        configurarCamposFormulario(hojaActiva, encabezadosTextos);
+    }
+
     // Dibujamos las cabeceras de columnas en sentido estrictamente horizontal
     let htmlCabecera = "<tr>";
     encabezadosTextos.forEach(col => htmlCabecera += `<th>${col}</th>`);
@@ -165,33 +172,30 @@ function recibirDatosDesdeGoogle(json) {
             }
         });
 
-        // REGLA DE DETECCIÓN INTELIGENTE: Si en la Columna A la celda actual y la siguiente 
-        // son idénticas, limpiamos el duplicado en memoria para realinear todo el vector vertical
         let celdasPlanas = [];
         for (let k = 0; k < celdasPlanasRaw.length; k++) {
             if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
                 console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
-                continue; // Saltamos el elemento repetido para empujar las variables un lugar hacia atrás
+                continue; 
             }
             celdasPlanas.push(celdasPlanasRaw[k]);
         }
         
         let contadorBloque = 0;
         
-        // Recorremos la lista limpia saltando de 8 en 8 celdas consecutivas hacia abajo
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
             if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
 
             let objetoFila = {
-                grupo: celdasPlanas[i] || "",            // Celda 1: Día
-                superintendente: celdasPlanas[i+1] || "", // Celda 2: Acompañante o Visitante
-                telefono: celdasPlanas[i+2] || "",        // Celda 3: Teléfono o Acompañante
-                campo4: celdasPlanas[i+3] || "",          // Celda 4: Hogar o Teléfono
-                campo5: celdasPlanas[i+4] || "",          // Celda 5: Contacto o Estudiante
-                campo6: celdasPlanas[i+5] || "",          // Celda 6: Dirección
-                campo7: celdasPlanas[i+6] || "",          // Celda 7: Detalles o Publicación
-                campo8: celdasPlanas[i+7] || ""           // Celda 8: Objetivo o Detalles
+                grupo: celdasPlanas[i] || "",            
+                superintendente: celdasPlanas[i+1] || "", 
+                telefono: celdasPlanas[i+2] || "",        
+                campo4: celdasPlanas[i+3] || "",          
+                campo5: celdasPlanas[i+4] || "",          
+                campo6: celdasPlanas[i+5] || "",          
+                campo7: celdasPlanas[i+6] || "",          
+                campo8: celdasPlanas[i+7] || ""           
             };
             
             Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
@@ -203,7 +207,6 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
-        // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
