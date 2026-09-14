@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     drive_CargarEstructuraNube(drive_IdCarpetaActiva);
 });
 
-/**
- * SECCIÓN 2: MOTORES EMISORES DE PETICIONES (JSONP ENGINE)
- * Lanza etiquetas script dinámicas para evitar el bloqueo estricto de CORS.
- */
+// =========================================================================
+// SECCIÓN 2: MOTORES EMISORES DE PETICIONES (JSONP ENGINE - CALIBRADO)
+// Ubicación del bloque: PARTE MEDIA DEL ARCHIVO CARPETAS.JS
+// =========================================================================
 function drive_CargarEstructuraNube(folderId) {
     console.log(`Petición de estructura para la carpeta ID: ${folderId}`);
     
@@ -33,15 +33,14 @@ function drive_CargarEstructuraNube(folderId) {
 
     const script = document.createElement("script");
     script.id = "script-drive-carga";
-    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}`;
-    script.charset = "utf-8";
     
-    script.onerror = () => {
-        console.error("Fallo crítico de red al conectar con el servidor de Google Drive.");
-    };
+    // Forzamos la inyección limpia adjuntando el callback explícito que busca el servidor
+    script.src = `${CARPETAS_WEB_APP_URL}?accion=listarEstructura&folderId=${encodeURIComponent(folderId)}&callback=recibirEstructuraDrive`;
+    script.charset = "utf-8";
 
     document.body.appendChild(script);
 }
+
 // =========================================================================
 // SECCIÓN 3: RECEPTOR VISUAL INTEGRADO Y COMPATIBLE CON GOOGLE DRIVE API (REPARADO)
 // Ubicación del bloque: MITAD INFERIOR DEL ARCHIVO CARPETAS.JS
