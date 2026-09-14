@@ -37,6 +37,44 @@ function cargarDatos() {
     script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
     document.body.appendChild(script);
 }
+// =========================================================================
+// SECCIÓN 2-A (NUEVA): CONFIGURACIÓN DINÁMICA DE CAMPOS DEL CUBÍCULO
+// Ubicación del bloque: DETECTOR DE ESTRUCTURA SEGÚN LA HOJA SELECCIONADA
+// =========================================================================
+function configurarCamposFormulario(nombreHoja, encabezados) {
+    console.log(`Configurando inputs del cubículo para la hoja: ${nombreHoja}`);
+    
+    const lbl1 = document.getElementById("lblCampo1");
+    const lbl2 = document.getElementById("lblCampo2");
+    const lbl3 = document.getElementById("lblCampo3");
+
+    if (lbl1) lbl1.innerText = encabezados[0] || "Grupo / Día";
+    if (lbl2) lbl2.innerText = encabezados[1] || "Superintendente / Visitante";
+    if (lbl3) lbl3.innerText = encabezados[2] || "Teléfono / Acompañante";
+
+    // Control inteligente de visibilidad para los 5 bloques extra (Campos 4 al 8)
+    for (let i = 4; i <= 8; i++) {
+        const contenedor = document.getElementById(`contenedorCampo${i}`);
+        const etiqueta = document.getElementById(`lblCampo${i}`);
+        const inputReal = document.getElementById(`txtCampo${i}`);
+        
+        const textoEncabezado = encabezados[i - 1];
+
+        if (contenedor && etiqueta) {
+            if (textoEncabezado && textoEncabezado.trim() !== "") {
+                etiqueta.innerText = textoEncabezado;
+                contenedor.style.display = "block";
+                if (inputReal) inputReal.required = true;
+            } else {
+                contenedor.style.display = "none";
+                if (inputReal) {
+                    inputReal.required = false;
+                    inputReal.value = "";
+                }
+            }
+        }
+    }
+}
 
 // =========================================================================
 // SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
