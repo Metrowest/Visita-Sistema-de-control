@@ -1,20 +1,18 @@
 /* =========================================================================
-   SECCIÓN 1: VARIABLES GLOBALMENTE CONFIGURADAS Y PALETA DE COLORES
+   STYLE.CSS - PARTE 1: VARIABLES GLOBALES Y MAQUETACIÓN MODULAR
    ========================================================================= */
 :root {
+    --color-fondo: #f8fafc;
+    --color-superficie: #ffffff;
     --color-turquesa: #2cbbb0;
-    --color-turquesa-hover: #25a196;
+    --color-turquesa-oscuro: #229990;
     --color-texto-oscuro: #0f172a;
     --color-texto-medio: #475569;
-    --color-texto-mutado: #94a3b8;
     --color-borde: #e2e8f0;
-    --color-fondo-app: #f8fafc;
-    --fuente-sistema: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
-/* =========================================================================
-   SECCIÓN 2: RESETEO DE NAVEGADOR Y CAPAS BASE DE PANTALLA
-   ========================================================================= */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -22,327 +20,134 @@
 }
 
 body {
+    background-color: var(--color-fondo);
     font-family: var(--fuente-sistema);
-    background-color: var(--color-fondo-app);
     color: var(--color-texto-oscuro);
-    -webkit-font-smoothing: antialiased;
+    padding: 20px;
+    line-height: 1.5;
 }
 
 .contenedor-principal {
-    width: 100%;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* =========================================================================
-   SECCIÓN 3: DISEÑO DE CUBÍCULOS COMPACTOS (ACOMODO LADO A LADO)
-   ========================================================================= */
-.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    flex-wrap: wrap; /* Provoca salto automático cuando falta espacio horizontal */
-    gap: 16px;
-    width: 100%;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.modulo-cubiculo {
-    background: #ffffff;
+/* El nuevo diseño de cubículos independientes (Tarjetas Modulares) */
+.tarjeta-modulo {
+    background-color: var(--color-superficie);
     border-radius: 12px;
     border: 1px solid var(--color-borde);
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-    flex: 1 1 260px; /* Tamaño base balanceado para encaje horizontal */
-    min-width: 240px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--sombra-modulo);
+    padding: 24px;
+    width: 100%;
+    display: block;
 }
 
-.cubiculo-principal {
-    flex: 2.5 1 480px; /* Expande más el módulo de archivos central */
+.tarjeta-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 12px;
 }
 
-.modulo-titulo {
-    font-size: 1rem;
+.icono-titulo {
+    font-size: 1.4rem;
+}
+
+h2 {
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-texto-oscuro);
-    margin-bottom: 14px;
-    border-bottom: 1px solid var(--color-borde);
-    padding-bottom: 8px;
 }
 
-/* =========================================================================
-   SECCIÓN 4: COMPONENTES OPERATIVOS (BOTONERAS Y BUSCADOR)
-   ========================================================================= */
-.btn-primario,
-#btnCrearCarpetaDrive,
-button[type="submit"] {
-    background: var(--color-turquesa) !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 0.6rem 1.4rem !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.5rem !important;
-    font-size: 0.9rem !important;
-    transition: background-color 0.2s !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+/* Contenedor del selector superior */
+.contenedor-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.btn-primario:hover,
-#btnCrearCarpetaDrive:hover {
-    background: var(--color-turquesa-hover) !important;
+@media (min-width: 768px) {
+    .contenedor-selector {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
-.btn-carga-blanco {
-    background-color: #ffffff !important;
-    color: #64748b !important;
-    border: 1px solid var(--color-borde) !important;
-    padding: 10px 18px;
+.etiqueta-seleccion {
     font-size: 0.9rem;
     font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease-in-out;
+    color: var(--color-texto-medio);
 }
+/* =========================================================================
+   STYLE.CSS - PARTE 2: COMPONENTES, FORMULARIOS Y RESPONSIVIDAD ESTRICTA
+   ========================================================================= */
 
-.btn-carga-blanco:hover {
-    background-color: #f8fafc !important;
-    color: #475569 !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    transform: translateY(-1px);
-}
-
-.barra-herramientas-cub {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
+/* Selectores e Inputs estilizados */
+.selector-estilizado {
     width: 100%;
-    flex-wrap: wrap;
-}
-
-.input-busqueda-cub {
-    flex: 1;
-    min-width: 200px;
     padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid var(--color-borde);
-    font-size: 0.9rem;
+    background-color: var(--color-superficie);
+    font-family: var(--fuente-sistema);
+    font-size: 0.95rem;
     color: var(--color-texto-oscuro);
     outline: none;
+    cursor: pointer;
     transition: border-color 0.2s;
 }
 
-.input-busqueda-cub:focus {
+.selector-estilizado:focus {
     border-color: var(--color-turquesa);
 }
 
-/* =========================================================================
-   SECCIÓN 5: CATEGORÍAS LATERALES POR TIPO DE ARCHIVO
-   ========================================================================= */
-.lista-categorias {
-    list-style: none;
+.enlace-seccion-activa {
+    font-size: 0.85rem;
+    color: var(--color-texto-medio);
+    font-weight: 500;
+}
+
+.link-moderno {
+    color: var(--color-turquesa);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-moderno:hover {
+    text-decoration: underline;
+}
+
+/* Grilla Responsiva para los campos del formulario */
+.grid-formulario {
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna por defecto en celulares */
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .grid-formulario {
+        grid-template-columns: repeat(3, 1fr); /* Tres columnas automáticas en pantallas medianas/grandes */
+    }
+}
+
+.campo-formulario {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.cat-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-texto-medio);
-    transition: background 0.15s, color 0.15s;
-}
-
-.cat-item:hover, 
-.cat-item.active {
-    background-color: #f1f5f9;
-    color: var(--color-texto-oscuro);
-}
-
-.icono-cat {
-    font-size: 1.1rem;
-    display: inline-flex;
-    align-items: center;
-}
-
-/* =========================================================================
-   SECCIÓN 6: GRILLA MULTIMEDIA Y TARJETAS IDENTIFICADORAS
-   ========================================================================= */
-.grilla-documentos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
-}
-
-.tarjeta-documento {
-    position: relative;
-    background: #ffffff;
-    border: 1px solid #f1f5f9;
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.tarjeta-documento:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    border-color: #cbd5e1;
-}
-
-.documento-icono {
-    font-size: 2.2rem;
-    margin-bottom: 6px;
-}
-
-.documento-info h4 {
-    font-size: 0.8rem;
-    color: var(--color-texto-oscuro);
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.documento-info p {
-    font-size: 0.7rem;
-    color: var(--color-texto-mutado);
-}
-
-.documento-badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    padding: 1px 5px;
-    border-radius: 4px;
-    text-transform: uppercase;
-}
-
-.pdf { background: #fee2e2; color: #ef4444; }
-.excel { background: #dcfce7; color: #22c55e; }
-.word { background: #dbeafe; color: #3b82f6; }
-.folder { background: #fef9c3; color: #eab308; }
-
-.panel-actividad-vacio {
-    font-size: 0.8rem;
-    color: var(--color-texto-mutado);
-    line-height: 1.4;
-    text-align: center;
-    padding: 20px 10px;
-}
-
-/* =========================================================================
-   SECCIÓN 7: CONDICIONES RESPONSIVAS (MÓVILES)
-   ========================================================================= */
-@media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .modulo-cubiculo {
-        width: 100%;
-        flex: 1 1 100%;
-    }
-}
-
-/* =========================================================================
-   SECCIÓN 8: ORGANIZACIÓN DE CONTENEDORES Y AJUSTES DE REGISTROS
-   ========================================================================= */
-
-/* Espaciador e independencia entre los bloques principales de la app */
-.bloque-superior-drive {
-    margin-bottom: 24px; /* Separa el bloque del drive del bloque de registros */
-}
-
-.bloque-inferior-registros {
-    margin-top: 12px;
-}
-
-/* Equilibrio adaptativo para los cubículos inferiores */
-.cubiculo-formulario {
-    flex: 1 1 350px;
-}
-
-.cubiculo-registros {
-    flex: 2 1 450px;
-}
-
-/* Estilos de los campos del formulario */
-.campo-grupo {
-    margin-bottom: 12px;
-}
-
-.campo-grupo label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-texto-medio);
-    margin-bottom: 4px;
-}
-
-.ejemplo-label {
-    font-weight: 400;
-    color: var(--color-texto-mutado);
-    font-size: 0.75rem;
-}
-
-.campo-grupo input[type="text"] {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    font-size: 0.85rem;
-    color: var(--color-texto-oscuro);
-    font-family: var(--fuente-sistema);
-    outline: none;
-    transition: border-color 0.2s;
-    background-color: #ffffff;
-}
-
-.campo-grupo input[type="text"]:focus {
-    border-color: var(--color-turquesa);
-}
-
-.texto-carga-sistema {
-    font-size: 0.85rem;
-    color: var(--color-texto-medio);
-    padding: 10px 0;
-}
-/* =========================================================================
-   SECCIÓN 8-A: ACOPLAMIENTO ESTÉTICO PARA FORMULARIOS DINÁMICOS COMPACTOS
-   ========================================================================= */
-
-/* Corrige el amontonamiento de las cajas de texto y les devuelve el estilo del sistema */
-.campo-formulario {
-    margin-bottom: 14px;
-    width: 100%;
-    display: block;
-}
-
 .campo-formulario label {
-    display: block;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--color-texto-medio);
-    margin-bottom: 6px;
-    font-family: var(--fuente-sistema);
 }
 
 .campo-formulario input[type="text"] {
@@ -354,9 +159,7 @@ button[type="submit"] {
     color: var(--color-texto-oscuro);
     font-family: var(--fuente-sistema);
     outline: none;
-    background-color: #ffffff;
     transition: border-color 0.2s, box-shadow 0.2s;
-    display: block;
 }
 
 .campo-formulario input[type="text"]:focus {
@@ -364,17 +167,125 @@ button[type="submit"] {
     box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1);
 }
 
-/* Ajuste específico para que las fuentes y selectores del drive no queden encogidos */
-.input-busqueda-cub, #selectorSubcarpetas {
-    width: 100%;
-    background-color: #ffffff;
-    font-family: var(--fuente-sistema);
-    border: 1px solid var(--color-borde);
+/* Bloque de Botones Flexibles y Adaptativos */
+.bloque-botones {
+    display: flex;
+    flex-direction: column; /* Botones uno abajo del otro en móvil */
+    gap: 10px;
 }
 
-/* Alineación limpia para formularios estilizados internos */
-.formulario-estilizado {
+@media (min-width: 480px) {
+    .bloque-botones {
+        flex-direction: row; /* Botones uno al lado del otro si hay espacio */
+    }
+}
+
+.btn-primario, .btn-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: var(--fuente-sistema);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primario {
+    background-color: var(--color-turquesa);
+    color: #ffffff;
+}
+
+.btn-primario:hover {
+    background-color: var(--color-turquesa-oscuro);
+}
+
+.btn-secundario {
+    background-color: #f1f5f9;
+    color: #ef4444;
+    border: 1px solid #fee2e2;
+}
+
+.btn-secundario:hover {
+    background-color: #fee2e2;
+}
+
+.btn-primario:active, .btn-secundario:active {
+    transform: scale(0.98);
+}
+
+/* Blindaje de Tablas Responsivas con scroll interno */
+.tabla-responsiva {
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    overflow-x: auto; /* Permite deslizar la tabla horizontalmente en celulares sin romper la pantalla */
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+th, td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+th {
+    background-color: #f8fafc;
+    color: var(--color-texto-medio);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+td {
+    color: var(--color-texto-oscuro);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.celda-carga {
+    padding: 30px;
+    text-align: center;
+    color: var(--color-texto-medio);
+}
+
+/* Spinner de carga estético */
+.spinner-carga {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--color-turquesa);
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    animation: girarSpinner 0.8s linear infinite;
+}
+
+@keyframes girarSpinner {
+    to { transform: rotate(360deg); }
+}
+
+/* Clases específicas nativas para los botones de acción dentro de la tabla */
+.btn-edit, .btn-delete {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-edit:hover, .btn-delete:hover {
+    transform: scale(1.2);
 }
