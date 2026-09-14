@@ -139,7 +139,8 @@ window.recibirVerificacionDrive = function (respuesta) {
     }
 };
 // =========================================================================
-// INTERCEPTOR DE ARCHIVOS LOCALES REQUERIDO
+// SECCIÓN 5-B: INTERCEPTOR EVALUADOR DE ARCHIVOS LOCALES (SANEADO)
+// Ubicación del bloque: DETRÁS DEL RECEPTOR DE PREEXISTENCIA
 // =========================================================================
 function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
     const listaArchivos = evento.target.files;
@@ -175,7 +176,8 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 
     const lectorBase64 = new FileReader();
     lectorBase64.onload = function (e) {
-        drive_Base64DataSeleccionada = e.target.result.split(",")[1];
+        // Almacenamos el resultado completo en memoria
+        drive_Base64DataSeleccionada = e.target.result;
     };
     lectorBase64.readAsDataURL(archivoFisico);
 }
@@ -190,13 +192,16 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // CORRECCIÓN DE PROTOCOLO: Empaquetamos los datos en formato URLSearchParams plano
+    // Fragmentamos la cadena base64 de forma segura extrayendo estrictamente los datos limpios
+    const base64Limpia = drive_Base64DataSeleccionada.split(",")[1];
+
+    // Empaquetamos la información en formato de formulario plano
     const parametrosFormulario = new URLSearchParams();
     parametrosFormulario.append("accion", tipoAccion);
     parametrosFormulario.append("destinoFolderId", drive_IdCarpetaActiva);
     parametrosFormulario.append("nombreArchivo", drive_NombreArchivoSeleccionado);
     parametrosFormulario.append("mimeType", drive_MimeTypeSeleccionado);
-    parametrosFormulario.append("base64Data", drive_Base64DataSeleccionada);
+    parametrosFormulario.append("base64Data", base64Limpia);
     parametrosFormulario.append("fileIdOriginal", fileIdOriginal || "");
 
     fetch(CARPETAS_WEB_APP_URL, {
@@ -207,7 +212,7 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
         }
     })
     .then(() => {
-        // REQUERIMIENTO 6 y 10: Letrero de confirmación visual para la WebApp
+        // REQUERIMIENTO 6 y 10: Letrero de confirmación visual obligatorio
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
