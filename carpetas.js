@@ -1,7 +1,7 @@
 // =========================================================================
 // CARPETAS.JS - PARTE 1: CAPA DE CONFIGURACIÓN Y VARIABLES OPERATIVAS
 // =========================================================================
-const CARPETAS_WEB_APP_URL = "https://google.com";
+const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxH1groi2vzSvUe4-BSqoLZj0S6h3UewJQHie_iOUhsLVCIdBKqzHWOu4nVGqHkqT1L7g/exec";
 let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
 let drive_ArchivoSeleccionadoBinario = null;
 let drive_NombreArchivoSeleccionado = "";
