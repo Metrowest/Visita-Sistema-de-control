@@ -89,39 +89,50 @@ window.recibirEstructuraDrive = function (resultado) {
     }
 };
 // =========================================================================
-// SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO (ALINEADO)
+// SECCIÓN 5: RECEPTOR DE PREEXISTENCIA CON VALIDADOR LOCAL DE SEGURIDAD (BLINDADO)
 // Ubicación del bloque: PARTE MEDIA DEL ARCHIVO CARPETAS.JS
 // =========================================================================
 window.recibirVerificacionDrive = function (respuesta) {
     if (!respuesta || respuesta.status !== "success") return;
 
-    // REQUISITO 4 y 5 CORREGIDO: Si la respuesta de Google Drive confirma que el archivo SÍ existe (True)
-    if (respuesta.existe === true || respuesta.existe === "true") {
+    // VALIDACIÓN FÍSICA EN PANTALLA: Rastrear si el nombre ya aparece escrito en la tabla visual
+    let existeEnPantalla = false;
+    const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
+    
+    if (tablaCuerpoDrive) {
+        // Inspeccionamos cada fila de la tabla buscando coincidencias exactas de nombre
+        const filas = tablaCuerpoDrive.getElementsByTagName("tr");
+        for (let i = 0; i < filas.length; i++) {
+            if (filas[i].innerText.includes(drive_NombreArchivoSeleccionado)) {
+                existeEnPantalla = true;
+                break;
+            }
+        }
+    }
+
+    // CRUCIAL: Si la macro dice que existe O si físicamente se encuentra en la pantalla, es un REEMPLAZO
+    if (respuesta.existe === true || respuesta.existe === "true" || existeEnPantalla === true) {
         
         // REQUISITO 8: Validación de formato idéntico estricto
-        if (respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
+        if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
             alert("No es el mismo formato, no se puede actualizar.");
             Secc6_Fun2_RestablecerFormularioCarga();
             return;
         }
 
-        // REQUISITO 5: Mensaje flotante con opciones interactivas de Sí o No para documentos ya existentes
+        // REQUISITO 5: Mensaje flotante de confirmación para documentos ya existentes
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
-            // REQUISITO 6: Si decide "Sí", ejecuta la sobreescritura manteniendo el formato original
             Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
         } else {
-            // REQUISITO 7: Si presiona "No", la función aborta y no subirá nada
             Secc6_Fun2_RestablecerFormularioCarga();
         }
     } else {
-        // REQUISITO 9 CORREGIDO: Si la respuesta confirma que el archivo NO existe en la ubicación activa (False)
+        // REQUISITO 9: Si no se halló coincidencia en la tabla de la pantalla, es un DOCUMENTO NUEVO
         let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
         if (confirmarNuevo) {
-            // REQUISITO 10: Si presiona "Sí", procede con la subida normal del archivo nuevo
             Secc6_Fun1_TransmitirBytesHaciaNube("crearNuevo", null);
         } else {
-            // REQUISITO 11: Si presiona "No", la función aborta y no subirá nada
             Secc6_Fun2_RestablecerFormularioCarga();
         }
     }
