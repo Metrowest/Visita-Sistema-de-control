@@ -196,7 +196,8 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
         destinoFolderId: drive_IdCarpetaActiva,
         nombreArchivo: drive_NombreArchivoSeleccionado,
         mimeType: drive_MimeTypeSeleccionado,
-        base64Data: drive_Base64DataSeleccionada,
+        // CORRECCIÓN DE TRANSMISIÓN: Envía estrictamente la cadena de bytes pura del índice 1
+        base64Data: drive_Base64DataSeleccionada[1],
         fileIdOriginal: fileIdOriginal
     };
 
