@@ -234,31 +234,28 @@ window.recibirRespuestaAccionDrive = function (res) {
     alert(res.message || "Acción completada de forma correcta.");
     Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
 };
-
 // =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
+// SECCIÓN 8 (FIJA): ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS (PURIFICADO)
+// Ubicación del bloque: CIERRE TOTAL Y EXCLUSIVO DE CARPETAS.JS
 // =========================================================================
-    // REQ 1 y 2 CORREGIDO: Escucha interactiva que actualiza la ID activa al cambiar de subcarpeta
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // REQ 1 y 2: Escucha interactiva que actualiza la ID activa al cambiar de subcarpeta
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.addEventListener("change", (e) => {
             const idSeleccionada = e.target.value;
-            
-            // Sincronizamos la memoria global con la subcarpeta real elegida por el usuario
             drive_IdCarpetaActiva = idSeleccionada;
             
-            // Limpiamos visualmente la tabla para evitar que archivos viejos engañen al validador
             const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
             if (tablaCuerpoDrive) {
-                tablaCuerpoDrive.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:1rem; color:var(--color-texto-medio);">⏳ Sincronizando archivos de la subcarpeta...</td></tr>`;
+                tablaCuerpoDrive.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:1rem; color:#666;">⏳ Sincronizando archivos de la subcarpeta...</td></tr>`;
             }
-
-            // Disparamos la consulta real hacia la subcarpeta en Google Drive
             Secc3_Fun1_DispararCargaEstructuraNube(idSeleccionada);
         });
     }
 
-    // REQ 3: Escucha nativa de la caja de carga responsiva
+    // REQ 3: Escucha nativa independiente de la caja de carga responsiva
     const inputArchivo = document.getElementById("archivoSubirDrive");
     if (inputArchivo) {
         inputArchivo.addEventListener("change", Secc5_Fun1_ProcesarSeleccionArchivoLocal);
@@ -296,7 +293,7 @@ window.recibirRespuestaAccionDrive = function (res) {
             const script = document.createElement("script");
             script.src = `${CARPETAS_WEB_APP_URL}?accion=borrarCarpeta&targetFolderId=${drive_IdCarpetaActiva}`;
             document.body.appendChild(script);
-            drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM"; // Retorno seguro a la raíz
+            drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
         });
     }
 
