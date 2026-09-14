@@ -325,3 +325,56 @@ button[type="submit"] {
     color: var(--color-texto-medio);
     padding: 10px 0;
 }
+/* =========================================================================
+   SECCIÓN 8-A: ACOPLAMIENTO ESTÉTICO PARA FORMULARIOS DINÁMICOS COMPACTOS
+   ========================================================================= */
+
+/* Corrige el amontonamiento de las cajas de texto y les devuelve el estilo del sistema */
+.campo-formulario {
+    margin-bottom: 14px;
+    width: 100%;
+    display: block;
+}
+
+.campo-formulario label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-texto-medio);
+    margin-bottom: 6px;
+    font-family: var(--fuente-sistema);
+}
+
+.campo-formulario input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    font-size: 0.9rem;
+    color: var(--color-texto-oscuro);
+    font-family: var(--fuente-sistema);
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    display: block;
+}
+
+.campo-formulario input[type="text"]:focus {
+    border-color: var(--color-turquesa);
+    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1);
+}
+
+/* Ajuste específico para que las fuentes y selectores del drive no queden encogidos */
+.input-busqueda-cub, #selectorSubcarpetas {
+    width: 100%;
+    background-color: #ffffff;
+    font-family: var(--fuente-sistema);
+    border: 1px solid var(--color-borde);
+}
+
+/* Alineación limpia para formularios estilizados internos */
+.formulario-estilizado {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
