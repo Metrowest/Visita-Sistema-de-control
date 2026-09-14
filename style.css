@@ -27,12 +27,32 @@ body {
     line-height: 1.5;
 }
 
+3. Vamos a actualizar esta regla y a inyectar el conmutador de rejilla para los cubículos modulares. Reemplaza esa regla específica y añade la configuración para pantallas grandes copiando este fragmento:
+
+```css
 .contenedor-principal {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+ max-width: 1300px;
+ margin: 0 auto;
+ display: grid;
+ grid-template-columns: 1fr; /* Una sola columna por defecto en celulares */
+ gap: 20px;
+}
+
+/* MEDIO RESPONSIVO AVANZADO: Reorganiza los cubículos en pantallas medianas y grandes */
+@media (min-width: 992px) {
+ .contenedor-principal {
+     grid-template-columns: repeat(2, 1fr); /* Divide la pantalla en dos columnas iguales */
+ }
+
+ /* Forzamos al selector de secciones de arriba a ocupar todo el ancho del inicio */
+ .contenedor-selector {
+     grid-column: span 2;
+ }
+
+ /* Forzamos a la gran tabla de Registros Almacenados de abajo a extenderse completa al fondo */
+ .contenedor-principal > .tarjeta-modulo:last-child {
+     grid-column: span 2;
+ }
 }
 
 /* El nuevo diseño de cubículos independientes (Tarjetas Modulares) */
