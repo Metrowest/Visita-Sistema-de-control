@@ -38,21 +38,36 @@ body {
  gap: 20px;
 }
 
-/* MEDIO RESPONSIVO AVANZADO: Reorganiza los cubículos en pantallas medianas y grandes */
-@media (min-width: 992px) {
- .contenedor-principal {
-     grid-template-columns: repeat(2, 1fr); /* Divide la pantalla en dos columnas iguales */
- }
+/* =========================================================================
+   REORGANIZACIÓN ESTRUCTURAL: ORDENAMIENTO DE CUBÍCULOS INDEPENDIENTES
+   ========================================================================= */
+@media (min-width: 768px) {
+    .contenedor-principal {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
 
- /* Forzamos al selector de secciones de arriba a ocupar todo el ancho del inicio */
- .contenedor-selector {
-     grid-column: span 2;
- }
+    /* POSICIÓN 1: El menú selector de secciones se mantiene arriba del todo */
+    .contenedor-selector {
+        order: 1;
+    }
 
- /* Forzamos a la gran tabla de Registros Almacenados de abajo a extenderse completa al fondo */
- .contenedor-principal > .tarjeta-modulo:last-child {
-     grid-column: span 2;
- }
+    /* POSICIÓN 2 (ARRIBA): El Gestor de Archivos sube a la primera posición operativa */
+    #moduloGestorCarpetas {
+        order: 2;
+        border-left: 4px solid var(--color-turquesa); /* Detalle visual distintivo para Drive */
+    }
+
+    /* POSICIÓN 3 (MEDIO): El Formulario de Añadir Registro se ubica al centro */
+    .contenedor-principal > .tarjeta-modulo:nth-of-type(2) {
+        order: 3;
+    }
+
+    /* POSICIÓN 4 (ABAJO): La tabla de Registros Almacenados en la Hoja se queda al fondo */
+    .contenedor-principal > .tarjeta-modulo:last-child {
+        order: 4;
+    }
 }
 
 /* El nuevo diseño de cubículos independientes (Tarjetas Modulares) */
