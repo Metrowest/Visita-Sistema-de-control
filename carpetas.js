@@ -140,48 +140,56 @@ window.recibirVerificacionDrive = function (respuesta) {
 };
 
 // =========================================================================
-// SECCIÓN 6: INTERCEPTOR EVALUADOR DE ARCHIVOS LOCALES Y VISTA PREVIA (CORREGIDO)
-// Ubicación del bloque: MITAD INFERIOR DEL ARCHIVO CARPETAS.JS
+// SECCIÓN 6: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE - FORM)
+// Ubicación del bloque: PARTE INFERIOR DEL ARCHIVO CARPETAS.JS
 // =========================================================================
-function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
-    const listaArchivos = evento.target.files;
-    const txtNombre = document.getElementById("nombreArchivoSeleccionado");
-    const btnSubir = document.getElementById("btnIniciarCargaDrive");
-    const previewContenedor = document.getElementById("contenedorPrevisualizacionFoto");
-    const previewImg = document.getElementById("previewFotoDriveImg");
 
-    if (!listaArchivos || listaArchivos.length === 0) {
-        if (txtNombre) txtNombre.innerText = "Ningún archivo seleccionado";
-        if (btnSubir) btnSubir.style.display = "none";
-        if (previewContenedor) previewContenedor.style.display = "none";
-        return;
-    }
+// REQ 6 y 10: Despacha la carga física de bytes en formato URL plano inmune a bloqueos
+function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
+    const btn = document.getElementById("btnIniciarCargaDrive");
+    if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // CORRECCIÓN REDUNDANTE: Extraemos el primer archivo real indexado del vector local
-    const archivoFisico = listaArchivos[0];
-    drive_NombreArchivoSeleccionado = archivoFisico.name;
-    drive_MimeTypeSeleccionado = archivoFisico.type;
-    
-    if (txtNombre) txtNombre.innerText = archivoFisico.name;
-    if (btnSubir) btnSubir.style.display = "inline-block";
+    // CORRECCIÓN DE PROTOCOLO: Empaquetamos los datos en formato URLSearchParams plano
+    const parametrosFormulario = new URLSearchParams();
+    parametrosFormulario.append("accion", tipoAccion);
+    parametrosFormulario.append("destinoFolderId", drive_IdCarpetaActiva);
+    parametrosFormulario.append("nombreArchivo", drive_NombreArchivoSeleccionado);
+    parametrosFormulario.append("mimeType", drive_MimeTypeSeleccionado);
+    parametrosFormulario.append("base64Data", drive_Base64DataSeleccionada);
+    parametrosFormulario.append("fileIdOriginal", fileIdOriginal || "");
 
-    if (archivoFisico.type.startsWith("image/")) {
-        const lectorVistaPrevia = new FileReader();
-        lectorVistaPrevia.onload = function (e) {
-            if (previewImg) previewImg.src = e.target.result;
-            if (previewContenedor) previewContenedor.style.display = "flex";
-        };
-        lectorVistaPrevia.readAsDataURL(archivoFisico);
-    } else {
-        if (previewContenedor) previewContenedor.style.display = "none";
-    }
-
-    const lectorBase64 = new FileReader();
-    lectorBase64.onload = function (e) {
-        drive_Base64DataSeleccionada = e.target.result.split(",")[1];
-    };
-    lectorBase64.readAsDataURL(archivoFisico);
+    fetch(CARPETAS_WEB_APP_URL, {
+        method: "POST",
+        body: parametrosFormulario,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    })
+    .then(() => {
+        // REQUERIMIENTO 6 y 10: Letrero de confirmación visual para la WebApp
+        alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        Secc6_Fun2_RestablecerFormularioCarga();
+        Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        Secc6_Fun2_RestablecerFormularioCarga();
+        setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
+    });
 }
+
+// FUNCIÓN 2: Restaura las cajas y limpia la memoria de la carga actual
+function Secc6_Fun2_RestablecerFormularioCarga() {
+    const btn = document.getElementById("btnIniciarCargaDrive");
+    if (btn) { btn.disabled = false; btn.innerText = "🚀 Subir a Carpeta Activa"; }
+    document.getElementById("archivoSubirDrive").value = "";
+    document.getElementById("nombreArchivoSeleccionado").innerText = "Ningún archivo seleccionado";
+    if (document.getElementById("contenedorPrevisualizacionFoto")) {
+        document.getElementById("contenedorPrevisualizacionFoto").style.display = "none";
+    }
+}
+
 // =========================================================================
 // SECCIÓN 7: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (POST ENGINE)
 // =========================================================================
