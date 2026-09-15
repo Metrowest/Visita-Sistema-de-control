@@ -204,20 +204,21 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 // SECCIÓN 7: TRANSMISOR DE BYTES BINARIOS (URL PLANO COMPATIBLE)
 // =========================================================================
 
-// REQ 6 y 10: Despacha la transferencia física empaquetada en formato de texto plano
+// REQ 6 y 10 RECTIFICADO: Extrae los bytes puros después de la coma antes de transmitir
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // Saneamiento de datos binarios: removemos encabezados MIME innecesarios
-    const base64Limpia = drive_Base64DataSeleccionada.indexOf(",") > -1 ? drive_Base64DataSeleccionada.split(",")[1] : drive_Base64DataSeleccionada;
+    // Saneamiento síncrono: extraemos estrictamente la cadena de datos pura descartando el prefijo MIME
+    const cadenaRaw = drive_Base64DataSeleccionada.toString();
+    const base64Pura = cadenaRaw.indexOf(",") > -1 ? cadenaRaw.split(",")[1] : cadenaRaw;
 
     const parametrosFormulario = new URLSearchParams();
     parametrosFormulario.append("accion", tipoAccion);
     parametrosFormulario.append("destinoFolderId", drive_IdCarpetaActiva);
     parametrosFormulario.append("nombreArchivo", drive_NombreArchivoSeleccionado);
     parametrosFormulario.append("mimeType", drive_MimeTypeSeleccionado);
-    parametrosFormulario.append("base64Data", base64Limpia);
+    parametrosFormulario.append("base64Data", base64Pura);
     parametrosFormulario.append("fileIdOriginal", fileIdOriginal || "");
 
     fetch(CARPETAS_WEB_APP_URL, {
@@ -226,7 +227,6 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
     })
     .then(() => {
-        // REQUISITO 6 y 10: Imprime en pantalla el mensaje obligatorio exacto exigido
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
