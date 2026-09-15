@@ -536,12 +536,16 @@ if ("serviceWorker" in navigator) {
     });
 }
 
+// ESTE BLOQUE SE EJECUTA DE INMEDIATO PARA CAPTURAR EL AVISO NATIVO
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     disparadorInstalacionPWA = e;
     
+    // Forzamos al banner a mostrarse quitando la clase que lo oculta
     const banner = document.getElementById("pwa-install-banner");
-    if (banner) banner.classList.remove("hidden");
+    if (banner) {
+        banner.classList.remove("hidden");
+    }
 });
 
 // Programar las acciones de los botones una vez que cargue la interfaz
