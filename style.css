@@ -161,15 +161,15 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* En pantallas de computadoras, los campos se dividen para no amontonarse */
-@media (min-width: 576px) {
+/* Ajuste de columnas: 2 columnas en dispositivos móviles/tabletas y 3 columnas solo en computadoras */
+@media (min-width: 480px) {
     .grid-formulario {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles y tabletas */
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .grid-formulario {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas solo en pantallas de computadora */
     }
 }
 
