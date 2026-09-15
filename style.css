@@ -372,7 +372,7 @@ tr:last-child td {
    NUEVAS ADICIONES: ICONOS DINÁMICOS Y COMPACTACIÓN DEL BANNER PWA
    ========================================================================= */
 
-/* Alineación e integración de Iconos Dinámicos */
+/* Alineación e integración de Iconos Dinámicos (MÓDULO DE CARPETAS) */
 .tabla-responsiva td i, 
 .tarjeta-modulo i {
     margin-right: 8px;
@@ -380,112 +380,7 @@ tr:last-child td {
     vertical-align: middle;
 }
 
-/* Estilización Compacta del Banner PWA */
-.banner-pwa {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #1b5e20; /* Verde oscuro elegante y menos invasivo */
-    color: #ffffff;
-    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
-    z-index: 10000;
-    transition: transform 0.3s ease-in-out;
-}
-
-.banner-pwa-contenido {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 12px 24px;
-}
-
-.banner-pwa-texto {
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-.banner-pwa-botones {
-    display: flex;
-    gap: 12px;
-}
-
-.btn-pwa-confirmar, .btn-pwa-cancelar {
-    border: none;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: opacity 0.2s;
-}
-
-.btn-pwa-confirmar {
-    background-color: var(--color-turquesa);
-    color: #ffffff;
-}
-
-.btn-pwa-confirmar:hover {
-    opacity: 0.9;
-}
-
-.btn-pwa-cancelar {
-    background-color: transparent;
-    color: #e2e8f0;
-    text-decoration: none;
-}
-
-.btn-pwa-cancelar:hover {
-    color: #ffffff;
-}
-
-.banner-pwa.hidden {
-    transform: translateY(110%);
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* REDUCCIÓN EXTREMA DEL BANNER PWA EN TELÉFONOS (ESTILO COMPACTO ANTI-BLOQUEO) */
-@media (max-width: 480px) {
-    .banner-pwa {
-        bottom: 8px;
-        left: 3%;
-        width: 94%;
-        border-radius: 8px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-    }
-    .banner-pwa-contenido {
-        flex-direction: row; /* Mantiene el texto y el botón alineados de lado a lado */
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 12px; /* Relleno mínimo para que sea una barra muy delgada */
-    }
-    .banner-pwa-texto {
-        font-size: 0.78rem; /* Letra compacta pero legible */
-        line-height: 1.2;
-        text-align: left;
-        max-width: 70%;
-    }
-    .banner-pwa-botones {
-        width: auto;
-        justify-content: flex-end;
-        gap: 6px;
-    }
-    .btn-pwa-confirmar {
-        padding: 4px 10px;
-        font-size: 0.75rem;
-        border-radius: 4px;
-        white-space: nowrap;
-    }
-    .btn-pwa-cancelar {
-        font-size: 0.7rem;
-        padding: 4px;
-    }
-}
-/* Zona de amortiguación para que el formulario no sea tapado por elementos flotantes en móviles */
+/* Zona de amortiguación para que el formulario no sea tapado en móviles */
 @media (max-width: 768px) {
     .grid-formulario {
         margin-bottom: 12px;
@@ -494,21 +389,39 @@ tr:last-child td {
         margin-bottom: 40px; /* Deja un espacio libre abajo para que el botón "Guardar" suba y sea accesible */
     }
 }
-/* REDUCCIÓN ESTILIZADA DE LA CAJA TURQUESA EN TELÉFONOS */
-@media (max-width: 480px) {
-    #bannerInstalacionPWA {
-        bottom: 8px !important;
-        left: 12px !important;
-        right: 12px !important;
-        padding: 6px 14px !important;
-        border-radius: 8px !important;
-    }
-    #bannerInstalacionPWA p {
-        font-size: 0.78rem !important;
-        max-width: 70% !important;
-    }
-    #btnInstalarPWA {
-        padding: 4px 10px !important;
-        font-size: 0.75rem !important;
-    }
+
+/* =========================================================================
+   CONTROL CENTRAL COMPACTO DEL BANNER PWA (DESDE ARCHIVO STYLE.CSS)
+   ========================================================================= */
+#bannerInstalacionPWA {
+    display: none; /* Tu script app.js cambia esto a inline-flex o flex al activarse */
+    background-color: var(--color-turquesa);
+    color: #ffffff;
+    padding: 6px 16px; /* Relleno mínimo para que sea una franja muy delgada */
+    position: fixed;
+    bottom: 8px;
+    left: 16px;
+    right: 16px;
+    z-index: 9999;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+#bannerInstalacionPWA p {
+    margin: 0;
+    font-size: 0.78rem; /* Texto pequeño y estilizado */
+    font-weight: 500;
+}
+
+#btnInstalarPWA {
+    background-color: #ffffff;
+    color: var(--color-turquesa);
+    border: none;
+    padding: 4px 10px; /* Botón pequeño de altura reducida */
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
 }
