@@ -33,7 +33,7 @@ function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
 // REQ 4: Envía el nombre del archivo para validar duplicados usando el callback correcto
 function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
     const viejo = document.getElementById("script-drive-verificar");
-    if (viajo) viejo.remove();
+    if (viejo) viejo.remove();
     const script = document.createElement("script");
     script.id = "script-drive-verificar";
     script.src = `${CARPETAS_WEB_APP_URL}?accion=verificarArchivo&nombreArchivo=${encodeURIComponent(nombreArc)}&destinoFolderId=${encodeURIComponent(drive_IdCarpetaActiva)}&callback=recibirVerificacionDrive`;
