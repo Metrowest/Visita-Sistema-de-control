@@ -442,8 +442,9 @@ tr:last-child td {
 }
 
 .banner-pwa.hidden {
-    transform: translateY(100%);
-    display: none !important;
+    transform: translateY(110%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* REDUCCIÓN EXTREMA DEL BANNER PWA EN TELÉFONOS (ESTILO COMPACTO ANTI-BLOQUEO) */
