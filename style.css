@@ -325,3 +325,45 @@ tr:last-child td {
 .btn-edit:hover, .btn-delete:hover {
     transform: scale(1.2);
 }
+/* =========================================================================
+   DISTRIBUCIÓN PARALELA MAESTRA INTEGRADA (MÓDULOS DE LA FOTO)
+   ========================================================================= */
+.contenedor-modulos-paralelos {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Columna Izquierda (Carpetas) y Columna Central (Formulario) */
+.contenedor-modulos-paralelos > .tarjeta-modulo:not(:last-child),
+.contenedor-modulos-paralelos > #moduloGestorCarpetas {
+    flex: 1;
+    min-width: 340px;
+    margin: 0 !important;
+}
+
+/* Columna Derecha Ancha (Registros Almacenados de la Hoja) */
+.contenedor-modulos-paralelos > .tarjeta-modulo:last-child {
+    flex: 2;
+    min-width: 500px;
+    margin: 0 !important;
+}
+
+/* Optimización Responsiva para Teléfonos y Tabletas Pequeñas */
+@media (max-width: 1100px) {
+    .contenedor-modulos-paralelos {
+        flex-direction: column;
+        align-items: center;
+    }
+    .contenedor-modulos-paralelos > .tarjeta-modulo {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+}
