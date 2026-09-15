@@ -201,48 +201,41 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 }
 
 // =========================================================================
-// SECCIÓN 7: TRANSMISOR DE BYTES BINARIOS (URL PLANO COMPATIBLE)
+// SECCIÓN 7: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (ORIGINAL COMPATIBLE)
+// Ubicación del bloque: BASE DE LABORATORIO.JS - RESTAURACIÓN DE PRIMERA VERSIÓN
 // =========================================================================
-
-// REQ 6 y 10 RECTIFICADO: Aísla la cadena pura de bytes (Índice 1) antes de compactar y transmitir
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // Saneamiento de datos: extraemos estrictamente los bytes puros después de la coma (Índice 1)
-    const cadenaRaw = drive_Base64DataSeleccionada.toString();
-    const base64Pura = cadenaRaw.indexOf(",") > -1 ? cadenaRaw.split(",")[1] : cadenaRaw;
-
-    // Compactación final redundante de seguridad en texto plano puro
-    const base64Compacta = Array.isArray(base64Pura) ? base64Pura.join("") : base64Pura;
-
-    const parametrosFormulario = new URLSearchParams();
-    parametrosFormulario.append("accion", tipoAccion);
-    parametrosFormulario.append("destinoFolderId", drive_IdCarpetaActiva);
-    parametrosFormulario.append("nombreArchivo", drive_NombreArchivoSeleccionado);
-    parametrosFormulario.append("mimeType", drive_MimeTypeSeleccionado);
-    parametrosFormulario.append("base64Data", base64Compacta);
-    parametrosFormulario.append("fileIdOriginal", fileIdOriginal || "");
+    // El secreto de la primera versión exitosa: Mandar los bytes directos en el paquete JSON
+    let paqueteCarga = {
+        accion: tipoAccion,
+        destinoFolderId: drive_IdCarpetaActiva,
+        nombreArchivo: drive_NombreArchivoSeleccionado,
+        mimeType: drive_MimeTypeSeleccionado,
+        base64Data: drive_Base64DataSeleccionada,
+        fileIdOriginal: fileIdOriginal
+    };
 
     fetch(CARPETAS_WEB_APP_URL, {
         method: "POST",
-        body: parametrosFormulario,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        body: JSON.stringify(paqueteCarga)
     })
-    .then(() => {
+    .then(res => res.json())
+    .then(data => {
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     })
     .catch(err => {
-        console.error(err);
+        console.error("Aviso de transmisión:", err);
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
     });
 }
 
-// Función encargada de limpiar las cajas de texto y restablecer el formulario local
 function Secc6_Fun2_RestablecerFormularioCarga() {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = false; btn.innerText = "🚀 Subir a Carpeta Activa"; }
@@ -254,11 +247,10 @@ function Secc6_Fun2_RestablecerFormularioCarga() {
 }
 
 // =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
+// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS NATIVOS
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     
-    // REQ 1 y 2: Escucha interactiva propia para el cambio de subcarpetas en caliente
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.addEventListener("change", (e) => {
@@ -271,13 +263,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // REQ 3: Escucha interactiva para capturar el documento local al seleccionarlo
     const inputArchivo = document.getElementById("archivoSubirDrive");
     if (inputArchivo) {
         inputArchivo.addEventListener("change", Secc5_Fun1_ProcesarSeleccionArchivoLocal);
     }
 
-    // REQ 4: Escucha interactiva para detonar el validador al presionar el botón
     const btnCarga = document.getElementById("btnIniciarCargaDrive");
     if (btnCarga) {
         btnCarga.addEventListener("click", () => {
@@ -289,7 +279,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Inicializador con retardo técnico de 1 segundo para garantizar arranque limpio
     setTimeout(() => {
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     }, 1000);
