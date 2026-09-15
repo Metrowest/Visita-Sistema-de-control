@@ -204,17 +204,22 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 // SECCIÓN 7: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (ORIGINAL COMPATIBLE)
 // Ubicación del bloque: BASE DE LABORATORIO.JS - RESTAURACIÓN DE PRIMERA VERSIÓN
 // =========================================================================
+// REQ 6 y 10 RESTAURADO: Extractor original de la primera versión funcional de Apps Script
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // El secreto de la primera versión exitosa: Mandar los bytes directos en el paquete JSON
+    // Saneamiento puro de la primera versión: extrae estrictamente la cadena del índice 1
+    const base64DataRaw = drive_Base64DataSeleccionada || "";
+    const base64Pura = base64DataRaw.indexOf(",") > -1 ? base64DataRaw.split(",")[1] : base64DataRaw;
+
+    // Paquete original limpio que procesaba el Apps Script de forma nativa
     let paqueteCarga = {
         accion: tipoAccion,
         destinoFolderId: drive_IdCarpetaActiva,
         nombreArchivo: drive_NombreArchivoSeleccionado,
         mimeType: drive_MimeTypeSeleccionado,
-        base64Data: drive_Base64DataSeleccionada,
+        base64Data: base64Pura,
         fileIdOriginal: fileIdOriginal
     };
 
@@ -229,7 +234,7 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     })
     .catch(err => {
-        console.error("Aviso de transmisión:", err);
+        console.error("Aviso original de red:", err);
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
