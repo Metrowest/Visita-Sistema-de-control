@@ -500,15 +500,15 @@ tr:last-child td {
         bottom: 8px !important;
         left: 12px !important;
         right: 12px !important;
-        padding: 6px 14px !important; /* Relleno mínimo para que sea muy delgada */
+        padding: 6px 14px !important;
         border-radius: 8px !important;
     }
     #bannerInstalacionPWA p {
-        font-size: 0.78rem !important; /* Texto más compacto */
+        font-size: 0.78rem !important;
         max-width: 70% !important;
     }
     #btnInstalarPWA {
-        padding: 4px 10px !important; /* Botón pequeño */
+        padding: 4px 10px !important;
         font-size: 0.75rem !important;
     }
 }
