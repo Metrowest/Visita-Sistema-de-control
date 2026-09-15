@@ -446,31 +446,50 @@ tr:last-child td {
     display: none !important;
 }
 
-/* Reducción extrema del Banner en Móviles para que no consuma espacio visual */
+/* REDUCCIÓN EXTREMA DEL BANNER PWA EN TELÉFONOS (ESTILO COMPACTO ANTI-BLOQUEO) */
 @media (max-width: 480px) {
     .banner-pwa {
-        bottom: 12px;
-        left: 4%;
-        width: 92%;
-        border-radius: 10px;
+        bottom: 8px;
+        left: 3%;
+        width: 94%;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     }
     .banner-pwa-contenido {
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px 16px;
-        text-align: center;
+        flex-direction: row; /* Mantiene el texto y el botón alineados de lado a lado */
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px; /* Relleno mínimo para que sea una barra muy delgada */
     }
     .banner-pwa-texto {
-        font-size: 0.85rem;
-        line-height: 1.4;
+        font-size: 0.78rem; /* Letra compacta pero legible */
+        line-height: 1.2;
+        text-align: left;
+        max-width: 70%;
     }
     .banner-pwa-botones {
-        width: 100%;
-        justify-content: center;
-        gap: 16px;
+        width: auto;
+        justify-content: flex-end;
+        gap: 6px;
     }
-    .btn-pwa-confirmar, .btn-pwa-cancelar {
-        padding: 6px 14px;
-        font-size: 0.8rem;
+    .btn-pwa-confirmar {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+    .btn-pwa-cancelar {
+        font-size: 0.7rem;
+        padding: 4px;
+    }
+}
+/* Zona de amortiguación para que el formulario no sea tapado por elementos flotantes en móviles */
+@media (max-width: 768px) {
+    .grid-formulario {
+        margin-bottom: 12px;
+    }
+    .bloque-botones {
+        margin-bottom: 40px; /* Deja un espacio libre abajo para que el botón "Guardar" suba y sea accesible */
     }
 }
