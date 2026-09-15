@@ -494,3 +494,21 @@ tr:last-child td {
         margin-bottom: 40px; /* Deja un espacio libre abajo para que el botón "Guardar" suba y sea accesible */
     }
 }
+/* REDUCCIÓN ESTILIZADA DE LA CAJA TURQUESA EN TELÉFONOS */
+@media (max-width: 480px) {
+    #bannerInstalacionPWA {
+        bottom: 8px !important;
+        left: 12px !important;
+        right: 12px !important;
+        padding: 6px 14px !important; /* Relleno mínimo para que sea muy delgada */
+        border-radius: 8px !important;
+    }
+    #bannerInstalacionPWA p {
+        font-size: 0.78rem !important; /* Texto más compacto */
+        max-width: 70% !important;
+    }
+    #btnInstalarPWA {
+        padding: 4px 10px !important; /* Botón pequeño */
+        font-size: 0.75rem !important;
+    }
+}
