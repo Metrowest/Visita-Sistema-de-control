@@ -509,20 +509,6 @@ function actualizarEnlaceUbicacion() {
     }
 }
 // =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS CONTROLADAS NATIVAS (RESTABLECIDO)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
-// =========================================================================
-document.getElementById("selectorHoja").addEventListener("change", () => {
-    actualizarEnlaceUbicacion();
-    cargarDatos();
-});
-
-window.addEventListener("load", () => {
-    actualizarEnlaceUbicacion();
-    cargarDatos();
-}); // <-- ESTA ES LA LLAVE DE CIERRE QUE ME MOSTRASTE
-
-// =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
 // =========================================================================
@@ -536,54 +522,30 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-// CAPTURA INMEDIATA: Forzamos al elemento a mostrarse eliminando la clase de ocultado
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     disparadorInstalacionPWA = e;
     
-    const banner = document.getElementById("pwa-install-banner");
-    if (banner) {
-        banner.classList.remove("hidden");
-    }
+    const banner = document.getElementById("bannerInstalacionPWA");
+    if (banner) banner.style.display = "block";
 });
 
-// PROGRAMACIÓN SEGURA: Monitoreamos los botones cuando la pantalla cargue por completo
-document.addEventListener("DOMContentLoaded", () => {
-    const btnInstalar = document.getElementById("btn-pwa-instalar");
-    const btnCerrar = document.getElementById("btn-pwa-cerrar");
-    const banner = document.getElementById("pwa-install-banner");
-
-    // Si el navegador tiró el aviso antes de que el HTML estuviera listo, lo activamos aquí
-    if (disparadorInstalacionPWA && banner) {
-        banner.classList.remove("hidden");
-    }
-
-    // ACCIÓN DEL BOTÓN INSTALAR
-    if (btnInstalar) {
-        btnInstalar.addEventListener("click", async () => {
-            if (!disparadorInstalacionPWA) return;
-            
-            disparadorInstalacionPWA.prompt();
-            
-            const { outcome } = await disparadorInstalacionPWA.userChoice;
-            console.log(`El usuario respondió a la instalación con la opción: ${outcome}`);
-            
-            disparadorInstalacionPWA = null;
-            if (banner) banner.classList.add("hidden");
-        });
-    }
-
-    // ACCIÓN DEL BOTÓN AHORA NO (CERRAR)
-    if (btnCerrar) {
-        btnCerrar.addEventListener("click", () => {
-            if (banner) banner.classList.add("hidden");
-        });
-    }
+document.getElementById("btnInstalarPWA").addEventListener("click", async () => {
+    if (!disparadorInstalacionPWA) return;
+    
+    disparadorInstalacionPWA.prompt();
+    
+    const { outcome } = await disparadorInstalacionPWA.userChoice;
+    console.log(`El usuario respondió a la instalación con la opción: ${outcome}`);
+    
+    disparadorInstalacionPWA = null;
+    const banner = document.getElementById("bannerInstalacionPWA");
+    if (banner) banner.style.display = "none";
 });
 
 window.addEventListener("appinstalled", () => {
     console.log("¡Éxito total! La aplicación ha sido instalada de forma nativa.");
     disparadorInstalacionPWA = null;
-    const banner = document.getElementById("pwa-install-banner");
-    if (banner) banner.classList.add("hidden");
+    const banner = document.getElementById("bannerInstalacionPWA");
+    if (banner) banner.style.display = "none";
 });
