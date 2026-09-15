@@ -536,25 +536,24 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-// CAPTURA INMEDIATA: Guardamos el aviso nativo en memoria apenas el navegador lo detecte
+// CAPTURA INMEDIATA: Forzamos al elemento a mostrarse eliminando la clase de ocultado
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     disparadorInstalacionPWA = e;
     
-    // Si la pantalla ya cargó del todo, mostramos el banner de una vez
     const banner = document.getElementById("pwa-install-banner");
     if (banner) {
         banner.classList.remove("hidden");
     }
 });
 
-// PROGRAMACIÓN SEGURA: Esperamos a que todo el HTML esté listo en la pantalla
+// PROGRAMACIÓN SEGURA: Monitoreamos los botones cuando la pantalla cargue por completo
 document.addEventListener("DOMContentLoaded", () => {
     const btnInstalar = document.getElementById("btn-pwa-instalar");
     const btnCerrar = document.getElementById("btn-pwa-cerrar");
     const banner = document.getElementById("pwa-install-banner");
 
-    // Si el navegador ya había mandado el aviso antes de que este bloque cargara, abrimos el banner aquí
+    // Si el navegador tiró el aviso antes de que el HTML estuviera listo, lo activamos aquí
     if (disparadorInstalacionPWA && banner) {
         banner.classList.remove("hidden");
     }
