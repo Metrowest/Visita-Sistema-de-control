@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio de Pruebas Aislado - Gestor de Carpetas</title>
+    <!-- Vinculación directa al archivo de estilos general de tu aplicación -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+
+        <!-- =========================================================================
+             BLOQUE AISLADO: GESTOR MODULAR DE DRIVE (VISITA ACTUAL)
+             ========================================================================= -->
+        <div id="moduloGestorCarpetas" class="tarjeta-modulo">
+            <div class="tarjeta-cabecera tarjeta-cabecera-drive">
+                <div class="icono-titulo">📁</div>
+                <h2 id="driveFormTitulo">Gestor de Archivos (Laboratorio de Pruebas)</h2>
+            </div>
+
+            <div class="formulario-estilizado cuerpo-modulo-drive">
+                <!-- Selector dinámico de subcarpetas (Requisito 1) -->
+                <div class="campo-formulario">
+                    <label for="selectorSubcarpetas">📁 Seleccionar Carpeta Interna:</label>
+                    <select id="selectorSubcarpetas" class="selector-estilizado">
+                        <option value="RAIZ">Cargando carpetas de Drive...</option>
+                    </select>
+                </div>
+
+                <!-- Campo de carga de archivos físicos (Requisito 3) -->
+                <div class="campo-formulario contenedor-dropzone-drive">
+                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
+                        Seleccionar Documento para la Ubicación Activa
+                    </label>
+                    <input type="file" id="archivoSubirDrive">
+                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
+
+                    <!-- Previsualización responsiva para imágenes -->
+                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
+                        <img id="previewFotoDriveImg" src="" alt="Previsualización seleccionada">
+                    </div>
+
+                    <!-- Botón disparador de eventos con la clase nativa de tu CSS -->
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
+                        🚀 Subir a Carpeta Activa
+                    </button>
+                </div>
+
+                <!-- Visor gráfico estructurado en tabla responsiva (Requisito 2) -->
+                <div class="seccion-visor-archivos">
+                    <h3 class="titulo-visor-drive">
+                        <span>📄</span> Archivos Disponibles en esta Carpeta:
+                    </h3>
+                    <div class="tabla-responsiva contenedor-scroll-drive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Formato (Tipo)</th>
+                                    <th>Enlace</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCuerpoDrive">
+                                <tr>
+                                    <td colspan="3" class="celda-carga">
+                                        Selecciona una subcarpeta para listar los documentos...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Cierre de contenedor-principal -->
+
+    <!-- Vinculación exclusiva al script aislado del laboratorio -->
+    <script src="laboratorio.js"></script>
+</body>
+</html>
