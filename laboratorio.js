@@ -204,16 +204,16 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 // SECCIÓN 7: TRANSMISOR DE BYTES BINARIOS (URL PLANO COMPATIBLE)
 // =========================================================================
 
-// REQ 6 y 10 RECTIFICADO: Compacta la matriz de bytes antes de enviar para evitar hojas en blanco
+// REQ 6 y 10 RECTIFICADO: Aísla la cadena pura de bytes (Índice 1) antes de compactar y transmitir
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
-    // Saneamiento de datos binarios: extraemos el texto base64 del índice 1 y lo unificamos
+    // Saneamiento de datos: extraemos estrictamente los bytes puros después de la coma (Índice 1)
     const cadenaRaw = drive_Base64DataSeleccionada.toString();
-    const base64Pura = cadenaRaw.indexOf(",") > -1 ? cadenaRaw.split(",") : cadenaRaw;
+    const base64Pura = cadenaRaw.indexOf(",") > -1 ? cadenaRaw.split(",")[1] : cadenaRaw;
 
-    // CORRECCIÓN MAESTRA: Si la variable quedó fragmentada en matriz por comas, la compactamos a texto puro
+    // Compactación final redundante de seguridad en texto plano puro
     const base64Compacta = Array.isArray(base64Pura) ? base64Pura.join("") : base64Pura;
 
     const parametrosFormulario = new URLSearchParams();
