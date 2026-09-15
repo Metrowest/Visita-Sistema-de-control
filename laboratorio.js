@@ -41,23 +41,34 @@ function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
 }
 
 // =========================================================================
-// SECCIÓN 4: RECEPTORES VISUALES DE RESPUESTAS ASÍNCRONAS (REJILLAS)
+// SECCIÓN 4: RECEPTORES VISUALES DE RESPUESTAS ASÍNCRONAS (CORREGIDO)
+// Ubicación del bloque: PARTE SUPERIOR MEDIA DE LABORATORIO.JS
 // =========================================================================
-
-// REQ 1 y 2: Procesa la estructura e inyecta las opciones en la lista y el visor
 window.recibirEstructuraDrive = function (resultado) {
     if (!resultado || resultado.status !== "success") return;
+    
+    // Sincronizamos la memoria global con el ID real devuelto por el servidor
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
 
     const selectorSub = document.getElementById("selectorSubcarpetas");
     if (selectorSub) {
         selectorSub.innerHTML = "";
         
+        // REQUISITO 1 y 2 CORREGIDO: La opción inicial se acopla a la ubicación activa actual
         let optRaiz = document.createElement("option");
-        optRaiz.value = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
-        optRaiz.innerText = "⬅️ Regresar a la Raíz (Visita Actual)";
+        optRaiz.value = resultado.idCarpetaActual;
+        optRaiz.innerText = "📁 " + resultado.nombreCarpetaActual + " (Ubicación Activa)";
         selectorSub.appendChild(optRaiz);
 
+        // Si estamos metidos en una subcarpeta profunda, inyectamos la vía de escape estricta
+        if (resultado.idCarpetaActual !== "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM") {
+            let optEscape = document.createElement("option");
+            optEscape.value = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM";
+            optEscape.innerText = "⬅️ Regresar a la Raíz (Visita Actual)";
+            selectorSub.appendChild(optEscape);
+        }
+
+        // Mapeamos e inyectamos las carpetas hijas disponibles en el nivel actual
         if (resultado.carpetas && resultado.carpetas.length > 0) {
             resultado.carpetas.forEach(sub => {
                 let opt = document.createElement("option");
@@ -66,9 +77,12 @@ window.recibirEstructuraDrive = function (resultado) {
                 selectorSub.appendChild(opt);
             });
         }
+        
+        // Forzamos al selector a retener visualmente el identificador activo sin resetearse
         selectorSub.value = drive_IdCarpetaActiva;
     }
 
+    // REQUISITO 2: Renderiza las filas físicas de archivos detectados en la tabla responsiva
     const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
     if (tablaCuerpoDrive) {
         tablaCuerpoDrive.innerHTML = "";
@@ -86,6 +100,7 @@ window.recibirEstructuraDrive = function (resultado) {
         });
     }
 };
+
 // =========================================================================
 // SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO
 // =========================================================================
