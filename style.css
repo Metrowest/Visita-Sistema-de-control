@@ -396,31 +396,43 @@ tr:last-child td {
 #bannerInstalacionPWA {
     background-color: var(--color-turquesa) !important;
     color: #ffffff !important;
-    padding: 6px 16px !important; /* Fuerza el relleno mínimo para que sea una franja delgada */
+    padding: 6px 12px !important; /* Relleno compacto para no desbordar */
     position: fixed !important;
     bottom: 8px !important;
     left: 16px !important;
-    right: 16px !important;
     z-index: 9999 !important;
     border-radius: 8px !important;
+    
+    /* Configuración de alineación horizontal en una sola línea */
+    display: inline-flex !important;
+    flex-direction: row-reverse; /* Empuja el botón al principio (izquierda) y el texto a la derecha */
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: flex-end !important; /* Junta los elementos desde el inicio */
+    gap: 10px !important; /* Espaciado corto entre el botón y el texto */
+    
+    /* Tus dos líneas de control estricto de tamaño */
+    max-width: 300px !important;
+    max-height: 50px !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
 }
 
 #bannerInstalacionPWA p {
     margin: 0 !important;
-    font-size: 0.78rem !important; /* Fuerza la letra pequeña y estilizada */
+    font-size: 0.75rem !important; /* Letra compacta para que quepa en los 300px */
     font-weight: 500 !important;
+    white-space: nowrap; /* Evita que el texto se rompa en dos renglones */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #btnInstalarPWA {
     background-color: #ffffff !important;
     color: var(--color-turquesa) !important;
     border: none !important;
-    padding: 4px 10px !important; /* Fuerza el botón pequeño de altura reducida */
+    padding: 4px 8px !important; /* Botón pequeño y estilizado */
     font-weight: 600 !important;
     border-radius: 4px !important;
     cursor: pointer !important;
-    font-size: 0.75rem !important;
+    font-size: 0.72rem !important;
+    white-space: nowrap;
 }
