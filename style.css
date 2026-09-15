@@ -114,7 +114,6 @@ h2 {
     font-weight: 600;
     color: var(--color-texto-medio);
 }
-
 /* =========================================================================
    STYLE.CSS - PARTE 2: COMPONENTES, FORMULARIOS Y RESPONSIVIDAD ESTRICTA
    ========================================================================= */
@@ -325,6 +324,7 @@ tr:last-child td {
 .btn-edit:hover, .btn-delete:hover {
     transform: scale(1.2);
 }
+
 /* =========================================================================
    DISTRIBUCIÓN PARALELA MAESTRA INTEGRADA (MÓDULOS DE LA FOTO)
    ========================================================================= */
@@ -365,5 +365,112 @@ tr:last-child td {
     .contenedor-modulos-paralelos > .tarjeta-modulo {
         width: 100% !important;
         min-width: 100% !important;
+    }
+}
+
+/* =========================================================================
+   NUEVAS ADICIONES: ICONOS DINÁMICOS Y COMPACTACIÓN DEL BANNER PWA
+   ========================================================================= */
+
+/* Alineación e integración de Iconos Dinámicos */
+.tabla-responsiva td i, 
+.tarjeta-modulo i {
+    margin-right: 8px;
+    font-size: 1.15rem;
+    vertical-align: middle;
+}
+
+/* Estilización Compacta del Banner PWA */
+.banner-pwa {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1b5e20; /* Verde oscuro elegante y menos invasivo */
+    color: #ffffff;
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.banner-pwa-contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 24px;
+}
+
+.banner-pwa-texto {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.banner-pwa-botones {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-pwa-confirmar, .btn-pwa-cancelar {
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.btn-pwa-confirmar {
+    background-color: var(--color-turquesa);
+    color: #ffffff;
+}
+
+.btn-pwa-confirmar:hover {
+    opacity: 0.9;
+}
+
+.btn-pwa-cancelar {
+    background-color: transparent;
+    color: #e2e8f0;
+    text-decoration: none;
+}
+
+.btn-pwa-cancelar:hover {
+    color: #ffffff;
+}
+
+.banner-pwa.hidden {
+    transform: translateY(100%);
+    display: none !important;
+}
+
+/* Reducción extrema del Banner en Móviles para que no consuma espacio visual */
+@media (max-width: 480px) {
+    .banner-pwa {
+        bottom: 12px;
+        left: 4%;
+        width: 92%;
+        border-radius: 10px;
+    }
+    .banner-pwa-contenido {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 16px;
+        text-align: center;
+    }
+    .banner-pwa-texto {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    .banner-pwa-botones {
+        width: 100%;
+        justify-content: center;
+        gap: 16px;
+    }
+    .btn-pwa-confirmar, .btn-pwa-cancelar {
+        padding: 6px 14px;
+        font-size: 0.8rem;
     }
 }
