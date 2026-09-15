@@ -540,26 +540,42 @@ window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     disparadorInstalacionPWA = e;
     
-    const banner = document.getElementById("bannerInstalacionPWA");
-    if (banner) banner.style.display = "block";
+    const banner = document.getElementById("pwa-install-banner");
+    if (banner) banner.classList.remove("hidden");
 });
 
-document.getElementById("btnInstalarPWA").addEventListener("click", async () => {
-    if (!disparadorInstalacionPWA) return;
-    
-    disparadorInstalacionPWA.prompt();
-    
-    const { outcome } = await disparadorInstalacionPWA.userChoice;
-    console.log(`El usuario respondió a la instalación con la opción: ${outcome}`);
-    
-    disparadorInstalacionPWA = null;
-    const banner = document.getElementById("bannerInstalacionPWA");
-    if (banner) banner.style.display = "none";
+// Programar las acciones de los botones una vez que cargue la interfaz
+document.addEventListener("DOMContentLoaded", () => {
+    const btnInstalar = document.getElementById("btn-pwa-instalar");
+    const btnCerrar = document.getElementById("btn-pwa-cerrar");
+    const banner = document.getElementById("pwa-install-banner");
+
+    // ACCIÓN DEL BOTÓN INSTALAR
+    if (btnInstalar) {
+        btnInstalar.addEventListener("click", async () => {
+            if (!disparadorInstalacionPWA) return;
+            
+            disparadorInstalacionPWA.prompt();
+            
+            const { outcome } = await disparadorInstalacionPWA.userChoice;
+            console.log(`El usuario respondió a la instalación con la opción: ${outcome}`);
+            
+            disparadorInstalacionPWA = null;
+            if (banner) banner.classList.add("hidden");
+        });
+    }
+
+    // ACCIÓN DEL BOTÓN AHORA NO (CERRAR)
+    if (btnCerrar) {
+        btnCerrar.addEventListener("click", () => {
+            if (banner) banner.classList.add("hidden");
+        });
+    }
 });
 
 window.addEventListener("appinstalled", () => {
     console.log("¡Éxito total! La aplicación ha sido instalada de forma nativa.");
     disparadorInstalacionPWA = null;
-    const banner = document.getElementById("bannerInstalacionPWA");
-    if (banner) banner.style.display = "none";
+    const banner = document.getElementById("pwa-install-banner");
+    if (banner) banner.classList.add("hidden");
 });
