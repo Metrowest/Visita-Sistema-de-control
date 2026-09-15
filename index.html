@@ -21,197 +21,209 @@
     <!-- CDN DE FUENTES Y ESTILOS MAESTROS -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
     <div class="contenedor-principal">
-     <!-- CONTENEDOR PARALELO: Alinea las tarjetas lado a lado idéntico a la fotografía -->
+        <!-- CONTENEDOR PARALELO: Alinea las tarjetas lado a lado idéntico a la fotografía -->
         <div class="contenedor-modulos-paralelos">
-             
-        <!-- =========================================================================
+
+            <!-- =========================================================================
              SECCIÓN 2: GESTOR MODULAR DE DRIVE (VISITA ACTUAL)
              Ubicación del bloque: PRIMER COMPONENTE VISIBLE EN LA CUMBRE
              ========================================================================= -->
-        <div id="moduloGestorCarpetas" class="tarjeta-modulo">
-            <div class="tarjeta-cabecera tarjeta-cabecera-drive">
-                <div class="icono-titulo">📁</div>
-                <h2 id="driveFormTitulo">Gestor de Archivos (Visita Actual)</h2>
-            </div>
-
-            <div class="formulario-estilizado cuerpo-modulo-drive">
-                <div class="campo-formulario">
-                    <label for="selectorSubcarpetas">📁 Seleccionar Carpeta Interna:</label>
-                    <select id="selectorSubcarpetas" class="selector-estilizado">
-                        <option value="RAIZ">Cargando carpetas de Drive...</option>
-                    </select>
+            <div id="moduloGestorCarpetas" class="tarjeta-modulo">
+                <div class="tarjeta-cabecera tarjeta-cabecera-drive">
+                    <div class="icono-titulo">📁</div>
+                    <h2 id="driveFormTitulo">Gestor de Archivos (Visita Actual)</h2>
                 </div>
 
-                <div class="campo-formulario contenedor-dropzone-drive">
-                    <label for="archivoSubirDrive" class="etiqueta-upload-drive">
-                        Subir Documento o Carpeta a la Sección Activa
-                    </label>
-                    <input type="file" id="archivoSubirDrive">
-                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
-
-                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
-                        <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
+                <div class="formulario-estilizado cuerpo-modulo-drive">
+                    <div class="campo-formulario">
+                        <label for="selectorSubcarpetas">📁 Seleccionar Carpeta Interna:</label>
+                        <select id="selectorSubcarpetas" class="selector-estilizado">
+                            <option value="RAIZ">Cargando carpetas de Drive...</option>
+                        </select>
                     </div>
 
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
-                        🚀 Subir a Carpeta Activa
-                    </button>
-                </div>
+                    <div class="campo-formulario contenedor-dropzone-drive">
+                        <label for="archivoSubirDrive" class="etiqueta-upload-drive">
+                            Subir Documento o Carpeta a la Sección Activa
+                        </label>
+                        <input type="file" id="archivoSubirDrive">
+                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo
+                            seleccionado</div>
 
-                <div class="seccion-visor-archivos">
-                    <h3 class="titulo-visor-drive">
-                        <span>📄</span> Archivos Disponibles en esta Carpeta:
-                    </h3>
-                    <div class="tabla-responsiva contenedor-scroll-drive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Archivo</th>
-                                    <th>Formato (Tipo)</th>
-                                    <th>Enlace</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaCuerpoDrive">
-                                <tr>
-                                    <td colspan="3" class="celda-carga">
-                                        Selecciona una carpeta para listar los documentos disponibles...
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
+                            <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
+                        </div>
+
+                        <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
+                            🚀 Subir a Carpeta Activa
+                        </button>
+                    </div>
+
+                    <div class="seccion-visor-archivos">
+                        <h3 class="titulo-visor-drive">
+                            <span>📄</span> Archivos Disponibles en esta Carpeta:
+                        </h3>
+                        <div class="tabla-responsiva contenedor-scroll-drive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Archivo</th>
+                                        <th>Formato (Tipo)</th>
+                                        <th>Enlace</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaCuerpoDrive">
+                                    <tr>
+                                        <td colspan="3" class="celda-carga">
+                                            Selecciona una carpeta para listar los documentos disponibles...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-                <!-- =========================================================================
+            <!-- =========================================================================
              SECCIÓN 3: SELECTOR DE NAVEGACIÓN GENERAL DE HOJAS NATIVO
              Ubicación del bloque: DETRÁS DEL EXPLORADOR CENTRAL DE CARPETAS
              ========================================================================= -->
-        <div class="tarjeta-modulo contenedor-selector">
-            <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
+            <!-- COLUMNA DERECHA: Apila verticalmente el Selector de Sección (Foto 1) y el Formulario (Foto 2) -->
+            <div class="columna-derecha-formularios">
+                <div class="tarjeta-modulo contenedor-selector">
+                    <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-            <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
-                <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-            </select>
+                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
+                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                    </select>
 
-            <div class="enlace-seccion-activa">
-                Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico" class="link-moderno">🏨 Hospitalidad</a>
-            </div>
-        </div>
+                    <div class="enlace-seccion-activa">
+                        Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico"
+                            class="link-moderno">🏨 Hospitalidad</a>
+                    </div>
+                </div>
 
-        <!-- =========================================================================
+                <!-- =========================================================================
              SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
              Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
              ========================================================================= -->
-        <div class="tarjeta-modulo">
-            <div class="tarjeta-cabecera">
-                <div class="icono-titulo">📋</div>
-                <h2 id="formTitulo">Añadir Registro</h2>
-            </div>
-
-            <form id="formularioSuperintendentes" class="formulario-estilizado">
-                <input type="hidden" id="selectorHoja" value="Superintendentes">
-
-                <div class="grid-formulario">
-                    <div class="campo-formulario" id="contenedorCampo1">
-                        <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
-                        <input type="text" id="txtGrupo" name="grupo" placeholder="Ej. #89" required>
+                <div class="tarjeta-modulo">
+                    <div class="tarjeta-cabecera">
+                        <div class="icono-titulo">📋</div>
+                        <h2 id="formTitulo">Añadir Registro</h2>
                     </div>
 
-                    <div class="campo-formulario" id="contenedorCampo2">
-                        <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
-                        <input type="text" id="txtSuperintendente" name="superintendente" placeholder="Nombre completo" required>
-                    </div>
+                    <form id="formularioSuperintendentes" class="formulario-estilizado">
+                        <input type="hidden" id="selectorHoja" value="Superintendentes">
 
-                    <div class="campo-formulario" id="contenedorCampo3">
-                        <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
-                        <input type="text" id="txtTelefono" name="telefono" placeholder="Información" required>
-                    </div>
+                        <div class="grid-formulario">
+                            <div class="campo-formulario" id="contenedorCampo1">
+                                <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
+                                <input type="text" id="txtGrupo" name="grupo" placeholder="Ej. #89" required>
+                            </div>
 
-                    <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
-                        <label id="lblCampo4" for="txtCampo4">Campo 4</label>
-                        <input type="text" id="txtCampo4" name="campo4" placeholder="Información extra">
-                    </div>
+                            <div class="campo-formulario" id="contenedorCampo2">
+                                <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
+                                <input type="text" id="txtSuperintendente" name="superintendente"
+                                    placeholder="Nombre completo" required>
+                            </div>
 
-                    <div class="campo-formulario" id="contenedorCampo5" style="display: none;">
-                        <label id="lblCampo5" for="txtCampo5">Campo 5</label>
-                        <input type="text" id="txtCampo5" name="campo5" placeholder="Información extra">
-                    </div>
+                            <div class="campo-formulario" id="contenedorCampo3">
+                                <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
+                                <input type="text" id="txtTelefono" name="telefono" placeholder="Información" required>
+                            </div>
 
-                    <div class="campo-formulario" id="contenedorCampo6" style="display: none;">
-                        <label id="lblCampo6" for="txtCampo6">Campo 6</label>
-                        <input type="text" id="txtCampo6" name="campo6" placeholder="Información extra">
-                    </div>
+                            <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
+                                <label id="lblCampo4" for="txtCampo4">Campo 4</label>
+                                <input type="text" id="txtCampo4" name="campo4" placeholder="Información extra">
+                            </div>
 
-                    <div class="campo-formulario" id="contenedorCampo7" style="display: none;">
-                        <label id="lblCampo7" for="txtCampo7">Campo 7</label>
-                        <input type="text" id="txtCampo7" name="campo7" placeholder="Información extra">
-                    </div>
+                            <div class="campo-formulario" id="contenedorCampo5" style="display: none;">
+                                <label id="lblCampo5" for="txtCampo5">Campo 5</label>
+                                <input type="text" id="txtCampo5" name="campo5" placeholder="Información extra">
+                            </div>
 
-                    <div class="campo-formulario" id="contenedorCampo8" style="display: none;">
-                        <label id="lblCampo8" for="txtCampo8">Campo 8</label>
-                        <input type="text" id="txtCampo8" name="campo8" placeholder="Información extra">
-                    </div>
-                </div>
+                            <div class="campo-formulario" id="contenedorCampo6" style="display: none;">
+                                <label id="lblCampo6" for="txtCampo6">Campo 6</label>
+                                <input type="text" id="txtCampo6" name="campo6" placeholder="Información extra">
+                            </div>
 
-                <div class="bloque-botones">
-                    <button type="submit" id="btnGuardar" class="btn-primario">
-                        <span class="icono-btn">💾</span> Guardar Registro
-                    </button>
-                    <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">
-                        <span class="icono-btn">❌</span> Cancelar Edición
-                    </button>
-                </div>
-            </form>
-        </div>
+                            <div class="campo-formulario" id="contenedorCampo7" style="display: none;">
+                                <label id="lblCampo7" for="txtCampo7">Campo 7</label>
+                                <input type="text" id="txtCampo7" name="campo7" placeholder="Información extra">
+                            </div>
 
-        <!-- =========================================================================
+                            <div class="campo-formulario" id="contenedorCampo8" style="display: none;">
+                                <label id="lblCampo8" for="txtCampo8">Campo 8</label>
+                                <input type="text" id="txtCampo8" name="campo8" placeholder="Información extra">
+                            </div>
+                        </div>
+
+                        <div class="bloque-botones">
+                            <button type="submit" id="btnGuardar" class="btn-primario">
+                                <span class="icono-btn">💾</span> Guardar Registro
+                            </button>
+                            <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">
+                                <span class="icono-btn">❌</span> Cancelar Edición
+                            </button>
+                        </div>
+                    </form>
+                </div> <!-- AQUÍ TERMINA EL FORMULARIO DE AÑADIR REGISTRO -->
+
+            </div> <!-- CIERRE DE COLUMNA-DERECHA-FORMULARIOS (FOTO 1 + FOTO 2 UNIFICADAS) -->
+
+            <!-- =========================================================================
              SECCIÓN 5: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
              Ubicación del bloque: BASE ABSOLUTA DE LA INTERFAZ
              ========================================================================= -->
-        <div class="tarjeta-modulo">
-            <div class="tarjeta-cabecera">
-                <div class="icono-titulo">📂</div>
-                <h2>Registros Almacenados en la Hoja</h2>
-            </div>
+            <div class="tarjeta-modulo">
+                <div class="tarjeta-cabecera">
+                    <div class="icono-titulo">📂</div>
+                    <h2>Registros Almacenados en la Hoja</h2>
+                </div>
 
-            <div class="tabla-responsiva">
-                <table id="tablaRegistros">
-                    <thead id="tablaCabecera"></thead>
-                    <tbody id="tablaCuerpo">
-                        <tr>
-                            <td class="celda-carga">
-                                <div class="spinner-carga"></div>
-                                Cargando base de datos desde Google Sheets...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="tabla-responsiva">
+                    <table id="tablaRegistros">
+                        <thead id="tablaCabecera"></thead>
+                        <tbody id="tablaCuerpo">
+                            <tr>
+                                <td class="celda-carga">
+                                    <div class="spinner-carga"></div>
+                                    Cargando base de datos desde Google Sheets...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-      </div> <!-- Contenedor-modulos-paralelos -->
+        </div> <!-- Contenedor-modulos-paralelos -->
     </div> <!-- Cierre de contenedor-principal -->
 
-    <div id="bannerInstalacionPWA" style="display: none; background-color: var(--color-turquesa); color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un acceso rápido.</p>
-        <button id="btnInstalarPWA" style="background-color: #ffffff; color: var(--color-turquesa); border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Instalar</button>
+    <div id="bannerInstalacionPWA"
+        style="display: none; background-color: var(--color-turquesa); color: #ffffff; padding: 12px 20px; position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999; border-radius: 12px; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">Instala la aplicación en tu dispositivo para un
+            acceso rápido.</p>
+        <button id="btnInstalarPWA"
+            style="background-color: #ffffff; color: var(--color-turquesa); border: none; padding: 6px 14px; font-weight: 600; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">Instalar</button>
     </div>
 
     <script src="app.js"></script>
     <script src="carpetas.js"></script>
 </body>
+
 </html>
