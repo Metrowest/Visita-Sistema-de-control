@@ -87,7 +87,7 @@ window.recibirEstructuraDrive = function (resultado) {
         resultado.archivos.forEach(arc => {
             let htmlFila = "<tr>";
             htmlFila += `<td><strong>${arc.nombre}</strong></td>`;
-            htmlFila += `<td><span class="badge">${arc.mimeType ? arc.mimeType.split("/").pop().toUpperCase() : "ARCHIVO"}</span></td>`;
+            htmlFila += `<td>${obtenerIconoFormato(arc.mimeType || "Archivo")}</td>`;
             htmlFila += `<td><a href="${arc.url}" target="_blank" class="btn-primario" style="text-decoration:none; display:inline-block; padding:4px 10px; font-size:0.75rem !important;">👁️ Ver</a></td>`;
             htmlFila += "</tr>";
             tablaCuerpoDrive.insertAdjacentHTML("beforeend", htmlFila);
