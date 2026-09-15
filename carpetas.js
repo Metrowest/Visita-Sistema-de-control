@@ -223,13 +223,23 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     });
 }
 
+// FUNCIÓN 2 CORREGIDA: Restaura las cajas de carga y amarra de forma fija el selector de carpetas
 function Secc6_Fun2_RestablecerFormularioCarga() {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = false; btn.innerText = "🚀 Subir a Carpeta Activa"; }
+    
+    // Limpiamos los selectores físicos del archivo local
     document.getElementById("archivoSubirDrive").value = "";
     document.getElementById("nombreArchivoSeleccionado").innerText = "Ningún archivo seleccionado";
+    
     if (document.getElementById("contenedorPrevisualizacionFoto")) {
         document.getElementById("contenedorPrevisualizacionFoto").style.display = "none";
+    }
+
+    // CORRECCIÓN MAESTRA: Forzamos al selector visual de la pantalla a retener tu ubicación real activa
+    const selectorSub = document.getElementById("selectorSubcarpetas");
+    if (selectorSub && drive_IdCarpetaActiva) {
+        selectorSub.value = drive_IdCarpetaActiva;
     }
 }
 
