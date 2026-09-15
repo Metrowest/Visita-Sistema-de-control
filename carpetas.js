@@ -180,19 +180,24 @@ function Secc5_Fun1_ProcesarSeleccionArchivoLocal(evento) {
 }
 
 // =========================================================================
-// SECCIÓN 6: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (ORIGINAL CALIBRADO)
+// SECCIÓN 6: MOTOR DE EMISIÓN DE TRANSFERENCIA DE BYTES (INTEGRACIÓN JSON)
 // Ubicación del bloque: PARTE INFERIOR DE CARPETAS.JS - EDICIÓN DE RECOLECCIÓN
 // =========================================================================
 function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     const btn = document.getElementById("btnIniciarCargaDrive");
     if (btn) { btn.disabled = true; btn.innerText = "Subiendo archivo..."; }
 
+    // Saneamiento de bytes: extrae de forma limpia la cadena del índice 1 descartando metadatos
+    const base64DataRaw = drive_Base64DataSeleccionada || "";
+    const base64Pura = base64DataRaw.indexOf(",") > -1 ? base64DataRaw.split(",")[1] : base64DataRaw;
+
+    // Paquete maestro estructurado en formato JSON cerrado directo para Drive API
     let paqueteCarga = {
         accion: tipoAccion,
         destinoFolderId: drive_IdCarpetaActiva,
         nombreArchivo: drive_NombreArchivoSeleccionado,
         mimeType: drive_MimeTypeSeleccionado,
-        base64Data: drive_Base64DataSeleccionada,
+        base64Data: base64Pura,
         fileIdOriginal: fileIdOriginal
     };
 
@@ -200,13 +205,14 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
         method: "POST",
         body: JSON.stringify(paqueteCarga)
     })
-    .then(() => {
+    .then(res => res.json())
+    .then(data => {
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     })
     .catch(err => {
-        console.error(err);
+        console.error("Aviso de red en producción:", err);
         alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
