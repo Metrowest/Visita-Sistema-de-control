@@ -567,32 +567,42 @@ const enlacesExternosConfigurados = {
 
 function Secc10_Fun1_ActualizarHipervinculoExterior() {
     const selector = document.getElementById("selectorHoja");
-    const contenedorTextoTurquesa = document.getElementById("seccionActivaContenedor");
-    
-    if (selector && contenedorTextoTurquesa) {
-        const valorSeleccionado = selector.value;
-        const urlDestino = enlacesExternosConfigurados[valorSeleccionado];
+    if (!selector) return;
+
+    const valorSeleccionado = selector.value;
+    const urlDestino = enlacesExternosConfigurados[valorSeleccionado];
+
+    if (urlDestino) {
+        // Buscamos de forma segura cualquier etiqueta de texto (span o div) en la pantalla que mencione la sección activa
+        const todosLosElementos = document.getElementsByTagName("*");
         
-        if (urlDestino) {
-            contenedorTextoTurquesa.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: inherit; text-decoration: underline;">${valorSeleccionado}</a>`;
-        } else {
-            contenedorTextoTurquesa.textContent = valorSeleccionado;
+        for (let i = 0; i < todosLosElementos.length; i++) {
+            const elemento = todosLosElementos[i];
+            
+            // Si encontramos el elemento visual que dice exactamente el nombre de la hoja (y no es el propio selector)
+            if (elemento && elemento.id !== "selectorHoja" && elemento.childNodes.length === 1 && elemento.textContent.trim() === valorSeleccionado) {
+                // Lo transformamos en el enlace interactivo correcto respetando tu HTML nativo
+                elemento.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: inherit; text-decoration: underline; font-weight: bold; cursor: pointer;">${valorSeleccionado}</a>`;
+                break; // Terminamos la búsqueda en cuanto lo encontramos y actualizamos
+            }
         }
     }
 }
 
-// CONEXIÓN PASIVA INDEPENDIENTE: Evita el uso de DOMContentLoaded para no congelar la carga de datos original
+// INICIALIZADOR PASIVO SEGURO: No duplica DOMContentLoaded ni interfiere con las tablas de Google Sheets
 (function Secc10_Fun2_InicializadorPasivo() {
     const comprobarExistenciaSelector = setInterval(() => {
         const selector = document.getElementById("selectorHoja");
         if (selector) {
             clearInterval(comprobarExistenciaSelector);
             
-            // Genera el enlace de la primera hoja sin detener las peticiones a Google Sheets
-            Secc10_Fun1_ActualizarHipervinculoExterior();
+            // Ejecutamos una actualización rápida después de que tus funciones carguen la hoja inicial
+            setTimeout(Secc10_Fun1_ActualizarHipervinculoExterior, 600);
             
-            // Se engancha de forma secundaria al cambio de hoja
-            selector.addEventListener("change", Secc10_Fun1_ActualizarHipervinculoExterior);
+            // Escuchamos el cambio de hoja de forma secundaria y pasiva
+            selector.addEventListener("change", () => {
+                setTimeout(Secc10_Fun1_ActualizarHipervinculoExterior, 200);
+            });
         }
     }, 100);
 })();
