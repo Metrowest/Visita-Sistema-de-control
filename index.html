@@ -136,7 +136,7 @@ function obtenerIconoFormato(formato) {
                     <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
                         <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <!-- SELECTOR ÚNICO NATIVO: Corregido con los values limpios exigidos por el traductor de app.js -->
+                        <!-- SINCRO TOTAL: Los values van sin tilde (Dia) para activar la Sección 8.2.2 de tu app.js -->
                         <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
@@ -148,11 +148,12 @@ function obtenerIconoFormato(formato) {
                             <option value="Pastoreo Dia 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
-                        <!-- ENLACE DINÁMICO CORREGIDO: Recupera id="enlaceDinamico" para revivir las funciones de app.js -->
+                        <!-- Enlace dinámico original mapeado con id="enlaceDinamico" -->
                         <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
                             Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
                         </div>
                     </div>
+
 
                 <!-- =========================================================================
                      SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
