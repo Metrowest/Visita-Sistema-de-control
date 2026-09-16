@@ -271,34 +271,33 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const inputArchivoOriginal = document.getElementById("archivoSubirDrive");
     const btnCargaOriginal = document.getElementById("btnIniciarCargaDrive");
-    const contenedorUnificado = document.getElementById("nombreArchivoSeleccionado");
+    const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
     
-    if (inputArchivoOriginal && contenedorUnificado) {
-        // 1. Escuchar la selección para inyectar nombre e icono en la misma fila
+    if (inputArchivoOriginal && contenedorIcono) {
+        // 1. Escuchar la selección para pintar el icono de color al lado del nombre nativo
         inputArchivoOriginal.addEventListener("change", (e) => {
             const archivos = e.target.files;
             
             if (!archivos || archivos.length === 0) {
-                contenedorUnificado.innerHTML = "Ningún archivo seleccionado";
+                contenedorIcono.innerHTML = "";
                 return;
             }
             
             const documento = archivos[0];
             const formatoDetectado = documento.type || documento.name.split('.').pop();
-            const dibujoIconoHtml = obtenerIconoFormato(formatoDetectado);
             
-            // FUSIÓN TOTAL: Colocamos el nombre y el icono pegados en la misma etiqueta HTML
-            contenedorUnificado.innerHTML = `<span>${documento.name}</span> ${dibujoIconoHtml}`;
+            // Inyectamos únicamente el HTML del icono con su color sin repetir texto
+            contenedorIcono.innerHTML = obtenerIconoFormato(formatoDetectado);
         });
     }
 
-    if (btnCargaOriginal && contenedorUnificado) {
-        // 2. Limpiar todo al finalizar la subida de forma automática
+    if (btnCargaOriginal && contenedorIcono) {
+        // 2. Monitorear el botón verde para borrar el icono cuando el sistema termine de subir
         btnCargaOriginal.addEventListener("click", () => {
             const intervaloLimpieza = setInterval(() => {
-                // Cuando tu lógica original limpie la variable de control, restauramos el texto inicial
-                if (drive_NombreArchivoSeleccionado === null) {
-                    contenedorUnificado.innerHTML = "Ningún archivo seleccionado";
+                // Cuando tu lógica nativa original limpie el input de archivos, removemos el icono de color
+                if (!inputArchivoOriginal || !inputArchivoOriginal.value) {
+                    contenedorIcono.innerHTML = "";
                     clearInterval(intervaloLimpieza);
                 }
             }, 500);
