@@ -73,7 +73,7 @@ function obtenerIconoFormato(formato) {
     <div class="contenedor-modulos-paralelos">
 
         <!-- =========================================================================
-             COLUMNA IZQUIERDA: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE (HISTÓRICO)
+             COLUMNA IZQUIERDA: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE (FIJO ORIGINAL)
              ========================================================================= -->
         <div id="moduloGestorCarpetas" class="tarjeta-modulo">
             <div class="tarjeta-cabecera">
@@ -81,23 +81,29 @@ function obtenerIconoFormato(formato) {
                 <h2>Gestor de Archivos (Visita Actual)</h2>
             </div>
 
-            <!-- Área Dropzone Interactiva de ayer: Conecta de forma nativa con carpetas.js -->
+            <!-- MOTOR DE NAVEGACIÓN: Este es el select crucial para navegar por tus carpetas de Drive -->
+            <div class="campo-formulario" style="margin-bottom: 15px;">
+                <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
+                <select id="selectorSubcarpetas" class="control-selector">
+                    <!-- Las subcarpetas en vivo de tu Google Drive se inyectan aquí por carpetas.js -->
+                </select>
+            </div>
+
+            <!-- Módulo de carga de archivos original -->
             <div class="campo-formulario" style="margin-bottom: 20px;">
-                <label class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 10px;">Subir Documento o Carpeta a la Sección Activa</label>
+                <label for="archivoSubirDrive" class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 8px;">
+                    Subir Documento o Carpeta a la Sección Activa
+                </label>
+                <!-- El input nativo visible que usabas para buscar archivos -->
+                <input type="file" id="archivoSubirDrive" class="control-selector" style="width: 100%; padding: 8px; border: 1px solid var(--color-borde); border-radius: 8px; background-color: var(--color-fondo);">
                 
-                <div id="dropzoneDrive" class="contenedor-dropzone-drive" style="border: 2px dashed var(--color-borde); padding: 20px; text-align: center; border-radius: 8px; background-color: var(--color-fondo); cursor: pointer; transition: border-color 0.2s;">
-                    <p style="font-size: 0.85rem; color: var(--color-texto-medio); margin-bottom: 5px;">Arrastra tus archivos aquí o haz clic para buscar</p>
-                    <!-- El Input original oculto que requiere carpetas.js para no trabarse -->
-                    <input type="file" id="fileInputDrive" style="display: none;">
-                </div>
-                
-                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
                     <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
                     <div id="vistaPreviaIconoDrive" style="font-size: 1.15rem; display: flex; align-items: center;"></div>
                 </div>
 
-                <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 12px;">
-                    <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada" style="max-width: 100%; border-radius: 6px;">
+                <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
+                    <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
                 </div>
 
                 <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
@@ -118,7 +124,6 @@ function obtenerIconoFormato(formato) {
                 </div>
             </div>
         </div>
-
 
                     <!-- =========================================================================
                          SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
