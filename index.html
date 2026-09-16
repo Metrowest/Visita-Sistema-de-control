@@ -88,13 +88,11 @@ function obtenerIconoFormato(formato) {
                         </label>
                         <input type="file" id="archivoSubirDrive">
                         
-                        <!-- El texto original de tu aplicación -->
-                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
-
-                        <!-- =========================================================================
-                             LÍNEA NUEVA: CONTENEDOR DONDE SE PINTARÁ EL ICONO EN TIEMPO REAL
-                             ========================================================================= -->
-                        <div id="vistaPreviaIconoDrive" style="margin-top: 10px; margin-bottom: 12px; font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;"></div>
+                        <!-- CONTENEDOR EN LÍNEA: Agrupa el texto plano y el icono dinámico de lado a lado -->
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; margin-bottom: 12px;">
+                            <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0;">Ningún archivo seleccionado</div>
+                            <div id="vistaPreviaIconoDrive" style="font-size: 0.9rem; font-weight: bold; display: flex; align-items: center;"></div>
+                        </div>
 
                         <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
                             <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
@@ -103,6 +101,7 @@ function obtenerIconoFormato(formato) {
                         <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
                             🚀 Subir a Carpeta Activa
                         </button>
+                    </div>
                     </div>
 
                     <div class="seccion-visor-archivos">
