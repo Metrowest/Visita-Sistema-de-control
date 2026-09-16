@@ -549,12 +549,13 @@ window.addEventListener("appinstalled", () => {
     const banner = document.getElementById("bannerInstalacionPWA");
     if (banner) banner.style.display = "none";
 });
+
 // =========================================================================
 // SECCIÓN 10: MOTOR DINÁMICO DE ENLACES EXTERIORES PARA HOJA ACTIVA
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
 // =========================================================================
-const mapaEnlacesExteriores = {
-    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes", // Reemplaza aquí con tu enlace específico real
+const enlacesExternosConfig = {
+    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes",
     "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
     "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
     "Estudios Día 2": "https://metrowest.github.io/Visita/estudio2A.html",
@@ -564,33 +565,39 @@ const mapaEnlacesExteriores = {
     "Pastoreo Día 3": "https://metrowest.github.io/Visita/pastoreo3A.html"
 };
 
-function Secc10_Fun1_ActualizarEnlaceYTextoExterior(nombreHoja) {
-    // Buscamos el elemento turquesa por su ID
-    const etiquetaSeccionActiva = document.getElementById("seccionActivaText") || document.getElementById("seccionActiva");
-    
-    if (etiquetaSeccionActiva) {
-        const urlDestino = mapaEnlacesExteriores[nombreHoja];
-        
-        if (urlDestino) {
-            // Convertimos el elemento visual en un hipervínculo que abre en pestaña nueva
-            etiquetaSeccionActiva.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: inherit; text-decoration: underline; font-weight: bold;">${nombreHoja}</a>`;
-        } else {
-            etiquetaSeccionActiva.textContent = nombreHoja;
-        }
+function Secc10_Fun1_ConvertirTextoEnEnlaceReal(nombreHoja) {
+    // Buscamos dinámicamente las etiquetas visuales que muestran la sección activa en tu interfaz
+    const elementosSeccion = document.querySelectorAll('.seccion-activa, [id*="seccion"], [id*="Seccion"]');
+    const urlDestino = enlacesExternosConfig[nombreHoja];
+
+    if (urlDestino) {
+        elementosSeccion.forEach(elemento => {
+            // Validamos que el elemento corresponda a la zona de texto de la sección activa
+            if (elemento && (elemento.textContent.includes(nombreHoja) || elemento.tagName === "SPAN" || elemento.id)) {
+                // Modificamos su contenido para inyectar el hipervínculo que abre en pestaña nueva
+                elemento.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: #009688; text-decoration: underline; font-weight: bold; cursor: pointer;">${nombreHoja}</a>`;
+            }
+        });
     }
 }
 
-// Vinculación automática al evento change del selector de hojas existente
+// Escuchador pasivo que se acopla a tu selector nativo sin interferir en la carga de datos
 document.addEventListener("DOMContentLoaded", () => {
-    const selectorHojasOriginal = document.getElementById("selectorHojas");
+    // Usamos el ID exacto de tu versión original: "selectorHoja"
+    const selectorHojaNativo = document.getElementById("selectorHoja");
     
-    if (selectorHojasOriginal) {
-        // Ejecución inicial con la hoja cargada por defecto
-        Secc10_Fun1_ActualizarEnlaceYTextoExterior(selectorHojasOriginal.value);
-        
-        // Escucha pasiva para cuando el usuario cambie la sección
-        selectorHojasOriginal.addEventListener("change", (e) => {
-            Secc10_Fun1_ActualizarEnlaceYTextoExterior(e.target.value);
+    if (selectorHojaNativo) {
+        // 1. Ejecución inmediata al cargar la página por primera vez
+        setTimeout(() => {
+            Secc10_Fun1_ConvertirTextoEnEnlaceReal(selectorHojaNativo.value);
+        }, 300);
+
+        // 2. Escuchar los cambios cuando el usuario selecciona otra opción
+        selectorHojaNativo.addEventListener("change", (e) => {
+            // Dejamos que tus funciones nativas carguen los datos primero y luego aplicamos el enlace
+            setTimeout(() => {
+                Secc10_Fun1_ConvertirTextoEnEnlaceReal(e.target.value);
+            }, 100);
         });
     }
 });
