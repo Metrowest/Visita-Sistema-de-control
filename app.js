@@ -554,7 +554,7 @@ window.addEventListener("appinstalled", () => {
 // SECCIÓN 10: MOTOR DINÁMICO DE ENLACES EXTERIORES PARA HOJA ACTIVA
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
 // =========================================================================
-const enlacesExternos = {
+const enlacesExternosConfigurados = {
     "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes", // Reemplaza aquí con tu enlace específico real
     "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
     "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
@@ -571,10 +571,9 @@ function Secc10_Fun1_ActualizarHipervinculoExterior() {
     
     if (selector && contenedorTextoTurquesa) {
         const valorSeleccionado = selector.value;
-        const urlDestino = enlacesExternos[valorSeleccionado];
+        const urlDestino = enlacesExternosConfigurados[valorSeleccionado];
         
         if (urlDestino) {
-            // Reemplazamos el texto interno por el enlace cliqueable con el nombre exacto de la hoja
             contenedorTextoTurquesa.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: inherit; text-decoration: underline;">${valorSeleccionado}</a>`;
         } else {
             contenedorTextoTurquesa.textContent = valorSeleccionado;
@@ -582,14 +581,18 @@ function Secc10_Fun1_ActualizarHipervinculoExterior() {
     }
 }
 
-// Escuchas nativas independientes conectadas al selectorHoja original
-document.addEventListener("DOMContentLoaded", () => {
-    const selector = document.getElementById("selectorHoja");
-    if (selector) {
-        // 1. Forzar que se cree el enlace la primera vez que se abre la página
-        Secc10_Fun1_ActualizarHipervinculoExterior();
-        
-        // 2. Cada vez que cambie el selector, actualiza el enlace
-        selector.addEventListener("change", Secc10_Fun1_ActualizarHipervinculoExterior);
-    }
-});
+// CONEXIÓN PASIVA INDEPENDIENTE: Evita el uso de DOMContentLoaded para no congelar la carga de datos original
+(function Secc10_Fun2_InicializadorPasivo() {
+    const comprobarExistenciaSelector = setInterval(() => {
+        const selector = document.getElementById("selectorHoja");
+        if (selector) {
+            clearInterval(comprobarExistenciaSelector);
+            
+            // Genera el enlace de la primera hoja sin detener las peticiones a Google Sheets
+            Secc10_Fun1_ActualizarHipervinculoExterior();
+            
+            // Se engancha de forma secundaria al cambio de hoja
+            selector.addEventListener("change", Secc10_Fun1_ActualizarHipervinculoExterior);
+        }
+    }, 100);
+})();
