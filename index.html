@@ -135,25 +135,24 @@ function obtenerIconoFormato(formato) {
              ========================================================================= -->
             <!-- COLUMNA DERECHA: Apila verticalmente el Selector de Sección (Foto 1) y el Formulario (Foto 2) -->
             <div class="columna-derecha-formularios">
-                <div class="tarjeta-modulo contenedor-selector">
-                    <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
-
-                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
-                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                    </select>
-
-                    <div class="enlace-seccion-activa">
-                        Sección activa: <a href="https://google.com" target="_blank" id="enlaceDinamico"
-                            class="link-moderno">🏨 Hospitalidad</a>
-                    </div>
-                </div>
+<div class="contenedor-selector">
+    <label for="selectorHoja">Selecciona una Sección:</label>
+    <select id="selectorHoja">
+        <option value="Superintendentes">Superintendentes</option>
+        <option value="Hospitalidad">Hospitalidad</option>
+        <option value="Estudios Día 1">Estudios Día 1</option>
+        <option value="Estudios Día 2">Estudios Día 2</option>
+        <option value="Estudios Día 3">Estudios Día 3</option>
+        <option value="Pastoreo Día 1">Pastoreo Día 1</option>
+        <option value="Pastoreo Día 2">Pastoreo Día 2</option>
+        <option value="Pastoreo Día 3">Pastoreo Día 3</option>
+    </select>
+    
+    <!-- LÍNEA ORIGINAL CRUCIAL: Aquí es donde el código viejo busca pintar el enlace turquesa -->
+    <div style="margin-top: 10px; font-weight: bold;">
+        Sección activa: <span id="seccionActivaContenedor" style="color: #009688; text-decoration: underline; cursor: pointer;">Superintendentes</span>
+    </div>
+</div>
 
                 <!-- =========================================================================
              SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
