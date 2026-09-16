@@ -132,11 +132,11 @@ function obtenerIconoFormato(formato) {
                     <!-- =========================================================================
                          SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
                          ========================================================================= -->
-                    <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
-                        <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
+                    <div class="campo-formulario" style="margin-bottom: 20px;">
+                        <label for="selectorHoja" class="etiqueta-selector">Selecciona una Sección</label>
 
-                        <!-- Conectado directamente a la función de tu script central -->
-                        <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
+                        <!-- Sincronizado: Los "value" viajan limpios a Google Sheets para que carguen las hojas correctas -->
+                        <select id="selectorHoja" class="control-selector" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
                             <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
@@ -147,8 +147,9 @@ function obtenerIconoFormato(formato) {
                             <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
-                        <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
-                            Sección activa: <span id="seccionActiva" style="color: var(--color-turquesa); font-weight: bold;">👥 Superintendentes (Horizontal)</span>
+                        <!-- Sincronizado con style.css usando var(--color-turquesa) e id="seccionActiva" -->
+                        <div style="margin-top: 10px; font-weight: bold; font-size: 0.95rem;">
+                            Sección activa: <span id="seccionActiva" style="color: var(--color-turquesa); margin-left: 5px;">Superintendentes</span>
                         </div>
                     </div>
                 <!-- =========================================================================
