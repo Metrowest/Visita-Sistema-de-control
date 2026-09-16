@@ -129,14 +129,15 @@ function obtenerIconoFormato(formato) {
                     </div>
                 </div>
             </div>
-                    <!-- =========================================================================
+
+                             <!-- =========================================================================
                          SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
                          ========================================================================= -->
-                    <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px; padding: 15px; border-radius: 8px;">
-                        <label for="selectorHoja" class="etiqueta-seleccion" style="font-weight: bold; display: block; margin-bottom: 8px;">Selecciona una Sección</label>
+                    <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
+                        <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <!-- SELECTOR MANUAL COMPLETAMENTE FUNCIONAL: Conectado a app.js con sus acentos nativos -->
-                        <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()" style="width: 100%; padding: 8px; border-radius: 5px;">
+                        <!-- ID y Activador nativo alineados al 100% con tu backend -->
+                        <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
                             <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
@@ -147,8 +148,9 @@ function obtenerIconoFormato(formato) {
                             <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
-                        <div class="enlace-seccion-activa" style="margin-top: 12px; font-weight: bold;">
-                            Sección activa: <span id="seccionActiva" class="link-moderno" style="color: var(--color-turquesa); font-weight: bold;">👥 Superintendentes (Horizontal)</span>
+                        <!-- RESTAURACIÓN DE ID CRUCIAL: Retorna a id="enlaceDinamico" para descongelar app.js -->
+                        <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
+                            Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
                         </div>
                     </div>
 
