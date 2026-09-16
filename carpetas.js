@@ -148,6 +148,7 @@ function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
     
     if (!inputElemento || !inputElemento.files || inputElemento.files.length === 0) {
         drive_NombreArchivoSeleccionado = null;
+        drive_MimeTypeSeleccionado = null; // Limpiamos la variable global de formato
         if (contenedorTexto) contenedorTexto.textContent = "Ningún archivo seleccionado";
         if (contenedorIcono) contenedorIcono.innerHTML = "";
         return;
@@ -155,6 +156,9 @@ function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
 
     const archivo = inputElemento.files[0];
     drive_NombreArchivoSeleccionado = archivo.name;
+    
+    // CORRECCIÓN CLAVE: Asignamos el formato oficial a la variable de tu aplicación para permitir el reemplazo
+    drive_MimeTypeSeleccionado = archivo.type || "application/octet-stream";
 
     if (contenedorTexto) {
         contenedorTexto.textContent = archivo.name;
