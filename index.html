@@ -132,22 +132,24 @@ function obtenerIconoFormato(formato) {
                     <!-- =========================================================================
                          SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
                          ========================================================================= -->
-                    <div class="campo-formulario" style="margin-bottom: 20px;">
-                        <label for="selectorHoja" class="etiqueta-selector">Selecciona una Sección</label>
+                    <div class="tarjeta-modulo" style="margin-bottom: 20px;">
+                        <div class="campo-formulario">
+                            <label for="selectorHoja" class="etiqueta-selector">Selecciona una Sección</label>
 
-                        <!-- Sincronizado: Los "value" viajan limpios a Google Sheets para que carguen las hojas correctas -->
-                        <select id="selectorHoja" class="control-selector" onchange="cargarDatos()">
-                            <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                            <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                            <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                            <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                            <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                            <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                            <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                            <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                        </select>
+                            <!-- Valores internos limpios sin acentos para la correcta comunicación con app.js y Google Sheets -->
+                            <select id="selectorHoja" class="control-selector" onchange="cargarDatos()">
+                                <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                                <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                                <option value="Estudios Dia 1">📚 Estudios Día 1 (Vertical)</option>
+                                <option value="Estudios Dia 2">📚 Estudios Día 2 (Vertical)</option>
+                                <option value="Estudios Dia 3">📚 Estudios Día 3 (Vertical)</option>
+                                <option value="Pastoreo Dia 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                                <option value="Pastoreo Dia 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                                <option value="Pastoreo Dia 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                            </select>
+                        </div>
 
-                        <!-- Sincronizado con style.css usando var(--color-turquesa) e id="seccionActiva" -->
+                        <!-- Vinculado exactamente al id="seccionActiva" para destrabar las cargas visuales -->
                         <div style="margin-top: 10px; font-weight: bold; font-size: 0.95rem;">
                             Sección activa: <span id="seccionActiva" style="color: var(--color-turquesa); margin-left: 5px;">Superintendentes</span>
                         </div>
