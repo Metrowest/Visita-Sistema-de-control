@@ -135,7 +135,8 @@ function obtenerIconoFormato(formato) {
                     <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
                         <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <select id="selectorHoja" class="selector-estilizado">
+                        <!-- Conectado directamente a la función de tu script central -->
+                        <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
                             <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
@@ -147,7 +148,7 @@ function obtenerIconoFormato(formato) {
                         </select>
 
                         <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
-                            Sección activa: <span id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); font-weight: bold;">👥 Superintendentes (Horizontal)</span>
+                            Sección activa: <span id="seccionActiva" style="color: var(--color-turquesa); font-weight: bold;">👥 Superintendentes (Horizontal)</span>
                         </div>
                     </div>
                 <!-- =========================================================================
