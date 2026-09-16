@@ -88,10 +88,9 @@ function obtenerIconoFormato(formato) {
                         </label>
                         <input type="file" id="archivoSubirDrive">
                         
-                        <!-- CONTENEDOR EN LÍNEA: Agrupa el texto plano y el icono dinámico de lado a lado -->
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; margin-bottom: 12px;">
-                            <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0;">Ningún archivo seleccionado</div>
-                            <div id="vistaPreviaIconoDrive" style="font-size: 0.9rem; font-weight: bold; display: flex; align-items: center;"></div>
+                        <!-- UNIFICADO: Un solo bloque flex que contendrá el nombre y el icono juntos en la misma línea -->
+                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; margin-bottom: 12px;">
+                            Ningún archivo seleccionado
                         </div>
 
                         <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
