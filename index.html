@@ -136,7 +136,7 @@ function obtenerIconoFormato(formato) {
                     <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
                         <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <!-- ID y Activador nativo alineados al 100% con tu backend -->
+                        <!-- SELECTOR ÚNICO NATIVO: Conectado a app.js con sus valores limpios y disparador original -->
                         <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
@@ -148,7 +148,7 @@ function obtenerIconoFormato(formato) {
                             <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
-                        <!-- RESTAURACIÓN DE ID CRUCIAL: Retorna a id="enlaceDinamico" para descongelar app.js -->
+                        <!-- ENLACE DINÁMICO CORREGIDO: Recupera id="enlaceDinamico" para revivir las funciones de app.js -->
                         <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
                             Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
                         </div>
