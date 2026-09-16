@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const inputArchivo = document.getElementById("archivoSubirDrive");
     if (inputArchivo) {
-        inputArchivo.addEventListener("change", Secc5_Fun1_ProcesarSeleccionArchivoLocal);
+        inputArchivo.addEventListener("change", Secc5_Fun1_PintarIconoEnTiempoReal);
     }
 
     const btnCarga = document.getElementById("btnIniciarCargaDrive");
