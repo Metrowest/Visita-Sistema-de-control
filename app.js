@@ -555,27 +555,37 @@ window.addEventListener("appinstalled", () => {
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
 // =========================================================================
 const enlacesExternosConfig = {
-    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes",
-    "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
-    "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
-    "Estudios Día 2": "https://metrowest.github.io/Visita/estudio2A.html",
-    "Estudios Día 3": "https://metrowest.github.io/Visita/estudio3A.html",
-    "Pastoreo Día 1": "https://metrowest.github.io/Visita/pastoreo1A.html",
-    "Pastoreo Día 2": "https://metrowest.github.io/Visita/pastoreo2A.html",
-    "Pastoreo Día 3": "https://metrowest.github.io/Visita/pastoreo3A.html"
+    "Superintendentes": "https://github.io",
+    "Hospitalidad": "https://github.io",
+    "Estudios Día 1": "https://github.io",
+    "Estudios Día 2": "https://github.io",
+    "Estudios Día 3": "https://github.io",
+    "Pastoreo Día 1": "https://github.io",
+    "Pastoreo Día 2": "https://github.io",
+    "Pastoreo Día 3": "https://github.io"
 };
 
-function Secc10_Fun1_ConvertirTextoEnEnlaceReal(nombreHoja) {
-    // Buscamos dinámicamente las etiquetas visuales que muestran la sección activa en tu interfaz
+function Secc10_Fun1_ConvertirTextoEnEnlaceReal(valorSelector) {
+    // Buscamos todas las etiquetas visuales que muestran la sección activa en tu interfaz
     const elementosSeccion = document.querySelectorAll('.seccion-activa, [id*="seccion"], [id*="Seccion"]');
-    const urlDestino = enlacesExternosConfig[nombreHoja];
+    
+    // LIMPIEZA CLAVE: Buscamos qué palabra clave de nuestro diccionario está incluida en el valor del selector
+    let hojaClaveEncontrada = "Superintendentes"; // Valor por defecto seguro
+    
+    Object.keys(enlacesExternosConfig).forEach(clave => {
+        if (valorSelector.includes(clave)) {
+            hojaClaveEncontrada = clave;
+        }
+    });
+
+    const urlDestino = enlacesExternosConfig[hojaClaveEncontrada];
 
     if (urlDestino) {
         elementosSeccion.forEach(elemento => {
-            // Validamos que el elemento corresponda a la zona de texto de la sección activa
-            if (elemento && (elemento.textContent.includes(nombreHoja) || elemento.tagName === "SPAN" || elemento.id)) {
-                // Modificamos su contenido para inyectar el hipervínculo que abre en pestaña nueva
-                elemento.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: #009688; text-decoration: underline; font-weight: bold; cursor: pointer;">${nombreHoja}</a>`;
+            // Verificamos que sea el elemento del letrero turquesa inspeccionando su texto o clase
+            if (elemento && (elemento.tagName === "SPAN" || elemento.id || elemento.className.includes("seccion"))) {
+                // Inyectamos el hipervínculo correcto manteniendo tu texto exacto de la pantalla
+                elemento.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: #009688; text-decoration: underline; font-weight: bold; cursor: pointer;">${valorSelector}</a>`;
             }
         });
     }
@@ -590,14 +600,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // 1. Ejecución inmediata al cargar la página por primera vez
         setTimeout(() => {
             Secc10_Fun1_ConvertirTextoEnEnlaceReal(selectorHojaNativo.value);
-        }, 300);
+        }, 400);
 
         // 2. Escuchar los cambios cuando el usuario selecciona otra opción
         selectorHojaNativo.addEventListener("change", (e) => {
-            // Dejamos que tus funciones nativas carguen los datos primero y luego aplicamos el enlace
+            // Esperamos un instante a que tu app procese el cambio y actualizamos el link exacto
             setTimeout(() => {
                 Secc10_Fun1_ConvertirTextoEnEnlaceReal(e.target.value);
-            }, 100);
+            }, 150);
         });
     }
 });
