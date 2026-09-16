@@ -135,19 +135,19 @@ function obtenerIconoFormato(formato) {
                     <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
                         <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <!-- SELECTOR MAESTRO: Ajustado exactamente al enrutador de app.js y al getSheetByName de Code.gs -->
-                        <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
+                        <!-- SINCRO DOBLE: Llama a cargarDatos() y actualiza los campos del formulario en el mismo instante -->
+                        <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                            <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                            <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                            <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                            <option value="Estudios Dia 1">📚 Estudios Día 1 (Vertical)</option>
+                            <option value="Estudios Dia 2">📚 Estudios Día 2 (Vertical)</option>
+                            <option value="Estudios Dia 3">📚 Estudios Día 3 (Vertical)</option>
                             <option value="Pastoreo Dia 1">🐑 Pastoreo Día 1 (Vertical)</option>
                             <option value="Pastoreo Dia 2">🐑 Pastoreo Día 2 (Vertical)</option>
                             <option value="Pastoreo Dia 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
-                        <!-- ENLACE DINÁMICO CORREGIDO: Con id="enlaceDinamico" nativo para la comunicación con app.js -->
+                        <!-- Enlace dinámico original con id="enlaceDinamico" -->
                         <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
                             Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
                         </div>
