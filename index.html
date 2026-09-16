@@ -86,11 +86,12 @@ function obtenerIconoFormato(formato) {
                         <label for="archivoSubirDrive" class="etiqueta-upload-drive">
                             Subir Documento o Carpeta a la Sección Activa
                         </label>
-                        <input type="file" id="archivoSubirDrive">
                         
-                        <!-- UNIFICADO: Un solo bloque flex que contendrá el nombre y el icono juntos en la misma línea -->
-                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; margin-bottom: 12px;">
-                            Ningún archivo seleccionado
+                        <!-- CONTENEDOR EN LÍNEA PERFECTO: El selector nativo y el icono de color juntos -->
+                        <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 5px; margin-bottom: 15px; flex-wrap: wrap;">
+                            <input type="file" id="archivoSubirDrive">
+                            <!-- El lienzo del icono se despliega pegado al nombre nativo -->
+                            <div id="vistaPreviaIconoDrive" style="font-size: 0.9rem; font-weight: bold; display: flex; align-items: center;"></div>
                         </div>
 
                         <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
