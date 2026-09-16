@@ -111,22 +111,15 @@ function obtenerIconoFormato(formato) {
                 </button>
             </div>
 
-            <!-- ZONA DE ARCHIVOS DISPONIBLES: Restaura las etiquetas exactas de renderizado para carpetas.js -->
+            <!-- ZONA DE ARCHIVOS DISPONIBLES: Estructura pura de inyección para carpetas.js -->
             <div class="zona-archivos-disponibles">
                 <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--color-texto-medio);">
                     Archivos Disponibles en esta Carpeta:
                 </h3>
                 <div class="tabla-responsiva">
                     <table>
-                        <!-- DOBLE BLINDAJE DE ID: Asegura que el script encuentre su zona de inyección nativa -->
-                        <tbody id="listaArchivosDrive" class="tablaArchivosDrive">
-                            <tr>
-                                <td class="celda-carga" style="padding: 15px; text-align: center; color: var(--color-texto-medio); font-size: 0.85rem;">
-                                    <div class="spinner-carga" style="width: 18px; height: 18px; border: 2px solid #e2e8f0; border-top-color: var(--color-turquesa); border-radius: 50%; margin: 0 auto 5px auto; animation: girarSpinner 0.8s linear infinite;"></div>
-                                    Leyendo documentos de Google Drive...
-                                </td>
-                            </tr>
-                        </tbody>
+                        <!-- CONTENEDOR MAESTRO PURIFICADO: Listo para recibir las filas de carpetas.js -->
+                        <tbody id="listaArchivosDrive"></tbody>
                     </table>
                 </div>
             </div>
