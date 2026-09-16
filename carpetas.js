@@ -148,7 +148,8 @@ function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
     
     if (!inputElemento || !inputElemento.files || inputElemento.files.length === 0) {
         drive_NombreArchivoSeleccionado = null;
-        drive_MimeTypeSeleccionado = null; // Limpiamos la variable global de formato
+        drive_MimeTypeSeleccionado = null;
+        drive_ArchivoBinarioSeleccionado = null; // Limpiamos la variable binaria original
         if (contenedorTexto) contenedorTexto.textContent = "Ningún archivo seleccionado";
         if (contenedorIcono) contenedorIcono.innerHTML = "";
         return;
@@ -156,8 +157,6 @@ function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
 
     const archivo = inputElemento.files[0];
     drive_NombreArchivoSeleccionado = archivo.name;
-    
-    // CORRECCIÓN CLAVE: Asignamos el formato oficial a la variable de tu aplicación para permitir el reemplazo
     drive_MimeTypeSeleccionado = archivo.type || "application/octet-stream";
 
     if (contenedorTexto) {
@@ -169,6 +168,16 @@ function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
         const htmlIcono = obtenerIconoFormato(tipoMime);
         contenedorIcono.innerHTML = `<span>Documento detectado:</span> ${htmlIcono}`;
     }
+
+    // =========================================================================
+    // RESTAURACIÓN INTEGRAL: LECTURA BINARIA DEL ARCHIVO LOCAL (FileReader)
+    // =========================================================================
+    const lector = new FileReader();
+    lector.onload = function(evt) {
+        // Guardamos los bytes en la variable global original para permitir los reemplazos y subidas
+        drive_ArchivoBinarioSeleccionado = evt.target.result;
+    };
+    lector.readAsDataURL(archivo); // Codifica el archivo a Base64 de forma nativa
 }
 
 // =========================================================================
