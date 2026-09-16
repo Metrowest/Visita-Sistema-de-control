@@ -141,7 +141,7 @@ window.recibirVerificacionDrive = function (respuesta) {
 // =========================================================================
 // PROGRAMACIÓN NUEVA: DETECTOR Y DIBU JADOR DE ICONOS EN TIEMPO REAL
 // =========================================================================
-function Secc5_Fun1_ProcesarSeleccionArchivoLocal(e) {
+function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
     const inputElemento = e.target;
     const contenedorTexto = document.getElementById("nombreArchivoSeleccionado");
     const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
