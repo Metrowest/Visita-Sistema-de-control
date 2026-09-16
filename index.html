@@ -65,8 +65,15 @@ function obtenerIconoFormato(formato) {
          ========================================================================= -->
     <div class="contenedor-modulos-paralelos">
 
+<body>
+
+    <!-- =========================================================================
+         CONTENEDOR DE DISTRIBUCIÓN PARALELA MAESTRA (FLEXBOX ORIGINAL DE STYLE.CSS)
+         ========================================================================= -->
+    <div class="contenedor-modulos-paralelos">
+
         <!-- =========================================================================
-             COLUMNA IZQUIERDA: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE
+             COLUMNA IZQUIERDA: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE (HISTÓRICO)
              ========================================================================= -->
         <div id="moduloGestorCarpetas" class="tarjeta-modulo">
             <div class="tarjeta-cabecera">
@@ -74,19 +81,23 @@ function obtenerIconoFormato(formato) {
                 <h2>Gestor de Archivos (Visita Actual)</h2>
             </div>
 
-            <div class="campo-formulario contenedor-dropzone-drive" style="margin-bottom: 20px;">
-                <label for="archivoSubirDrive" class="etiqueta-upload-drive" style="font-weight: 600; display: block; margin-bottom: 8px;">
-                    Subir Documento o Carpeta a la Sección Activa
-                </label>
-                <input type="file" id="archivoSubirDrive">
+            <!-- Área Dropzone Interactiva de ayer: Conecta de forma nativa con carpetas.js -->
+            <div class="campo-formulario" style="margin-bottom: 20px;">
+                <label class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 10px;">Subir Documento o Carpeta a la Sección Activa</label>
                 
-                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 5px; margin-bottom: 15px; flex-wrap: wrap;">
-                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0;">Ningún archivo seleccionado</div>
-                    <div id="vistaPreviaIconoDrive" style="font-size: 0.9rem; font-weight: bold; display: flex; align-items: center;"></div>
+                <div id="dropzoneDrive" class="contenedor-dropzone-drive" style="border: 2px dashed var(--color-borde); padding: 20px; text-align: center; border-radius: 8px; background-color: var(--color-fondo); cursor: pointer; transition: border-color 0.2s;">
+                    <p style="font-size: 0.85rem; color: var(--color-texto-medio); margin-bottom: 5px;">Arrastra tus archivos aquí o haz clic para buscar</p>
+                    <!-- El Input original oculto que requiere carpetas.js para no trabarse -->
+                    <input type="file" id="fileInputDrive" style="display: none;">
+                </div>
+                
+                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
+                    <div id="vistaPreviaIconoDrive" style="font-size: 1.15rem; display: flex; align-items: center;"></div>
                 </div>
 
-                <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
-                    <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
+                <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 12px;">
+                    <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada" style="max-width: 100%; border-radius: 6px;">
                 </div>
 
                 <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
@@ -107,6 +118,7 @@ function obtenerIconoFormato(formato) {
                 </div>
             </div>
         </div>
+
 
                     <!-- =========================================================================
                          SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
