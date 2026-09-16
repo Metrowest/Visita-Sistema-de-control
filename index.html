@@ -87,8 +87,14 @@ function obtenerIconoFormato(formato) {
                             Subir Documento o Carpeta a la Sección Activa
                         </label>
                         <input type="file" id="archivoSubirDrive">
-                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo
-                            seleccionado</div>
+                        
+                        <!-- El texto original de tu aplicación -->
+                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
+
+                        <!-- =========================================================================
+                             LÍNEA NUEVA: CONTENEDOR DONDE SE PINTARÁ EL ICONO EN TIEMPO REAL
+                             ========================================================================= -->
+                        <div id="vistaPreviaIconoDrive" style="margin-top: 10px; margin-bottom: 12px; font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;"></div>
 
                         <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none;">
                             <img id="previewFotoDriveImg" src="" alt="Previsualización de la foto seleccionada">
