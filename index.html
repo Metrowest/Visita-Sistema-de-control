@@ -113,20 +113,28 @@ function obtenerIconoFormato(formato) {
 
             <!-- ZONA DE ARCHIVOS DISPONIBLES: Estructura de tabla original de ayer -->
             <div class="zona-archivos-disponibles">
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--color-texto-medio);">
-                    Archivos Disponibles en esta Carpeta:
-                </h3>
-                <div class="tabla-responsiva">
-                    <table id="tablaArchivos">
-                        <thead id="cabeceraArchivosDrive">
-                            <!-- Los títulos pueden ser inyectados o estar vacíos, pero la estructura debe existir -->
-                        </thead>
-                        <tbody id="listaArchivosDrive">
-                            <!-- Las filas con tus documentos PDF se inyectan aquí por carpetas.js -->
-                        </tbody>
-                    </table>
+                  <h3 class="titulo-visor-drive">
+                        <span>📄</span> Archivos Disponibles en esta Carpeta:
+                    </h3>
+                    <div class="tabla-responsiva contenedor-scroll-drive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Formato (Tipo)</th>
+                                    <th>Enlace</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaCuerpoDrive">
+                                <tr>
+                                    <td colspan="3" class="celda-carga">
+                                        Selecciona una carpeta para listar los documentos disponibles...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
         </div>
 
