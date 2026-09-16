@@ -139,48 +139,6 @@ window.recibirVerificacionDrive = function (respuesta) {
 };
 
 // =========================================================================
-// PROGRAMACIÓN NUEVA: DETECTOR Y DIBU JADOR DE ICONOS EN TIEMPO REAL
-// =========================================================================
-function Secc5_Fun1_PintarIconoEnTiempoReal(e) {
-    const inputElemento = e.target;
-    const contenedorTexto = document.getElementById("nombreArchivoSeleccionado");
-    const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
-    
-    if (!inputElemento || !inputElemento.files || inputElemento.files.length === 0) {
-        drive_NombreArchivoSeleccionado = null;
-        drive_MimeTypeSeleccionado = null;
-        drive_ArchivoBinarioSeleccionado = null; // Limpiamos la variable binaria original
-        if (contenedorTexto) contenedorTexto.textContent = "Ningún archivo seleccionado";
-        if (contenedorIcono) contenedorIcono.innerHTML = "";
-        return;
-    }
-
-    const archivo = inputElemento.files[0];
-    drive_NombreArchivoSeleccionado = archivo.name;
-    drive_MimeTypeSeleccionado = archivo.type || "application/octet-stream";
-
-    if (contenedorTexto) {
-        contenedorTexto.textContent = archivo.name;
-    }
-
-    if (contenedorIcono) {
-        const tipoMime = archivo.type || archivo.name.split('.').pop();
-        const htmlIcono = obtenerIconoFormato(tipoMime);
-        contenedorIcono.innerHTML = `<span>Documento detectado:</span> ${htmlIcono}`;
-    }
-
-    // =========================================================================
-    // RESTAURACIÓN INTEGRAL: LECTURA BINARIA DEL ARCHIVO LOCAL (FileReader)
-    // =========================================================================
-    const lector = new FileReader();
-    lector.onload = function(evt) {
-        // Guardamos los bytes en la variable global original para permitir los reemplazos y subidas
-        drive_ArchivoBinarioSeleccionado = evt.target.result;
-    };
-    lector.readAsDataURL(archivo); // Codifica el archivo a Base64 de forma nativa
-}
-
-// =========================================================================
 // SECCIÓN 6: INTERCEPCIÓN DE ARCHIVOS LOCALES (VISTA PREVIA Y MEMORIA)
 // =========================================================================
 
