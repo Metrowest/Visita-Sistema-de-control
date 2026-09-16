@@ -129,26 +129,28 @@ function obtenerIconoFormato(formato) {
                     </div>
                 </div>
             </div>
-                    <!-- =========================================================================
-                         SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
-                         ========================================================================= -->
-                    <div class="campo-formulario">
-                        <label for="selectorHoja" class="etiqueta-selector">Selecciona una Sección:</label>
-                        <select id="selectorHoja" class="control-selector">
-                            <option value="Superintendentes">Superintendentes</option>
-                            <option value="Hospitalidad">Hospitalidad</option>
-                            <option value="Estudios Día 1">Estudios Día 1</option>
-                            <option value="Estudios Día 2">Estudios Día 2</option>
-                            <option value="Estudios Día 3">Estudios Día 3</option>
-                            <option value="Pastoreo Día 1">Pastoreo Día 1</option>
-                            <option value="Pastoreo Día 2">Pastoreo Día 2</option>
-                            <option value="Pastoreo Día 3">Pastoreo Día 3</option>
-                        </select>
-                        <div style="margin-top: 10px; font-weight: bold;">
-                            Sección activa: <span id="seccionActiva" style="color: var(--color-turquesa);">Superintendentes</span>
-                        </div>
-                    </div>
+                <!-- =========================================================================
+                     SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
+                     ========================================================================= -->
+                <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
+                    <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
+                    <!-- Mantiene tu disparador de datos original intacto para no congelar las tablas -->
+                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
+                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                    </select>
+
+                    <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
+                        Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline;">👥 Superintendentes (Horizontal)</a>
+                    </div>
+                </div>
                 <!-- =========================================================================
              SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
              Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
