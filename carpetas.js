@@ -94,6 +94,7 @@ window.recibirEstructuraDrive = function (resultado) {
         });
     }
 };
+
 // =========================================================================
 // SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO
 // =========================================================================
@@ -136,6 +137,35 @@ window.recibirVerificacionDrive = function (respuesta) {
         }
     }
 };
+
+// =========================================================================
+// PROGRAMACIÓN NUEVA: DETECTOR Y DIBU JADOR DE ICONOS EN TIEMPO REAL
+// =========================================================================
+function Secc5_Fun1_ProcesarSeleccionArchivoLocal(e) {
+    const inputElemento = e.target;
+    const contenedorTexto = document.getElementById("nombreArchivoSeleccionado");
+    const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
+    
+    if (!inputElemento || !inputElemento.files || inputElemento.files.length === 0) {
+        drive_NombreArchivoSeleccionado = null;
+        if (contenedorTexto) contenedorTexto.textContent = "Ningún archivo seleccionado";
+        if (contenedorIcono) contenedorIcono.innerHTML = "";
+        return;
+    }
+
+    const archivo = inputElemento.files[0];
+    drive_NombreArchivoSeleccionado = archivo.name;
+
+    if (contenedorTexto) {
+        contenedorTexto.textContent = archivo.name;
+    }
+
+    if (contenedorIcono) {
+        const tipoMime = archivo.type || archivo.name.split('.').pop();
+        const htmlIcono = obtenerIconoFormato(tipoMime);
+        contenedorIcono.innerHTML = `<span>Documento detectado:</span> ${htmlIcono}`;
+    }
+}
 
 // =========================================================================
 // SECCIÓN 6: INTERCEPCIÓN DE ARCHIVOS LOCALES (VISTA PREVIA Y MEMORIA)
