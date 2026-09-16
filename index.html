@@ -111,18 +111,23 @@ function obtenerIconoFormato(formato) {
                 </button>
             </div>
 
-            <!-- ZONA DE ARCHIVOS DISPONIBLES: Estructura pura de inyección para carpetas.js -->
+            <!-- ZONA DE ARCHIVOS DISPONIBLES: Estructura de tabla original de ayer -->
             <div class="zona-archivos-disponibles">
                 <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--color-texto-medio);">
                     Archivos Disponibles en esta Carpeta:
                 </h3>
                 <div class="tabla-responsiva">
-                    <table>
-                        <!-- CONTENEDOR MAESTRO PURIFICADO: Listo para recibir las filas de carpetas.js -->
-                        <tbody id="listaArchivosDrive"></tbody>
+                    <table id="tablaArchivos">
+                        <thead id="cabeceraArchivosDrive">
+                            <!-- Los títulos pueden ser inyectados o estar vacíos, pero la estructura debe existir -->
+                        </thead>
+                        <tbody id="listaArchivosDrive">
+                            <!-- Las filas con tus documentos PDF se inyectan aquí por carpetas.js -->
+                        </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
 
                     <!-- =========================================================================
