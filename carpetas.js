@@ -271,43 +271,35 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const inputArchivoOriginal = document.getElementById("archivoSubirDrive");
     const btnCargaOriginal = document.getElementById("btnIniciarCargaDrive");
-    const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
+    const contenedorUnificado = document.getElementById("nombreArchivoSeleccionado");
     
-    if (inputArchivoOriginal) {
-        // 1. Escuchar la selección del documento para pintar el icono alineado
+    if (inputArchivoOriginal && contenedorUnificado) {
+        // 1. Escuchar la selección para inyectar nombre e icono en la misma fila
         inputArchivoOriginal.addEventListener("change", (e) => {
             const archivos = e.target.files;
             
             if (!archivos || archivos.length === 0) {
-                if (contenedorIcono) contenedorIcono.innerHTML = "";
+                contenedorUnificado.innerHTML = "Ningún archivo seleccionado";
                 return;
             }
             
             const documento = archivos[0];
+            const formatoDetectado = documento.type || documento.name.split('.').pop();
+            const dibujoIconoHtml = obtenerIconoFormato(formatoDetectado);
             
-            if (contenedorIcono) {
-                const formatoDetectado = documento.type || documento.name.split('.').pop();
-                const dibujoIconoHtml = obtenerIconoFormato(formatoDetectado);
-                
-                // Quitamos el letrero anterior para que el icono se dibuje limpio en línea
-                contenedorIcono.innerHTML = dibujoIconoHtml;
-            }
+            // FUSIÓN TOTAL: Colocamos el nombre y el icono pegados en la misma etiqueta HTML
+            contenedorUnificado.innerHTML = `<span>${documento.name}</span> ${dibujoIconoHtml}`;
         });
     }
 
-    if (btnCargaOriginal) {
-        // 2. Escuchar el clic del botón de carga para limpiar el icono al finalizar
+    if (btnCargaOriginal && contenedorUnificado) {
+        // 2. Limpiar todo al finalizar la subida de forma automática
         btnCargaOriginal.addEventListener("click", () => {
-            // Un pequeño temporizador que monitorea cuando el sistema limpia el cargador original
             const intervaloLimpieza = setInterval(() => {
-                const contenedorTexto = document.getElementById("nombreArchivoSeleccionado");
-                
-                // Cuando tu app regrese el texto a su estado inicial, borramos el icono de la pantalla
-                if (contenedorTexto && contenedorTexto.textContent === "Ningún archivo seleccionado") {
-                    if (contenedorIcono) {
-                        contenedorIcono.innerHTML = "";
-                    }
-                    clearInterval(intervaloLimpieza); // Detener el monitor seguro
+                // Cuando tu lógica original limpie la variable de control, restauramos el texto inicial
+                if (drive_NombreArchivoSeleccionado === null) {
+                    contenedorUnificado.innerHTML = "Ningún archivo seleccionado";
+                    clearInterval(intervaloLimpieza);
                 }
             }, 500);
         });
