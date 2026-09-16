@@ -265,3 +265,36 @@ document.addEventListener("DOMContentLoaded", () => {
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     }, 1000);
 });
+// =========================================================================
+// PROGRAMACIÓN COMPLEMENTARIA INDEPENDIENTE: VISTA PREVIA DEL ICONO EN TIEMPO REAL
+// =========================================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const inputArchivoOriginal = document.getElementById("archivoSubirDrive");
+    
+    if (inputArchivoOriginal) {
+        // Escuchamos de forma pasiva cuándo seleccionas un archivo sin alterar tu lógica nativa
+        inputArchivoOriginal.addEventListener("change", (e) => {
+            const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
+            const archivos = e.target.files;
+            
+            // Si el usuario cancela o no hay archivo, limpiamos el espacio del icono
+            if (!archivos || archivos.length === 0) {
+                if (contenedorIcono) contenedorIcono.innerHTML = "";
+                return;
+            }
+            
+            const documento = archivos[0];
+            
+            if (contenedorIcono) {
+                // Extraemos el tipo MIME o la extensión del nombre del archivo
+                const formatoDetectado = documento.type || documento.name.split('.').pop();
+                
+                // Usamos la función mágica que ya creamos al inicio para conseguir el icono con su color
+                const dibujoIconoHtml = obtenerIconoFormato(formatoDetectado);
+                
+                // Pintamos el icono en el espacio asignado sin tocar las variables globales
+                contenedorIcono.innerHTML = `<span>Documento detectado:</span> ${dibujoIconoHtml}`;
+            }
+        });
+    }
+});
