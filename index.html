@@ -81,10 +81,10 @@ function obtenerIconoFormato(formato) {
                 <h2>Gestor de Archivos (Visita Actual)</h2>
             </div>
 
-            <!-- MOTOR DE NAVEGACIÓN: Este es el select crucial para navegar por tus carpetas de Drive -->
+            <!-- MOTOR DE NAVEGACIÓN CORREGIDO: Activa la recarga automática de archivos en cada cambio -->
             <div class="campo-formulario" style="margin-bottom: 15px;">
                 <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
-                <select id="selectorSubcarpetas" class="control-selector">
+                <select id="selectorSubcarpetas" class="control-selector" onchange="if(typeof cargarArchivos === 'function') { cargarArchivos(); } else if(typeof cargarArchivosDrive === 'function') { cargarArchivosDrive(); }">
                     <!-- Las subcarpetas en vivo de tu Google Drive se inyectan aquí por carpetas.js -->
                 </select>
             </div>
