@@ -136,16 +136,16 @@ function obtenerIconoFormato(formato) {
                     <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
                         <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <!-- SELECTOR ÚNICO NATIVO: Conectado a app.js con sus valores limpios y disparador original -->
+                        <!-- SELECTOR ÚNICO NATIVO: Corregido con los values limpios exigidos por el traductor de app.js -->
                         <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                            <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                            <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                            <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                            <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                            <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                            <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                            <option value="Estudios Dia 1">📚 Estudios Día 1 (Vertical)</option>
+                            <option value="Estudios Dia 2">📚 Estudios Día 2 (Vertical)</option>
+                            <option value="Estudios Dia 3">📚 Estudios Día 3 (Vertical)</option>
+                            <option value="Pastoreo Dia 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                            <option value="Pastoreo Dia 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                            <option value="Pastoreo Dia 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
                         <!-- ENLACE DINÁMICO CORREGIDO: Recupera id="enlaceDinamico" para revivir las funciones de app.js -->
@@ -155,9 +155,9 @@ function obtenerIconoFormato(formato) {
                     </div>
 
                 <!-- =========================================================================
-             SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
-             Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
-             ========================================================================= -->
+                     SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
+                     Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
+                     ========================================================================= -->
                 <div class="tarjeta-modulo">
                     <div class="tarjeta-cabecera">
                         <div class="icono-titulo">📋</div>
@@ -165,7 +165,7 @@ function obtenerIconoFormato(formato) {
                     </div>
 
                     <form id="formularioSuperintendentes" class="formulario-estilizado">
-                        <input type="hidden" id="selectorHoja" value="Superintendentes">
+                        <!-- CORRECCIÓN CLAVE: Se eliminó el input oculto duplicado selectorHoja que congelaba la edición -->
 
                         <div class="grid-formulario">
                             <div class="campo-formulario" id="contenedorCampo1">
@@ -224,9 +224,9 @@ function obtenerIconoFormato(formato) {
             </div> <!-- CIERRE DE COLUMNA-DERECHA-FORMULARIOS (FOTO 1 + FOTO 2 UNIFICADAS) -->
 
             <!-- =========================================================================
-             SECCIÓN 5: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
-             Ubicación del bloque: BASE ABSOLUTA DE LA INTERFAZ
-             ========================================================================= -->
+                 SECCIÓN 5: REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
+                 Ubicación del bloque: BASE ABSOLUTA DE LA INTERFAZ
+                 ========================================================================= -->
             <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
                     <div class="icono-titulo">📂</div>
