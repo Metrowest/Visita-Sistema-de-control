@@ -270,14 +270,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     const inputArchivoOriginal = document.getElementById("archivoSubirDrive");
+    const btnCargaOriginal = document.getElementById("btnIniciarCargaDrive");
+    const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
     
     if (inputArchivoOriginal) {
-        // Escuchamos de forma pasiva cuándo seleccionas un archivo sin alterar tu lógica nativa
+        // 1. Escuchar la selección del documento para pintar el icono alineado
         inputArchivoOriginal.addEventListener("change", (e) => {
-            const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
             const archivos = e.target.files;
             
-            // Si el usuario cancela o no hay archivo, limpiamos el espacio del icono
             if (!archivos || archivos.length === 0) {
                 if (contenedorIcono) contenedorIcono.innerHTML = "";
                 return;
@@ -286,15 +286,30 @@ document.addEventListener("DOMContentLoaded", () => {
             const documento = archivos[0];
             
             if (contenedorIcono) {
-                // Extraemos el tipo MIME o la extensión del nombre del archivo
                 const formatoDetectado = documento.type || documento.name.split('.').pop();
-                
-                // Usamos la función mágica que ya creamos al inicio para conseguir el icono con su color
                 const dibujoIconoHtml = obtenerIconoFormato(formatoDetectado);
                 
-                // Pintamos el icono en el espacio asignado sin tocar las variables globales
-                contenedorIcono.innerHTML = `<span>Documento detectado:</span> ${dibujoIconoHtml}`;
+                // Quitamos el letrero anterior para que el icono se dibuje limpio en línea
+                contenedorIcono.innerHTML = dibujoIconoHtml;
             }
+        });
+    }
+
+    if (btnCargaOriginal) {
+        // 2. Escuchar el clic del botón de carga para limpiar el icono al finalizar
+        btnCargaOriginal.addEventListener("click", () => {
+            // Un pequeño temporizador que monitorea cuando el sistema limpia el cargador original
+            const intervaloLimpieza = setInterval(() => {
+                const contenedorTexto = document.getElementById("nombreArchivoSeleccionado");
+                
+                // Cuando tu app regrese el texto a su estado inicial, borramos el icono de la pantalla
+                if (contenedorTexto && contenedorTexto.textContent === "Ningún archivo seleccionado") {
+                    if (contenedorIcono) {
+                        contenedorIcono.innerHTML = "";
+                    }
+                    clearInterval(intervaloLimpieza); // Detener el monitor seguro
+                }
+            }, 500);
         });
     }
 });
