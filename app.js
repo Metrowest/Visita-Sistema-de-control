@@ -554,14 +554,14 @@ window.addEventListener("appinstalled", () => {
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
 // =========================================================================
 const mapaEnlacesExteriores = {
-    "Superintendentes": "https://github.io",
-    "Hospitalidad": "https://github.io",
-    "Estudios Día 1": "https://github.io",
-    "Estudios Día 2": "https://github.io",
-    "Estudios Día 3": "https://github.io",
-    "Pastoreo Día 1": "https://github.io",
-    "Pastoreo Día 2": "https://github.io",
-    "Pastoreo Día 3": "https://github.io"
+    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes", // Reemplaza aquí con tu enlace específico real
+    "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
+    "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
+    "Estudios Día 2": "https://metrowest.github.io/Visita/estudio2A.html",
+    "Estudios Día 3": "https://metrowest.github.io/Visita/estudio3A.html",
+    "Pastoreo Día 1": "https://metrowest.github.io/Visita/pastoreo1A.html",
+    "Pastoreo Día 2": "https://metrowest.github.io/Visita/pastoreo2A.html",
+    "Pastoreo Día 3": "https://metrowest.github.io/Visita/pastoreo3A.html"
 };
 
 function Secc10_Fun1_ActualizarEnlaceYTextoExterior(nombreHoja) {
