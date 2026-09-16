@@ -129,31 +129,29 @@ function obtenerIconoFormato(formato) {
                     </div>
                 </div>
             </div>
-
                     <!-- =========================================================================
                          SECCIÓN 3: CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
                          ========================================================================= -->
                     <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 20px;">
                         <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
 
-                        <!-- SINCRO TOTAL: Los values van sin tilde (Dia) para activar la Sección 8.2.2 de tu app.js -->
+                        <!-- SELECTOR MAESTRO: Ajustado exactamente al enrutador de app.js y al getSheetByName de Code.gs -->
                         <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos()">
                             <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                             <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                            <option value="Estudios Dia 1">📚 Estudios Día 1 (Vertical)</option>
-                            <option value="Estudios Dia 2">📚 Estudios Día 2 (Vertical)</option>
-                            <option value="Estudios Dia 3">📚 Estudios Día 3 (Vertical)</option>
+                            <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                            <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                            <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
                             <option value="Pastoreo Dia 1">🐑 Pastoreo Día 1 (Vertical)</option>
                             <option value="Pastoreo Dia 2">🐑 Pastoreo Día 2 (Vertical)</option>
                             <option value="Pastoreo Dia 3">🐑 Pastoreo Día 3 (Vertical)</option>
                         </select>
 
-                        <!-- Enlace dinámico original mapeado con id="enlaceDinamico" -->
+                        <!-- ENLACE DINÁMICO CORREGIDO: Con id="enlaceDinamico" nativo para la comunicación con app.js -->
                         <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
                             Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
                         </div>
                     </div>
-
 
                 <!-- =========================================================================
                      SECCIÓN 4: FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
@@ -166,8 +164,6 @@ function obtenerIconoFormato(formato) {
                     </div>
 
                     <form id="formularioSuperintendentes" class="formulario-estilizado">
-                        <!-- CORRECCIÓN CLAVE: Se eliminó el input oculto duplicado selectorHoja que congelaba la edición -->
-
                         <div class="grid-formulario">
                             <div class="campo-formulario" id="contenedorCampo1">
                                 <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
@@ -248,6 +244,7 @@ function obtenerIconoFormato(formato) {
                     </table>
                 </div>
             </div>
+
         </div> <!-- Contenedor-modulos-paralelos -->
     </div> <!-- Cierre de contenedor-principal -->
 
