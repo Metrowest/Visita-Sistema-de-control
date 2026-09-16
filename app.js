@@ -549,3 +549,48 @@ window.addEventListener("appinstalled", () => {
     const banner = document.getElementById("bannerInstalacionPWA");
     if (banner) banner.style.display = "none";
 });
+// =========================================================================
+// SECCIÓN 10: MOTOR DINÁMICO DE ENLACES EXTERIORES PARA HOJA ACTIVA
+// Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
+// =========================================================================
+const mapaEnlacesExteriores = {
+    "Superintendentes": "https://github.io",
+    "Hospitalidad": "https://github.io",
+    "Estudios Día 1": "https://github.io",
+    "Estudios Día 2": "https://github.io",
+    "Estudios Día 3": "https://github.io",
+    "Pastoreo Día 1": "https://github.io",
+    "Pastoreo Día 2": "https://github.io",
+    "Pastoreo Día 3": "https://github.io"
+};
+
+function Secc10_Fun1_ActualizarEnlaceYTextoExterior(nombreHoja) {
+    // Buscamos el elemento turquesa por su ID
+    const etiquetaSeccionActiva = document.getElementById("seccionActivaText") || document.getElementById("seccionActiva");
+    
+    if (etiquetaSeccionActiva) {
+        const urlDestino = mapaEnlacesExteriores[nombreHoja];
+        
+        if (urlDestino) {
+            // Convertimos el elemento visual en un hipervínculo que abre en pestaña nueva
+            etiquetaSeccionActiva.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: inherit; text-decoration: underline; font-weight: bold;">${nombreHoja}</a>`;
+        } else {
+            etiquetaSeccionActiva.textContent = nombreHoja;
+        }
+    }
+}
+
+// Vinculación automática al evento change del selector de hojas existente
+document.addEventListener("DOMContentLoaded", () => {
+    const selectorHojasOriginal = document.getElementById("selectorHojas");
+    
+    if (selectorHojasOriginal) {
+        // Ejecución inicial con la hoja cargada por defecto
+        Secc10_Fun1_ActualizarEnlaceYTextoExterior(selectorHojasOriginal.value);
+        
+        // Escucha pasiva para cuando el usuario cambie la sección
+        selectorHojasOriginal.addEventListener("change", (e) => {
+            Secc10_Fun1_ActualizarEnlaceYTextoExterior(e.target.value);
+        });
+    }
+});
