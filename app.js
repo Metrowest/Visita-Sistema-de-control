@@ -554,7 +554,7 @@ window.addEventListener("appinstalled", () => {
 // SECCIÓN 10: MOTOR DINÁMICO DE ENLACES EXTERIORES PARA HOJA ACTIVA
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
 // =========================================================================
-const enlacesExternosConfig = {
+const enlacesExternos = {
     "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes", // Reemplaza aquí con tu enlace específico real
     "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
     "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
@@ -565,49 +565,31 @@ const enlacesExternosConfig = {
     "Pastoreo Día 3": "https://metrowest.github.io/Visita/pastoreo3A.html"
 };
 
-function Secc10_Fun1_ConvertirTextoEnEnlaceReal(valorSelector) {
-    // Buscamos todas las etiquetas visuales que muestran la sección activa en tu interfaz
-    const elementosSeccion = document.querySelectorAll('.seccion-activa, [id*="seccion"], [id*="Seccion"]');
+function Secc10_Fun1_ActualizarHipervinculoExterior() {
+    const selector = document.getElementById("selectorHoja");
+    const contenedorTextoTurquesa = document.getElementById("seccionActivaContenedor");
     
-    // LIMPIEZA CLAVE: Buscamos qué palabra clave de nuestro diccionario está incluida en el valor del selector
-    let hojaClaveEncontrada = "Superintendentes"; // Valor por defecto seguro
-    
-    Object.keys(enlacesExternosConfig).forEach(clave => {
-        if (valorSelector.includes(clave)) {
-            hojaClaveEncontrada = clave;
+    if (selector && contenedorTextoTurquesa) {
+        const valorSeleccionado = selector.value;
+        const urlDestino = enlacesExternos[valorSeleccionado];
+        
+        if (urlDestino) {
+            // Reemplazamos el texto interno por el enlace cliqueable con el nombre exacto de la hoja
+            contenedorTextoTurquesa.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: inherit; text-decoration: underline;">${valorSeleccionado}</a>`;
+        } else {
+            contenedorTextoTurquesa.textContent = valorSeleccionado;
         }
-    });
-
-    const urlDestino = enlacesExternosConfig[hojaClaveEncontrada];
-
-    if (urlDestino) {
-        elementosSeccion.forEach(elemento => {
-            // Verificamos que sea el elemento del letrero turquesa inspeccionando su texto o clase
-            if (elemento && (elemento.tagName === "SPAN" || elemento.id || elemento.className.includes("seccion"))) {
-                // Inyectamos el hipervínculo correcto manteniendo tu texto exacto de la pantalla
-                elemento.innerHTML = `<a href="${urlDestino}" target="_blank" style="color: #009688; text-decoration: underline; font-weight: bold; cursor: pointer;">${valorSelector}</a>`;
-            }
-        });
     }
 }
 
-// Escuchador pasivo que se acopla a tu selector nativo sin interferir en la carga de datos
+// Escuchas nativas independientes conectadas al selectorHoja original
 document.addEventListener("DOMContentLoaded", () => {
-    // Usamos el ID exacto de tu versión original: "selectorHoja"
-    const selectorHojaNativo = document.getElementById("selectorHoja");
-    
-    if (selectorHojaNativo) {
-        // 1. Ejecución inmediata al cargar la página por primera vez
-        setTimeout(() => {
-            Secc10_Fun1_ConvertirTextoEnEnlaceReal(selectorHojaNativo.value);
-        }, 400);
-
-        // 2. Escuchar los cambios cuando el usuario selecciona otra opción
-        selectorHojaNativo.addEventListener("change", (e) => {
-            // Esperamos un instante a que tu app procese el cambio y actualizamos el link exacto
-            setTimeout(() => {
-                Secc10_Fun1_ConvertirTextoEnEnlaceReal(e.target.value);
-            }, 150);
-        });
+    const selector = document.getElementById("selectorHoja");
+    if (selector) {
+        // 1. Forzar que se cree el enlace la primera vez que se abre la página
+        Secc10_Fun1_ActualizarHipervinculoExterior();
+        
+        // 2. Cada vez que cambie el selector, actualiza el enlace
+        selector.addEventListener("change", Secc10_Fun1_ActualizarHipervinculoExterior);
     }
 });
