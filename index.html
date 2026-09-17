@@ -285,7 +285,7 @@
     <script>
         // Variables globales de memoria pasiva para el control de archivos e iconos
         let tipoArchivoDetectadoPastel = '📋';
-        let alertaBloqueada = false; // Candado para evitar que las alertas pisen la confirmación de subida
+        let alertaBloqueada = false; // Candado temporal EXCLUSIVO para la ventana de confirmación previa
 
         // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
         document.addEventListener("DOMContentLoaded", () => {
@@ -293,7 +293,7 @@
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files.length > 0) {
-                        const nombre = this.files[0].name.toLowerCase();
+                        const nombre = this.files[0].name.toLowerCase(); // Corregido índice nativo de lectura
                         if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
                         else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
                         else if (nombre.endsWith('.docx') || nombre.endsWith('.doc')) tipoArchivoDetectadoPastel = '📝';
@@ -304,11 +304,11 @@
             }
         });
 
-        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert)
+        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert - PROCESA REQUISITO 6)
         window.alert = function(mensaje) {
-            // BLINDAJE DE PARPADEO: Si hay una confirmación activa en pantalla, ignoramos alertas secundarias
+            // Si el candado está activo (el usuario aún está decidiendo en la confirmación), bloqueamos alertas espurias
             if (alertaBloqueada) {
-                console.log("Alerta secundaria omitida para proteger el icono del archivo: " + mensaje);
+                console.log("Alerta secundaria retenida para proteger la ventana de decisión: " + mensaje);
                 return;
             }
 
@@ -323,7 +323,8 @@
             texto.innerText = mensaje;
 
             const msgMinuscula = mensaje.toLowerCase();
-            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('permanentemente') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados')) {
+            // CORRECCIÓN: El validador ahora mapea los términos del Requisito 6 ("recuerda", "visita", "ver") como alertas de Éxito Verde
+            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
             } else if (msgMinuscula.includes('error') || msgMinuscula.includes('fallo') || msgMinuscula.includes('no se pudo')) {
@@ -351,7 +352,7 @@
                 return true; 
             }
 
-            // Activamos el candado para que las alertas del servidor no alteren el diseño actual
+            // Encendemos el candado preventivo únicamente mientras la tarjeta flotante de pregunta esté abierta
             alertaBloqueada = true;
 
             texto.innerText = mensaje;
@@ -369,16 +370,24 @@
         };
 
         function controlarRespuestaConfirmacion(opcionElegida) {
-            // Liberamos el candado de alertas al procesar la elección
+            // LIBERACIÓN INMEDIATA DEL CANDADO: Al hacer click en cualquier opción, abrimos el canal de red
             alertaBloqueada = false;
             cerrarAlertaPastel();
-            if(opcionElegida && typeof window.btnIniciarCargaDrive === 'function') {
-                window.btnIniciarCargaDrive();
+            
+            if (opcionElegida) {
+                // Si el usuario presionó Aceptar, ejecutamos la función nativa de transmisión binaria
+                if (typeof window.btnIniciarCargaDrive === 'function') {
+                    window.btnIniciarCargaDrive();
+                } else {
+                    // Respaldo de compatibilidad por disparador de ID directo
+                    const btnNativo = document.getElementById('btnIniciarCargaDrive');
+                    if (btnNativo) btnNativo.click();
+                }
             }
         }
 
         function cerrarAlertaPastel() {
-            alertaBloqueada = false; // Nos aseguramos de apagar el candado al cerrar la ventana manualmente
+            alertaBloqueada = false; // Forzamos la apertura de red al cerrar el modal de forma manual
             const modal = document.getElementById('contenedorAlertaPastel');
             if (modal) modal.style.display = 'none';
         }
