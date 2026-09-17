@@ -243,6 +243,7 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
+
         // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
@@ -255,7 +256,14 @@ function recibirDatosDesdeGoogle(json) {
                 direccion: fila[3] !== undefined && fila[3] !== null ? fila[3].toString().trim() : ""
             };
             
-            Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
+            // 🛡️ BIFURCACIÓN DE CONTROL DE AISLAMIENTO TOTAL:
+            // Si la tablet detecta que es Seguridad, usa el motor nuevo desarmado.
+            // Para Superintendentes o Hospitalidad, sigue usando tu función nativa original de ayer.
+            if (hojaActiva === "Seguridad") {
+                Secc30_Seguridad_DibujarRenglon(i - 1, objetoFila, llavesMapeo);
+            } else {
+                Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
+            }
         }
     }
 }
@@ -264,6 +272,8 @@ function recibirDatosDesdeGoogle(json) {
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 3)
 // =========================================================================
+
+        
 function editarRegistro(index, rowData) {
     console.log("Cargando registro seleccionado en los campos de edición superior...");
     const hojaActiva = document.getElementById("selectorHoja").value;
