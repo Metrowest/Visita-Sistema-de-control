@@ -90,7 +90,7 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
                 <button type="button" class="btn-delete" style="cursor:pointer; display:none;" onclick="window.borrarRegistro(${indice})">🗑️</button>
             `;
         }
-    } else {
+        } else {
         // Comportamiento universal para todas las demás hojas estables del libro
         estilosBotones = `
             <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
@@ -102,11 +102,42 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
     tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
 }
 
+// =========================================================================
+// FUNCIÓN NUEVA AISLADA: MOTOR CONSTRUCTOR EXCLUSIVO PARA SEGURIDAD (APP.JS)
+// Ubicación del bloque: ABAJO DE LA SECCIÓN 3.0 ORIGINAL (CERO RIESGO)
+// =========================================================================
+function Secc30_Seguridad_DibujarRenglon(indice, objetoCampos, columnasVisibles) {
+    const tablaCuerpo = document.getElementById("tablaCuerpo");
+    
+    let htmlFila = "<tr>";
+    columnasVisibles.forEach(propiedad => {
+        htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? objetoCampos[propiedad] : ""}</td>`;
+    });
+    
+    let estilosBotones = "";
+    if (indice === 0) {
+        // ÚNICAMENTE la Línea 1 recibe el lápiz de edición oficial
+        estilosBotones = `
+            <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
+            <button type="button" class="btn-delete" style="cursor:pointer; display:none;">🗑️</button>
+        `;
+    } else {
+        // De la Línea 2 a la 68 nacen completamente desarmadas
+        estilosBotones = `
+            <button type="button" class="btn-edit" style="cursor:pointer; display:none;">✏️</button>
+            <button type="button" class="btn-delete" style="cursor:pointer; display:none;">🗑️</button>
+        `;
+    }
+    
+    htmlFila += `<td>${estilosBotones}</td></tr>`;
+    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+}
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
+
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
