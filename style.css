@@ -389,48 +389,46 @@ tr:last-child td {
         margin-bottom: 40px; /* Deja un espacio libre abajo para que el botón "Guardar" suba y sea accesible */
     }
 }
-
 /* =========================================================================
-   CONTROL CENTRAL COMPACTO DEL BANNER PWA (DESDE ARCHIVO STYLE.CSS)
+   CONTROL CENTRAL COMPACTO DEL BANNER PWA - CORRECCIÓN DE PRIORIDAD VISUAL
    ========================================================================= */
-#bannerInstalacionPWA {
-    background-color: var(--color-turquesa) !important;
+div#bannerInstalacionPWA {
+    /* Fuerza al contenedor largo a tomar tu color morado de inmediato */
+    background-color: #a12cbb !important;
     color: #ffffff !important;
-    padding: 6px 12px !important; /* Relleno compacto para no desbordar */
+    padding: 6px 12px !important; 
     position: fixed !important;
     bottom: 8px !important;
     left: 16px !important;
     z-index: 9999 !important;
     border-radius: 8px !important;
     
-    /* Configuración de alineación horizontal en una sola línea */
     display: inline-flex !important;
-    flex-direction: row-reverse; /* Empuja el botón al principio (izquierda) y el texto a la derecha */
+    flex-direction: row-reverse; 
     align-items: center !important;
-    justify-content: flex-end !important; /* Junta los elementos desde el inicio */
-    gap: 10px !important; /* Espaciado corto entre el botón y el texto */
+    justify-content: flex-end !important; 
+    gap: 10px !important; 
     
-    /* Tus dos líneas de control estricto de tamaño */
     max-width: 300px !important;
     max-height: 50px !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
 }
 
-#bannerInstalacionPWA p {
+div#bannerInstalacionPWA p {
     margin: 0 !important;
-    font-size: 0.75rem !important; /* Letra compacta para que quepa en los 300px */
+    font-size: 0.75rem !important; 
     font-weight: 500 !important;
-    white-space: nowrap; /* Evita que el texto se rompa en dos renglones */
+    white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #ffffff !important;
 }
-#btnInstalarPWA {
-    /* Color morado personalizado para el fondo del botón */
-    background-color: #a12cbb !important;
-    /* Palabra 'Instalar' fijada en color negro puro */
+
+button#btnInstalarPWA {
+    /* Fuerza al botón a ser blanco con la palabra 'Instalar' en negro */
+    background-color: #ffffff !important;
     color: #000000 !important;
     
-    /* Mantiene tus estilos de estructura y diseño originales intactos */
     border: none !important;
     padding: 4px 8px !important; 
     font-weight: 600 !important;
@@ -439,3 +437,5 @@ tr:last-child td {
     font-size: 0.72rem !important;
     white-space: nowrap;
 }
+
+
