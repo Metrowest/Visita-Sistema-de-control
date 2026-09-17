@@ -424,12 +424,15 @@ tr:last-child td {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 #btnInstalarPWA {
-    background-color: #ffffff !important;
-    color: var(--color-turquesa) !important;
+    /* Color morado personalizado para el fondo del botón */
+    background-color: #a12cbb !important;
+    /* Palabra 'Instalar' fijada en color negro puro */
+    color: #000000 !important;
+    
+    /* Mantiene tus estilos de estructura y diseño originales intactos */
     border: none !important;
-    padding: 4px 8px !important; /* Botón pequeño y estilizado */
+    padding: 4px 8px !important; 
     font-weight: 600 !important;
     border-radius: 4px !important;
     cursor: pointer !important;
