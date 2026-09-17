@@ -293,7 +293,7 @@
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
-                        // SINCRO REAL: Extrae el nombre apuntando de forma estricta al primer archivo de la lista [0]
+                        // REPARACIÓN DEFINITIVA: Apunta al primer elemento [0] de la lista de archivos para extraer su nombre real
                         const nombre = this.files[0].name.toLowerCase(); 
                         if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
                         else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
