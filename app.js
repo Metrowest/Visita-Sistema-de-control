@@ -422,7 +422,6 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
     script.src = urlFinalConParametros;
     document.body.appendChild(script);
 }
-
 // =========================================================================
 // SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
 // Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
@@ -430,10 +429,25 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
 function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     
-    // 🛡️ ¡AQUÍ ENCAJAMOS EL ESCUDO DE SEGURIDAD!
+    // Referencias físicas a la interfaz para alternar las vistas
+    const tarjetaRegistros = document.querySelector(".tarjeta-modulo"); 
+    const contSeguridad = document.getElementById("contenedorSeguridad");
+
+    // 🛡️ ENRUTADOR MAESTRO DE SEGURIDAD UNIFICADO
     if (hojaRaw === "Seguridad") {
         console.log("Módulo local de Seguridad detectado en Sección 8.2.2. Omitiendo llamadas de red.");
-        return; // Detiene esta segunda función por completo para evitar que caiga en el error
+        
+        // Ocultamos la rejilla de la sección 4 y mostramos el panel aislado de seguridad
+        if (tarjetaRegistros) tarjetaRegistros.style.display = "none";
+        if (contSeguridad) contSeguridad.style.display = "block";
+        
+        // Disparamos la inyección controlada de las 68 líneas
+        generarLineasSeguridad();
+        return; // Frenamos por completo para que no busque en Google Sheets
+    } else {
+        // Si elige cualquier otra sección estable, aseguramos que regrese la vista normal
+        if (contSeguridad) contSeguridad.style.display = "none";
+        if (tarjetaRegistros) tarjetaRegistros.style.display = "block";
     }
 
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
@@ -449,7 +463,7 @@ function cargarDatos() {
     
     let urlConstruida = "";
 
-    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
+    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NORMRES EXACTOS DE LAS HOJAS
     if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
