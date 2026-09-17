@@ -571,3 +571,33 @@ window.addEventListener("appinstalled", () => {
     const banner = document.getElementById("bannerInstalacionPWA");
     if (banner) banner.style.display = "none";
 });
+
+// =========================================================================
+// HOJAS SECCIÓN 5: GENERADOR DINÁMICO DEL PROGRAMA DE SEGURIDAD (APP.JS)
+// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
+// =========================================================================
+function generarLineasSeguridad() {
+    const lista = document.getElementById("listaLineasSeguridad");
+    if (!lista) return;
+    
+    // BLINDAJE DE DUPLICIDAD: Si ya existen elementos cargados, frena la función
+    if (lista.children.length > 0) return; 
+
+    // ESTRUCTURA BASE DE LAS 68 LÍNEAS DEL PROGRAMA DE SEGURIDAD
+    const lineasPrograma = [];
+    for (let i = 1; i <= 68; i++) {
+        lineasPrograma.push(`Línea ${i}: Protocolo de control operacional, prevención de riesgos y verificación modular estándar.`);
+    }
+
+    // INYECCIÓN LIMPIA EN EL DOM
+    lineasPrograma.forEach(texto => {
+        const li = document.createElement("li");
+        li.style.padding = "8px 0";
+        li.style.borderBottom = "1px solid #e2e8f0";
+        li.style.color = "#4a5568";
+        li.style.fontSize = "0.95rem";
+        li.innerText = texto;
+        lista.appendChild(li);
+    });
+}
+
