@@ -429,25 +429,27 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
 function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     
-    // Referencias físicas a la interfaz para alternar las vistas
-    const tarjetaRegistros = document.querySelector(".tarjeta-modulo"); 
+    // CAPTURA DIRECTA POR IDENTIFICADORES HTML EXACTOS
+    const contenedorTabla = document.getElementById("contenedorTablaRegistros"); 
     const contSeguridad = document.getElementById("contenedorSeguridad");
 
-    // 🛡️ ENRUTADOR MAESTRO DE SEGURIDAD UNIFICADO
+    // 🛡️ ENRUTADOR MAESTRO DE SEGURIDAD CORREGIDO
     if (hojaRaw === "Seguridad") {
-        console.log("Módulo local de Seguridad detectado en Sección 8.2.2. Omitiendo llamadas de red.");
+        console.log("Módulo local de Seguridad detectado. Corrigiendo visibilidad de bloques.");
         
-        // Ocultamos la rejilla de la sección 4 y mostramos el panel aislado de seguridad
-        if (tarjetaRegistros) tarjetaRegistros.style.display = "none";
+        // Ocultamos la rejilla de la sección 4 de forma definitiva
+        if (contenedorTabla) contenedorTabla.style.display = "none";
+        
+        // Mostramos el panel aislado de seguridad
         if (contSeguridad) contSeguridad.style.display = "block";
         
-        // Disparamos la inyección controlada de las 68 líneas
+        // Disparamos la inyección controlada de tus líneas
         generarLineasSeguridad();
-        return; // Frenamos por completo para que no busque en Google Sheets
+        return; // Frenamos por completo el flujo de red
     } else {
-        // Si elige cualquier otra sección estable, aseguramos que regrese la vista normal
+        // Si el superintendente regresa a cualquier otra sección, reestablecemos el orden estable
         if (contSeguridad) contSeguridad.style.display = "none";
-        if (tarjetaRegistros) tarjetaRegistros.style.display = "block";
+        if (contenedorTabla) contenedorTabla.style.display = "block";
     }
 
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
@@ -463,7 +465,7 @@ function cargarDatos() {
     
     let urlConstruida = "";
 
-    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NORMRES EXACTOS DE LAS HOJAS
+    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
     if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
@@ -480,7 +482,6 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
-
 
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
