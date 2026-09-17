@@ -432,21 +432,23 @@ window.recibirDatosDesdeGoogle = recibirDatosDesdeGoogle;
 window.recibirRespuestaAccion = recibirRespuestaAccion;
 window.editarRegistro = editarRegistro;
 window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
-
+)
 // =========================================================================
-// SECCIÓN 8.2.1 (FIJA - NO SE TOCA): MOTOR PURO DE INYECCIÓN LOCAL (APP.JS)
-// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
+// SECCIÓN 8.2.1 (FIJA): MOTOR DE INYECCIÓN DE SCRIPTS ASÍNCRONOS
+// Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE RED SEGURO)
 // =========================================================================
-function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
-    console.log("¡Motor fijo inyectando script local libre de CORS!");
+function Secc821_1_DispararPeticionServidor(url) {
+    console.log("Inyectando etiqueta script de red de forma segura...");
+    
     const scriptViejo = document.getElementById("script-carga-hojas");
     if (scriptViejo) scriptViejo.remove();
 
     const script = document.createElement("script");
     script.id = "script-carga-hojas";
-    script.src = urlFinalConParametros;
+    script.src = url;
     document.body.appendChild(script);
-}
+} // <-- Esta es la llave de cierre crítica que se pudo haber perdido
+
 // =========================================================================
 // SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
 // Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
@@ -455,15 +457,14 @@ function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
     
-    // TUS CAPTURAS REALES PARA EL TRUCO VISUAL
     const bloqueSuper = document.getElementById("contenedorCampo2");
     const bloqueTelef = document.getElementById("contenedorCampo3");
     const inputSuper = document.getElementById("txtSuperintendente");
     const inputTelef = document.getElementById("txtTelefono");
 
-    // REGLA DE ADAPTACIÓN DE FORMULARIO AUTOMÁTICA PARA SEGURIDAD
+    // REGLA DE ADAPTACIÓN DE FORMULARIO PARA SEGURIDAD
     if (hojaRaw === "Seguridad") {
-        console.log("Adaptando formulario para Seguridad: Ocultando campos excedentes y quitando restricciones.");
+        console.log("Adaptando formulario para Seguridad: Ocultando campos excedentes.");
         if (bloqueSuper) bloqueSuper.style.display = "none";
         if (bloqueTelef) bloqueTelef.style.display = "none";
         if (inputSuper) inputSuper.required = false;
@@ -501,6 +502,7 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
+
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -519,7 +521,7 @@ function actualizarEnlaceUbicacion() {
     const etiquetaEnlace = document.getElementById("enlaceDinamico");
     const tituloFormulario = document.getElementById("formTitulo");
 
-    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3");
+    const lbl1 = document.getElementById("lblCampo1");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
     if (etiquetaEnlace) {
@@ -541,11 +543,10 @@ function actualizarEnlaceUbicacion() {
 
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
+        if (lbl1) lbl1.innerText = "Día";
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-    // NUEVA ADAPTACIÓN DE ETIQUETAS PARA SEGURIDAD
     } else if (hojaSeleccionada === "Seguridad") {
         if (tituloFormulario) tituloFormulario.innerText = "Modificar Programa (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha / Estado"; 
@@ -554,23 +555,24 @@ function actualizarEnlaceUbicacion() {
 
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
+        if (lbl1) lbl1.innerText = "Día";
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
+        if (lbl1) lbl1.innerText = "Día";
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
         
     } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
+        if (lbl1) lbl1.innerText = "Grupo / Día";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
