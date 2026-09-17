@@ -21,27 +21,14 @@ function cargarDatos() {
     console.log("Solicitando registros para la sección: " + hoja);
 
     // BLINDAJE DE RED: Si el usuario elige las carpetas, este script se apaga de inmediato
-    // y no ejecuta las llamadas de Sheets para evitar que las tablas se queden colgadas
     if (hoja === "Gestor_Carpetas") {
         console.log("Tablero de Sheets apagado. Cediendo control a carpetas.js...");
         return;
     }
 
-    // Removemos ganchos viejos para evitar duplicación de scripts en memoria
-    const scriptViejo = document.getElementById("script-carga-hojas");
-    if (scriptViejo) scriptViejo.remove();
-
-    // Inyectamos una etiqueta script dinámicamente pasándole la hoja seleccionada por URL
-    const script = document.createElement("script");
-    script.id = "script-carga-hojas";
-    script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
-    document.body.appendChild(script);
-}
-
     // =========================================================================
-INTERCEPTOR DE SEGURIDAD!
+    // ¡AQUÍ VA EL INTERCEPTOR DE SEGURIDAD PERFECTAMENTE ENCAJADO!
     // =========================================================================
- 
     const tarjetaRegistros = document.querySelector(".tarjeta-modulo"); 
     const contSeguridad = document.getElementById("contenedorSeguridad");
 
@@ -54,12 +41,24 @@ INTERCEPTOR DE SEGURIDAD!
         
         // Disparamos la inyección controlada de las 68 líneas
         generarLineasSeguridad();
-        return; // Detiene el flujo para que no intente consultar a Google Sheets
+        return; // Detiene el flujo AQUÍ para evitar llamadas innecesarias a Sheets
     } else {
         // Si elige cualquier otra sección estable, aseguramos que regrese la vista normal
         if (contSeguridad) contSeguridad.style.display = "none";
         if (tarjetaRegistros) tarjetaRegistros.style.display = "block";
     }
+    // =========================================================================
+
+    // Removemos ganchos viejos para evitar duplicación de scripts en memoria
+    const scriptViejo = document.getElementById("script-carga-hojas");
+    if (scriptViejo) scriptViejo.remove();
+
+    // Inyectamos una etiqueta script dinámicamente pasándole la hoja seleccionada por URL
+    const script = document.createElement("script");
+    script.id = "script-carga-hojas";
+    script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
+    document.body.appendChild(script);
+}
     
 // =========================================================================
 // SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
