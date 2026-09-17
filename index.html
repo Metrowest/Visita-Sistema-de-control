@@ -286,7 +286,6 @@
         // Variables globales de memoria pasiva para el control de archivos e iconos
         let tipoArchivoDetectadoPastel = '📋';
         let alertaBloqueada = false; 
-        let resolverConfirmacionPastel = null; // Enlace de retorno nativo para window.confirm
 
         // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
         document.addEventListener("DOMContentLoaded", () => {
@@ -294,6 +293,7 @@
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
+                        // SINCRO REAL COMPLETA: Captura exacta del formato del archivo seleccionado
                         const nombre = this.files[0].name.toLowerCase(); 
                         if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
                         else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
@@ -305,7 +305,7 @@
             }
         });
 
-        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert - PROCESA REQUISITO 6)
+        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert - TRADUCTOR DE ENTORNO ÉXITO)
         window.alert = function(mensaje) {
             if (alertaBloqueada) {
                 console.log("Alerta secundaria retenida para proteger la ventana de decisión: " + mensaje);
@@ -320,10 +320,18 @@
             
             if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return;
 
-            texto.innerText = mensaje;
-
+            let mensajeProcesado = mensaje;
             const msgMinuscula = mensaje.toLowerCase();
-            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita')) {
+
+            // NUEVA CONDICIÓN DE DOCUMENTO NUEVO: Si la alerta original indica éxito genérico de subida, inyectamos tu frase
+            if (msgMinuscula.includes('datos procesados con éxito') && tipoArchivoDetectadoPastel !== '📋') {
+                mensajeProcesado = "Documento procesado exitosamente.";
+            }
+
+            texto.innerText = mensajeProcesado;
+
+            // CLASIFICADOR PASTEL INTELIGENTE: Filtra el recordatorio obligatorio de reemplazo y lo fuerza en la tarjeta Verde Éxito
+            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita') || msgMinuscula.includes('exitosamente')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
             } else if (msgMinuscula.includes('error') || msgMinuscula.includes('fallo') || msgMinuscula.includes('no se pudo')) {
@@ -334,6 +342,7 @@
                 titulo.innerHTML = `ℹ️ ${tipoArchivoDetectadoPastel} Información`;
             }
 
+            // Inyección del botón con estilo forzado más oscuro para garantizar máxima legibilidad
             cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
             modal.style.display = 'flex';
         };
@@ -355,16 +364,12 @@
             tarjeta.className = 'tarjeta-alerta-pastel info';
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
-            // Rompemos el bucle infinito: Inyectamos los botones conectándolos al resolvedor de promesas nativo
             cajaBotones.innerHTML = `
                 <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="controlarRespuestaConfirmacion(false)">Cancelar</button>
                 <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="controlarRespuestaConfirmacion(true)">Aceptar</button>
             `;
             
             modal.style.display = 'flex';
-
-            // Para no congelar el hilo principal, devolvemos un estado controlado falso inicial. 
-            // La ejecución verdadera se reanudará de forma exclusiva cuando el usuario haga clic en la tarjeta pastel.
             return false;
         };
 
@@ -372,16 +377,12 @@
             alertaBloqueada = false;
             cerrarAlertaPastel();
             
-            // ELIMINACIÓN DE REDUNDANCIA: Si el usuario confirma la acción, dejamos que carpetas.js retome su flujo original
             if (opcionElegida) {
-                console.log("Subida confirmada de forma segura mediante entorno pastel.");
-                // Accedemos de forma directa a la función constructora original para evitar el doble ciclo
                 if (typeof window.procesarSubidaDriveDirecta === 'function') {
                     window.procesarSubidaDriveDirecta();
                 } else {
-                    // Respaldo secundario por desactivación de banderas
-                    const inputOcultoConfirm = document.getElementById('btnIniciarCargaDrive');
-                    if (inputOcultoConfirm) console.log("Canal liberado.");
+                    const btnNativo = document.getElementById('btnIniciarCargaDrive');
+                    if (btnNativo) console.log("Canal liberado.");
                 }
             }
         }
