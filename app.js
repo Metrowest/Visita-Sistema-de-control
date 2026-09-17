@@ -429,6 +429,13 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
 // =========================================================================
 function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
+    
+    // 🛡️ ¡AQUÍ ENCAJAMOS EL ESCUDO DE SEGURIDAD!
+    if (hojaRaw === "Seguridad") {
+        console.log("Módulo local de Seguridad detectado en Sección 8.2.2. Omitiendo llamadas de red.");
+        return; // Detiene esta segunda función por completo para evitar que caiga en el error
+    }
+
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
     
     // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
@@ -459,6 +466,7 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
