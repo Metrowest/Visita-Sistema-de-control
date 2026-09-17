@@ -427,16 +427,11 @@ window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
 // Disparamos la lectura automática de la base de datos en cuanto se abre el archivo
 document.addEventListener("DOMContentLoaded", cargarDatos);
 
-// Enlazamos forzosamente los receptores en la ventana window para el protocolo local file:///
-window.recibirDatosDesdeGoogle = recibirDatosDesdeGoogle;
-window.recibirRespuestaAccion = recibirRespuestaAccion;
-window.editarRegistro = editarRegistro;
-window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
-)
 // =========================================================================
 // SECCIÓN 8.2.1 (FIJA): MOTOR DE INYECCIÓN DE SCRIPTS ASÍNCRONOS
 // Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE RED SEGURO)
 // =========================================================================
+
 function Secc821_1_DispararPeticionServidor(url) {
     console.log("Inyectando etiqueta script de red de forma segura...");
     
