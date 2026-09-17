@@ -293,7 +293,6 @@
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
-                        // SINCRO REAL COMPLETA: Captura exacta del formato del archivo seleccionado
                         const nombre = this.files[0].name.toLowerCase(); 
                         if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
                         else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
@@ -370,6 +369,8 @@
             `;
             
             modal.style.display = 'flex';
+            
+            // Retornamos falso para detener el flujo síncrono antiguo y delegar la carga al disparo físico del botón
             return false;
         };
 
@@ -378,11 +379,20 @@
             cerrarAlertaPastel();
             
             if (opcionElegida) {
-                if (typeof window.procesarSubidaDriveDirecta === 'function') {
-                    window.procesarSubidaDriveDirecta();
+                console.log("Reanudando subida nativa mediante emulación de click físico.");
+                // CORRECCIÓN DE RAÍZ: Buscamos el botón real del cohete en tu index.html y forzamos su ejecución original
+                const btnRealCarga = document.getElementById('btnIniciarCargaDrive');
+                if (btnRealCarga) {
+                    // Agregamos una bandera temporal para que carpetas.js salte su propio confirm interno si es necesario
+                    const confirmOriginal = window.confirm;
+                    window.confirm = () => true; // Auto-aprobamos el confirm secundario interno
+                    
+                    btnRealCarga.click(); // Dispara la carga real de bytes hacia Google Drive
+                    
+                    // Devolvemos la función a su estado normal tras el milisegundo del click
+                    setTimeout(() => { window.confirm = confirmOriginal; }, 100);
                 } else {
-                    const btnNativo = document.getElementById('btnIniciarCargaDrive');
-                    if (btnNativo) console.log("Canal liberado.");
+                    console.error("Error crítico: No se encontró el botón con el ID btnIniciarCargaDrive");
                 }
             }
         }
