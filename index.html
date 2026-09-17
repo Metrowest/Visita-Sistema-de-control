@@ -270,7 +270,7 @@
     <script src="app.js"></script>
      
     <!-- =========================================================================
-         SISTEMA DE INTERCEPCIÓN DE ALERTAS Y CONFIRMACIONES PASTELES DINÁMICAS
+         CODIGO MADRE SECCIÓN 3 - SISTEMA DE INTERCEPCIÓN DE ALERTAS Y CONFIRMACIONES
          ========================================================================= -->
     <div id="contenedorAlertaPastel" class="modal-alerta-fondo">
         <div id="cuerpoAlertaPastel" class="tarjeta-alerta-pastel">
@@ -283,10 +283,27 @@
     </div>
 
     <script>
-        // Guardamos una variable global para resolver las respuestas de confirmación (Aceptar / Cancelar)
-        let resolucionConfirmacionPastel = null;
+        // Variables globales de memoria pasiva para el control de archivos e iconos
+        let tipoArchivoDetectadoPastel = '📋';
 
-        // 1. INTERCEPTOR MAESTRO DE ALERTAS (window.alert)
+        // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
+        document.addEventListener("DOMContentLoaded", () => {
+            const inputArchivoDrive = document.getElementById('archivoSubirDrive');
+            if (inputArchivoDrive) {
+                inputArchivoDrive.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        const nombre = this.files[0].name.toLowerCase();
+                        if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
+                        else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
+                        else if (nombre.endsWith('.docx') || nombre.endsWith('.doc')) tipoArchivoDetectadoPastel = '📝';
+                        else if (nombre.endsWith('.png') || nombre.endsWith('.jpg') || nombre.endsWith('.jpeg')) tipoArchivoDetectadoPastel = '🖼️';
+                        else tipoArchivoDetectadoPastel = '📁';
+                    }
+                });
+            }
+        });
+
+        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert)
         window.alert = function(mensaje) {
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
@@ -297,41 +314,26 @@
             if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return;
 
             texto.innerText = mensaje;
-            
-            // Evaluamos si hay un archivo seleccionado para extraer su formato e icono dinámico
-            let iconoDinamico = '📋';
-            const inputArchivo = document.getElementById('archivoSubirDrive');
-            if (inputArchivo && inputArchivo.files.length > 0) {
-                const nombreArchivo = inputArchivo.files[0].name;
-                const extension = nombreArchivo.substring(nombreArchivo.lastIndexOf('.')).toLowerCase();
-                // Usamos la misma lógica visual de tu función nativa
-                if (extension.includes('pdf')) iconoDinamico = '📄';
-                else if (extension.includes('xl') || extension.includes('csv')) iconoDinamico = '📊';
-                else if (extension.includes('doc')) iconoDinamico = '📝';
-                else if (extension.includes('png') || extension.includes('jpg') || extension.includes('jpeg')) iconoDinamico = '🖼️';
-            }
 
             const msgMinuscula = mensaje.toLowerCase();
-            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('permanentemente') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('éxito')) {
+            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('permanentemente') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
-                titulo.innerHTML = `✨ ${iconoDinamico} ¡Excelente!`;
+                titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
             } else if (msgMinuscula.includes('error') || msgMinuscula.includes('fallo') || msgMinuscula.includes('no se pudo')) {
                 tarjeta.className = 'tarjeta-alerta-pastel error';
-                titulo.innerHTML = `⚠️ ${iconoDinamico} Aviso`;
+                titulo.innerHTML = `⚠️ ${tipoArchivoDetectadoPastel} Aviso`;
             } else {
                 tarjeta.className = 'tarjeta-alerta-pastel info';
-                titulo.innerHTML = `ℹ️ ${iconoDinamico} Información`;
+                titulo.innerHTML = `ℹ️ ${tipoArchivoDetectadoPastel} Información`;
             }
 
-            // Inyectamos el botón único de "Entendido" con el fondo pastel subido
-            cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" onclick="cerrarAlertaPastel(true)">Entendido</button>`;
+            // Inyección del botón único con estilos forzados más oscuros y legibles en el fondo claro
+            cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
             modal.style.display = 'flex';
         };
 
-        // 2. INTERCEPTOR MAESTRO DE CONFIRMACIONES (window.confirm - CORRIGE FOTO 1 Y 2)
+        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO DE CONFIRMACIONES REALES (window.confirm)
         window.confirm = function(mensaje) {
-            // Ya que window.confirm nativo detiene el navegador y no podemos pausarlo de forma sutil,
-            // interceptamos la llamada simulando la aprobación automática y lanzando el aviso estético en paralelo
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
@@ -344,33 +346,26 @@
 
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
+            titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
-            let iconoDinamico = '❓';
-            const inputArchivo = document.getElementById('archivoSubirDrive');
-            if (inputArchivo && inputArchivo.files.length > 0) {
-                const nombreArchivo = inputArchivo.files[0].name;
-                const extension = nombreArchivo.substring(nombreArchivo.lastIndexOf('.')).toLowerCase();
-                if (extension.includes('pdf')) iconoDinamico = '📄';
-                else if (extension.includes('xl') || extension.includes('csv')) iconoDinamico = '📊';
-                else if (extension.includes('doc')) iconoDinamico = '📝';
-                else if (extension.includes('png') || extension.includes('jpg') || extension.includes('jpeg')) iconoDinamico = '🖼️';
-            }
-            titulo.innerHTML = `🤔 ${iconoDinamico} Confirmación`;
-
-            // Inyectamos los dos botones estilizados en paralelo para emular las fotos
+            // Construimos los dos botones con el control de click directo para emular la aceptación sincrónica
             cajaBotones.innerHTML = `
-                <button type="button" class="btn-alerta-pastel confirmar-cancel" onclick="cerrarAlertaPastel(false)">Cancelar</button>
-                <button type="button" class="btn-alerta-pastel confirmar-ok" onclick="cerrarAlertaPastel(true)">Aceptar</button>
+                <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="controlarRespuestaConfirmacion(false)">Cancelar</button>
+                <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="controlarRespuestaConfirmacion(true)">Aceptar</button>
             `;
             
             modal.style.display = 'flex';
-            
-            // Para mantener compatibilidad con las funciones internas de carpetas.js que esperan la respuesta sincrónica,
-            // retornamos true para no interrumpir el flujo del servidor mientras se dibuja la ventana pastel.
             return true;
         };
 
-        function cerrarAlertaPastel(respuesta) {
+        function controlarRespuestaConfirmacion(opcionElegida) {
+            cerrarAlertaPastel();
+            if(opcionElegida && typeof window.btnIniciarCargaDrive === 'function') {
+                window.btnIniciarCargaDrive();
+            }
+        }
+
+        function cerrarAlertaPastel() {
             const modal = document.getElementById('contenedorAlertaPastel');
             if (modal) modal.style.display = 'none';
         }
