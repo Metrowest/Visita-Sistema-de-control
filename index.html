@@ -285,6 +285,7 @@
     <script>
         // Variables globales de memoria pasiva para el control de archivos e iconos
         let tipoArchivoDetectadoPastel = '📋';
+        let alertaBloqueada = false; // Candado para evitar que las alertas pisen la confirmación de subida
 
         // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
         document.addEventListener("DOMContentLoaded", () => {
@@ -305,6 +306,12 @@
 
         // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert)
         window.alert = function(mensaje) {
+            // BLINDAJE DE PARPADEO: Si hay una confirmación activa en pantalla, ignoramos alertas secundarias
+            if (alertaBloqueada) {
+                console.log("Alerta secundaria omitida para proteger el icono del archivo: " + mensaje);
+                return;
+            }
+
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
@@ -344,6 +351,9 @@
                 return true; 
             }
 
+            // Activamos el candado para que las alertas del servidor no alteren el diseño actual
+            alertaBloqueada = true;
+
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
@@ -359,6 +369,8 @@
         };
 
         function controlarRespuestaConfirmacion(opcionElegida) {
+            // Liberamos el candado de alertas al procesar la elección
+            alertaBloqueada = false;
             cerrarAlertaPastel();
             if(opcionElegida && typeof window.btnIniciarCargaDrive === 'function') {
                 window.btnIniciarCargaDrive();
@@ -366,6 +378,7 @@
         }
 
         function cerrarAlertaPastel() {
+            alertaBloqueada = false; // Nos aseguramos de apagar el candado al cerrar la ventana manualmente
             const modal = document.getElementById('contenedorAlertaPastel');
             if (modal) modal.style.display = 'none';
         }
