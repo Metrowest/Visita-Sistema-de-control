@@ -439,7 +439,7 @@ button#btnInstalarPWA {
 }
 
 /* =========================================================================
-   ALERTAS Y MENSAJES FLOTANTES EN COLORES PASTELES (STYLE.CSS)
+   ALERTAS Y MENSAJES FLOTANTES EN COLORES PASTELES (STYLE.CSS OPTIMIZADO)
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -447,9 +447,9 @@ button#btnInstalarPWA {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(15, 23, 42, 0.4) !important; /* Fondo oscuro sutil */
+    background-color: rgba(15, 23, 42, 0.4) !important;
     z-index: 10000 !important;
-    display: none; /* Oculto por defecto */
+    display: none;
     align-items: center !important;
     justify-content: center !important;
     animation: aparecerSutil 0.2s ease-out;
@@ -459,46 +459,89 @@ button#btnInstalarPWA {
     background-color: #ffffff !important;
     padding: 24px !important;
     border-radius: 12px !important;
-    max-width: 380px !important;
+    max-width: 400px !important;
     width: 90% !important;
     box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08) !important;
     text-align: center !important;
-    border-top: 5px solid var(--color-turquesa) !important; /* Por defecto */
+    border-top: 5px solid #64748b !important;
+}
+
+.tarjeta-alerta-pastel h4 {
+    font-size: 1.15rem !important;
+    margin-bottom: 10px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tarjeta-alerta-pastel p {
+    color: #475569 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
 }
 
 /* Variante Éxito: Verde Pastel Suave */
 .tarjeta-alerta-pastel.exito {
-    background-color: #e8f5e9 !important; /* Fondo verde menta pastel */
+    background-color: #e8f5e9 !important;
     border: 1px solid #c8e6c9 !important;
-    border-top: 5px solid #81c784 !important; /* Barra superior verde pastel */
+    border-top: 5px solid #81c784 !important;
 }
-.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; font-weight: 700; margin-bottom: 8px; }
-.tarjeta-alerta-pastel.exito p { color: #388e3c !important; font-size: 0.9rem; }
+.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
 
 /* Variante Error: Rosa/Rojo Pastel Suave */
 .tarjeta-alerta-pastel.error {
-    background-color: #ffebee !important; /* Fondo rosa pastel */
+    background-color: #ffebee !important;
     border: 1px solid #ffcdd2 !important;
-    border-top: 5px solid #e57373 !important; /* Barra superior roja pastel */
+    border-top: 5px solid #e57373 !important;
 }
-.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; font-weight: 700; margin-bottom: 8px; }
-.tarjeta-alerta-pastel.error p { color: #d32f2f !important; font-size: 0.9rem; }
+.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
 
-/* Botón de cerrar de la alerta pastel */
+/* Variante Confirmación / Información: Azul Pastel Suave */
+.tarjeta-alerta-pastel.info {
+    background-color: #e0f2fe !important;
+    border: 1px solid #bae6fd !important;
+    border-top: 5px solid #7dd3fc !important;
+}
+.tarjeta-alerta-pastel.info h4 { color: #0369a1 !important; }
+
+/* Contenedor y Botones del Entorno Pastel con Color más Subido */
+.contenedor-botones-pastel {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    margin-top: 20px !important;
+}
+
 .btn-alerta-pastel {
-    margin-top: 16px !important;
-    padding: 8px 18px !important;
-    border-radius: 6px !important;
+    padding: 10px 22px !important;
+    border-radius: 8px !important;
     border: none !important;
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
     font-weight: 600 !important;
     cursor: pointer !important;
-    background-color: #ffffff !important;
-    color: #334155 !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
-    transition: background-color 0.2s;
+    /* CORRECCIÓN: Color gris/azul pastel más subido y nítido para fondos blancos o claros */
+    background-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
+    transition: background-color 0.2s, transform 0.1s;
 }
-.btn-alerta-pastel:hover { background-color: #f8fafc !important; }
+.btn-alerta-pastel:hover { background-color: #94a3b8 !important; }
+
+/* Variantes para botones de Confirmación Doble */
+.btn-alerta-pastel.confirmar-ok {
+    background-color: #3b82f6 !important;
+    color: #ffffff !important;
+}
+.btn-alerta-pastel.confirmar-ok:hover { background-color: #2563eb !important; }
+
+.btn-alerta-pastel.confirmar-cancel {
+    background-color: #f1f5f9 !important;
+    color: #64748b !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.btn-alerta-pastel.confirmar-cancel:hover { background-color: #e2e8f0 !important; }
 
 @keyframes aparecerSutil {
     from { opacity: 0; transform: scale(0.96); }
