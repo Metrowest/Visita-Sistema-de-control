@@ -323,7 +323,7 @@
             texto.innerText = mensaje;
 
             const msgMinuscula = mensaje.toLowerCase();
-            // CORRECCIÓN: El validador ahora mapea los términos del Requisito 6 ("recuerda", "visita", "ver") como alertas de Éxito Verde
+            // DOBLE ICONO CONSECUTIVO: Concatenamos el emoji de estado junto al icono del formato real
             if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
@@ -357,6 +357,7 @@
 
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
+            // DOBLE ICONO CONSECUTIVO: El emoji de pregunta junto al icono del formato real elegido
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
             // Construimos los dos botones con el control de click directo para emular la aceptación sincrónica
