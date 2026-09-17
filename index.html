@@ -346,7 +346,7 @@
             modal.style.display = 'flex';
         };
 
-        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO ASÍNCRONO DE CONFIRMACIONES (window.confirm)
+        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO DE CONFIRMACIONES ESTÁNDAR (window.confirm)
         window.confirm = function(mensaje) {
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
@@ -358,44 +358,22 @@
                 return true; 
             }
 
-            alertaBloqueada = true;
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
+            // Mostramos los botones estéticos, pero configurados únicamente para cerrar el modal visual pasivamente
             cajaBotones.innerHTML = `
-                <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="controlarRespuestaConfirmacion(false)">Cancelar</button>
-                <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="controlarRespuestaConfirmacion(true)">Aceptar</button>
+                <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="cerrarAlertaPastel()">Cancelar</button>
+                <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="cerrarAlertaPastel()">Aceptar</button>
             `;
             
             modal.style.display = 'flex';
             
-            // Retornamos falso para detener el flujo síncrono antiguo y delegar la carga al disparo físico del botón
-            return false;
+            // SOLUCIÓN INTEGRAL AL BUCLE: Retornamos true inmediatamente al motor original de carpetas.js 
+            // Esto permite que el flujo de transmisión binaria hacia Drive continúe en segundo plano sin trabarse
+            return true;
         };
-
-        function controlarRespuestaConfirmacion(opcionElegida) {
-            alertaBloqueada = false;
-            cerrarAlertaPastel();
-            
-            if (opcionElegida) {
-                console.log("Reanudando subida nativa mediante emulación de click físico.");
-                // CORRECCIÓN DE RAÍZ: Buscamos el botón real del cohete en tu index.html y forzamos su ejecución original
-                const btnRealCarga = document.getElementById('btnIniciarCargaDrive');
-                if (btnRealCarga) {
-                    // Agregamos una bandera temporal para que carpetas.js salte su propio confirm interno si es necesario
-                    const confirmOriginal = window.confirm;
-                    window.confirm = () => true; // Auto-aprobamos el confirm secundario interno
-                    
-                    btnRealCarga.click(); // Dispara la carga real de bytes hacia Google Drive
-                    
-                    // Devolvemos la función a su estado normal tras el milisegundo del click
-                    setTimeout(() => { window.confirm = confirmOriginal; }, 100);
-                } else {
-                    console.error("Error crítico: No se encontró el botón con el ID btnIniciarCargaDrive");
-                }
-            }
-        }
 
         function cerrarAlertaPastel() {
             alertaBloqueada = false; 
