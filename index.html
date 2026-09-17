@@ -285,7 +285,8 @@
     <script>
         // Variables globales de memoria pasiva para el control de archivos e iconos
         let tipoArchivoDetectadoPastel = '📋';
-        let alertaBloqueada = false; // Candado temporal EXCLUSIVO para la ventana de confirmación previa
+        let alertaBloqueada = false; 
+        let resolverConfirmacionPastel = null; // Enlace de retorno nativo para window.confirm
 
         // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
         document.addEventListener("DOMContentLoaded", () => {
@@ -293,7 +294,6 @@
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
-                        // REPARACIÓN DEFINITIVA: Apunta al primer elemento [0] de la lista de archivos para extraer su nombre real
                         const nombre = this.files[0].name.toLowerCase(); 
                         if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
                         else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
@@ -307,7 +307,6 @@
 
         // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert - PROCESA REQUISITO 6)
         window.alert = function(mensaje) {
-            // Si el candado está activo (el usuario aún está decidiendo en la confirmación), bloqueamos alertas espurias
             if (alertaBloqueada) {
                 console.log("Alerta secundaria retenida para proteger la ventana de decisión: " + mensaje);
                 return;
@@ -324,7 +323,6 @@
             texto.innerText = mensaje;
 
             const msgMinuscula = mensaje.toLowerCase();
-            // DOBLE ICONO CONSECUTIVO: Concatenamos el emoji de estado junto al icono del formato real
             if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
@@ -336,12 +334,11 @@
                 titulo.innerHTML = `ℹ️ ${tipoArchivoDetectadoPastel} Información`;
             }
 
-            // Inyección del botón único con estilos forzados más oscuros y legibles en el fondo claro
             cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
             modal.style.display = 'flex';
         };
 
-        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO DE CONFIRMACIONES REALES (window.confirm)
+        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO ASÍNCRONO DE CONFIRMACIONES (window.confirm)
         window.confirm = function(mensaje) {
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
@@ -353,43 +350,44 @@
                 return true; 
             }
 
-            // Encendemos el candado preventivo únicamente mientras la tarjeta flotante de pregunta esté abierta
             alertaBloqueada = true;
-
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
-            // DOBLE ICONO CONSECUTIVO: El emoji de pregunta junto al icono del formato real elegido
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
-            // Construimos los dos botones con el control de click directo para emular la aceptación sincrónica
+            // Rompemos el bucle infinito: Inyectamos los botones conectándolos al resolvedor de promesas nativo
             cajaBotones.innerHTML = `
                 <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="controlarRespuestaConfirmacion(false)">Cancelar</button>
                 <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="controlarRespuestaConfirmacion(true)">Aceptar</button>
             `;
             
             modal.style.display = 'flex';
-            return true;
+
+            // Para no congelar el hilo principal, devolvemos un estado controlado falso inicial. 
+            // La ejecución verdadera se reanudará de forma exclusiva cuando el usuario haga clic en la tarjeta pastel.
+            return false;
         };
 
         function controlarRespuestaConfirmacion(opcionElegida) {
-            // LIBERACIÓN INMEDIATA DEL CANDADO: Al hacer click en cualquier opción, abrimos el canal de red
             alertaBloqueada = false;
             cerrarAlertaPastel();
             
+            // ELIMINACIÓN DE REDUNDANCIA: Si el usuario confirma la acción, dejamos que carpetas.js retome su flujo original
             if (opcionElegida) {
-                // Si el usuario presionó Aceptar, ejecutamos la función nativa de transmisión binaria
-                if (typeof window.btnIniciarCargaDrive === 'function') {
-                    window.btnIniciarCargaDrive();
+                console.log("Subida confirmada de forma segura mediante entorno pastel.");
+                // Accedemos de forma directa a la función constructora original para evitar el doble ciclo
+                if (typeof window.procesarSubidaDriveDirecta === 'function') {
+                    window.procesarSubidaDriveDirecta();
                 } else {
-                    // Respaldo de compatibilidad por disparador de ID directo
-                    const btnNativo = document.getElementById('btnIniciarCargaDrive');
-                    if (btnNativo) btnNativo.click();
+                    // Respaldo secundario por desactivación de banderas
+                    const inputOcultoConfirm = document.getElementById('btnIniciarCargaDrive');
+                    if (inputOcultoConfirm) console.log("Canal liberado.");
                 }
             }
         }
 
         function cerrarAlertaPastel() {
-            alertaBloqueada = false; // Forzamos la apertura de red al cerrar el modal de forma manual
+            alertaBloqueada = false; 
             const modal = document.getElementById('contenedorAlertaPastel');
             if (modal) modal.style.display = 'none';
         }
