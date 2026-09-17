@@ -38,6 +38,29 @@ function cargarDatos() {
     document.body.appendChild(script);
 }
 
+    // =========================================================================
+INTERCEPTOR DE SEGURIDAD!
+    // =========================================================================
+ 
+    const tarjetaRegistros = document.querySelector(".tarjeta-modulo"); 
+    const contSeguridad = document.getElementById("contenedorSeguridad");
+
+    if (hoja === "Seguridad") {
+        console.log("Sección de Seguridad detectada. Desviando flujo de red...");
+        
+        // Ocultamos la rejilla de la sección 4 y mostramos el contenedor aislado
+        if (tarjetaRegistros) tarjetaRegistros.style.display = "none";
+        if (contSeguridad) contSeguridad.style.display = "block";
+        
+        // Disparamos la inyección controlada de las 68 líneas
+        generarLineasSeguridad();
+        return; // Detiene el flujo para que no intente consultar a Google Sheets
+    } else {
+        // Si elige cualquier otra sección estable, aseguramos que regrese la vista normal
+        if (contSeguridad) contSeguridad.style.display = "none";
+        if (tarjetaRegistros) tarjetaRegistros.style.display = "block";
+    }
+    
 // =========================================================================
 // SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA NUNCA MODIFICAR)
