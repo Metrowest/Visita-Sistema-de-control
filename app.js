@@ -61,11 +61,12 @@ function cargarDatos() {
 }
     
 // =========================================================================
-// SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
-// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA NUNCA MODIFICAR)
+// SECCIÓN 3.0 (FIJA - MODIFICACIÓN DE BLINDAJE): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
+// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA)
 // =========================================================================
 function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
     const tablaCuerpo = document.getElementById("tablaCuerpo");
+    const hojaActiva = document.getElementById("selectorHoja").value;
     
     // Construimos la fila en sentido estrictamente horizontal recorriendo las llaves del registro
     let htmlFila = "<tr>";
@@ -73,14 +74,34 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
         htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? objetoCampos[propiedad] : ""}</td>`;
     });
     
-    // Inyección fija universal de botones interactivos con sus puentes de red locales
-    htmlFila += `<td>
-        <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
-        <button type="button" class="btn-delete" style="cursor:pointer;" onclick="window.borrarRegistro(${indice})">🗑️</button>
-    </td></tr>`;
+    // 🛡️ CONTROL DE EDICIÓN PARA LA HOJA DE SEGURIDAD
+    let estilosBotones = "";
+    if (hojaActiva === "Seguridad") {
+        if (indice === 0) {
+            // Línea 1 (Índice 0): Permite editar pero ocultamos borrar por completo
+            estilosBotones = `
+                <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
+                <button type="button" class="btn-delete" style="cursor:pointer; display:none;" onclick="window.borrarRegistro(${indice})">🗑️</button>
+            `;
+        } else {
+            // Líneas de la 2 a la 68: Se ocultan ambos botones para impedir alteraciones
+            estilosBotones = `
+                <button type="button" class="btn-edit" style="cursor:pointer; display:none;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
+                <button type="button" class="btn-delete" style="cursor:pointer; display:none;" onclick="window.borrarRegistro(${indice})">🗑️</button>
+            `;
+        }
+    } else {
+        // Comportamiento universal para todas las demás hojas estables del libro
+        estilosBotones = `
+            <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
+            <button type="button" class="btn-delete" style="cursor:pointer;" onclick="window.borrarRegistro(${indice})">🗑️</button>
+        `;
+    }
     
+    htmlFila += `<td>${estilosBotones}</td></tr>`;
     tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
 }
+
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
@@ -119,7 +140,11 @@ function recibirDatosDesdeGoogle(json) {
     } else if (hojaActiva === "Hospitalidad") {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
-        
+
+    } else if (hojaActiva === "Seguridad") {
+        encabezadosTextos = ["Línea", "Programa de Seguridad / Fecha", "Control"];
+        llavesMapeo = ["grupo", "superintendente", "telefono"];
+
     } else if (hojaActiva.includes("Estudios")) {
         encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
@@ -428,45 +453,14 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
 // =========================================================================
 function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
-    
-    // CAPTURA DIRECTA POR IDENTIFICADORES HTML EXACTOS
-    const contenedorTabla = document.getElementById("contenedorTablaRegistros"); 
-    const contSeguridad = document.getElementById("contenedorSeguridad");
-
-    // 🛡️ ENRUTADOR MAESTRO DE SEGURIDAD CORREGIDO
-    if (hojaRaw === "Seguridad") {
-        console.log("Módulo local de Seguridad detectado. Corrigiendo visibilidad de bloques.");
-        
-        // Ocultamos la rejilla de la sección 4 de forma definitiva
-        if (contenedorTabla) contenedorTabla.style.display = "none";
-        
-        // Mostramos el panel aislado de seguridad
-        if (contSeguridad) contSeguridad.style.display = "block";
-        
-        // Disparamos la inyección controlada de tus líneas
-        generarLineasSeguridad();
-        return; // Frenamos por completo el flujo de red
-    } else {
-        // Si el superintendente regresa a cualquier otra sección, reestablecemos el orden estable
-        if (contSeguridad) contSeguridad.style.display = "none";
-        if (contenedorTabla) contenedorTabla.style.display = "block";
-    }
-
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
     
-    // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
     let hoja = hojaRaw.replace(/_/g, " ");
-    if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
-    if (hoja === "Estudios Dia 2") hoja = "Estudios Día 2";
-    if (hoja === "Estudios Dia 3") hoja = "Estudios Día 3";
-    if (hoja === "Pastoreo Dia 1") hoja = "Pastoreo Día 1";
-    if (hoja === "Pastoreo Dia 2") hoja = "Pastoreo Día 2";
-    if (hoja === "Pastoreo Dia 3") hoja = "Pastoreo Día 3";
     
     let urlConstruida = "";
 
-    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
+    // VALIDACIÓN INTERACTIVA DINÁMICA - ¡Seguridad entra por el canal oficial estable!
+    if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
     } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
@@ -482,6 +476,7 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
