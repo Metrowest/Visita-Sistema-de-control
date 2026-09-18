@@ -138,6 +138,10 @@ function Secc30_Seguridad_DibujarRenglon(indice, objetoCampos, columnasVisibles)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
 
+// =========================================================================
+// SECCIÓN 3.1: DECODIFICADOR MAESTRO DE MATRICES CON MAPEO INTELIGENTE
+// Ubicación: Reemplaza la función recibirDatosDesdeGoogle(json) completa en app.js
+// =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
@@ -161,7 +165,7 @@ function recibirDatosDesdeGoogle(json) {
     let encabezadosTextos = [];
     let llavesMapeo = [];
 
-    // Mapeo nativo original de tus hojas
+    // Mapeo nativo oficial de tus hojas
     if (hojaActiva === "Superintendentes") {
         encabezadosTextos = ["Grupo", "Superintendente", "Teléfono"];
         llavesMapeo = ["grupo", "superintendente", "telefono"];
@@ -211,6 +215,7 @@ function recibirDatosDesdeGoogle(json) {
         if(lbl7 && encabezadosTextos[6]) lbl7.innerText = encabezadosTextos[6];
         if(lbl8 && encabezadosTextos[7]) lbl8.innerText = encabezadosTextos[7];
     }
+
     // =========================================================================
     // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
     // =========================================================================
@@ -225,33 +230,30 @@ function recibirDatosDesdeGoogle(json) {
             }
         });
 
-        // REGLA DE DETECCIÓN INTELIGENTE: Si en la Columna A la celda actual y la siguiente 
-        // son idénticas, limpiamos el duplicado en memoria para realinear todo el vector vertical
         let celdasPlanas = [];
         for (let k = 0; k < celdasPlanasRaw.length; k++) {
             if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
                 console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
-                continue; // Saltamos el elemento repetido para empujar las variables un lugar hacia atrás
+                continue;
             }
             celdasPlanas.push(celdasPlanasRaw[k]);
         }
         
         let contadorBloque = 0;
         
-        // Recorremos la lista limpia saltando de 8 en 8 celdas consecutivas hacia abajo
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
             if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
 
             let objetoFila = {
-                grupo: celdasPlanas[i] || "",            // Celda 1: Día
-                superintendente: celdasPlanas[i+1] || "", // Celda 2: Acompañante o Visitante
-                telefono: celdasPlanas[i+2] || "",        // Celda 3: Teléfono o Acompañante
-                campo4: celdasPlanas[i+3] || "",          // Celda 4: Hogar o Teléfono
-                campo5: celdasPlanas[i+4] || "",          // Celda 5: Contacto o Estudiante
-                campo6: celdasPlanas[i+5] || "",          // Celda 6: Dirección
-                campo7: celdasPlanas[i+6] || "",          // Celda 7: Detalles o Publicación
-                campo8: celdasPlanas[i+7] || ""           // Celda 8: Objetivo o Detalles
+                grupo: celdasPlanas[i] || "",            
+                superintendente: celdasPlanas[i+1] || "", 
+                telefono: celdasPlanas[i+2] || "",        
+                campo4: celdasPlanas[i+3] || "",          
+                campo5: celdasPlanas[i+4] || "",          
+                campo6: celdasPlanas[i+5] || "",          
+                campo7: celdasPlanas[i+6] || "",          
+                campo8: celdasPlanas[i+7] || ""           
             };
             
             Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
@@ -263,7 +265,6 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
-        // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
@@ -278,8 +279,7 @@ function recibirDatosDesdeGoogle(json) {
             Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
         }
     }
-}
-
+} // 🛡️ LLAVE DE CIERRE HERMÉTICA DE LA FUNCIÓN MAESTRA DEL APP.JS
 
     // =========================================================================
     // CONFIGURACIÓN DE TABLAS: Mapeamos los títulos reales de tus hojas
