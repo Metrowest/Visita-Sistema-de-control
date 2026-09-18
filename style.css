@@ -112,14 +112,14 @@ body {
 }
 .modulo-gama-carpetas .campo-formulario,
 .modulo-gama-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff !important; /* Sub-cabecera / Entorno de controles interno */
+    background-color: #f1efff !important; /* Sub-cabecera / Entorno interno medio */
 }
 .modulo-gama-carpetas .btn-primario {
     background-color: #332f54 !important; /* Botón oscuro unificado */
     color: #ffffff !important;
 }
 .modulo-gama-carpetas th {
-    background-color: #dbd6fa !important; /* Encabezado de tabla claro */
+    background-color: #dbd6fa !important;
     color: #1e1e24 !important;
 }
 
@@ -148,10 +148,10 @@ body {
     color: #ffffff !important;
 }
 .modulo-gama-violeta form {
-    background-color: #d9d4fc !important; /* Sub-cabecera / Entorno de campos */
+    background-color: #d9d4fc !important; /* Sub-cabecera / Entorno medio */
 }
 .modulo-gama-violeta .btn-primario {
-    background-color: #272159 !important; /* Botón oscuro unificado */
+    background-color: #272159 !important;
     color: #ffffff !important;
 }
 
@@ -169,7 +169,7 @@ body {
     background-color: #e5e1fd !important; /* Sub-cabecera / Entorno de la tabla */
 }
 .modulo-gama-lavanda th {
-    background-color: #c8c2fa !important; /* Encabezado de tabla un poco más fuerte */
+    background-color: #c8c2fa !important;
     color: #1e1e24 !important;
 }
 
