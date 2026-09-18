@@ -152,40 +152,113 @@ body {
 @media (max-width: 768px) { .grid-formulario { margin-bottom: 12px; } .bloque-botones { margin-bottom: 40px; } }
 
 /* =========================================================================
-   SECCIÓN 4: ASIGNACIÓN DE COLORES PASTEL INTEGRADOS CON ARMONÍA (FOTO 1)
-   Descripción: Aplica tus colores de forma decorativa sin invadir ni forzar 
-   fondos pesados morados o lila sobre las cajas de captura.
+   SECCIÓN 4: MAESTRÍA CROMÁTICA - UN SOLO COLOR EN DISTINTOS TONOS POR MÓDULO
+   Descripción: Cada tarjeta modular adopta estrictamente un único color base 
+   de tu lista distribuido en tres niveles puros:
+   - Cabecera y Botones: Tono oscuro de la misma familia.
+   - Sub-cabeceras o Contenedores Internos: El color pastel base puro.
+   - Fondo de la Tarjeta: Tono muy claro de la misma familia.
    ========================================================================= */
 
-/* --- 📦 BLOQUE CARPETAS IZQUIERDA (Gama Lila Neutro Base: #f1efff) --- */
-.modulo-selector-carpetas .tarjeta-cabecera,
-.modulo-cargar-carpetas .tarjeta-cabecera,
-.modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #f1efff !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
-    border-radius: 8px 8px 0 0;
+/* -------------------------------------------------------------------------
+   📦 BLOQUE DE CARPETAS (IZQUIERDA) - REPOSITORIO DIGITAL DE DRIVE
+   ------------------------------------------------------------------------- */
+
+/* 1) Gestor de Archivos (Gama Lila/Gris Claro Base: #f1efff) */
+.modulo-selector-carpetas {
+    background-color: #faf9ff !important; /* Fondo del módulo muy claro */
+}
+.modulo-selector-carpetas .tarjeta-cabecera {
+    background-color: #3f3a63 !important; /* Cabecera tono oscuro de la familia */
+    color: #ffffff !important;
+}
+.modulo-selector-carpetas .campo-formulario {
+    background-color: #f1efff !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
 }
 
-/* --- 📊 BLOQUE HOJAS DERECHA (Gamas Individuales Especiales) --- */
+/* 2) Componente Modular de Subidas (Gama Lila/Gris Claro Base: #f1efff) */
+.modulo-cargar-carpetas {
+    background-color: #faf9ff !important; /* Fondo del módulo muy claro */
+}
+.modulo-cargar-carpetas .tarjeta-cabecera {
+    background-color: #3f3a63 !important; /* Cabecera tono oscuro de la familia */
+    color: #ffffff !important;
+}
+.modulo-cargar-carpetas .campo-formulario {
+    background-color: #f1efff !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+}
+.modulo-cargar-carpetas .btn-primario {
+    background-color: #3f3a63 !important; /* Botón oscuro unificado a juego */
+    color: #ffffff !important;
+}
+
+/* 3) Archivos Disponibles / Tabla (Gama Lila/Gris Claro Base: #f1efff) */
+.modulo-yabla-carpetas {
+    background-color: #faf9ff !important; /* Fondo del módulo muy claro */
+}
+.modulo-yabla-carpetas .tarjeta-cabecera {
+    background-color: #3f3a63 !important; /* Cabecera tono oscuro de la familia */
+    color: #ffffff !important;
+}
+.modulo-yabla-carpetas .zona-archivos-disponibles {
+    background-color: #f1efff !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+}
+.modulo-yabla-carpetas th {
+    background-color: #dbd6f5 !important; /* Cabecera horizontal de celda un tono medio */
+    color: #000000 !important;
+}
+
+
+/* -------------------------------------------------------------------------
+   📊 BLOQUE DE HOJAS (DERECHA) - REGISTROS DE GOOGLE SHEETS
+   ------------------------------------------------------------------------- */
 
 /* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+.modulo-gama-verde {
+    background-color: #f7f9f4 !important; /* Fondo del módulo muy claro */
+}
+.modulo-gama-verde .tarjeta-cabecera {
+    background-color: #424a24 !important; /* Cabecera tono oscuro de la familia */
+    color: #ffffff !important;
+}
 .modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2 !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
-    border-radius: 8px;
-    padding: 12px !important;
+    background-color: #dbe8b2 !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
 }
 
-/* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
+/* 2) Formulario Añadir Registro (Gama Violeta Fuerte Base: #d9d4fc) */
+.modulo-gama-violeta {
+    background-color: #f6f5ff !important; /* Fondo del módulo muy claro */
+}
 .modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #d9d4fc !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
-    border-radius: 8px 8px 0 0;
+    background-color: #2b2361 !important; /* Cabecera tono oscuro de la familia */
+    color: #ffffff !important;
+}
+/* 🔓 CORRECTO: Se aplica el fondo intermedio únicamente al bloque contenedor */
+.modulo-gama-violeta form {
+    background-color: #d9d4fc !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+}
+.modulo-gama-violeta .btn-primario {
+    background-color: #2b2361 !important; /* Botón oscuro unificado a juego */
+    color: #ffffff !important;
 }
 
-/* 3) Registros Almacenados (Gama Lavanda Base: #e5e1fd) */
+/* 3) Registros Almacenados / Tabla Sheets (Gama Lavanda Base: #e5e1fd) */
+.modulo-gama-lavanda {
+    background-color: #f8f7ff !important; /* Fondo del módulo muy claro */
+}
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #e5e1fd !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
-    border-radius: 8px 8px 0 0;
+    background-color: #312a66 !important; /* Cabecera tono oscuro de la familia */
+    color: #ffffff !important;
 }
-
+/* 🔓 CORRECTO: Se aplica el fondo intermedio al contenedor general de la tabla */
+.modulo-gama-lavanda .campo-formulario,
+.modulo-gama-lavanda .tabla-responsiva {
+    background-color: #e5e1fd !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+}
+.modulo-gama-lavanda th {
+    background-color: #cac5fa !important; /* Cabecera horizontal de celda un tono medio */
+    color: #000000 !important;
+}
 
 /* =========================================================================
    SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS (FOTO 1)
