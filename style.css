@@ -251,9 +251,9 @@ th {
 /* =========================================================================
    SECCIÓN 6: INTERCEPTOR DE ALERTAS PASTEL Y BOTONES GENERALES
    Descripción: Controla las ventanas flotantes estéticas de confirmación de 
-   red y define las clases base para los botones Turquesa y Primarios.
+   red y define las clases base para los botones Turquesa, Primarios y PWA.
    ========================================================================= */
-.btn-primario, .btn-turquesa {
+.btn-primario, .btn-turquesa, .btn-secundario {
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
@@ -264,11 +264,56 @@ th {
     justify-content: center;
     gap: 8px;
     color: #ffffff;
+    font-family: inherit;
+    transition: background-color 0.2s ease;
 }
 
+/* Colores de identidad de la botonera oficial */
 .btn-primario { background-color: var(--color-primario); }
 .btn-turquesa { background-color: var(--color-turquesa); }
 
+/* 🛡️ RESTAURADO: Estilo gris elegante para el botón de cancelar edición */
+.btn-secundario {
+    background-color: #e2e8f0;
+    color: var(--color-texto-oscuro);
+    border: 1px solid var(--color-borde);
+}
+.btn-secundario:hover {
+    background-color: #cbd5e1;
+}
+
+/* 🛡️ RESTAURADO: Estilos visuales del aviso flotante de instalación PWA */
+#bannerInstalacionPWA {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-texto-oscuro);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+    display: none; /* Controlado asíncronamente por tu manifest/SW */
+    align-items: center;
+    gap: 15px;
+    z-index: 9999;
+}
+#bannerInstalacionPWA p {
+    font-size: 0.85rem;
+    margin: 0;
+}
+#btnInstalarPWA {
+    background-color: var(--color-turquesa);
+    color: #ffffff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* Modal e Interceptores Alerta Pastel flotantes */
 .modal-alerta-fondo {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
