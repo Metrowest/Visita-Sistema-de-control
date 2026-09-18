@@ -1,17 +1,17 @@
 /* =========================================================================
    STYLE.CSS - SECCIÓN 1: CONFIGURACIÓN MAESTRA Y VARIABLES GLOBALES
-   Descripción: Define la paleta de colores pasteles encendidos de alta visibilidad 
-   con texto negro puro para garantizar el máximo contraste en exteriores.
+   Descripción: Configura la paleta de mentas, lavandas y melocotones pasteles 
+   con texto y bordes en negro puro para lograr la máxima visibilidad en campo.
    ========================================================================= */
 :root {
-    --color-fondo: #fcfcfc;              /* Fondo general ultra-limpio */
+    --color-fondo: #ffe0cc;              /* Melocotón Claro para un fondo sutil sin reflejos */
     --color-superficie: #ffffff;         /* Blanco puro para las tarjetas de contenido */
-    --color-turquesa: #b9e192;           /* Verde Hierba Pastel para elementos clave */
-    --color-turquesa-oscuro: #a6ce81;    /* Verde un paso más saturado para hovers */
-    --color-texto-oscuro: #000000;       /* TEXTO NEGRO PURO REQUERIDO */
-    --color-texto-medio: #000000;        /* TEXTO NEGRO PURO PARA ETIQUETAS */
+    --color-turquesa: #e5e1fd;           /* Lila Lavanda Intermedio para los botones principales */
+    --color-turquesa-oscuro: #d3ccfc;    /* Lavanda un paso más saturado para hovers */
+    --color-texto-oscuro: #000000;       /* TEXTO EN NEGRO PURO REQUERIDO */
+    --color-texto-medio: #000000;        /* ETIQUETAS EN NEGRO PURO */
     --color-borde: #000000;              /* BORDES EN NEGRO PURO PARA ALTO CONTRASTE */
-    --color-cabecera-tabla: #b3c7f7;     /* Azul Cielo Claro para títulos de columnas */
+    --color-cabecera-tabla: #a8e0c5;     /* Verde Menta Fuerte para los encabezados de columnas */
     --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --sombra-modulo: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
@@ -25,7 +25,7 @@
 body {
     background-color: var(--color-fondo);
     font-family: var(--fuente-sistema);
-    color: var(--color-texto-oscuro); /* Todo el texto base nace negro */
+    color: var(--color-texto-oscuro);
     padding: 20px;
     line-height: 1.5;
 }
@@ -282,7 +282,6 @@ h2 {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
-   Descripción: Renderizado y scroll interno para los datos de Sheets y Drive.
    ========================================================================= */
 .tabla-responsiva {
     width: 100%;
@@ -302,13 +301,13 @@ table {
 
 th, td {
     padding: 12px 14px;
-    border-bottom: 1px solid var(--color-borde);
+    border-bottom: 2px solid var(--color-borde); /* Línea divisoria en negro puro */
 }
 
 th {
-    background-color: var(--color-cabecera-tabla); /* Azul Medianoche Pastel */
-    color: #ffffff;                                /* Texto blanco puro */
-    font-weight: 600;
+    background-color: var(--color-cabecera-tabla); /* Verde Menta Fuerte */
+    color: #000000;                                /* Texto negro puro en cabecera */
+    font-weight: 700;
     white-space: nowrap;
     text-transform: uppercase;
     font-size: 0.8rem;
@@ -317,46 +316,9 @@ th {
 
 td {
     color: var(--color-texto-oscuro);
-    background-color: #ffffff;
+    background-color: #ffffff; /* Celdas blancas para lectura limpia */
 }
 
-tr:last-child td {
-    border-bottom: none;
-}
-
-.celda-carga {
-    padding: 30px;
-    text-align: center;
-    color: var(--color-texto-medio);
-    background-color: #ffffff;
-}
-
-.spinner-carga {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #cbd5e1;
-    border-top-color: var(--color-turquesa);
-    border-radius: 50%;
-    margin: 0 auto 10px auto;
-    animation: girarSpinner 0.8s linear infinite;
-}
-
-@keyframes girarSpinner {
-    to { transform: rotate(360deg); }
-}
-
-.btn-edit, .btn-delete {
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: transform 0.1s;
-}
-
-.btn-edit:hover, .btn-delete:hover {
-    transform: scale(1.2);
-}
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 8: PROPIEDADES DE COMPORTAMIENTO FLEXBOX PARALELO
@@ -409,59 +371,44 @@ tr:last-child td {
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 10: CONTROL CENTRAL DE ADAPTACIÓN DEL BANNER PWA
-   Descripción: Fija el banner PWA compacto de 300px a la base izquierda, mutando 
-   su color al Azul Medianoche con el botón interactivo en Amarillo Mostaza Sutil.
+   STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
    ========================================================================= */
-div#bannerInstalacionPWA {
-    background-color: var(--color-cabecera-tabla) !important; /* Muta a Azul Medianoche */
-    color: #ffffff !important;
-    padding: 6px 12px !important; 
-    position: fixed !important;
-    bottom: 8px !important;
-    left: 16px !important;
-    z-index: 9999 !important;
-    border-radius: 8px !important;
-    
-    display: inline-flex !important;
-    flex-direction: row-reverse; 
-    align-items: center !important;
-    justify-content: flex-end !important; 
-    gap: 10px !important; 
-    
-    max-width: 300px !important;
-    max-height: 50px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+.tabla-responsiva {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 2px solid var(--color-borde);
+    margin-top: 10px;
 }
 
-div#bannerInstalacionPWA p {
-    margin: 0 !important;
-    font-size: 0.75rem !important; 
-    font-weight: 500 !important;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #ffffff !important;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
 }
 
-button#btnInstalarPWA {
-    background-color: #e5c158 !important; /* Amarillo Mostaza Sutil */
-    color: #1e293b !important;           /* Letras oscuras para legibilidad */
-    
-    border: none !important;
-    padding: 4px 10px !important; 
-    font-weight: 700 !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    font-size: 0.72rem !important;
+th, td {
+    padding: 12px 14px;
+    border-bottom: 2px solid var(--color-borde); /* Línea divisoria en negro puro */
+}
+
+th {
+    background-color: var(--color-cabecera-tabla); /* Verde Menta Fuerte */
+    color: #000000;                                /* Texto negro puro en cabecera */
+    font-weight: 700;
     white-space: nowrap;
-    transition: background-color 0.2s !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
 }
 
-button#btnInstalarPWA:hover {
-    background-color: #d1ae47 !important;
+td {
+    color: var(--color-texto-oscuro);
+    background-color: #ffffff; /* Celdas blancas para lectura limpia */
 }
+
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
