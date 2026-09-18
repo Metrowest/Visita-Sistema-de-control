@@ -156,128 +156,112 @@
         <!-- ============================================================================================
              APLICACIÓN DE LAS HOJAS (ALINEADA TOTALMENTE A LA DERECHA EN LA GRID MAESTRA)
              ============================================================================================ -->
+        <!-- ============================================================================================
+             ⭐ COLUMNA DERECHA UNIFICADA: INTERFAZ DE TABLEROS DE DATOS (HOJAS DE SHEETS)
+             ============================================================================================ -->
+        <div class="bloque-hojas-derecha-empaquetado">
 
-        <div class="bloque-hojas-derecha-empaquetado" style="display: flex; flex-direction: column; gap: 24px; flex: 1; width: 100%;">
-
-            <!-- =========================================================================
-                 HOJAS SECCION  1 - CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
-                 ========================================================================= -->
-            <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 0px;">
-                <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
-
-                <!-- HOJAS SECCION 1 FUNCION 1.1: SINCRO DOBLE EN LÍNEA INTERACTIVA -->
-                <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
-                    <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                    <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                    <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                    <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                    <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                    <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                    <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                    <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                </select>
-
-                <!-- HOJAS SECCION 2 - Enlace dinámico original con id="enlaceDinamico" -->
-                <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
-                    Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
+            <!-- HOJAS SECCIÓN 1: SELECTOR DE SECCIONES (CLASE GAMA-VERDE) -->
+            <div class="tarjeta-modulo modulo-gama-verde">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📂</span>
+                    <h2>Selecciona una Hoja</h2>
+                </div>
+                <div class="contenedor-selector">
+                    <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
+                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
+                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                        <option value="Seguridad">🛡️ Seguridad (Programa)</option>
+                    </select>
+                    <div class="enlace-seccion-activa">
+                        Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno">👥 Superintendentes (Horizontal)</a>
+                    </div>
                 </div>
             </div>
 
-            <!-- =========================================================================
-                 HOJAS SECCION  3 - FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
-                 Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
-                 ========================================================================= -->
-            <div class="tarjeta-modulo">
+            <!-- HOJAS SECCIÓN 3: FORMULARIO DE CAPTURA (CLASE GAMA-VIOLETA) -->
+            <div class="tarjeta-modulo modulo-gama-violeta">
                 <div class="tarjeta-cabecera">
                     <div class="icono-titulo">📋</div>
                     <h2 id="formTitulo">Añadir Registro</h2>
                 </div>
-
-                <!-- Formulario sincronizado al 100% con tu backend -->
                 <form id="formularioSuperintendentes" class="formulario-estilizado">
-
                     <div class="grid-formulario">
                         <div class="campo-formulario" id="contenedorCampo1">
                             <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
-                            <!-- SINCRO PURA: Se removieron los atributos 'name' para evitar bloqueos MIME de tipo CORS con Google -->
                             <input type="text" id="txtGrupo" placeholder="Ej. #89" required>
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo2">
                             <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
                             <input type="text" id="txtSuperintendente" placeholder="Nombre completo" required>
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo3">
                             <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
                             <input type="text" id="txtTelefono" placeholder="Información" required>
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                             <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                             <input type="text" id="txtCampo4" placeholder="Información extra">
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo5" style="display: none;">
                             <label id="lblCampo5" for="txtCampo5">Campo 5</label>
                             <input type="text" id="txtCampo5" placeholder="Información extra">
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo6" style="display: none;">
                             <label id="lblCampo6" for="txtCampo6">Campo 6</label>
                             <input type="text" id="txtCampo6" placeholder="Información extra">
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo7" style="display: none;">
                             <label id="lblCampo7" for="txtCampo7">Campo 7</label>
                             <input type="text" id="txtCampo7" placeholder="Información extra">
                         </div>
-
                         <div class="campo-formulario" id="contenedorCampo8" style="display: none;">
                             <label id="lblCampo8" for="txtCampo8">Campo 8</label>
                             <input type="text" id="txtCampo8" placeholder="Información extra">
                         </div>
                     </div>
-
                     <div class="bloque-botones">
-                        <button type="submit" id="btnGuardar" class="btn-primario">
-                            <span class="icono-btn">💾</span> Guardar Registro
-                        </button>
-                        <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">
-                            <span class="icono-btn">❌</span> Cancelar Edición
-                        </button>
+                        <button type="submit" id="btnGuardar" class="btn-primario">💾 Guardar Registro</button>
+                        <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">❌ Cancelar Edición</button>
                     </div>
                 </form>
-            </div> <!-- AQUÍ TERMINA EL FORMULARIO DE AÑADIR REGISTRO -->
-                         <!-- =========================================================================
-                 HOJAS SECCION  4 - REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
-                 Ubicación del bloque: BASE ABSOLUTA DE LA INTERFAZ
-                 ========================================================================= -->
-            <div class="tarjeta-modulo">
-                <div class="tarjeta-cabecera">
-                    <div class="icono-titulo">📂</div>
-                    <h2>Registros Almacenados en la Hoja</h2>
-                </div>
-
-                <div class="tabla-responsiva">
-                    <table id="tablaRegistros">
-                        <thead id="tablaCabecera"></thead>
-                        <!-- HOJAS SECCION 4 FUNCION 4.1: INYECTOR DE FILAS DINÁMICAS RE-ESTRUTURADAS POR JS -->
-                        <tbody id="tablaCuerpo">
-                            <tr>
-                                <td class="celda-carga">
-                                    <div class="spinner-carga"></div>
-                                    Cargando base de datos desde Google Sheets...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
-        </div> <!-- FIN DEL EMPAQUETADO DE HOJAS DERECHA -->
-    </div> <!-- CIERRE DE CONTENEDOR-MODULOS-PARALELOS GLOBAL -->
+            <!-- HOJAS SECCIÓN 4: REJILLA DE REGISTROS - TABLA (CLASE GAMA-LAVANDA) -->
+            <div class="tarjeta-modulo modulo-gama-lavanda">
+                <div class="tarjeta-cabecera">
+                    <div class="icono-titulo">📊</div>
+                    <h2>Registros Almacenados en la Hoja</h2>
+                </div>
+                <div class="campo-formulario">
+                    <div class="tabla-responsiva">
+                        <table id="tablaRegistros">
+                            <thead id="tablaCabecera"></thead>
+                            <tbody id="tablaCuerpo">
+                                <tr>
+                                    <td class="celda-carga">
+                                        <div class="spinner-carga"></div>
+                                        Cargando base de datos desde Google Sheets...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- 🛡️ REPARADO: Cierra la tarjeta individual modulo-gama-lavanda -->
 
+        </div> <!-- 🛡️ REPARADO: Cierra la columna derecha bloque-hojas-derecha-empaquetado -->
+
+    </div> <!-- 🛡️ REPARADO: Cierra el cascarón maestro central contenedor-modulos-paralelos -->
+
+    <!--CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
          <!--CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
     <div id="bannerInstalacionPWA">
         <p>Instala la aplicación en tu dispositivo para un acceso rápido.</p>
