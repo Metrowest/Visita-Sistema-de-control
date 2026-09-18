@@ -1,7 +1,7 @@
 /* =========================================================================
-   SECCIÓN 1: VARIABLES GLOBALES Y CONFIGURACIÓN BASE DE LA INTERFAZ
-   Descripción: Inicializa los colores de fondo generales, las fuentes del
-   sistema y las sombras base de cada bloque de la aplicación.
+   SECCIÓN 1: IDENTIDAD BASE Y VARIABLES ORIGINALES (FOTO 1 RESTAURADA)
+   Descripción: Recupera el fondo gris/blanco limpio, la tipografía Plus
+   Jakarta Sans y las variables nativas de tu respaldo original.
    ========================================================================= */
 :root {
     --color-fondo: #f8fafc;
@@ -11,8 +11,8 @@
     --color-texto-oscuro: #0f172a;
     --color-texto-medio: #475569;
     --color-borde: #e2e8f0;
-    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, sans-serif;
-    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 * {
@@ -28,10 +28,11 @@ body {
     padding: 20px;
     line-height: 1.5;
 }
+
 /* =========================================================================
-   SECCIÓN 2: ARQUITECTURA PARALELA MAESTRA (DISTRIBUCIÓN EN 2 COLUMNAS)
-   Descripción: Controla que los bloques se claven lado a lado de manera 
-   simétrica en la tablet y se compacten verticalmente en móviles.
+   SECCIÓN 2: ARQUITECTURA PARALELA MAESTRA (FLEXBOX SIMÉTRICO)
+   Descripción: Clava las dos columnas idénticas una al lado de la otra en la
+   tablet y las apila verticalmente de forma fluida en celulares.
    ========================================================================= */
 .contenedor-modulos-paralelos {
     display: flex;
@@ -46,7 +47,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Fuerza el equilibrio simétrico 50/50 entre ambas columnas del respaldo */
 .bloque-carpetas-izquierda-empaquetado,
 .bloque-hojas-derecha-empaquetado {
     display: flex;
@@ -57,7 +57,6 @@ body {
     min-width: 340px;
 }
 
-/* Optimización Responsiva Estricta para Teléfonos Celulares */
 @media (max-width: 1100px) {
     .contenedor-modulos-paralelos {
         flex-direction: column;
@@ -70,9 +69,9 @@ body {
     }
 }
 /* =========================================================================
-   SECCIÓN 3: COMPONENTES ESTRUCTURALES Y UNIFICACIÓN DE INPUTS AMARILLOS
-   Descripción: Controla el esqueleto de las tarjetas y fuerza a todas las 
-   cajas de captura a tomar el color amarillo pastel claro.
+   SECCIÓN 3: CUBÍCULOS INDEPENDIENTES (TARJETAS BLANCAS ORIGINALES - FOTO 1)
+   Descripción: Mantiene el fondo blanco limpio de las tarjetas, las 
+   sombras sutiles y la unificación de inputs en amarillo pastel claro.
    ========================================================================= */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
@@ -82,7 +81,7 @@ body {
     padding: 24px;
     width: 100%;
     display: block;
-    overflow: hidden; /* Limpia desbordes internos */
+    overflow: hidden;
 }
 
 .tarjeta-cabecera {
@@ -103,13 +102,13 @@ body {
     box-sizing: border-box;
 }
 
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para toda la app */
+/* 🛡️ INYECTADO: Todos los selectores e inputs del mismo color amarillo pastel claro */
 .tarjeta-modulo select,
 .tarjeta-modulo input,
 .tarjeta-modulo select option {
-    background-color: #fffde6 !important; /* Amarillo pastel claro */
-    color: #000000 !important;
-    border: 1px solid #dcdac2 !important;
+    background-color: #fffde6 !important; /* Amarillo pastel claro solicitado */
+    color: var(--color-texto-oscuro) !important;
+    border: 1px solid var(--color-borde) !important;
     width: 100% !important;
     box-sizing: border-box !important;
     padding: 10px 14px;
@@ -117,6 +116,7 @@ body {
     font-family: var(--fuente-sistema);
     font-size: 0.95rem;
     outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .tarjeta-modulo select:focus,
@@ -127,76 +127,97 @@ body {
 
 .grid-formulario {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 20px;
 }
+
+@media (min-width: 480px) {
+    .grid-formulario { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+    .grid-formulario { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-formulario label,
+.contenedor-selector label,
+.etiqueta-seleccion {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-texto-medio);
+}
+
+.enlace-seccion-activa {
+    font-size: 0.85rem;
+    color: var(--color-texto-medio);
+    font-weight: 500;
+}
+
+.link-moderno {
+    color: var(--color-turquesa);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-moderno:hover { text-decoration: underline; }
+
+.tabla-responsiva td i, .tarjeta-modulo i {
+    margin-right: 8px;
+    font-size: 1.15rem;
+    vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+    .grid-formulario { margin-bottom: 12px; }
+    .bloque-botones { margin-bottom: 40px; }
+}
 /* =========================================================================
-   SECCIÓN 4: MASTRÍA CROMÁTICA - GAMA DE TONOS INDEPENDIENTES POR MÓDULO
-   Descripción: Mapea individualmente cada clase del index para inyectar 
-   los tres niveles de color partiendo de tus paletas pasteles oficiales.
+   SECCIÓN 4: ARMONÍA CROMÁTICA - GAMAS INDEPENDIENTES EN SUB-CABECERAS
+   Descripción: Conserva las tarjetas blancas de tu respaldo (Foto 1), pero 
+   pinta las sub-cabeceras internas con tus colores pasteles oficiales.
    ========================================================================= */
 
-/* --- 📦 BLOQUE IZQUIERDO: MÓDULOS DE CARPETAS (Gama Lila Base: #f1efff) --- */
-.modulo-selector-carpetas, .modulo-cargar-carpetas, .modulo-yabla-carpetas {
-    background-color: #faf9ff !important; /* Fondo claro del módulo */
-}
-.modulo-selector-carpetas .tarjeta-cabecera,
-.modulo-cargar-carpetas .tarjeta-cabecera,
-.modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63 !important; /* Cabecera oscura unificada */
-    color: #ffffff !important;
-}
+/* --- 📦 BLOQUE CARPETAS IZQUIERDA (Gama Lila Neutro Base: #f1efff) --- */
 .modulo-selector-carpetas .campo-formulario,
 .modulo-cargar-carpetas .campo-formulario,
 .modulo-yabla-carpetas .zona-archivos-disponibles {
     background-color: #f1efff !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
+    border-radius: 8px;
+    padding: 16px !important;
 }
 
-/* --- 📊 BLOQUE DERECHO: MÓDULOS DE HOJAS (Gamas Especiales Individuales) --- */
+/* --- 📊 BLOQUE HOJAS DERECHA (Gamas Individuales Especiales) --- */
 
 /* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
-.modulo-gama-verde {
-    background-color: #f7f9f4 !important; /* Fondo claro del módulo */
-}
-.modulo-gama-verde .tarjeta-cabecera {
-    background-color: #424a24 !important; /* Cabecera oscura verde */
-    color: #ffffff !important;
-}
 .modulo-gama-verde .contenedor-selector {
     background-color: #dbe8b2 !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
+    border-radius: 8px;
+    padding: 16px !important;
 }
 
 /* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
-.modulo-gama-violeta {
-    background-color: #f6f5ff !important; /* Fondo claro del módulo */
-}
-.modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361 !important; /* Cabecera oscura violeta */
-    color: #ffffff !important;
-}
-.modulo-gama-violeta form,
-.modulo-gama-violeta .grid-formulario,
-.modulo-gama-violeta .campo-formulario {
+.modulo-gama-violeta form {
     background-color: #d9d4fc !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
+    border-radius: 8px;
+    padding: 16px !important;
 }
 
-/* 3) Registros Almacenados - Tabla (Gama Lavanda Base: #e5e1fd) */
-.modulo-gama-lavanda {
-    background-color: #f8f7ff !important; /* Fondo claro del módulo */
-}
-.modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66 !important; /* Cabecera oscura lavanda */
-    color: #ffffff !important;
-}
+/* 3) Registros Almacenados (Gama Lavanda Base: #e5e1fd) */
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
     background-color: #e5e1fd !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
+    border-radius: 8px;
+    padding: 16px !important;
 }
+
 /* =========================================================================
-   SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS
-   Descripción: Estiliza las acciones de guardar, los spinners de carga y 
-   las cabeceras horizontales internas de las cuadrículas de datos.
+   SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS (FOTO 1)
    ========================================================================= */
 .bloque-botones {
     display: flex;
@@ -221,13 +242,21 @@ body {
     transition: background-color 0.2s, transform 0.1s;
 }
 
-/* Sincronización cromática de botones con sus respectivas cabeceras oscuras */
-.modulo-cargar-carpetas .btn-primario { background-color: #3f3a63; color: #ffffff; }
-.modulo-gama-violeta .btn-primario { background-color: #2b2361; color: #ffffff; }
-.btn-primario { background-color: var(--color-turquesa); color: #ffffff; }
-.btn-primario:hover { filter: brightness(1.1); }
+.btn-primario {
+    background-color: var(--color-turquesa); /* 🌟 RESTAURADO EL TURQUESA FOTO 1 */
+    color: #ffffff;
+}
 
-.btn-secundario { background-color: #f1f5f9; color: #ef4444; border: 1px solid #fee2e2; }
+.btn-primario:hover {
+    background-color: var(--color-turquesa-oscuro);
+}
+
+.btn-secundario {
+    background-color: #f1f5f9;
+    color: #ef4444;
+    border: 1px solid #fee2e2;
+}
+
 .btn-secundario:hover { background-color: #fee2e2; }
 .btn-primario:active, .btn-secundario:active { transform: scale(0.98); }
 
@@ -240,11 +269,14 @@ body {
     margin-top: 10px;
 }
 
-th, td { padding: 12px 14px; border-bottom: 1px solid var(--color-borde); }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
 
-/* Fondos internos de celdas horizontales a juego con sus módulos */
-.modulo-yabla-carpetas th { background-color: #dbd6f5; color: var(--color-texto-oscuro); }
-.modulo-gama-lavanda th { background-color: #cac5fa; color: var(--color-texto-oscuro); }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--color-borde); }
 th { background-color: #f8fafc; color: var(--color-texto-medio); font-weight: 600; white-space: nowrap; }
 td { color: var(--color-texto-oscuro); }
 tr:last-child td { border-bottom: none; }
@@ -266,8 +298,6 @@ tr:last-child td { border-bottom: none; }
 
 /* =========================================================================
    SECCIÓN 6: ALERTAS PASTEL Y COMPONENTES DEL TABLERO PWA INFRAESTRUCTURA
-   Descripción: Controla la ventana de instalación compacta fija y las 
-   ventanas flotantes de error, éxito o información de red.
    ========================================================================= */
 div#bannerInstalacionPWA {
     background-color: #a12cbb !important;
@@ -354,4 +384,4 @@ button#btnInstalarPWA {
 .btn-alerta-pastel.confirmar-cancel { background-color: #f1f5f9 !important; color: #64748b !important; border: 1px solid #cbd5e1 !important; }
 .btn-alerta-pastel.confirmar-cancel:hover { background-color: #e2e8f0 !important; }
 
-@keyframes abrirSutil { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes aparecerSutil { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
