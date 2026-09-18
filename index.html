@@ -238,6 +238,35 @@
         </div> <!-- FIN COLUMNA IZQUIERDA (HOJAS) -->
     </div> <!-- FIN CONTENEDOR MAESTRO DE DISTRIBUCIÓN PARALELA -->
 
+         <!--CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
+    <div id="bannerInstalacionPWA">
+        <p>Instala la aplicación en tu dispositivo para un acceso rápido.</p>
+        <button id="btnInstalarPWA">Instalar</button>
+    </div>
+
+    <!-- VÍNCULOS DE CONTROL CENTRAL -->
+    <script src="carpetas.js"></script>
+    <script src="app.js"></script>
+     
+    <!-- =========================================================================
+         CODIGO MADRE SECCIÓN 3 - SISTEMA DE INTERCEPCIÓN DE ALERTAS Y CONFIRMACIONES
+         ========================================================================= -->
+    <div id="contenedorAlertaPastel" class="modal-alerta-fondo">
+        <div id="cuerpoAlertaPastel" class="tarjeta-alerta-pastel">
+            <h4 id="tituloAlertaPastel">Aviso del Sistema</h4>
+            <p id="mensajeAlertaPastel">Mensaje descriptivo...</p>
+            <div id="botonesAlertaPastel" class="contenedor-botones-pastel">
+                <!-- Los botones se inyectan dinámicamente según sea Alerta o Confirmación -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales de memoria pasiva para el control de archivos e iconos
+        let tipoArchivoDetectadoPastel = '📋';
+        let alertaBloqueada = false; 
+
+        // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
         document.addEventListener("DOMContentLoaded", () => {
             const inputArchivoDrive = document.getElementById('archivoSubirDrive');
             if (inputArchivoDrive) {
@@ -254,26 +283,32 @@
             }
         });
 
+        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert - TRADUCTOR DE ENTORNO ÉXITO)
         window.alert = function(mensaje) {
             if (alertaBloqueada) {
-                console.log("Alerta secundaria retenida: " + mensaje);
+                console.log("Alerta secundaria retenida para proteger la ventana de decisión: " + mensaje);
                 return;
             }
+
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
             const texto = document.getElementById('mensajeAlertaPastel');
             const cajaBotones = document.getElementById('botonesAlertaPastel');
+            
             if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return;
 
             let mensajeProcesado = mensaje;
             const msgMinuscula = mensaje.toLowerCase();
 
+            // NUEVA CONDICIÓN DE DOCUMENTO NUEVO: Si la alerta original indica éxito genérico de subida, inyectamos tu frase
             if (msgMinuscula.includes('datos procesados con éxito') && tipoArchivoDetectadoPastel !== '📋') {
                 mensajeProcesado = "Documento procesado exitosamente.";
             }
+
             texto.innerText = mensajeProcesado;
 
+            // CLASIFICADOR PASTEL INTELIGENTE: Filtra el recordatorio obligatorio de reemplazo y lo fuerza en la tarjeta Verde Éxito
             if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita') || msgMinuscula.includes('exitosamente')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
@@ -285,27 +320,37 @@
                 titulo.innerHTML = `ℹ️ ${tipoArchivoDetectadoPastel} Información`;
             }
 
+            // Inyección del botón con estilo forzado más oscuro para garantizar máxima legibilidad
             cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
             modal.style.display = 'flex';
         };
 
+        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO DE CONFIRMACIONES ESTÁNDAR (window.confirm)
         window.confirm = function(mensaje) {
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
             const texto = document.getElementById('mensajeAlertaPastel');
             const cajaBotones = document.getElementById('botonesAlertaPastel');
-            if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return true; 
+
+            if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) {
+                return true; 
+            }
 
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
+            // Mostramos los botones estéticos, pero configurados únicamente para cerrar el modal visual pasivamente
             cajaBotones.innerHTML = `
                 <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="cerrarAlertaPastel()">Cancelar</button>
                 <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="cerrarAlertaPastel()">Aceptar</button>
             `;
+            
             modal.style.display = 'flex';
+            
+            // SOLUCIÓN INTEGRAL AL BUCLE: Retornamos true inmediatamente al motor original de carpetas.js 
+            // Esto permite que el flujo de transmisión binaria hacia Drive continúe en segundo plano sin trabarse
             return true;
         };
 
@@ -317,7 +362,5 @@
     </script>
      
 </body>
+
 </html>
-
-
-
