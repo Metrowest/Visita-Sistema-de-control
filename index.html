@@ -152,13 +152,14 @@
             </div> <!-- CIERRE COMPLETO DE CARPETAS SECCION 4 -->
 
         </div> <!-- 🛡️ CIERRE MAESTRO DEL EMPAQUETADO DE LA COLUMNA DE CARPETAS -->
-        <!-- ============================================================================================
+
+                 <!-- ============================================================================================
              APLICACIÓN DE LAS HOJAS (EMPAQUETADO DE LA COLUMNA DE LA INTERFAZ)
              ============================================================================================ -->
         <div class="bloque-hojas-derecha-empaquetado">
 
             <!-- =========================================================================
-                 HOJAS SECCIÓN 1: SELECTOR DE SECCIONES INTERACTIVO (EMPAQUETADO y PURIFICADO)
+                 HOJAS SECCIÓN 1: SELECTOR DE HOJAS INDEPENDIENTE
                  ========================================================================= -->
             <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
@@ -168,8 +169,6 @@
                 
                 <div class="contenedor-selector">
                     <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
-                    
-                    <!-- 🛡️ CONSERVADO INTACTO: El selector nativo oficial de tu respaldo sin atributos inline -->
                     <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
                         <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                         <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
@@ -182,15 +181,14 @@
                         <option value="Seguridad">🛡️ Seguridad (Programa)</option>
                     </select>
 
-                    <!-- 🛡️ CONSERVADO INTACTO: El enlace dinámico exacto de tu backend sin atributos inline -->
                     <div class="enlace-seccion-activa">
                         Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno">👥 Superintendentes (Horizontal)</a>
                     </div>
                 </div>
             </div>
-             
+
             <!-- =========================================================================
-                 HOJAS SECCIÓN 3: FORMULARIO DE CAPTURA INTELIGENTE (REPARADO)
+                 HOJAS SECCIÓN 3: FORMULARIO DE CAPTURA ADAPTATIVO INTELIGENTE
                  ========================================================================= -->
             <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
@@ -201,24 +199,21 @@
                 <form id="formularioSuperintendentes" class="formulario-estilizado">
                     <div class="grid-formulario">
                         <div class="campo-formulario" id="contenedorCampo1">
-                            <!-- 🛡️ RESTAURADO ID: lblCampo1 para permitir adaptabilidad automática -->
                             <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
                             <input type="text" id="txtGrupo" placeholder="Ej. #89" required>
                         </div>
 
                         <div class="campo-formulario" id="contenedorCampo2">
-                            <!-- 🛡️ RESTAURADO ID: lblCampo2 -->
                             <label id="lblCampo2" for="txtSuperintendente">Superintendente / Visitante</label>
                             <input type="text" id="txtSuperintendente" placeholder="Nombre completo" required>
                         </div>
 
                         <div class="campo-formulario" id="contenedorCampo3">
-                            <!-- 🛡️ RESTAURADO ID: lblCampo3 -->
                             <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
                             <input type="text" id="txtTelefono" placeholder="Información" required>
                         </div>
 
-                        <!-- Bloques adaptativos con etiquetas identificadas para JS -->
+                        <!-- Bloques adaptativos con etiquetas identificadas para app.js -->
                         <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                             <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                             <input type="text" id="txtCampo4" placeholder="Información extra">
@@ -256,7 +251,7 @@
                 </form>
             </div>
 
-
+        </div> <!-- FIN DEL EMPAQUETADO DE HOJAS DERECHA -->
              <!-- AQUÍ TERMINA EL FORMULARIO DE AÑADIR REGISTRO -->
             <!-- =========================================================================
                  HOJAS SECCIÓN 4: REJILLA MODULAR DE REGISTROS ALMACENADOS (SHEETS)
