@@ -84,10 +84,11 @@
 
             <!-- CARPETAS SECCION 3 - Módulo de carga de archivos original -->
             <div class="campo-formulario" style="margin-bottom: 20px;">
-                <label for="archivoSubirDrive" class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 8px;">
+                <label for="archivoDriveInput" class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 8px;">
                     Subir Documento o Carpeta a la Sección Activa
                 </label>
-                <input type="file" id="archivoSubirDrive" class="control-selector" style="width: 100%; padding: 8px; border: 1px solid var(--color-borde); border-radius: 8px; background-color: var(--color-fondo);">
+                <!-- 🛡️ RESTAURADO ID EXACTO: id="archivoDriveInput" para sanar la línea 439 de app.js -->
+                <input type="file" id="archivoDriveInput" class="control-selector" style="width: 100%; padding: 8px; border: 1px solid var(--color-borde); border-radius: 8px; background-color: var(--color-fondo);">
                 
                 <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
                     <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
@@ -98,11 +99,12 @@
                     <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
                 </div>
 
-                <!-- CARPETAS SECCION 3 FUNCION 3.1: DISPARADOR DE TRANSMISIÓN BINARIA HACIA DRIVE -->
+                <!-- CARPETAS SECCION 3 FUNCION 3.1 -->
                 <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
                     🚀 Subir a Carpeta Activa
                 </button>
             </div>
+
 
             <!-- CARPETAS SECCION 4 - ZONA DE ARCHIVOS DISPONIBLES -->
             <div class="zona-archivos-disponibles">
@@ -257,7 +259,8 @@
         let alertaBloqueada = false; 
 
         document.addEventListener("DOMContentLoaded", () => {
-            const inputArchivoDrive = document.getElementById('archivoSubirDrive');
+            // 🛡️ SINCRONIZADO: Cambiado a archivoDriveInput para que no dé errores de lectura
+            const inputArchivoDrive = document.getElementById('archivoDriveInput');
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
@@ -271,6 +274,7 @@
                 });
             }
         });
+
 
         window.alert = function(mensaje) {
             if (alertaBloqueada) {
