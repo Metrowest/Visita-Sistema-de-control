@@ -90,8 +90,14 @@
                     <h2>Subir archivos o documentos a la Sección Activa</h2>
                 </div>
                 <div class="campo-formulario">
-                    <label for="archivoSubirDrive" class="etiqueta-selector">Selecciona un archivo para cargar a la carpeta activa:</label>
-                    <input type="file" id="archivoSubirDrive" class="control-selector">
+                    <label class="etiqueta-selector">Selecciona un archivo para cargar a la carpeta activa:</label>
+                    
+                    <!-- 🌟 CONTENEDOR NUEVO: Esconde el input nativo y crea el botón estético 'Buscar' -->
+                    <div class="contenedor-input-personalizado">
+                        <label for="archivoSubirDrive" class="btn-buscar-estilizado">Buscar</label>
+                        <input type="file" id="archivoSubirDrive" class="input-archivo-oculto">
+                    </div>
+                    
                     <div class="contenedor-vistas-previas">
                         <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
                         <div id="vistaPreviaIconoDrive"></div>
@@ -99,7 +105,9 @@
                     <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive">
                         <img id="previewFotoDriveImg" src="" alt="Previsualización">
                     </div>
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">🔍 Buscar</button>
+                    
+                    <!-- 🌟 REPARADO: Cambiado a 'Subir' -->
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">🔍 Subir</button>
                 </div>
             </div>
 
