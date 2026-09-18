@@ -140,26 +140,33 @@
         <div class="bloque-hojas-derecha-empaquetado" style="display: flex; flex-direction: column; gap: 24px; flex: 1; width: 100%;">
 
             <!-- =========================================================================
-                 HOJAS SECCION  1 - CONTROL DE HOJAS Y ENTRADA DE DATOS CENTRALIZADA
+                 HOJAS SECCIÓN 1: SELECTOR DE SECCIONES INTERACTIVO (EMPAQUETADO)
                  ========================================================================= -->
-            <div class="tarjeta-modulo contenedor-selector" style="margin-bottom: 0px;">
-                <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
+            <div class="tarjeta-modulo">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📂</span>
+                    <h2>Selecciona una Hoja</h2>
+                </div>
+                <div style="padding: 15px 0 0 0;">
+                    <label for="selectorHoja" class="etiqueta-seleccion" style="display: block; margin-bottom: 8px; font-weight: 600;">Selecciona una Sección</label>
+                    
+                    <!-- 🛡️ CONSERVADO INTACTO: El selector nativo oficial de tu respaldo -->
+                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();" style="width: 100%;">
+                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                        <option value="Seguridad">🛡️ Seguridad (Programa)</option>
+                    </select>
 
-                <!-- HOJAS SECCION 1 FUNCION 1.1: SINCRO DOBLE EN LÍNEA INTERACTIVA -->
-                <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
-                    <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                    <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                    <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                    <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                    <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                    <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                    <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                    <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                </select>
-
-                <!-- HOJAS SECCION 2 - Enlace dinámico original con id="enlaceDinamico" -->
-                <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
-                    Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
+                    <!-- 🛡️ CONSERVADO INTACTO: El enlace dinámico exacto de tu backend -->
+                    <div class="enlace-seccion-activa" style="margin-top: 12px; font-weight: bold;">
+                        Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
+                    </div>
                 </div>
             </div>
 
