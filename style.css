@@ -149,10 +149,26 @@ th { font-weight: 700; }
     color: #000000;
     border: 1px solid var(--color-borde);
 }
-
 /* =========================================================================
    SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES POR MÓDULO (CLASES INDEPENDIENTES)
+   Descripción: Distribuye tus colores base asignando oscuros para cabeceras,
+   tonos medios para sub-cabeceras y claros para los fondos de los módulos.
    ========================================================================= */
+
+/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro obligatorio para toda la app */
+.tarjeta-modulo select,
+.tarjeta-modulo input,
+.tarjeta-modulo select option {
+    background-color: #fffde6 !important; /* Amarillo pastel claro */
+    color: #000000 !important; /* Texto negro de alta legibilidad */
+    border: 1px solid #dcdac2 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
 
 /* -------------------------------------------------------------------------
    📦 BLOQUE DE CARPETAS (IZQUIERDA) - GAMA LILA PASTEL (#f1efff)
@@ -186,24 +202,28 @@ div.tarjeta-modulo.modulo-cargar-carpetas .btn-primario {
     color: #ffffff !important;
 }
 
-/* 3) Archivos Disponibles (Tabla Drive) */
-div.tarjeta-modulo.modulo-yabla-carpetas {
+/* 3) Archivos Disponibles (Soporta ambos nombres para evitar errores ortográficos) */
+div.tarjeta-modulo.modulo-yabla-carpetas,
+div.tarjeta-modulo.modulo-tabla-carpetas {
     background-color: #faf9ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-yabla-carpetas .tarjeta-cabecera {
+div.tarjeta-modulo.modulo-yabla-carpetas .tarjeta-cabecera,
+div.tarjeta-modulo.modulo-tabla-carpetas .tarjeta-cabecera {
     background-color: #3f3a63 !important; /* Cabecera oscura */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-yabla-carpetas .zona-archivos-disponibles {
+div.tarjeta-modulo.modulo-yabla-carpetas .zona-archivos-disponibles,
+div.tarjeta-modulo.modulo-tabla-carpetas .zona-archivos-disponibles {
     background-color: #f1efff !important; /* Sub-cabecera / Color pastel base */
 }
-div.tarjeta-modulo.modulo-yabla-carpetas th {
-    background-color: #dbd6f5 !important; /* Encabezado de celdas claro */
+div.tarjeta-modulo.modulo-yabla-carpetas th,
+div.tarjeta-modulo.modulo-tabla-carpetas th {
+    background-color: #dbd6f5 !important;
     color: #000000 !important;
 }
 
 /* -------------------------------------------------------------------------
-   📊 BLOQUE DE HOJAS (DERECHA) - GAMAS ESPECÍFICAS
+   📊 BLOQUE DE HOJAS (DERECHA) - GAMAS ESPECÍFICAS BLINDADAS
    ------------------------------------------------------------------------- */
 
 /* 1) Selecciona una Hoja (Gama Verde Pastel Base: #dbe8b2) */
@@ -219,36 +239,36 @@ div.tarjeta-modulo.modulo-gama-verde .contenedor-selector {
 }
 
 /* 2) Añadir Registro (Gama Violeta Pastel Base: #d9d4fc) */
-div.tarjeta-modulo.modulo-gama-violeta {
+html body div.tarjeta-modulo.modulo-gama-violeta {
     background-color: #f6f5ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361 !important; /* Cabecera oscura */
+html body div.tarjeta-modulo.modulo-gama-violeta .tarjeta-cabecera {
+    background-color: #2b2361 !important; /* Cabecera oscura violeta real */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-gama-violeta form,
-div.tarjeta-modulo.modulo-gama-violeta .grid-formulario,
-div.tarjeta-modulo.modulo-gama-violeta .campo-formulario {
-    background-color: #d9d4fc !important; /* Sub-cabecera / Color pastel base */
+html body div.tarjeta-modulo.modulo-gama-violeta form,
+html body div.tarjeta-modulo.modulo-gama-violeta .grid-formulario,
+html body div.tarjeta-modulo.modulo-gama-violeta .campo-formulario {
+    background-color: #d9d4fc !important; /* Sub-cabecera / Color violeta base */
 }
-div.tarjeta-modulo.modulo-gama-violeta .btn-primario {
-    background-color: #2b2361 !important; /* Botón oscuro a juego */
+html body div.tarjeta-modulo.modulo-gama-violeta .btn-primario {
+    background-color: #2b2361 !important;
     color: #ffffff !important;
 }
 
 /* 3) Registros Almacenados (Gama Lavanda Pastel Base: #e5e1fd) */
-div.tarjeta-modulo.modulo-gama-lavanda {
+html body div.tarjeta-modulo.modulo-gama-lavanda {
     background-color: #f8f7ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66 !important; /* Cabecera oscura */
+html body div.tarjeta-modulo.modulo-gama-lavanda .tarjeta-cabecera {
+    background-color: #312a66 !important; /* Cabecera oscura lavanda real */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-gama-lavanda .campo-formulario,
-div.tarjeta-modulo.modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd !important; /* Sub-cabecera / Color pastel base */
+html body div.tarjeta-modulo.modulo-gama-lavanda .campo-formulario,
+html body div.tarjeta-modulo.modulo-gama-lavanda .tabla-responsiva {
+    background-color: #e5e1fd !important; /* Sub-cabecera / Color lavanda base */
 }
-div.tarjeta-modulo.modulo-gama-lavanda th {
-    background-color: #cac5fa !important; /* Encabezado de celdas claro */
+html body div.tarjeta-modulo.modulo-gama-lavanda th {
+    background-color: #cac5fa !important;
     color: #000000 !important;
 }
