@@ -161,6 +161,126 @@ function recibirDatosDesdeGoogle(json) {
     let encabezadosTextos = [];
     let llavesMapeo = [];
 
+    // Mapeo nativo original de tus hojas
+    if (hojaActiva === "Superintendentes") {
+        encabezadosTextos = ["Grupo", "Superintendente", "Teléfono"];
+        llavesMapeo = ["grupo", "superintendente", "telefono"];
+    } else if (hojaActiva === "Hospitalidad") {
+        encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
+    } else if (hojaActiva.includes("Estudios")) {
+        encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
+    } else if (hojaActiva.includes("Pastoreo")) {
+        encabezadosTextos = ["Día", "Acompañante", "Teléfono", "Hogar", "Contacto", "Dirección", "Detalles", "Objetivo"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
+    }
+
+    // Dibujamos las cabeceras de columnas en sentido estrictamente horizontal
+    let htmlCabecera = "<tr>";
+    encabezadosTextos.forEach(col => htmlCabecera += `<th>${col}</th>`);
+    htmlCabecera += "<th>Acciones</th></tr>";
+    if(tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
+
+    // 🛡️ ACTUALIZACIÓN DE ETIQUETAS: Sincroniza dinámicamente los inputs superiores
+    const lbl1 = document.getElementById("lblCampo1");
+    const lbl2 = document.getElementById("lblCampo2");
+    const lbl3 = document.getElementById("lblCampo3");
+    const lbl4 = document.getElementById("lblCampo4");
+    const lbl5 = document.getElementById("lblCampo5");
+    const lbl6 = document.getElementById("lblCampo6");
+    const lbl7 = document.getElementById("lblCampo7");
+    const lbl8 = document.getElementById("lblCampo8");
+
+    if (hojaActiva === "Superintendentes") {
+        if(lbl1) lbl1.innerText = "Grupo / Día";
+        if(lbl2) lbl2.innerText = "Superintendente / Visitante";
+        if(lbl3) lbl3.innerText = "Teléfono / Acompañante";
+    } else if (hojaActiva === "Hospitalidad") {
+        if(lbl1) lbl1.innerText = "Día";
+        if(lbl2) lbl2.innerText = "Nombre";
+        if(lbl3) lbl3.innerText = "Teléfono";
+        if(lbl4) lbl4.innerText = "Dirección";
+    } else if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
+        if(lbl1 && encabezadosTextos[0]) lbl1.innerText = encabezadosTextos[0];
+        if(lbl2 && encabezadosTextos[1]) lbl2.innerText = encabezadosTextos[1];
+        if(lbl3 && encabezadosTextos[2]) lbl3.innerText = encabezadosTextos[2];
+        if(lbl4 && encabezadosTextos[3]) lbl4.innerText = encabezadosTextos[3];
+        if(lbl5 && encabezadosTextos[4]) lbl5.innerText = encabezadosTextos[4];
+        if(lbl6 && encabezadosTextos[5]) lbl6.innerText = encabezadosTextos[5];
+        if(lbl7 && encabezadosTextos[6]) lbl7.innerText = encabezadosTextos[6];
+        if(lbl8 && encabezadosTextos[7]) lbl8.innerText = encabezadosTextos[7];
+    }
+    // =========================================================================
+    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
+    // =========================================================================
+    if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
+        
+        let celdasPlanasRaw = [];
+        datosMatriz.forEach(fila => {
+            if (Array.isArray(fila)) {
+                celdasPlanasRaw.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
+            } else {
+                celdasPlanasRaw.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
+            }
+        });
+
+        // REGLA DE DETECCIÓN INTELIGENTE: Si en la Columna A la celda actual y la siguiente 
+        // son idénticas, limpiamos el duplicado en memoria para realinear todo el vector vertical
+        let celdasPlanas = [];
+        for (let k = 0; k < celdasPlanasRaw.length; k++) {
+            if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
+                console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
+                continue; // Saltamos el elemento repetido para empujar las variables un lugar hacia atrás
+            }
+            celdasPlanas.push(celdasPlanasRaw[k]);
+        }
+        
+        let contadorBloque = 0;
+        
+        // Recorremos la lista limpia saltando de 8 en 8 celdas consecutivas hacia abajo
+        for (let i = 0; i < celdasPlanas.length; i += 8) {
+            if (i >= celdasPlanas.length) break;
+            if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
+
+            let objetoFila = {
+                grupo: celdasPlanas[i] || "",            // Celda 1: Día
+                superintendente: celdasPlanas[i+1] || "", // Celda 2: Acompañante o Visitante
+                telefono: celdasPlanas[i+2] || "",        // Celda 3: Teléfono o Acompañante
+                campo4: celdasPlanas[i+3] || "",          // Celda 4: Hogar o Teléfono
+                campo5: celdasPlanas[i+4] || "",          // Celda 5: Contacto o Estudiante
+                campo6: celdasPlanas[i+5] || "",          // Celda 6: Dirección
+                campo7: celdasPlanas[i+6] || "",          // Celda 7: Detalles o Publicación
+                campo8: celdasPlanas[i+7] || ""           // Celda 8: Objetivo o Detalles
+            };
+            
+            Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
+            contadorBloque++;
+        }
+        
+        if (contadorBloque === 0 && tablaCuerpo) {
+            tablaCuerpo.innerHTML = `<tr><td colspan="9">No hay registros válidos guardados en esta sección.</td></tr>`;
+        }
+        
+    } else {
+        // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
+        for (let i = 1; i < datosMatriz.length; i++) {
+            const fila = datosMatriz[i];
+            if (!fila || fila.length === 0) continue;
+
+            let objetoFila = {
+                grupo: fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "",
+                superintendente: fila[1] !== undefined && fila[1] !== null ? fila[1].toString().trim() : "",
+                telefono: fila[2] !== undefined && fila[2] !== null ? fila[2].toString().trim() : "",
+                direccion: fila[3] !== undefined && fila[3] !== null ? fila[3].toString().trim() : ""
+            };
+            
+            Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
+        }
+    }
+}
+
+
     // =========================================================================
     // CONFIGURACIÓN DE TABLAS: Mapeamos los títulos reales de tus hojas
     // =========================================================================
