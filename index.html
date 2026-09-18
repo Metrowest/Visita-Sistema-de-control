@@ -229,14 +229,10 @@
 
     </div> <!-- CIERRE DE CONTENEDOR-MODULOS-PARALELOS GLOBAL -->
 
-
-
-    <!-- =========================================================================
-       CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO
-       ========================================================================= -->
-    <div id="bannerInstalacionPWA" style="display: none;">
+    <!-- CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
+    <div id="bannerInstalacionPWA">
         <p>Instala la aplicación en tu dispositivo para un acceso rápido.</p>
-        <button type="button" id="btnInstalarPWA">Instalar</button>
+        <button id="btnInstalarPWA">Instalar</button>
     </div>
 
     <!-- VÍNCULOS DE CONTROL CENTRAL -->
@@ -257,11 +253,9 @@
     </div>
 
     <script>
-        // Variables globales de memoria pasiva para el control de archivos e iconos
         let tipoArchivoDetectadoPastel = '📋';
         let alertaBloqueada = false; 
 
-        // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
         document.addEventListener("DOMContentLoaded", () => {
             const inputArchivoDrive = document.getElementById('archivoSubirDrive');
             if (inputArchivoDrive) {
@@ -269,7 +263,7 @@
                     if (this.files && this.files.length > 0) {
                         const nombre = this.files[0].name.toLowerCase(); 
                         if (nombre.endsWith('.pdf')) tipoArchivoDetectadoPastel = '📄';
-                        else if (nombre.endsWith('.xlsx') || name.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
+                        else if (nombre.endsWith('.xlsx') || nombre.endsWith('.xls') || nombre.endsWith('.csv')) tipoArchivoDetectadoPastel = '📊';
                         else if (nombre.endsWith('.docx') || nombre.endsWith('.doc')) tipoArchivoDetectadoPastel = '📝';
                         else if (nombre.endsWith('.png') || nombre.endsWith('.jpg') || nombre.endsWith('.jpeg')) tipoArchivoDetectadoPastel = '🖼️';
                         else tipoArchivoDetectadoPastel = '📁';
@@ -278,31 +272,26 @@
             }
         });
 
-        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS
         window.alert = function(mensaje) {
             if (alertaBloqueada) {
-                console.log("Alerta secundaria retenida para proteger la ventana de decisión: " + mensaje);
+                console.log("Alerta secundaria retenida: " + mensaje);
                 return;
             }
-
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
             const texto = document.getElementById('mensajeAlertaPastel');
             const cajaBotones = document.getElementById('botonesAlertaPastel');
-            
             if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return;
 
             let mensajeProcesado = mensaje;
             const msgMinuscula = mensaje.toLowerCase();
 
             if (msgMinuscula.includes('datos procesados con éxito') && tipoArchivoDetectadoPastel !== '📋') {
-                mensajeProcesado = "Documento processed exitosamente.";
+                mensajeProcesado = "Documento procesado exitosamente.";
             }
-
             texto.innerText = mensajeProcesado;
 
-                         // CLASIFICADOR PASTEL INTELIGENTE
             if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita') || msgMinuscula.includes('exitosamente')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
@@ -314,22 +303,17 @@
                 titulo.innerHTML = `ℹ️ ${tipoArchivoDetectadoPastel} Información`;
             }
 
-            // Inyección del botón con estilo oscuro para máxima legibilidad
             cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
             modal.style.display = 'flex';
         };
 
-        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO DE CONFIRMACIONES
         window.confirm = function(mensaje) {
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
             const texto = document.getElementById('mensajeAlertaPastel');
             const cajaBotones = document.getElementById('botonesAlertaPastel');
-
-            if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) {
-                return true; 
-            }
+            if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return true; 
 
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
@@ -339,7 +323,6 @@
                 <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="cerrarAlertaPastel()">Cancelar</button>
                 <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="cerrarAlertaPastel()">Aceptar</button>
             `;
-            
             modal.style.display = 'flex';
             return true;
         };
@@ -352,5 +335,4 @@
     </script>
      
 </body>
-
 </html>
