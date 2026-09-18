@@ -42,16 +42,28 @@
          CARPETAS SECCION 1 - BLOQUE DE SCRIPTS ESENCIALES (FUNCIÓN NUMERADA 1.1)
          ========================================================================= -->
     <script>
+        // CARPETAS SECCION 1 FUNCION 1.1: ASIGNACIÓN DINÁMICA DE ICONOS SEGÚN FORMATO
         function obtenerIconoFormato(formato) {
             if (!formato) return '<i class="fa-solid fa-file" style="color: #7f8c8d;"></i> Archivo';
+            
             const tipo = formato.toLowerCase().trim();
-            if (tipo.includes('pdf')) return '<i class="fa-solid fa-file-pdf" style="color: #e74c3c;"></i> PDF';
-            else if (tipo.includes('spreadsheet') || tipo.includes('excel') || tipo.includes('sheet') || tipo.includes('xls')) return '<i class="fa-solid fa-file-excel" style="color: #27ae60;"></i> Excel';
-            else if (tipo.includes('document') || tipo.includes('word') || tipo.includes('docx')) return '<i class="fa-solid fa-file-word" style="color: #2980b9;"></i> Word';
-            else if (tipo.includes('folder') || tipo.includes('carpeta')) return '<i class="fa-solid fa-folder" style="color: #f1c40f;"></i> Carpeta';
-            else if (tipo.includes('zip') || tipo.includes('rar') || tipo.includes('compressed')) return '<i class="fa-solid fa-file-zipper" style="color: #8e44ad;"></i> Comprimido';
-            else if (tipo.includes('image') || tipo.includes('png') || tipo.includes('jpg') || tipo.includes('jpeg')) return '<i class="fa-solid fa-file-image" style="color: #16a085;"></i> Imagen';
-            else return '<i class="fa-solid fa-file" style="color: #7f8c8d;"></i> Archivo';
+
+            // Filtros adaptados para los tipos de archivo oficiales de Google Drive (MimeTypes)
+            if (tipo.includes('pdf')) {
+                return '<i class="fa-solid fa-file-pdf" style="color: #e74c3c;"></i> PDF';
+            } else if (tipo.includes('spreadsheet') || tipo.includes('excel') || tipo.includes('sheet') || tipo.includes('xls')) {
+                return '<i class="fa-solid fa-file-excel" style="color: #27ae60;"></i> Excel';
+            } else if (tipo.includes('document') || tipo.includes('word') || tipo.includes('docx')) {
+                return '<i class="fa-solid fa-file-word" style="color: #2980b9;"></i> Word';
+            } else if (tipo.includes('folder') || tipo.includes('carpeta')) {
+                return '<i class="fa-solid fa-folder" style="color: #f1c40f;"></i> Carpeta';
+            } else if (tipo.includes('zip') || tipo.includes('rar') || tipo.includes('compressed')) {
+                return '<i class="fa-solid fa-file-zipper" style="color: #8e44ad;"></i> Comprimido';
+            } else if (tipo.includes('image') || tipo.includes('png') || tipo.includes('jpg') || tipo.includes('jpeg')) {
+                return '<i class="fa-solid fa-file-image" style="color: #16a085;"></i> Imagen';
+            } else {
+                return '<i class="fa-solid fa-file" style="color: #7f8c8d;"></i> Archivo';
+            }
         }
     </script>
 </head>
