@@ -375,7 +375,7 @@ body {
    Descripción: Controla que los bloques se claven lado a lado de manera 
    simétrica en la tablet y se compacten verticalmente en móviles.
    ========================================================================= */
-/* .contenedor-modulos-paralelos {
+ .contenedor-modulos-paralelos {
     display: flex;
     flex-direction: row;
     gap: 24px;
@@ -416,7 +416,7 @@ body {
    Descripción: Controla el esqueleto de las tarjetas y fuerza a todas las 
    cajas de captura a tomar el color amarillo pastel claro.
    ========================================================================= */
-.tarjeta-modulo {
+/* .tarjeta-modulo {
     background-color: var(--color-superficie);
     border-radius: 12px;
     border: 1px solid var(--color-borde);
@@ -424,7 +424,7 @@ body {
     padding: 24px;
     width: 100%;
     display: block;
-    overflow: hidden; /* Limpia desbordes internos */
+    overflow: hidden; /* Limpia desbordes internos 
 }
 
 .tarjeta-cabecera {
@@ -445,11 +445,11 @@ body {
     box-sizing: border-box;
 }
 
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para toda la app */
+/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para toda la app 
 .tarjeta-modulo select,
 .tarjeta-modulo input,
 .tarjeta-modulo select option {
-    background-color: #fffde6 !important; /* Amarillo pastel claro */
+    background-color: #fffde6 !important; /* Amarillo pastel claro 
     color: #000000 !important;
     border: 1px solid #dcdac2 !important;
     width: 100% !important;
