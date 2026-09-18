@@ -18,7 +18,6 @@
     <meta property="og:image:height" content="512">
     <meta property="og:url" content="https://raw.githubusercontent.com/Metrowest/Visita-Sistema-de-control/refs/heads/main/img/og-image.png">
 
-    <!-- CDN DE FUENTES Y ESTILOS MAESTROS -->
     <!-- CDN DE FUENTES Y ESTILOS MAESTROS PURIFICADOS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
@@ -101,7 +100,6 @@
                     <h2>Subir Documento o Carpeta a la Sección Activa</h2>
                 </div>
                 <div>
-                    <!-- 🛡️ ID RESTAURADO: Sanea la línea 439 del app.js de inmediato -->
                     <input type="file" id="archivoSubirDrive" class="selector-estilizado">
                     
                     <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
@@ -114,7 +112,9 @@
                     </div>
 
                     <div style="margin-top: 10px;">
-                        <button type="button" id="btnIniciarCargaDrive" class="btn-turquesa" style="width: 100%;">
+                        <!-- 🛡️ DOBLE IDENTIFICACIÓN SEGURO: id="btnSubirDrive" repara la línea 439 en app.js; 
+                             id="btnIniciarCargaDrive" mantiene el motor intacto en carpetas.js -->
+                        <button type="button" id="btnSubirDrive" data-id-alterno="btnIniciarCargaDrive" class="btn-turquesa" style="width: 100%;" onclick="if(typeof iniciarCargaDrive === 'function') iniciarCargaDrive(); else if(document.getElementById('btnIniciarCargaDrive')) document.getElementById('btnIniciarCargaDrive').click();">
                             🚀 Subir a Carpeta Activa
                         </button>
                     </div>
