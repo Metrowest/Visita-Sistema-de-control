@@ -238,31 +238,6 @@
         </div> <!-- FIN COLUMNA IZQUIERDA (HOJAS) -->
     </div> <!-- FIN CONTENEDOR MAESTRO DE DISTRIBUCIÓN PARALELA -->
 
-         <!-- CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
-    <div id="bannerInstalacionPWA">
-        <p>Instala la aplicación en tu dispositivo para un acceso rápido.</p>
-        <button id="btnInstalarPWA">Instalar</button>
-    </div>
-
-    <!-- VÍNCULOS DE CONTROL CENTRAL -->
-    <script src="carpetas.js"></script>
-    <script src="app.js"></script>
-     
-    <!-- =========================================================================
-         CODIGO MADRE SECCIÓN 3 - SISTEMA DE INTERCEPCIÓN DE ALERTAS Y CONFIRMACIONES
-         ========================================================================= -->
-    <div id="contenedorAlertaPastel" class="modal-alerta-fondo">
-        <div id="cuerpoAlertaPastel" class="tarjeta-alerta-pastel">
-            <h4 id="tituloAlertaPastel">Aviso del Sistema</h4>
-            <p id="mensajeAlertaPastel">Mensaje descriptivo...</p>
-            <div id="botonesAlertaPastel" class="contenedor-botones-pastel"></div>
-        </div>
-    </div>
-
-    <script>
-        let tipoArchivoDetectadoPastel = '📋';
-        let alertaBloqueada = false; 
-
         document.addEventListener("DOMContentLoaded", () => {
             const inputArchivoDrive = document.getElementById('archivoSubirDrive');
             if (inputArchivoDrive) {
@@ -343,5 +318,6 @@
      
 </body>
 </html>
+
 
 
