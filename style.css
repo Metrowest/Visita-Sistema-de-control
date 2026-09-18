@@ -1,7 +1,7 @@
 /* =========================================================================
-   SECCIÓN 1: IDENTIDAD BASE Y VARIABLES ORIGINALES (FOTO 1 RESTAURADA)
-   Descripción: Recupera el fondo gris/blanco limpio, la tipografía Plus
-   Jakarta Sans y las variables nativas de tu respaldo original.
+   SECCIÓN 1: VARIABLES ORIGINALES Y CONFIGURACIÓN MAESTRA DE LA PANTALLA
+   Descripción: Restablece tu fondo gris claro limpio, la tipografía Plus 
+   Jakarta Sans y las sombras originales de tu primera foto de respaldo.
    ========================================================================= */
 :root {
     --color-fondo: #f8fafc;
@@ -11,8 +11,8 @@
     --color-texto-oscuro: #0f172a;
     --color-texto-medio: #475569;
     --color-borde: #e2e8f0;
-    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -30,9 +30,7 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 2: ARQUITECTURA PARALELA MAESTRA (FLEXBOX SIMÉTRICO)
-   Descripción: Clava las dos columnas idénticas una al lado de la otra en la
-   tablet y las apila verticalmente de forma fluida en celulares.
+   SECCIÓN 2: GRID PARALELO MAESTRO (LADO A LADO DE DOS COLUMNAS)
    ========================================================================= */
 .contenedor-modulos-paralelos {
     display: flex;
@@ -58,23 +56,17 @@ body {
 }
 
 @media (max-width: 1100px) {
-    .contenedor-modulos-paralelos {
-        flex-direction: column;
-        align-items: center;
-    }
-    .bloque-carpetas-izquierda-empaquetado,
-    .bloque-hojas-derecha-empaquetado {
-        width: 100% !important;
-        min-width: 100% !important;
-    }
+    .contenedor-modulos-paralelos { flex-direction: column; align-items: center; }
+    .bloque-carpetas-izquierda-empaquetado, .bloque-hojas-derecha-empaquetado { width: 100% !important; min-width: 100% !important; }
 }
+
 /* =========================================================================
-   SECCIÓN 3: CUBÍCULOS INDEPENDIENTES (TARJETAS BLANCAS ORIGINALES - FOTO 1)
-   Descripción: Mantiene el fondo blanco limpio de las tarjetas, las 
-   sombras sutiles y la unificación de inputs en amarillo pastel claro.
+   SECCIÓN 3: COMPONENTES ESTRUCTURALES Y FORMULARIOS LIBERADOS (FOTO 1)
+   Descripción: Recupera las tarjetas blancas puras y elimina los candados 
+   de color sobre las etiquetas form, grid-formulario y campo-formulario.
    ========================================================================= */
 .tarjeta-modulo {
-    background-color: var(--color-superficie);
+    background-color: var(--color-superficie) !important; /* Fuerza el fondo blanco limpio original */
     border-radius: 12px;
     border: 1px solid var(--color-borde);
     box-shadow: var(--sombra-modulo);
@@ -93,16 +85,20 @@ body {
     padding-bottom: 12px;
 }
 
+/* 🔓 LIBERADOS: Los contenedores internos ya no tienen ningún fondo forzado */
 .tarjeta-modulo .campo-formulario,
 .tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo .zona-archivos-disponibles,
 .tarjeta-modulo .tabla-responsiva,
-.tarjeta-modulo form {
+.tarjeta-modulo form,
+.grid-formulario {
+    background-color: transparent !important; /* Elimina cualquier rastro de morado o azul */
+    background: transparent !important;
     padding: 10px 5px;
     box-sizing: border-box;
 }
 
-/* 🛡️ INYECTADO: Todos los selectores e inputs del mismo color amarillo pastel claro */
+/* 🛡️ ININPUTS UNIFICADOS: Amarillo pastel claro limpio para toda la aplicación */
 .tarjeta-modulo select,
 .tarjeta-modulo input,
 .tarjeta-modulo select option {
@@ -129,15 +125,10 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
-    margin-bottom: 20px;
 }
 
-@media (min-width: 480px) {
-    .grid-formulario { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 1024px) {
-    .grid-formulario { grid-template-columns: repeat(2, 1fr) !important; }
-}
+@media (min-width: 480px) { .grid-formulario { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .grid-formulario { grid-template-columns: repeat(2, 1fr) !important; } }
 
 .campo-formulario {
     display: flex;
@@ -153,68 +144,48 @@ body {
     color: var(--color-texto-medio);
 }
 
-.enlace-seccion-activa {
-    font-size: 0.85rem;
-    color: var(--color-texto-medio);
-    font-weight: 500;
-}
-
-.link-moderno {
-    color: var(--color-turquesa);
-    text-decoration: none;
-    font-weight: 600;
-}
-
+.enlace-seccion-activa { font-size: 0.85rem; color: var(--color-texto-medio); font-weight: 500; }
+.link-moderno { color: var(--color-turquesa); text-decoration: none; font-weight: 600; }
 .link-moderno:hover { text-decoration: underline; }
+.tabla-responsiva td i, .tarjeta-modulo i { margin-right: 8px; font-size: 1.15rem; vertical-align: middle; }
 
-.tabla-responsiva td i, .tarjeta-modulo i {
-    margin-right: 8px;
-    font-size: 1.15rem;
-    vertical-align: middle;
-}
+@media (max-width: 768px) { .grid-formulario { margin-bottom: 12px; } .bloque-botones { margin-bottom: 40px; } }
 
-@media (max-width: 768px) {
-    .grid-formulario { margin-bottom: 12px; }
-    .bloque-botones { margin-bottom: 40px; }
-}
 /* =========================================================================
-   SECCIÓN 4: ARMONÍA CROMÁTICA - GAMAS INDEPENDIENTES EN SUB-CABECERAS
-   Descripción: Conserva las tarjetas blancas de tu respaldo (Foto 1), pero 
-   pinta las sub-cabeceras internas con tus colores pasteles oficiales.
+   SECCIÓN 4: ASIGNACIÓN DE COLORES PASTEL INTEGRADOS CON ARMONÍA (FOTO 1)
+   Descripción: Aplica tus colores de forma decorativa sin invadir ni forzar 
+   fondos pesados morados o lila sobre las cajas de captura.
    ========================================================================= */
 
 /* --- 📦 BLOQUE CARPETAS IZQUIERDA (Gama Lila Neutro Base: #f1efff) --- */
-.modulo-selector-carpetas .campo-formulario,
-.modulo-cargar-carpetas .campo-formulario,
-.modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
-    padding: 16px !important;
+.modulo-selector-carpetas .tarjeta-cabecera,
+.modulo-cargar-carpetas .tarjeta-cabecera,
+.modulo-yabla-carpetas .tarjeta-cabecera {
+    background-color: #f1efff !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
+    border-radius: 8px 8px 0 0;
 }
 
 /* --- 📊 BLOQUE HOJAS DERECHA (Gamas Individuales Especiales) --- */
 
 /* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
 .modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2 !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
+    background-color: #dbe8b2 !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
     border-radius: 8px;
-    padding: 16px !important;
+    padding: 12px !important;
 }
 
 /* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
-.modulo-gama-violeta form {
-    background-color: #d9d4fc !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
-    padding: 16px !important;
+.modulo-gama-violeta .tarjeta-cabecera {
+    background-color: #d9d4fc !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
+    border-radius: 8px 8px 0 0;
 }
 
 /* 3) Registros Almacenados (Gama Lavanda Base: #e5e1fd) */
-.modulo-gama-lavanda .campo-formulario,
-.modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
-    padding: 16px !important;
+.modulo-gama-lavanda .tarjeta-cabecera {
+    background-color: #e5e1fd !important; /* 🌟 TU COLOR PASTEL DECORATIVO */
+    border-radius: 8px 8px 0 0;
 }
+
 
 /* =========================================================================
    SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS (FOTO 1)
@@ -243,7 +214,7 @@ body {
 }
 
 .btn-primario {
-    background-color: var(--color-turquesa); /* 🌟 RESTAURADO EL TURQUESA FOTO 1 */
+    background-color: var(--color-turquesa); /* 🌟 COMPLETAMENTE TURQUESA ORIGINAL */
     color: #ffffff;
 }
 
@@ -295,6 +266,7 @@ tr:last-child td { border-bottom: none; }
 
 .btn-edit, .btn-delete { background: none; border: none; font-size: 1.1rem; padding: 4px 8px; cursor: pointer; transition: transform 0.1s; }
 .btn-edit:hover, .btn-delete:hover { transform: scale(1.2); }
+
 
 /* =========================================================================
    SECCIÓN 6: ALERTAS PASTEL Y COMPONENTES DEL TABLERO PWA INFRAESTRUCTURA
