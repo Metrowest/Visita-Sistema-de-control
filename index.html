@@ -170,23 +170,21 @@
                 </div>
             </div>
 
-            <!-- =========================================================================
-                 HOJAS SECCION  3 - FORMULARIO DE CAPTURA VERTICAL CONSOLIDADO (SHEETS)
-                 Ubicación del bloque: CENTRO INFERIOR DE LA PANTALLA
+                         <!-- =========================================================================
+                 HOJAS SECCIÓN 3: FORMULARIO DE CAPTURA INDEPENDIENTE BLINDADO
                  ========================================================================= -->
             <div class="tarjeta-modulo">
+                <!-- 🛡️ BLINDAJE DE RED: El contenedor morado ahora aloja el id="formTitulo" exacto -->
                 <div class="tarjeta-cabecera">
                     <div class="icono-titulo">📋</div>
                     <h2 id="formTitulo">Añadir Registro</h2>
                 </div>
 
-                <!-- Formulario sincronizado al 100% con tu backend -->
-                <form id="formularioSuperintendentes" class="formulario-estilizado">
-
+                <!-- 🛡️ CONSERVADO INTACTO: El formulario y la cuadrícula original de tu respaldo -->
+                <form id="formularioSuperintendentes" class="formulario-estilizado" style="margin-top: 15px;">
                     <div class="grid-formulario">
                         <div class="campo-formulario" id="contenedorCampo1">
                             <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
-                            <!-- SINCRO PURA: Se removieron los atributos 'name' para evitar bloqueos MIME de tipo CORS con Google -->
                             <input type="text" id="txtGrupo" placeholder="Ej. #89" required>
                         </div>
 
@@ -200,6 +198,7 @@
                             <input type="text" id="txtTelefono" placeholder="Información" required>
                         </div>
 
+                        <!-- Bloques adaptativos protegidos -->
                         <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                             <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                             <input type="text" id="txtCampo4" placeholder="Información extra">
@@ -226,7 +225,8 @@
                         </div>
                     </div>
 
-                    <div class="bloque-botones">
+                    <div class="bloque-botones" style="margin-top: 20px;">
+                        <!-- 🛡️ CONSERVADO INTACTO: Evento submit y botones nativos reales -->
                         <button type="submit" id="btnGuardar" class="btn-primario">
                             <span class="icono-btn">💾</span> Guardar Registro
                         </button>
@@ -235,7 +235,9 @@
                         </button>
                     </div>
                 </form>
-            </div> <!-- AQUÍ TERMINA EL FORMULARIO DE AÑADIR REGISTRO -->
+            </div>
+
+             <!-- AQUÍ TERMINA EL FORMULARIO DE AÑADIR REGISTRO -->
                          <!-- =========================================================================
                  HOJAS SECCION  4 - REJILLA GRÁFICA DE REGISTROS CON ENCABEZADOS LIBRES (SHEETS)
                  Ubicación del bloque: BASE ABSOLUTA DE LA INTERFAZ
