@@ -64,70 +64,51 @@
          CONTENEDOR DE DISTRIBUCIÓN PARALELA MAESTRA (FLEXBOX ORIGINAL DE STYLE.CSS)
          ========================================================================= -->
     <div class="contenedor-modulos-paralelos">
-
         <!-- =========================================================================
-            ⭐ GRUPO UNIFICADO DE CARPETAS (EMPAQUETADO PARA COLUMNA DE LA INTERFAZ)
+            ⭐ COLUMNA IZQUIERDA UNIFICADA: COMPONENTES DE GOOGLE DRIVE (CARPETAS)
             ========================================================================= -->
-        <div class="bloque-carpetas-izquierda-empaquetado" style="display: flex; flex-direction: column; gap: 24px; flex: 1; width: 100%;">
+        <div class="bloque-carpetas-izquierda-empaquetado">
 
-            <!-- =========================================================================
-                 CARPETAS SECCION 2 - MODULO GESTOR DE ARCHIVOS Y NAVEGACIÓN
-                 ========================================================================= -->
-<!-- CARPETAS SECCION 2 - MODULO GESTOR DE ARCHIVOS -->
-<div id="moduloGestorCarpetas" class="tarjeta-modulo">
-    <div class="tarjeta-cabecera">
-        <span class="icono-titulo">📁</span>
-        <h2>Gestor de Archivos (Visita Actual)</h2>
-    </div>
-    <div class="campo-formulario">
-        <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
-        <select id="selectorSubcarpetas" class="control-selector">
-            <!-- Subcarpetas inyectadas -->
-        </select>
-    </div>
-</div><!-- CIERRE COMPLETO DE CARPETAS SECCION 2 -->
+            <!-- CARPETAS SECCION 2 - GESTOR DE ARCHIVOS Y NAVEGACIÓN -->
+            <div id="moduloGestorCarpetas" class="tarjeta-modulo modulo-gama-carpetas">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📁</span>
+                    <h2>Gestor de Archivos (Visita Actual)</h2>
+                </div>
+                <div class="campo-formulario">
+                    <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
+                    <select id="selectorSubcarpetas" class="control-selector">
+                        <!-- Las subcarpetas en vivo se inyectan aquí -->
+                    </select>
+                </div>
+            </div>
 
-            <!-- =========================================================================
-                 CARPETAS SECCIÓN 3 - COMPONENTE MODULAR TRANSMISOR DE SUBIDAS
-                 ========================================================================= -->
-            <div class="tarjeta-modulo">
+            <!-- CARPETAS SECCIÓN 3 - COMPONENTE MODULAR TRANSMISOR DE SUBIDAS -->
+            <div class="tarjeta-modulo modulo-gama-carpetas">
                 <div class="tarjeta-cabecera">
                     <span class="icono-titulo">📤</span>
                     <h2>Subir archivos o documentos a la Sección Activa</h2>
                 </div>
-                
                 <div class="campo-formulario">
-                    <label for="archivoSubirDrive" class="etiqueta-selector">
-                        Selecciona un archivo para cargar a la carpeta activa:
-                    </label>
-                    <!-- CARPETAS SECCION 3 FUNCION 3.1: INPUT SELECTOR DE ARCHIVOS DEL RESPALDO -->
+                    <label for="archivoSubirDrive" class="etiqueta-selector">Selecciona un archivo para cargar a la carpeta activa:</label>
                     <input type="file" id="archivoSubirDrive" class="control-selector">
-                    
                     <div class="contenedor-vistas-previas">
                         <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado">Ningún archivo seleccionado</div>
                         <div id="vistaPreviaIconoDrive"></div>
                     </div>
-
                     <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive">
                         <img id="previewFotoDriveImg" src="" alt="Previsualización">
                     </div>
-
-                    <!-- CARPETAS SECCION 3 FUNCION 3.2: DISPARADOR DE TRANSMISIÓN BINARIA -->
-                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">
-                        🔍 Buscar
-                    </button>
+                    <button type="button" id="btnIniciarCargaDrive" class="btn-primario">🔍 Buscar</button>
                 </div>
-            </div> <!-- CIERRE COMPRETO DE CARPETAS SECCION 3 -->
+            </div>
 
-            <!-- =========================================================================
-                 CARPETAS SECCIÓN 4 - REPOSITORIO DIGITAL DE ARCHIVOS DISPONIBLES
-                 ========================================================================= -->
-            <div class="tarjeta-modulo">
+            <!-- CARPETAS SECCIÓN 4 - REPOSITORIO DIGITAL DE ARCHIVOS DISPONIBLES -->
+            <div class="tarjeta-modulo modulo-gama-carpetas">
                 <div class="tarjeta-cabecera">
-                    <div class="icono-titulo">📄</div>
+                    <span class="icono-titulo">📄</span>
                     <h2>Archivos Disponibles en esta Carpeta:</h2>
                 </div>
-
                 <div class="zona-archivos-disponibles">
                     <div class="tabla-responsiva contenedor-scroll-drive">
                         <table>
@@ -138,18 +119,23 @@
                                     <th>Enlace</th>
                                 </tr>
                             </thead>
-                            <!-- CARPETAS SECCION 4 FUNCION 4.1: MATRIZ RECEPTORA DINÁMICA DE ELEMENTOS DE DRIVE -->
                             <tbody id="tablaCuerpoDrive">
                                 <tr>
-                                    <td colspan="3" class="celda-carga">
-                                        Selecciona una carpeta para listar los documentos disponibles...
-                                    </td>
+                                    <td colspan="3" class="celda-carga">Selecciona una carpeta para listar los documentos disponibles...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div> <!-- CIERRE COMPLETO DE CARPETAS SECCION 4 -->
+            </div>
+
+        </div> <!-- 🛡️ CIERRE MAESTRO ÚNICO: Clausura correctamente la columna 'bloque-carpetas-izquierda-empaquetado' -->
+
+        <!-- ============================================================================================
+             ⭐ COLUMNA DERECHA UNIFICADA: INTERFAZ DE TABLEROS DE DATOS (HOJAS DE SHEETS)
+             ============================================================================================ -->
+
+
 
         </div> <!-- 🛡️ CIERRE MAESTRO DEL EMPAQUETADO DE LA COLUMNA DE CARPETAS -->
 
