@@ -96,92 +96,83 @@ body {
 
 /* =========================================================================
    SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS POR CLASE DIRECTA
-   Descripción: Distribuye tus colores base asignando oscuros para cabeceras/botones,
-   tonos medios para sub-cabeceras y claros para fondos internos.
+   Descripción: Distribuye tus colores base asignando oscuros para cabeceras,
+   tonos medios para sub-cabeceras y claros para los fondos de los módulos.
    ========================================================================= */
 
 /* -------------------------------------------------------------------------
-   A) MÓDULO SELECTOR DE HOJAS (Gama Verde Pastel Base: #dbe8b2 / #e5f0c9)
+   A) MÓDULOS DE LA COLUMNA IZQUIERDA - DRIVE (Gama Lila/Fidji: #f1efff)
+   ------------------------------------------------------------------------- */
+.modulo-gama-carpetas {
+    background-color: #faf9fe !important; /* Fondo claro del módulo */
+}
+.modulo-gama-carpetas .tarjeta-cabecera {
+    background: #332f54 !important; /* Cabecera tono oscuro base */
+    color: #ffffff !important;
+}
+.modulo-gama-carpetas .campo-formulario,
+.modulo-gama-carpetas .zona-archivos-disponibles {
+    background-color: #f1efff !important; /* Sub-cabecera / Entorno de controles interno */
+}
+.modulo-gama-carpetas .btn-primario {
+    background-color: #332f54 !important; /* Botón oscuro unificado */
+    color: #ffffff !important;
+}
+.modulo-gama-carpetas th {
+    background-color: #dbd6fa !important; /* Encabezado de tabla claro */
+    color: #1e1e24 !important;
+}
+
+/* -------------------------------------------------------------------------
+   B) MÓDULO SELECTOR DE HOJAS (Gama Verde Pastel: #dbe8b2 / #e5f0c9)
    ------------------------------------------------------------------------- */
 .modulo-gama-verde {
-    background-color: #f7f9f2; /* Tono muy claro de fondo */
+    background-color: #f7f9f2 !important; /* Fondo claro del módulo */
 }
 .modulo-gama-verde .tarjeta-cabecera {
-    background-color: #434c26; /* Tono oscuro extraído de la gama verde */
-    color: #ffffff;
+    background: #434c26 !important; /* Cabecera tono oscuro base */
+    color: #ffffff !important;
 }
 .modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2; /* Sub-cabecera / Color intermedio */
-}
-.modulo-gama-verde label, .modulo-gama-verde .enlace-seccion-activa {
-    color: #1e1e24;
+    background-color: #dbe8b2 !important; /* Sub-cabecera / Color intermedio */
 }
 
 /* -------------------------------------------------------------------------
-   B) MÓDULO FORMULARIO AÑADIR REGISTRO (Gama Violeta Pastel Base: #d9d4fc)
+   C) MÓDULO FORMULARIO AÑADIR REGISTRO (Gama Violeta Pastel: #d9d4fc)
    ------------------------------------------------------------------------- */
 .modulo-gama-violeta {
-    background-color: #f6f5fe; /* Tono muy claro de fondo */
+    background-color: #f6f5fe !important; /* Fondo claro del módulo */
 }
 .modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #272159; /* Tono oscuro extraído de la gama violeta */
-    color: #ffffff;
+    background: #272159 !important; /* Cabecera tono oscuro base */
+    color: #ffffff !important;
 }
 .modulo-gama-violeta form {
-    background-color: #d9d4fc; /* Sub-cabecera / Entorno del formulario */
+    background-color: #d9d4fc !important; /* Sub-cabecera / Entorno de campos */
 }
 .modulo-gama-violeta .btn-primario {
-    background-color: #272159; /* Botón oscuro unificado */
-    color: #ffffff;
+    background-color: #272159 !important; /* Botón oscuro unificado */
+    color: #ffffff !important;
 }
 
 /* -------------------------------------------------------------------------
-   C) MÓDULO REGISTROS ALMACENADOS - TABLA (Gama Lavanda Pastel Base: #e5e1fd)
+   D) MÓDULO REGISTROS ALMACENADOS - TABLA (Gama Lavanda Pastel: #e5e1fd)
    ------------------------------------------------------------------------- */
 .modulo-gama-lavanda {
-    background-color: #f8f7fe; /* Tono muy claro de fondo */
+    background-color: #f8f7fe !important; /* Fondo claro del módulo */
 }
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #2e2861; /* Tono oscuro unificado */
-    color: #ffffff;
+    background: #2e2861 !important; /* Cabecera tono oscuro base */
+    color: #ffffff !important;
 }
 .modulo-gama-lavanda .campo-formulario {
-    background-color: #e5e1fd; /* Sub-cabecera / Entorno de la tabla */
+    background-color: #e5e1fd !important; /* Sub-cabecera / Entorno de la tabla */
 }
 .modulo-gama-lavanda th {
-    background-color: #c8c2fa; /* Encabezado horizontal un poco más oscuro */
-    color: #1e1e24;
+    background-color: #c8c2fa !important; /* Encabezado de tabla un poco más fuerte */
+    color: #1e1e24 !important;
 }
 
-/* -------------------------------------------------------------------------
-   D) COLUMNA IZQUIERDA COMPLETA - DRIVE (Gama Lila Claro Neutro: #f1efff)
-   ------------------------------------------------------------------------- */
-.bloque-carpetas-izquierda-empaquetado {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    flex: 1;
-    width: 100%;
-}
-.bloque-carpetas-izquierda-empaquetado .tarjeta-modulo {
-    background-color: #faf9fe; /* Tono muy claro de fondo */
-}
-.bloque-carpetas-izquierda-empaquetado .tarjeta-modulo .tarjeta-cabecera {
-    background-color: #332f54; /* Tono oscuro unificado */
-    color: #ffffff;
-}
-.bloque-carpetas-izquierda-empaquetado .campo-formulario,
-.bloque-carpetas-izquierda-empaquetado .zona-archivos-disponibles {
-    background-color: #f1efff; /* Sub-cabecera / Entorno de controles interno */
-}
-.bloque-carpetas-izquierda-empaquetado .btn-primario {
-    background-color: #332f54; /* Botón oscuro unificado */
-    color: #ffffff;
-}
-.bloque-carpetas-izquierda-empaquetado th {
-    background-color: #dbd6fa;
-    color: #1e1e24;
-}
 
 /* =========================================================================
    SECCIÓN 5: GRID DE FORMULARIOS Y RED RESPONSIVA DE TABLAS
