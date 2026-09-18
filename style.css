@@ -1,21 +1,19 @@
 /* =========================================================================
    STYLE.CSS - SECCIÓN 1: CONFIGURACIÓN MAESTRA Y VARIABLES GLOBALES
-   Descripción: Configura la paleta de mentas, lavandas y melocotones pasteles 
-   con texto y bordes en negro puro. Los oscuros van a botones y los intermedios a cabeceras.
+   Descripción: Captura exacta de la paleta extraída de tu imagen real con 
+   morados de alta intensidad, fondos limpios y bordes en negro puro.
    ========================================================================= */
 :root {
-    --color-fondo: #ffe0cc;              /* Melocotón Claro para base sin reflejos */
-    --color-superficie: #ffffff;         /* Blanco puro para las tarjetas de contenido */
-    --color-turquesa: #a8e0c5;           /* Verde Menta Fuerte (Color oscuro para botones principales) */
-    --color-turquesa-oscuro: #89cbab;    /* Menta más saturado para efectos hover en botones */
-    --color-texto-oscuro: #000000;       /* TEXTO EN NEGRO PURO REQUERIDO */
+    --color-fondo: #f1f5f9;              /* Gris claro neutro de fondo para destacar tarjetas */
+    --color-superficie: #ffffff;         /* Blanco puro para los fondos de los bloques */
+    --color-turquesa: #a093f4;           /* 🟪 Morado Lavanda Oscuro para botones y cabeceras */
+    --color-turquesa-oscuro: #bfb6f8;    /* 🔮 Morado Pastel Suave para la combinación del hover */
+    --color-texto-oscuro: #000000;       /* TEXTO EN NEGRO PURO OBLIGATORIO */
     --color-texto-medio: #000000;        /* ETIQUETAS EN NEGRO PURO */
-    --color-borde: #000000;              /* BORDES EN NEGRO PURO PARA ALTO CONTRASTE */
-    --color-cabecera-tabla: #e5e1fd;     /* Lila Lavanda (Color intermedio para cabeceras de módulos) */
-    --color-alerta-exito: #c2ead7;       /* Menta Suave para estados de éxito */
-    --color-alerta-error: #ffd3b7;       /* Melocotón Intenso para estados de error */
+    --color-borde: #000000;              /* BORDES EN NEGRO PURO DE ALTA DEFINICIÓN */
+    --color-input-fondo: #eae7fd;        /* 🪻 Fondo Lavanda Sutil para cuadros de texto */
     --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sombra-modulo: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --sombra-modulo: 0 4px 12px rgba(160, 147, 244, 0.1);
 }
 
 * {
@@ -34,8 +32,6 @@ body {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 2: ARQUITECTURA DISTRIBUIDA EN REJILLA MODULAR
-   Descripción: Controla la estructura en paralelo que alinea el ecosistema.
-   Organiza los bloques lado a lado en pantallas grandes.
    ========================================================================= */
 .contenedor-principal {
     max-width: 1300px;
@@ -84,7 +80,6 @@ body {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 3: ESTRUCTURA DE CONTENEDORES (TARJETAS)
-   Descripción: Cubículos independientes con encabezado en color intermedio Lila Lavanda.
    ========================================================================= */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
@@ -100,7 +95,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: var(--color-cabecera-tabla); /* 🟪 Cabecera en Lila Lavanda Intermedio */
+    background-color: var(--color-turquesa); /* 🟪 Cabeceras Moradas de tu imagen */
     padding: 14px 24px;
     border-bottom: 2px solid var(--color-borde);
 }
@@ -113,7 +108,7 @@ body {
 h2 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #000000;
+    color: #ffffff; /* Letras blancas para contraste óptimo sobre el morado */
 }
 
 .tarjeta-modulo > :not(.tarjeta-cabecera) {
@@ -122,7 +117,6 @@ h2 {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 4: COMPONENTES DE ENRUTAMIENTO Y SELECCIÓN SUPERIOR
-   Descripción: Estiliza la barra de control nativa y selectores interactivos.
    ========================================================================= */
 .contenedor-selector {
     display: flex;
@@ -159,8 +153,8 @@ h2 {
 }
 
 .selector-estilizado:focus {
-    border-color: var(--color-turquesa-oscuro);
-    box-shadow: 0 0 0 3px rgba(168, 224, 197, 0.3);
+    border-color: var(--color-turquesa);
+    box-shadow: 0 0 0 3px rgba(160, 147, 244, 0.3);
 }
 
 .enlace-seccion-activa {
@@ -177,12 +171,11 @@ h2 {
 }
 
 .link-moderno:hover {
-    background-color: var(--color-turquesa);
+    background-color: var(--color-turquesa-oscuro);
 }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 5: DISEÑO Y GRILLA DEL FORMULARIO CONSOLIDADO
-   Descripción: Controla la disposición y el comportamiento de captura de inputs.
    ========================================================================= */
 .grid-formulario {
     display: grid;
@@ -210,7 +203,7 @@ h2 {
 
 .campo-formulario label {
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-texto-medio);
 }
 
@@ -221,19 +214,20 @@ h2 {
     border: 2px solid var(--color-borde);
     font-size: 0.9rem;
     color: var(--color-texto-oscuro);
+    background-color: var(--color-input-fondo); /* 🪻 Fondo Lavanda exacto de tu foto */
     font-family: var(--fuente-sistema);
     outline: none;
     transition: all 0.2s ease;
 }
 
 .campo-formulario input[type="text"]:focus {
-    border-color: var(--color-turquesa-oscuro);
-    box-shadow: 0 0 0 3px rgba(168, 224, 197, 0.3);
+    border-color: var(--color-turquesa);
+    background-color: #ffffff; /* Se aclara en foco para escribir cómodamente */
+    box-shadow: 0 0 0 3px rgba(160, 147, 244, 0.3);
 }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 6: BOTONES DE INTERACCIÓN Y CONTROL DE ENVÍO
-   Descripción: Configura los botones principales con el color oscuro Verde Menta Fuerte (#a8e0c5).
    ========================================================================= */
 .bloque-botones {
     display: flex;
@@ -247,7 +241,7 @@ h2 {
     }
 }
 
-.btn-primario, .btn-secundario {
+.btn-primario, .btn-secundario, .btn-turquesa {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -262,13 +256,15 @@ h2 {
     transition: all 0.2s ease, transform 0.1s;
 }
 
-.btn-primario {
-    background-color: var(--color-turquesa); /* 🟢 Verde Menta Fuerte (Oscuro de la lista) */
-    color: #000000;
+.btn-primario, .btn-turquesa {
+    background-color: var(--color-turquesa); /* Morado Lavanda Oscuro */
+    color: #ffffff;
 }
 
-.btn-primario:hover {
-    background-color: var(--color-turquesa-oscuro);
+/* 🔮 El Hover solicitado: Combinación con Morado Pastel Suave */
+.btn-primario:hover, .btn-turquesa:hover {
+    background-color: var(--color-turquesa-oscuro); /* Cambia suavemente al lila pastel claro */
+    color: #000000; /* Texto negro para contraste bruto en el hover claro */
 }
 
 .btn-secundario {
@@ -286,7 +282,6 @@ h2 {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
-   Descripción: Renderizado con cabeceras en color intermedio Lila Lavanda.
    ========================================================================= */
 .tabla-responsiva {
     width: 100%;
@@ -310,8 +305,8 @@ th, td {
 }
 
 th {
-    background-color: var(--color-cabecera-tabla); /* 🟪 Lila Lavanda Intermedio */
-    color: #000000;
+    background-color: var(--color-turquesa); /* 🟪 Morado Lavanda Oscuro en cabeceras de columnas */
+    color: #ffffff;
     font-weight: 700;
     white-space: nowrap;
     text-transform: uppercase;
@@ -322,6 +317,7 @@ th {
 td {
     color: var(--color-texto-oscuro);
     background-color: #ffffff;
+    font-weight: 600; /* Coincide con la nitidez tipográfica de la foto */
 }
 
 tr:last-child td {
@@ -332,14 +328,13 @@ tr:last-child td {
     padding: 30px;
     text-align: center;
     color: var(--color-texto-medio);
-    background-color: #ffffff;
 }
 
 .spinner-carga {
     width: 24px;
     height: 24px;
-    border: 3px solid #e2e8f0;
-    border-top-color: var(--color-turquesa-oscuro);
+    border: 3px solid #cbd5e1;
+    border-top-color: var(--color-turquesa);
     border-radius: 50%;
     margin: 0 auto 10px auto;
     animation: girarSpinner 0.8s linear infinite;
@@ -361,10 +356,8 @@ tr:last-child td {
 .btn-edit:hover, .btn-delete:hover {
     transform: scale(1.2);
 }
-
 /* =========================================================================
    STYLE.CSS - SECCIÓN 8: PROPIEDADES DE COMPORTAMIENTO FLEXBOX PARALELO
-   Descripción: Controla las proporciones y la distribución de tamaño de las columnas.
    ========================================================================= */
 .contenedor-modulos-paralelos > .tarjeta-modulo:not(:last-child),
 .contenedor-modulos-paralelos > #moduloGestorCarpetas {
@@ -411,19 +404,19 @@ tr:last-child td {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 10: CONTROL CENTRAL DE ADAPTACIÓN DEL BANNER PWA
-   Descripción: Fija el banner, usando el color intermedio Lila Lavanda (#e5e1fd) 
-   para su fondo y el color oscuro Verde Menta Fuerte (#a8e0c5) para el botón.
+   Descripción: Alinea el banner de instalación flotante a la base con fondo morado 
+   y el botón "Instalar" blanco responsivo, calcando tu prioridad visual.
    ========================================================================= */
 div#bannerInstalacionPWA {
-    background-color: var(--color-cabecera-tabla) !important; /* 🟪 Lila Lavanda Intermedio */
-    color: #000000 !important;
+    background-color: var(--color-turquesa) !important; /* Morado Lavanda Oscuro oficial */
+    color: #ffffff !important;
     padding: 6px 12px !important; 
     position: fixed !important;
     bottom: 8px !important;
     left: 16px !important;
     z-index: 9999 !important;
     border-radius: 8px !important;
-    border: 2px solid #000000 !important;
+    border: 2px solid var(--color-borde) !important;
     
     display: inline-flex !important;
     flex-direction: row-reverse; 
@@ -443,30 +436,30 @@ div#bannerInstalacionPWA p {
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #000000 !important;
+    color: #ffffff !important;
 }
 
 button#btnInstalarPWA {
-    background-color: var(--color-turquesa) !important; /* 🟢 Botón en Verde Menta Fuerte (Oscuro) */
-    color: #000000 !important;
-    border: 2px solid #000000 !important;
+    background-color: #ffffff !important; /* Botón blanco como en la captura */
+    color: #000000 !important;           /* Palabra 'Instalar' en negro */
+    border: 2px solid var(--color-borde) !important;
     padding: 4px 10px !important; 
     font-weight: 700 !important;
     border-radius: 4px !important;
     cursor: pointer !important;
     font-size: 0.72rem !important;
     white-space: nowrap;
-    transition: background-color 0.2s !important;
+    transition: all 0.2s ease !important;
 }
 
+/* Combinación pastel clara en hover para el botón de instalación */
 button#btnInstalarPWA:hover {
     background-color: var(--color-turquesa-oscuro) !important;
+    color: #000000 !important;
 }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
-   Descripción: Capas de alertas flotantes vestidas con tus colores. Cabeceras 
-   en Lila Lavanda Intermedio y fondos en variantes suaves/claras.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -490,6 +483,7 @@ button#btnInstalarPWA:hover {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
     text-align: center !important;
     border: 2px solid #000000 !important;
+    background-color: #ffffff !important;
 }
 
 .tarjeta-alerta-pastel h4 {
@@ -507,33 +501,32 @@ button#btnInstalarPWA:hover {
     font-size: 0.95rem !important;
     line-height: 1.5 !important;
     font-weight: 500 !important;
+    color: #000000 !important;
 }
 
-/* 🤔 Variante Confirmación / Información: Fondo Melocotón Claro */
+/* 🤔 Ventana de Información: Variante Pastel Combinada */
 .tarjeta-alerta-pastel.info {
-    background-color: var(--color-fondo) !important;
-    border-top: 6px solid var(--color-cabecera-tabla) !important; /* Cabecera Lila Lavanda Intermedio */
+    background-color: var(--color-input-fondo) !important; /* Fondo lavanda suave */
+    border-top: 6px solid var(--color-turquesa) !important;
 }
-.tarjeta-alerta-pastel.info h4, .tarjeta-alerta-pastel.info p { color: #000000 !important; }
+.tarjeta-alerta-pastel.info h4 { color: #000000 !important; }
 
-/* ✨ Variante Éxito: Fondo Menta Suave */
+/* ✨ Ventana de Éxito: Fondo Verde Menta Pastel con contorno negro */
 .tarjeta-alerta-pastel.exito {
-    background-color: var(--color-alerta-exito) !important;
-    border-top: 6px solid var(--color-cabecera-tabla) !important; /* Cabecera Lila Lavanda Intermedio */
+    background-color: #e8f5e9 !important;
+    border-top: 6px solid #81c784 !important;
 }
-.tarjeta-alerta-pastel.exito h4, .tarjeta-alerta-pastel.exito p { color: #000000 !important; }
+.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
 
-/* ⚠️ Variante Error: Fondo Melocotón Intenso */
+/* ⚠️ Ventana de Error: Fondo Coral Pastel Suave con contorno negro */
 .tarjeta-alerta-pastel.error {
-    background-color: var(--color-alerta-error) !important;
-    border-top: 6px solid var(--color-cabecera-tabla) !important; /* Cabecera Lila Lavanda Intermedio */
+    background-color: #ffebee !important;
+    border-top: 6px solid #e57373 !important;
 }
-.tarjeta-alerta-pastel.error h4, .tarjeta-alerta-pastel.error p { color: #000000 !important; }
+.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
-   Descripción: Configura las respuestas de acción. Los botones de confirmación 
-   utilizan el color oscuro Verde Menta Fuerte (#a8e0c5).
    ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
@@ -552,14 +545,14 @@ button#btnInstalarPWA:hover {
     transition: all 0.2s ease !important;
 }
 
-/* Botón Aceptar / Confirmar: Usa Verde Menta Fuerte (#a8e0c5) con letras negras */
 .btn-alerta-pastel.confirmar-ok {
     background-color: var(--color-turquesa) !important;
-    color: #000000 !important;
+    color: #ffffff !important;
     border: 2px solid #000000 !important;
 }
 .btn-alerta-pastel.confirmar-ok:hover { 
     background-color: var(--color-turquesa-oscuro) !important;
+    color: #000000 !important;
 }
 
 .btn-alerta-pastel.confirmar-cancel {
