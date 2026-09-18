@@ -138,10 +138,6 @@ function Secc30_Seguridad_DibujarRenglon(indice, objetoCampos, columnasVisibles)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
 
-// =========================================================================
-// SECCIÓN 3.1: DECODIFICADOR MAESTRO DE MATRICES CON MAPEO INTELIGENTE
-// Ubicación: Reemplaza la función recibirDatosDesdeGoogle(json) completa en app.js
-// =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
@@ -265,6 +261,7 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
+        // 🛡️ REPARACIÓN EXTRAORDINARIA HORIZONTAL: Restaurados los índices correctos [0],[1],[2],[3] de tu respaldo
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
@@ -279,6 +276,9 @@ function recibirDatosDesdeGoogle(json) {
             Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
         }
     }
+}
+
+
 } // 🛡️ LLAVE DE CIERRE HERMÉTICA DE LA FUNCIÓN MAESTRA DEL APP.JS
 
     // =========================================================================
