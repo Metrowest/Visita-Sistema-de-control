@@ -466,7 +466,7 @@ button#btnInstalarPWA:hover {
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
    Descripción: Capas superpuestas que visten las alertas usando la gama de 
-   lilas y morados primaverales de alto contraste con texto negro puro.
+   mentas y melocotones de alto contraste con texto negro puro.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -487,7 +487,7 @@ button#btnInstalarPWA:hover {
     border-radius: 12px !important;
     max-width: 400px !important;
     width: 90% !important;
-    box-shadow: 0 10px 25px rgba(105, 94, 193, 0.15) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
     text-align: center !important;
     border: 2px solid #000000 !important; /* Contorno negro nítido */
 }
@@ -509,31 +509,31 @@ button#btnInstalarPWA:hover {
     font-weight: 500 !important;
 }
 
-/* 🤔 Variante Confirmación / Información: Fondo Lila Sutil Base con texto negro */
+/* 🤔 Variante Confirmación / Información: Fondo Melocotón Claro con texto negro */
 .tarjeta-alerta-pastel.info {
-    background-color: #d6d0fc !important;
-    border-top: 6px solid #695ec1 !important; /* Encabezado Morado Oscuro */
+    background-color: #ffe0cc !important;
+    border-top: 6px solid #a8e0c5 !important; /* Encabezado Verde Menta Fuerte */
 }
 .tarjeta-alerta-pastel.info h4, .tarjeta-alerta-pastel.info p { color: #000000 !important; }
 
-/* ✨ Variante Éxito: Fondo Lila Claro Suave con texto negro */
+/* ✨ Variante Éxito: Fondo Menta Suave con texto negro */
 .tarjeta-alerta-pastel.exito {
-    background-color: #c2b9f9 !important;
-    border-top: 6px solid #695ec1 !important; /* Encabezado Morado Oscuro */
+    background-color: #c2ead7 !important;
+    border-top: 6px solid #a8e0c5 !important; /* Encabezado Verde Menta Fuerte */
 }
 .tarjeta-alerta-pastel.exito h4, .tarjeta-alerta-pastel.exito p { color: #000000 !important; }
 
-/* ⚠️ Variante Error: Fondo Lila Intermedio Medio con texto negro */
+/* ⚠️ Variante Error: Fondo Melocotón Intenso con texto negro */
 .tarjeta-alerta-pastel.error {
-    background-color: #9b8bf4 !important;
-    border-top: 6px solid #695ec1 !important; /* Encabezado Morado Oscuro */
+    background-color: #ffd3b7 !important;
+    border-top: 6px solid #a8e0c5 !important; /* Encabezado Verde Menta Fuerte */
 }
 .tarjeta-alerta-pastel.error h4, .tarjeta-alerta-pastel.error p { color: #000000 !important; }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
-   Descripción: Da formato a las respuestas de los botones usando la gama 
-   de morados intermedios para garantizar una legibilidad impecable.
+   Descripción: Da formato a las respuestas de los botones usando el color 
+   intermedio Lila Lavanda para garantizar una legibilidad impecable.
    ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
@@ -552,15 +552,14 @@ button#btnInstalarPWA:hover {
     transition: all 0.2s ease !important;
 }
 
-/* Botón Aceptar / Confirmar: Color Intermedio Fuerte (#8274da) con letras negras */
+/* Botón Aceptar / Confirmar: Color Intermedio Lila Lavanda (#e5e1fd) con letras negras */
 .btn-alerta-pastel.confirmar-ok {
-    background-color: #8274da !important;
+    background-color: #e5e1fd !important;
     color: #000000 !important;
     border: 2px solid #000000 !important;
 }
 .btn-alerta-pastel.confirmar-ok:hover { 
-    background-color: #695ec1 !important; 
-    color: #ffffff !important; /* Cambia a blanco en hover para contraste absoluto */
+    background-color: #cbd2fc !important; /* Oscurece un paso sutil en hover */
 }
 
 /* Botón Cancelar: Botón Blanco con contorno negro y letras negras */
