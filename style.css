@@ -96,24 +96,20 @@ body {
 
 /* =========================================================================
    SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES DEFINITIVA POR CLASE INDEPENDIENTE
-   Descripción: Controla las 6 tarjetas usando estrictamente tus colores base.
-   Oscuro de la misma familia para cabeceras/botones; claro para fondos.
+   Descripción: Distribuye tus colores base asignando oscuros para cabeceras,
+   tonos medios para sub-cabeceras y claros para los fondos de los módulos.
    ========================================================================= */
 
 /* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro y legible para todos */
-div.tarjeta-modulo select,
-div.tarjeta-modulo input,
-.tarjeta-modulo select,
-.tarjeta-modulo input {
+.modulo-selector-carpetas select, .modulo-selector-carpetas input,
+.modulo-cargar-carpetas select, .modulo-cargar-carpetas input,
+.modulo-yabla-carpetas select, .modulo-yabla-carpetas input,
+.modulo-gama-verde select, .modulo-gama-verde input,
+.modulo-gama-violeta select, .modulo-gama-violeta input,
+.modulo-gama-lavanda select, .modulo-gama-lavanda input {
     background-color: #fffde6 !important; /* Amarillo pastel claro unificado */
     color: #000000 !important; /* Texto negro de máxima legibilidad */
     border: 1px solid #dcdac2 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.9rem;
 }
 
 /* =========================================================================
@@ -121,55 +117,44 @@ div.tarjeta-modulo input,
    ========================================================================= */
 
 /* 1) Gestor de Archivos */
-div.tarjeta-modulo.modulo-selector-carpetas,
 .modulo-selector-carpetas {
-    background-color: #faf9ff !important;
+    background-color: #faf9ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-selector-carpetas .tarjeta-cabecera,
 .modulo-selector-carpetas .tarjeta-cabecera {
-    background: #3f3a63 !important; /* Tono oscuro */
+    background-color: #3f3a63 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-selector-carpetas .campo-formulario,
 .modulo-selector-carpetas .campo-formulario {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE */
+    background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
 
 /* 2) Cargar Carpetas / Subidas */
-div.tarjeta-modulo.modulo-cargar-carpetas,
 .modulo-cargar-carpetas {
-    background-color: #faf9ff !important;
+    background-color: #faf9ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-cargar-carpetas .tarjeta-cabecera,
 .modulo-cargar-carpetas .tarjeta-cabecera {
-    background: #3f3a63 !important; /* Tono oscuro */
+    background-color: #3f3a63 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-cargar-carpetas .campo-formulario,
 .modulo-cargar-carpetas .campo-formulario {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE */
+    background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
-div.tarjeta-modulo.modulo-cargar-carpetas .btn-primario,
 .modulo-cargar-carpetas .btn-primario {
     background-color: #3f3a63 !important;
     color: #ffffff !important;
 }
 
 /* 3) Archivos Disponibles / Tabla */
-div.tarjeta-modulo.modulo-yabla-carpetas,
 .modulo-yabla-carpetas {
-    background-color: #faf9ff !important;
+    background-color: #faf9ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-yabla-carpetas .tarjeta-cabecera,
 .modulo-yabla-carpetas .tarjeta-cabecera {
-    background: #3f3a63 !important; /* Tono oscuro */
+    background-color: #3f3a63 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-yabla-carpetas .zona-archivos-disponibles,
 .modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE */
+    background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
-div.tarjeta-modulo.modulo-yabla-carpetas th,
 .modulo-yabla-carpetas th {
     background-color: #dbd6f5 !important;
     color: #000000 !important;
@@ -181,61 +166,46 @@ div.tarjeta-modulo.modulo-yabla-carpetas th,
    ========================================================================= */
 
 /* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
-div.tarjeta-modulo.modulo-gama-verde,
 .modulo-gama-verde {
-    background-color: #f7f9f4 !important;
+    background-color: #f7f9f4 !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-gama-verde .tarjeta-cabecera,
 .modulo-gama-verde .tarjeta-cabecera {
-    background: #424a24 !important; /* Tono oscuro */
+    background-color: #424a24 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-gama-verde .contenedor-selector,
 .modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2 !important; /* 🌟 TU COLOR BASE */
+    background-color: #dbe8b2 !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
 
 /* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
-div.tarjeta-modulo.modulo-gama-violeta,
-.modulo-gama-violeta,
-div.tarjeta-modulo.modulo-gama-violeta form,
-.modulo-gama-violeta form {
-    background-color: #f6f5ff !important;
+.modulo-gama-violeta {
+    background-color: #f6f5ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-gama-violeta .tarjeta-cabecera,
 .modulo-gama-violeta .tarjeta-cabecera {
-    background: #2b2361 !important; /* Tono oscuro */
+    background-color: #2b2361 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-gama-violeta .grid-formulario,
-div.tarjeta-modulo.modulo-gama-violeta .campo-formulario,
 .modulo-gama-violeta .grid-formulario,
 .modulo-gama-violeta .campo-formulario {
-    background-color: #d9d4fc !important; /* 🌟 TU COLOR BASE */
+    background-color: #d9d4fc !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
-div.tarjeta-modulo.modulo-gama-violeta .btn-primario,
 .modulo-gama-violeta .btn-primario {
     background-color: #2b2361 !important;
     color: #ffffff !important;
 }
 
 /* 3) Registros Almacenados / Tabla (Gama Lavanda Base: #e5e1fd) */
-div.tarjeta-modulo.modulo-gama-lavanda,
 .modulo-gama-lavanda {
-    background-color: #f8f7ff !important;
+    background-color: #f8f7ff !important; /* Fondo claro del módulo */
 }
-div.tarjeta-modulo.modulo-gama-lavanda .tarjeta-cabecera,
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background: #312a66 !important; /* Tono oscuro */
+    background-color: #312a66 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-div.tarjeta-modulo.modulo-gama-lavanda .campo-formulario,
-div.tarjeta-modulo.modulo-gama-lavanda .tabla-responsiva,
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd !important; /* 🌟 TU COLOR BASE */
+    background-color: #e5e1fd !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
-div.tarjeta-modulo.modulo-gama-lavanda th,
 .modulo-gama-lavanda th {
     background-color: #cac5fa !important;
     color: #000000 !important;
