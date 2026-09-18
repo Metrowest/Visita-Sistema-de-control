@@ -135,98 +135,112 @@ body {
     margin-bottom: 20px;
 }
 /* =========================================================================
-   SECCIÓN 4: MAESTRÍA CROMÁTICA - INDEPENDENCIA TOTAL POR NOMBRE DE MÓDULO
+   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES DEFINITIVA POR CLASE DIRECTA
    Descripción: Cada módulo gobierna de forma aislada e individual sus tres 
    tonos puros, evitando que las cabeceras se agrupen o bloqueen entre sí.
    ========================================================================= */
 
 /* -------------------------------------------------------------------------
-   📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff)
+   📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA PASTELES DE DRIVE)
    ------------------------------------------------------------------------- */
 
-/* 1) Tarjeta: Gestor de Archivos */
+/* 1) Tarjeta: Gestor de Archivos (Gama Marrón/Gris Tierra) */
 .modulo-selector-carpetas {
-    background-color: #faf9ff; /* Fondo de la tarjeta muy claro */
+    background-color: #fcfbfa !important; /* Fondo de tarjeta claro */
 }
 .modulo-selector-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63; /* Cabecera oscura de su propia gama */
-    color: #ffffff;
+    background-color: #5a5449 !important; /* Cabecera oscura */
+    color: #ffffff !important;
 }
 .modulo-selector-carpetas .campo-formulario {
-    background-color: #f1efff; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    background-color: #f3efe6 !important; /* Sub-cabecera intermedia */
     border-radius: 8px;
 }
 
-/* 2) Tarjeta: Componente de Subidas */
+/* 2) Tarjeta: Componente de Subidas (Gama Turquesa/Celeste Pastel) */
 .modulo-cargar-carpetas {
-    background-color: #faf9ff; /* Fondo de la tarjeta muy claro */
+    background-color: #f4faf9 !important; /* Fondo de tarjeta claro */
 }
 .modulo-cargar-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63; /* Cabecera oscura de su propia gama */
-    color: #ffffff;
+    background-color: #5da399 !important; /* Cabecera oscura */
+    color: #ffffff !important;
 }
 .modulo-cargar-carpetas .campo-formulario {
-    background-color: #f1efff; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    background-color: #d1eae5 !important; /* Sub-cabecera intermedia */
     border-radius: 8px;
 }
+.modulo-cargar-carpetas .btn-primario {
+    background-color: #5da399 !important; /* Botón a juego */
+    color: #ffffff !important;
+}
 
-/* 3) Tarjeta: Archivos Disponibles (Tabla) */
+/* 3) Tarjeta: Archivos Disponibles (Gama Rosa/Lila Viejo) */
 .modulo-yabla-carpetas {
-    background-color: #faf9ff; /* Fondo de la tarjeta muy claro */
+    background-color: #faf6f8 !important; /* Fondo de tarjeta claro */
 }
 .modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63; /* Cabecera oscura de su propia gama */
-    color: #ffffff;
+    background-color: #a37f9b !important; /* Cabecera oscura */
+    color: #ffffff !important;
 }
 .modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    background-color: #e8dae4 !important; /* Sub-cabecera intermedia */
     border-radius: 8px;
 }
-
+.modulo-yabla-carpetas th {
+    background-color: #d5bfcf !important; /* th horizontal un poco más subido */
+    color: #000000 !important;
+}
 /* -------------------------------------------------------------------------
-   📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMAS INDEPENDIENTES EN 3 TONOS)
+   📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMAS ESPECÍFICAS DE SHEETS)
    ------------------------------------------------------------------------- */
 
-/* 1) Tarjeta: Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+/* 1) Tarjeta: Selecciona una Hoja (Gama Verde Oliva Pastel) */
 .modulo-gama-verde {
-    background-color: #f7f9f4; /* Fondo del módulo muy claro */
+    background-color: #f7f9f4 !important; /* Fondo de tarjeta claro */
 }
 .modulo-gama-verde .tarjeta-cabecera {
-    background-color: #424a24; /* Cabecera tono oscuro de la familia verde */
-    color: #ffffff;
+    background-color: #636b3c !important; /* Cabecera oscura */
+    color: #ffffff !important;
 }
 .modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    background-color: #dbe8b2 !important; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
     border-radius: 8px;
 }
 
-/* 2) Tarjeta: Formulario Añadir Registro (Gama Violeta Base: #d9d4fc) */
+/* 2) Tarjeta: Formulario Añadir Registro (Gama Coral/Violeta Suave) */
 .modulo-gama-violeta {
-    background-color: #f6f5ff; /* Fondo del módulo muy claro */
+    background-color: #fcf6f7 !important; /* Fondo de tarjeta claro */
 }
 .modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361; /* Cabecera tono oscuro de la familia violeta */
-    color: #ffffff;
+    background-color: #cb8b93 !important; /* Cabecera oscura */
+    color: #ffffff !important;
 }
 .modulo-gama-violeta form {
-    background-color: #d9d4fc; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    background-color: #ebd2d4 !important; /* Sub-cabecera intermedia de la misma familia */
     border-radius: 8px;
 }
+.modulo-gama-violeta .btn-primario {
+    background-color: #cb8b93 !important; /* Botón a juego */
+    color: #ffffff !important;
+}
 
-/* 3) Tarjeta: Registros Almacenados / Tabla Sheets (Gama Lavanda Base: #e5e1fd) */
+/* 3) Tarjeta: Registros Almacenados (Gama Azul Noche/Lavanda) */
 .modulo-gama-lavanda {
-    background-color: #f8f7ff; /* Fondo del módulo muy claro */
+    background-color: #f6f7fa !important; /* Fondo de tarjeta claro */
 }
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66; /* Cabecera tono oscuro de la familia lavanda */
-    color: #ffffff;
+    background-color: #312b6b !important; /* Cabecera oscura */
+    color: #ffffff !important;
 }
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    background-color: #dbe0ed !important; /* Sub-cabecera intermedia de la misma familia */
     border-radius: 8px;
 }
-
+.modulo-gama-lavanda th {
+    background-color: #b9c4db !important; /* th horizontal un tono más subido */
+    color: #000000 !important;
+}
 
 /* =========================================================================
    SECCIÓN 5: BOTONERAS, ELEMENTOS ASÍNCRONOS Y ENTORNO DE TABLAS
