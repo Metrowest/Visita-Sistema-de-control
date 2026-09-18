@@ -1,13 +1,9 @@
 /* =========================================================================
    SECCIÓN 1: VARIABLES MAESTRAS, FUENTES Y COMPORTAMIENTO BASE
-   Descripción: Define la nueva paleta de tonos pasteles ordenados, tipografía 
-   Plus Jakarta Sans y limpia márgenes generales globales.
    ========================================================================= */
 :root {
     --color-body-fondo: #fcfbfe;
-    --color-input-unico: #faf9fe;
-    --color-texto-oscuro: #1e1e24;
-    --color-texto-medio: #4a4a5a;
+    --color-texto-oscuro: #000000;
     --color-borde: #e6e5ed;
     --sombra-modulo: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
@@ -27,7 +23,7 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 2: ARQUITECTURA DE REJILLA PARALELA (FLEXBOX / GRID)
+   SECCIÓN 2: ARQUITECTURA DE REJILLA PARALELA SIMÉTRICA (FLEXBOX)
    ========================================================================= */
 .contenedor-modulos-paralelos {
     display: flex;
@@ -38,14 +34,21 @@ body {
     width: 100%;
 }
 
+.bloque-carpetas-izquierda-empaquetado,
+.bloque-hojas-derecha-empaquetado {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    width: 100%;
+}
+
 @media (max-width: 992px) {
     .contenedor-modulos-paralelos { flex-direction: column; }
 }
 
 /* =========================================================================
-   SECCIÓN 3: COMPONENTES COMUNES DE TARJETAS (ESTRUCTURA PURA)
-   Descripción: Controla la estructura física y los cojines visuales. Se eliminan
-   los colores de fondo genéricos para que no bloqueen a la Sección 4.
+   SECCIÓN 3: COMPONENTES ESTRUCTURALES COMUNES DE TARJETAS (LIMPIOS)
    ========================================================================= */
 .tarjeta-modulo {
     border-radius: 14px;
@@ -53,7 +56,6 @@ body {
     box-shadow: var(--sombra-modulo);
     overflow: hidden;
     width: 100%;
-    margin-bottom: 24px;
 }
 
 .tarjeta-cabecera {
@@ -71,20 +73,55 @@ body {
 
 .icono-titulo { font-size: 1.2rem; }
 
-/* Amortiguación visual interna unificada */
+/* Amortiguación visual interna unificada libre de colores bloqueadores */
 .tarjeta-modulo .campo-formulario,
 .tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo .zona-archivos-disponibles,
+.tarjeta-modulo .tabla-responsiva,
 .tarjeta-modulo form {
     padding: 20px 24px;
     box-sizing: border-box;
 }
 
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para todas las cajas */
+.grid-formulario {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.campo-formulario label,
+.contenedor-selector label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.tabla-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+th { font-weight: 700; }
+
+/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro obligatorio para todos */
 .tarjeta-modulo select,
-.tarjeta-modulo input {
-    background-color: #fffde6 !important; /* Amarillo pastel claro unificado */
-    color: #000000 !important; /* Texto negro de máxima legibilidad */
+.tarjeta-modulo input,
+.tarjeta-modulo select option {
+    background-color: #fffde6 !important;
+    color: #000000 !important;
     border: 1px solid #dcdac2 !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -94,42 +131,51 @@ body {
     font-size: 0.9rem;
 }
 
-/* =========================================================================
-   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS (GUÍA OFICIAL)
-   Descripción: Distribuye tus colores base usando el oscuro de la misma familia
-   para cabeceras/botones y el color base puro en las sub-cabeceras internas.
-   ========================================================================= */
+.btn-primario, .btn-secundario {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+}
 
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para todas las cajas */
-.tarjeta-modulo select,
-.tarjeta-modulo input,
-.tarjeta-modulo select option {
-    background-color: #fffde6 !important; /* Amarillo pastel claro unificado */
-    color: #000000 !important; /* Texto negro de máxima legibilidad */
-    border: 1px solid #dcdac2 !important;
+.btn-secundario {
+    background-color: #e2e8f0;
+    color: #000000;
+    border: 1px solid var(--color-borde);
 }
 
 /* =========================================================================
-   📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff)
+   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS POR CLASE REAL
    ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   A) COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff)
+   ------------------------------------------------------------------------- */
 .modulo-gama-carpetas,
 .modulo-selector-carpetas,
 .modulo-cargar-carpetas,
 .modulo-yabla-carpetas {
-    background-color: #faf9ff !important; /* Fondo claro de los módulos */
+    background-color: #faf9ff !important;
 }
 .modulo-gama-carpetas .tarjeta-cabecera,
 .modulo-selector-carpetas .tarjeta-cabecera,
 .modulo-cargar-carpetas .tarjeta-cabecera,
 .modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63 !important; /* Tono oscuro base unificado */
+    background-color: #3f3a63 !important; /* Cabecera oscura */
     color: #ffffff !important;
 }
 .modulo-gama-carpetas .campo-formulario,
 .modulo-gama-carpetas .zona-archivos-disponibles,
 .modulo-selector-carpetas .campo-formulario,
 .modulo-cargar-carpetas .campo-formulario,
-.modulo-yabla-carpetas .zona-archivos-disponibles {
+.modulo-yabla-carpetas .zona-archivos-disponibles,
+.modulo-yabla-carpetas .tabla-responsiva {
     background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
 .modulo-gama-carpetas .btn-primario,
@@ -143,51 +189,50 @@ body {
     color: #000000 !important;
 }
 
-/* =========================================================================
-   📊 COLUMNA DERECHA: MÓDULOS DE HOJAS
-   ========================================================================= */
-
-/* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+/* -------------------------------------------------------------------------
+   B) COLUMNA DERECHA: MÓDULO SELECTOR DE HOJAS (GAMA VERDE BASE: #dbe8b2)
+   ------------------------------------------------------------------------- */
 .modulo-gama-verde {
-    background-color: #f7f9f4 !important; /* Fondo claro del módulo */
+    background-color: #f7f9f4 !important;
 }
 .modulo-gama-verde .tarjeta-cabecera {
-    background-color: #424a24 !important; /* Tono oscuro base */
+    background-color: #424a24 !important; /* Cabecera oscura */
     color: #ffffff !important;
 }
 .modulo-gama-verde .contenedor-selector {
     background-color: #dbe8b2 !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
 
-/* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
+/* -------------------------------------------------------------------------
+   C) COLUMNA DERECHA: MÓDULO FORMULARIO AÑADIR REGISTRO (GAMA VIOLETA BASE: #d9d4fc)
+   ------------------------------------------------------------------------- */
 .modulo-gama-violeta {
-    background-color: #f6f5ff !important; /* Fondo claro del módulo */
+    background-color: #f6f5ff !important;
 }
 .modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361 !important; /* Tono oscuro base */
+    background-color: #2b2361 !important; /* Cabecera oscura */
     color: #ffffff !important;
 }
-/* 🛡️ BLINDAJE INTERNO: Fuerza al formulario, la malla y los campos a tomar el color pastel */
 .modulo-gama-violeta form,
 .modulo-gama-violeta .grid-formulario,
 .modulo-gama-violeta .campo-formulario {
     background-color: #d9d4fc !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
-.modulo-gama-violeta .btn-primario,
-.modulo-gama-violeta #btnGuardar {
+.modulo-gama-violeta .btn-primario {
     background-color: #2b2361 !important;
     color: #ffffff !important;
 }
 
-/* 3) Registros Almacenados / Tabla (Gama Lavanda Base: #e5e1fd) */
+/* -------------------------------------------------------------------------
+   D) COLUMNA DERECHA: MÓDULO REGISTROS ALMACENADOS - TABLA (GAMA LAVANDA BASE: #e5e1fd)
+   ------------------------------------------------------------------------- */
 .modulo-gama-lavanda {
-    background-color: #f8f7ff !important; /* Fondo claro del módulo */
+    background-color: #f8f7ff !important;
 }
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66 !important; /* Tono oscuro base */
+    background-color: #312a66 !important; /* Cabecera oscura */
     color: #ffffff !important;
 }
-/* 🛡️ BLINDAJE INTERNO: Fuerza al contenedor de la tabla a tomar el color pastel lavanda */
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
     background-color: #e5e1fd !important; /* 🌟 TU COLOR BASE INTERMEDIO */
@@ -195,93 +240,4 @@ body {
 .modulo-gama-lavanda th {
     background-color: #cac5fa !important;
     color: #000000 !important;
-}
-
-
-/* =========================================================================
-   SECCIÓN 5: GRID DE FORMULARIOS Y RED RESPONSIVA DE TABLAS
-   ========================================================================= */
-.bloque-hojas-derecha-empaquetado {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    flex: 1;
-    width: 100%;
-}
-.grid-formulario {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-}
-.campo-formulario label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
-}
-.tabla-responsiva {
-    width: 100%;
-    overflow-x: auto;
-}
-.contenedor-scroll-drive {
-    max-height: 300vh;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    text-align: left;
-    background-color: var(--color-superficie);
-}
-th, td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--color-borde);
-}
-th {
-    font-weight: 700;
-}
-
-/* =========================================================================
-   SECCIÓN 6: MODALES DE ALERTAS PASTEL Y BOTONERAS INTEGRADAS
-   ========================================================================= */
-.btn-primario, .btn-secundario {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-family: inherit;
-}
-.btn-secundario {
-    background-color: #e2e8f0;
-    color: var(--color-texto-oscuro);
-    border: 1px solid var(--color-borde);
-}
-.modal-alerta-fondo {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(15, 23, 42, 0.3);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-}
-.tarjeta-alerta-pastel {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 24px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-    border-left: 6px solid #4b3eb3;
-}
-.contenedor-botones-pastel {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
 }
