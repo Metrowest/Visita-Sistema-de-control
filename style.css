@@ -103,22 +103,23 @@ body {
 /* -------------------------------------------------------------------------
    A) MÓDULOS DE LA COLUMNA IZQUIERDA - DRIVE (Gama Lila/Fidji: #f1efff)
    ------------------------------------------------------------------------- */
-.modulo-gama-carpetas {
+div.tarjeta-modulo.modulo-gama-carpetas,
+.bloque-carpetas-izquierda-empaquetado .tarjeta-modulo {
     background-color: #faf9fe !important; /* Fondo claro del módulo */
 }
-.modulo-gama-carpetas .tarjeta-cabecera {
+div.tarjeta-modulo.modulo-gama-carpetas .tarjeta-cabecera {
     background: #332f54 !important; /* Cabecera tono oscuro base */
     color: #ffffff !important;
 }
-.modulo-gama-carpetas .campo-formulario,
-.modulo-gama-carpetas .zona-archivos-disponibles {
+div.tarjeta-modulo.modulo-gama-carpetas .campo-formulario,
+div.tarjeta-modulo.modulo-gama-carpetas .zona-archivos-disponibles {
     background-color: #f1efff !important; /* Sub-cabecera / Entorno interno medio */
 }
-.modulo-gama-carpetas .btn-primario {
+div.tarjeta-modulo.modulo-gama-carpetas .btn-primario {
     background-color: #332f54 !important; /* Botón oscuro unificado */
     color: #ffffff !important;
 }
-.modulo-gama-carpetas th {
+div.tarjeta-modulo.modulo-gama-carpetas th {
     background-color: #dbd6fa !important;
     color: #1e1e24 !important;
 }
@@ -126,50 +127,59 @@ body {
 /* -------------------------------------------------------------------------
    B) MÓDULO SELECTOR DE HOJAS (Gama Verde Pastel: #dbe8b2 / #e5f0c9)
    ------------------------------------------------------------------------- */
-.modulo-gama-verde {
+div.tarjeta-modulo.modulo-gama-verde {
     background-color: #f7f9f2 !important; /* Fondo claro del módulo */
 }
-.modulo-gama-verde .tarjeta-cabecera {
+div.tarjeta-modulo.modulo-gama-verde .tarjeta-cabecera {
     background: #434c26 !important; /* Cabecera tono oscuro base */
     color: #ffffff !important;
 }
-.modulo-gama-verde .contenedor-selector {
+div.tarjeta-modulo.modulo-gama-verde .contenedor-selector {
     background-color: #dbe8b2 !important; /* Sub-cabecera / Color intermedio */
 }
 
 /* -------------------------------------------------------------------------
    C) MÓDULO FORMULARIO AÑADIR REGISTRO (Gama Violeta Pastel: #d9d4fc)
    ------------------------------------------------------------------------- */
-.modulo-gama-violeta {
+div.tarjeta-modulo.modulo-gama-violeta,
+div.tarjeta-modulo.modulo-gama-violeta form,
+div.tarjeta-modulo.modulo-gama-violeta .formulario-estilizado {
     background-color: #f6f5fe !important; /* Fondo claro del módulo */
 }
-.modulo-gama-violeta .tarjeta-cabecera {
+div.tarjeta-modulo.modulo-gama-violeta .tarjeta-cabecera {
     background: #272159 !important; /* Cabecera tono oscuro base */
     color: #ffffff !important;
 }
-.modulo-gama-violeta form {
-    background-color: #d9d4fc !important; /* Sub-cabecera / Entorno medio */
+div.tarjeta-modulo.modulo-gama-violeta .grid-formulario,
+div.tarjeta-modulo.modulo-gama-violeta .campo-formulario {
+    background-color: #d9d4fc !important; /* Sub-cabecera / Entorno de campos medio */
+    padding: 15px;
+    border-radius: 8px;
 }
-.modulo-gama-violeta .btn-primario {
-    background-color: #272159 !important;
+div.tarjeta-modulo.modulo-gama-violeta .btn-primario,
+div.tarjeta-modulo.modulo-gama-violeta #btnGuardar {
+    background-color: #272159 !important; /* Botón oscuro unificado */
     color: #ffffff !important;
 }
 
 /* -------------------------------------------------------------------------
    D) MÓDULO REGISTROS ALMACENADOS - TABLA (Gama Lavanda Pastel: #e5e1fd)
    ------------------------------------------------------------------------- */
-.modulo-gama-lavanda {
+div.tarjeta-modulo.modulo-gama-lavanda {
     background-color: #f8f7fe !important; /* Fondo claro del módulo */
 }
-.modulo-gama-lavanda .tarjeta-cabecera {
+div.tarjeta-modulo.modulo-gama-lavanda .tarjeta-cabecera {
     background: #2e2861 !important; /* Cabecera tono oscuro base */
     color: #ffffff !important;
 }
-.modulo-gama-lavanda .campo-formulario {
+div.tarjeta-modulo.modulo-gama-lavanda .campo-formulario,
+div.tarjeta-modulo.modulo-gama-lavanda .tabla-responsiva {
     background-color: #e5e1fd !important; /* Sub-cabecera / Entorno de la tabla */
+    padding: 15px;
+    border-radius: 8px;
 }
-.modulo-gama-lavanda th {
-    background-color: #c8c2fa !important;
+div.tarjeta-modulo.modulo-gama-lavanda th {
+    background-color: #c8c2fa !important; /* Cabecera horizontal de celdas */
     color: #1e1e24 !important;
 }
 
