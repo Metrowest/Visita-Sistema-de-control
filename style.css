@@ -1,570 +1,277 @@
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 1: CONFIGURACIÓN MAESTRA Y VARIABLES GLOBALES
-   Descripción: Captura exacta de la paleta extraída de tu imagen real con 
-   morados de alta intensidad, fondos limpios y bordes en negro puro.
+   SECCIÓN 1: VARIABLES MAESTRAS, FUENTES Y COMPORTAMIENTO BASE
+   Descripción: Define la paleta de colores morados/turquesas oficiales, tipografía 
+   Plus Jakarta Sans y limpia márgenes globales para la tablet.
    ========================================================================= */
 :root {
-    --color-fondo: #f1f5f9;              /* Gris claro neutro de fondo para destacar tarjetas */
-    --color-superficie: #ffffff;         /* Blanco puro para los fondos de los bloques */
-    --color-turquesa: #a093f4;           /* 🟪 Morado Lavanda Oscuro para botones y cabeceras */
-    --color-turquesa-oscuro: #bfb6f8;    /* 🔮 Morado Pastel Suave para la combinación del hover */
-    --color-texto-oscuro: #000000;       /* TEXTO EN NEGRO PURO OBLIGATORIO */
-    --color-texto-medio: #000000;        /* ETIQUETAS EN NEGRO PURO */
-    --color-borde: #000000;              /* BORDES EN NEGRO PURO DE ALTA DEFINICIÓN */
-    --color-input-fondo: #eae7fd;        /* 🪻 Fondo Lavanda Sutil para cuadros de texto */
-    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sombra-modulo: 0 4px 12px rgba(160, 147, 244, 0.1);
+    --color-fondo: #f8fafc;
+    --color-superficie: #ffffff;
+    --color-primario: #6366f1;       /* Morado principal */
+    --color-primario-oscuro: #4f46e5;
+    --color-turquesa: #14b8a6;       /* Turquesa de control */
+    --color-texto-oscuro: #0f172a;
+    --color-texto-medio: #475569;
+    --color-borde: #e2e8f0;
+    --sombra-modulo: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: var(--color-fondo);
-    font-family: var(--fuente-sistema);
     color: var(--color-texto-oscuro);
-    padding: 20px;
-    line-height: 1.5;
+    padding: 24px;
+    min-height: 100vh;
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 2: ARQUITECTURA DISTRIBUIDA EN REJILLA MODULAR
+   SECCIÓN 2: ARQUITECTURA DE REJILLA PARALELA (FLEXBOX / GRID)
+   Descripción: Divide la pantalla de la tablet en dos columnas simétricas fluidas 
+   para agrupar de forma independiente las Carpetas y las Hojas.
    ========================================================================= */
-.contenedor-principal {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-}
-
-@media (min-width: 992px) {
-    .contenedor-principal {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .contenedor-selector {
-        grid-column: span 2;
-    }
-
-    #moduloGestorCarpetas {
-        grid-column: span 2;
-    }
-
-    .contenedor-principal > .tarjeta-modulo:nth-of-type(2) {
-        grid-column: 1;
-        align-self: start;
-    }
-
-    .contenedor-principal > .tarjeta-modulo:last-child {
-        grid-column: 2;
-        align-self: start;
-    }
-}
-
 .contenedor-modulos-paralelos {
     display: flex;
     flex-direction: row;
     gap: 24px;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 10px;
-    box-sizing: border-box;
+}
+
+/* Adaptación responsiva automática para pantallas medianas o tablets de pie */
+@media (max-width: 992px) {
+    .contenedor-modulos-paralelos {
+        flex-direction: column;
+    }
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 3: ESTRUCTURA DE CONTENEDORES (TARJETAS)
+   SECCIÓN 3: COMPONENTES COMUNES DE TARJETAS (ESTÉTICA MORADA)
+   Descripción: Controla la estructura visual de cada módulo independiente, sus 
+   cabeceras con degradado morado y los espacios de amortiguación (padding).
    ========================================================================= */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
     border-radius: 12px;
-    border: 2px solid var(--color-borde);
+    border: 1px solid var(--color-borde);
     box-shadow: var(--sombra-modulo);
-    width: 100%;
-    display: block;
     overflow: hidden;
+    width: 100%;
 }
 
 .tarjeta-cabecera {
+    background: linear-gradient(135deg, var(--color-primario), var(--color-primario-oscuro));
+    padding: 14px 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    background-color: var(--color-turquesa); /* 🟪 Cabeceras Moradas de tu imagen */
-    padding: 14px 24px;
-    border-bottom: 2px solid var(--color-borde);
-}
-
-.icono-titulo {
-    font-size: 1.4rem;
-    color: #000000;
-}
-
-h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #ffffff; /* Letras blancas para contraste óptimo sobre el morado */
-}
-
-.tarjeta-modulo > :not(.tarjeta-cabecera) {
-    padding: 24px;
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 4: COMPONENTES DE ENRUTAMIENTO Y SELECCIÓN SUPERIOR
-   ========================================================================= */
-.contenedor-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-@media (min-width: 768px) {
-    .contenedor-selector {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-}
-
-.etiqueta-seleccion {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-texto-medio);
-}
-
-.selector-estilizado {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 2px solid var(--color-borde);
-    background-color: var(--color-superficie);
-    font-family: var(--fuente-sistema);
-    font-size: 0.95rem;
-    color: var(--color-texto-oscuro);
-    outline: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.selector-estilizado:focus {
-    border-color: var(--color-turquesa);
-    box-shadow: 0 0 0 3px rgba(160, 147, 244, 0.3);
-}
-
-.enlace-seccion-activa {
-    font-size: 0.85rem;
-    color: var(--color-texto-medio);
-    font-weight: 500;
-}
-
-.link-moderno {
-    color: #000000;
-    text-decoration: none;
-    font-weight: 700;
-    border-bottom: 2px solid #000000;
-}
-
-.link-moderno:hover {
-    background-color: var(--color-turquesa-oscuro);
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 5: DISEÑO Y GRILLA DEL FORMULARIO CONSOLIDADO
-   ========================================================================= */
-.grid-formulario {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-@media (min-width: 480px) {
-    .grid-formulario {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (min-width: 1024px) {
-    .grid-formulario {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-
-.campo-formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.campo-formulario label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--color-texto-medio);
-}
-
-.campo-formulario input[type="text"] {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 2px solid var(--color-borde);
-    font-size: 0.9rem;
-    color: var(--color-texto-oscuro);
-    background-color: var(--color-input-fondo); /* 🪻 Fondo Lavanda exacto de tu foto */
-    font-family: var(--fuente-sistema);
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-.campo-formulario input[type="text"]:focus {
-    border-color: var(--color-turquesa);
-    background-color: #ffffff; /* Se aclara en foco para escribir cómodamente */
-    box-shadow: 0 0 0 3px rgba(160, 147, 244, 0.3);
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 6: BOTONES DE INTERACCIÓN Y CONTROL DE ENVÍO
-   ========================================================================= */
-.bloque-botones {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-@media (min-width: 480px) {
-    .bloque-botones {
-        flex-direction: row;
-    }
-}
-
-.btn-primario, .btn-secundario, .btn-turquesa {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-family: var(--fuente-sistema);
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    border: 2px solid var(--color-borde);
-    transition: all 0.2s ease, transform 0.1s;
-}
-
-.btn-primario, .btn-turquesa {
-    background-color: var(--color-turquesa); /* Morado Lavanda Oscuro */
+    gap: 12px;
     color: #ffffff;
 }
 
-/* 🔮 El Hover solicitado: Combinación con Morado Pastel Suave */
-.btn-primario:hover, .btn-turquesa:hover {
-    background-color: var(--color-turquesa-oscuro); /* Cambia suavemente al lila pastel claro */
-    color: #000000; /* Texto negro para contraste bruto en el hover claro */
+.tarjeta-cabecera h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: #ffffff;
 }
 
-.btn-secundario {
-    background-color: #ffffff;
-    color: #ef4444;
+.icono-titulo {
+    font-size: 1.2rem;
 }
 
-.btn-secundario:hover {
-    background-color: #fee2e2;
+/* Cojín visual y balanceo automático para todos los selectores y formularios modulares */
+.tarjeta-modulo .campo-formulario,
+.tarjeta-modulo .contenedor-selector,
+.tarjeta-modulo form {
+    padding: 16px 20px;
 }
 
-.btn-primario:active, .btn-secundario:active {
-    transform: scale(0.98);
+/* Forzar que las cajas de selección y entradas ocupen todo el ancho sin desbordes */
+.tarjeta-modulo select,
+.tarjeta-modulo input {
+    width: 100% !important;
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
+   SECCIÓN 4: COLUMNA DE CARPETAS Y CONTROLES DE GOOGLE DRIVE
+   Descripción: Empaqueta los módulos de la columna izquierda y controla el 
+   espaciado de las subidas (Sección 3) y tablas de archivos (Sección 4).
    ========================================================================= */
+.bloque-carpetas-izquierda-empaquetado {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    width: 100%;
+}
+
+.tarjeta-modulo .etiqueta-selector {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+#archivoSubirDrive.control-selector {
+    padding: 8px;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    background-color: var(--color-fondo);
+}
+
+.contenedor-vistas-previas {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.texto-archivo-seleccionado {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-texto-medio);
+}
+
+#vistaPreviaIconoDrive {
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+}
+
+.preview-foto-drive {
+    display: none;
+    margin-bottom: 10px;
+}
+
+.preview-foto-drive img {
+    max-width: 100%;
+    border-radius: 6px;
+}
+
+.tarjeta-modulo .zona-archivos-disponibles {
+    padding: 15px 0 0 0;
+}
+
+/* =========================================================================
+   SECCIÓN 5: COLUMNA DE HOJAS, FORMULARIOS Y TABLAS DE DATOS (SHEETS)
+   Descripción: Controla la estructura flexible de la columna de Hojas, la 
+   malla responsiva del formulario y los estilos limpios de las celdas.
+   ========================================================================= */
+.bloque-hojas-derecha-empaquetado {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    width: 100%;
+}
+
+.grid-formulario {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.campo-formulario label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+}
+
+.campo-formulario input, 
+.selector-estilizado, 
+.control-selector {
+    padding: 10px 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--color-texto-oscuro);
+    background-color: var(--color-fondo);
+}
+
+/* Estructuración de tablas responsivas */
 .tabla-responsiva {
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-    border: 2px solid var(--color-borde);
-    margin-top: 10px;
+}
+
+.contenedor-scroll-drive {
+    max-height: 300vh;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    font-size: 0.9rem;
     text-align: left;
-    font-size: 0.85rem;
 }
 
 th, td {
-    padding: 12px 14px;
-    border-bottom: 2px solid var(--color-borde);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-borde);
 }
 
 th {
-    background-color: var(--color-turquesa); /* 🟪 Morado Lavanda Oscuro en cabeceras de columnas */
-    color: #ffffff;
+    background-color: var(--color-fondo);
     font-weight: 700;
-    white-space: nowrap;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-}
-
-td {
-    color: var(--color-texto-oscuro);
-    background-color: #ffffff;
-    font-weight: 600; /* Coincide con la nitidez tipográfica de la foto */
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-.celda-carga {
-    padding: 30px;
-    text-align: center;
     color: var(--color-texto-medio);
 }
 
-.spinner-carga {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #cbd5e1;
-    border-top-color: var(--color-turquesa);
-    border-radius: 50%;
-    margin: 0 auto 10px auto;
-    animation: girarSpinner 0.8s linear infinite;
-}
-
-@keyframes girarSpinner {
-    to { transform: rotate(360deg); }
-}
-
-.btn-edit, .btn-delete {
-    background: none;
+/* =========================================================================
+   SECCIÓN 6: INTERCEPTOR DE ALERTAS PASTEL Y BOTONES GENERALES
+   Descripción: Controla las ventanas flotantes estéticas de confirmación de 
+   red y define las clases base para los botones Turquesa y Primarios.
+   ========================================================================= */
+.btn-primario, .btn-turquesa {
+    padding: 10px 20px;
     border: none;
-    font-size: 1.1rem;
-    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.1s;
-}
-
-.btn-edit:hover, .btn-delete:hover {
-    transform: scale(1.2);
-}
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 8: PROPIEDADES DE COMPORTAMIENTO FLEXBOX PARALELO
-   ========================================================================= */
-.contenedor-modulos-paralelos > .tarjeta-modulo:not(:last-child),
-.contenedor-modulos-paralelos > #moduloGestorCarpetas {
-    flex: 1;
-    min-width: 340px;
-    margin: 0 !important;
-}
-
-.contenedor-modulos-paralelos > .tarjeta-modulo:last-child {
-    flex: 2;
-    min-width: 500px;
-    margin: 0 !important;
-}
-
-@media (max-width: 1100px) {
-    .contenedor-modulos-paralelos {
-        flex-direction: column;
-        align-items: center;
-    }
-    .contenedor-modulos-paralelos > .tarjeta-modulo {
-        width: 100% !important;
-        min-width: 100% !important;
-    }
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 9: INTEGRACIÓN DE ICONOS DINÁMICOS Y PARÁMETROS MÓVILES
-   ========================================================================= */
-.tabla-responsiva td i, 
-.tarjeta-modulo i {
-    margin-right: 8px;
-    font-size: 1.15rem;
-    vertical-align: middle;
-}
-
-@media (max-width: 768px) {
-    .grid-formulario {
-        margin-bottom: 12px;
-    }
-    .bloque-botones {
-        margin-bottom: 40px; 
-    }
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 10: CONTROL CENTRAL DE ADAPTACIÓN DEL BANNER PWA
-   Descripción: Alinea el banner de instalación flotante a la base con fondo morado 
-   y el botón "Instalar" blanco responsivo, calcando tu prioridad visual.
-   ========================================================================= */
-div#bannerInstalacionPWA {
-    background-color: var(--color-turquesa) !important; /* Morado Lavanda Oscuro oficial */
-    color: #ffffff !important;
-    padding: 6px 12px !important; 
-    position: fixed !important;
-    bottom: 8px !important;
-    left: 16px !important;
-    z-index: 9999 !important;
-    border-radius: 8px !important;
-    border: 2px solid var(--color-borde) !important;
-    
-    display: inline-flex !important;
-    flex-direction: row-reverse; 
-    align-items: center !important;
-    justify-content: flex-end !important; 
-    gap: 10px !important; 
-    
-    max-width: 300px !important;
-    max-height: 50px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-div#bannerInstalacionPWA p {
-    margin: 0 !important;
-    font-size: 0.75rem !important; 
-    font-weight: 700 !important;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #ffffff !important;
-}
-
-button#btnInstalarPWA {
-    background-color: #ffffff !important; /* Botón blanco como en la captura */
-    color: #000000 !important;           /* Palabra 'Instalar' en negro */
-    border: 2px solid var(--color-borde) !important;
-    padding: 4px 10px !important; 
-    font-weight: 700 !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    font-size: 0.72rem !important;
-    white-space: nowrap;
-    transition: all 0.2s ease !important;
-}
-
-/* Combinación pastel clara en hover para el botón de instalación */
-button#btnInstalarPWA:hover {
-    background-color: var(--color-turquesa-oscuro) !important;
-    color: #000000 !important;
-}
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
-   ========================================================================= */
-.modal-alerta-fondo {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background-color: rgba(0, 0, 0, 0.4) !important;
-    z-index: 10000 !important;
-    display: none;
-    align-items: center !important;
-    justify-content: center !important;
-    animation: aparecerSutil 0.2s ease-out;
-}
-
-.tarjeta-alerta-pastel {
-    padding: 24px !important;
-    border-radius: 12px !important;
-    max-width: 400px !important;
-    width: 90% !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
-    text-align: center !important;
-    border: 2px solid #000000 !important;
-    background-color: #ffffff !important;
-}
-
-.tarjeta-alerta-pastel h4 {
-    font-size: 1.15rem !important;
-    margin-bottom: 10px !important;
-    font-family: var(--fuente-sistema);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-weight: 700 !important;
+    color: #ffffff;
 }
 
-.tarjeta-alerta-pastel p {
-    font-size: 0.95rem !important;
-    line-height: 1.5 !important;
-    font-weight: 500 !important;
-    color: #000000 !important;
+.btn-primario { background-color: var(--color-primario); }
+.btn-turquesa { background-color: var(--color-turquesa); }
+
+.modal-alerta-fondo {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
 }
 
-/* 🤔 Ventana de Información: Variante Pastel Combinada */
-.tarjeta-alerta-pastel.info {
-    background-color: var(--color-input-fondo) !important; /* Fondo lavanda suave */
-    border-top: 6px solid var(--color-turquesa) !important;
+.tarjeta-alerta-pastel {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    border-left: 6px solid var(--color-primario);
 }
-.tarjeta-alerta-pastel.info h4 { color: #000000 !important; }
 
-/* ✨ Ventana de Éxito: Fondo Verde Menta Pastel con contorno negro */
-.tarjeta-alerta-pastel.exito {
-    background-color: #e8f5e9 !important;
-    border-top: 6px solid #81c784 !important;
-}
-.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
+.tarjeta-alerta-pastel.exito { border-left-color: var(--color-turquesa); }
+.tarjeta-alerta-pastel.error { border-left-color: #ef4444; }
 
-/* ⚠️ Ventana de Error: Fondo Coral Pastel Suave con contorno negro */
-.tarjeta-alerta-pastel.error {
-    background-color: #ffebee !important;
-    border-top: 6px solid #e57373 !important;
-}
-.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
-
-/* =========================================================================
-   STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
-   ========================================================================= */
 .contenedor-botones-pastel {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 12px !important;
-    margin-top: 20px !important;
-}
-
-.btn-alerta-pastel {
-    padding: 10px 22px !important;
-    border-radius: 8px !important;
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
-    transition: all 0.2s ease !important;
-}
-
-.btn-alerta-pastel.confirmar-ok {
-    background-color: var(--color-turquesa) !important;
-    color: #ffffff !important;
-    border: 2px solid #000000 !important;
-}
-.btn-alerta-pastel.confirmar-ok:hover { 
-    background-color: var(--color-turquesa-oscuro) !important;
-    color: #000000 !important;
-}
-
-.btn-alerta-pastel.confirmar-cancel {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border: 2px solid #000000 !important;
-}
-.btn-alerta-pastel.confirmar-cancel:hover { 
-    background-color: #f1f5f9 !important; 
-}
-
-@keyframes aparecerSutil {
-    from { opacity: 0; transform: scale(0.96); }
-    to { opacity: 1; transform: scale(1); }
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
 }
