@@ -1,7 +1,349 @@
 /* =========================================================================
-   SECCIÓN 1: VARIABLES ORIGINALES Y CONFIGURACIÓN MAESTRA DE LA PANTALLA
-   Descripción: Restablece tu fondo gris claro limpio, la tipografía Plus 
-   Jakarta Sans y las sombras originales de tu primera foto de respaldo.
+   STYLE.CSS - PARTE 1: VARIABLES GLOBALES Y ESTRUCTURA EN BLOQUES LADO A LADO
+   ========================================================================= */
+:root {
+    --color-fondo: #f8fafc;
+    --color-superficie: #ffffff;
+    --color-turquesa: #2cbbb0;
+    --color-turquesa-oscuro: #229990;
+    --color-texto-oscuro: #0f172a;
+    --color-texto-medio: #475569;
+    --color-borde: #e2e8f0;
+    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-fondo);
+    font-family: var(--fuente-sistema);
+    color: var(--color-texto-oscuro);
+    padding: 20px;
+    line-height: 1.5;
+}
+
+/* Contenedor Principal Adaptativo en Rejilla Modular Inteligente */
+.contenedor-principal {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr; /* Una columna por defecto en dispositivos móviles */
+    gap: 24px;
+}
+
+/* DISTRIBUCIÓN AVANZADA: Reorganiza los bloques lado a lado en pantallas grandes (Estilo Foto 2) */
+@media (min-width: 992px) {
+    .contenedor-principal {
+        grid-template-columns: repeat(2, 1fr); /* Divide la pantalla en dos columnas idénticas */
+    }
+
+    /* El selector de secciones superior se extiende a todo lo ancho de la cumbre */
+    .contenedor-selector {
+        grid-column: span 2;
+    }
+
+    /* EL GESTOR DE ARCHIVOS FLOTA ARRIBA PANORÁMICO: Se extiende completo sobre las hojas */
+    #moduloGestorCarpetas {
+        grid-column: span 2;
+    }
+
+    /* EL FORMULARIO DE AÑADIR REGISTRO SE CLAVA EN LA COLUMNA IZQUIERDA */
+    .contenedor-principal > .tarjeta-modulo:nth-of-type(2) {
+        grid-column: 1;
+        align-self: start;
+    }
+
+    /* LA TABLA DE REGISTROS ALMACENADOS SE CLAVA EN LA COLUMNA DERECHA */
+    .contenedor-principal > .tarjeta-modulo:last-child {
+        grid-column: 2;
+        align-self: start;
+    }
+}
+
+/* El diseño de cubículos independientes (Tarjetas Modulares Limpias) */
+.tarjeta-modulo {
+    background-color: var(--color-superficie);
+    border-radius: 12px;
+    border: 1px solid var(--color-borde);
+    box-shadow: var(--sombra-modulo);
+    padding: 24px;
+    width: 100%;
+    display: block;
+}
+
+.tarjeta-cabecera {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-borde);
+    padding-bottom: 12px;
+}
+
+.icono-titulo {
+    font-size: 1.4rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-texto-oscuro);
+}
+
+.contenedor-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (min-width: 768px) {
+    .contenedor-selector {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.etiqueta-seleccion {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-texto-medio);
+}
+/* =========================================================================
+   STYLE.CSS - PARTE 2: COMPONENTES, FORMULARIOS Y RESPONSIVIDAD ESTRICTA
+   ========================================================================= */
+
+/* Selectores e Inputs estilizados */
+.selector-estilizado {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    background-color: var(--color-superficie);
+    font-family: var(--fuente-sistema);
+    font-size: 0.95rem;
+    color: var(--color-texto-oscuro);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.selector-estilizado:focus {
+    border-color: var(--color-turquesa);
+}
+
+.enlace-seccion-activa {
+    font-size: 0.85rem;
+    color: var(--color-texto-medio);
+    font-weight: 500;
+}
+
+.link-moderno {
+    color: var(--color-turquesa);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-moderno:hover {
+    text-decoration: underline;
+}
+
+/* Grilla del Formulario interna (Campos 1, 2, 3...) */
+.grid-formulario {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* Ajuste de columnas: 2 columnas en dispositivos móviles/tabletas y 3 columnas solo en computadoras */
+@media (min-width: 480px) {
+    .grid-formulario {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles y tabletas */
+    }
+}
+@media (min-width: 1024px) {
+    .grid-formulario {
+        grid-template-columns: repeat(2, 1fr) !important; /* Fuerza solo 2 columnas de inputs */
+    }
+}
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-formulario label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-texto-medio);
+}
+
+.campo-formulario input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    font-size: 0.9rem;
+    color: var(--color-texto-oscuro);
+    font-family: var(--fuente-sistema);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo-formulario input[type="text"]:focus {
+    border-color: var(--color-turquesa);
+    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1);
+}
+
+/* Bloque de Botones Flexibles y Adaptativos */
+.bloque-botones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (min-width: 480px) {
+    .bloque-botones {
+        flex-direction: row;
+    }
+}
+
+.btn-primario, .btn-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: var(--fuente-sistema);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primario {
+    background-color: var(--color-turquesa);
+    color: #ffffff;
+}
+
+.btn-primario:hover {
+    background-color: var(--color-turquesa-oscuro);
+}
+
+.btn-secundario {
+    background-color: #f1f5f9;
+    color: #ef4444;
+    border: 1px solid #fee2e2;
+}
+
+.btn-secundario:hover {
+    background-color: #fee2e2;
+}
+
+.btn-primario:active, .btn-secundario:active {
+    transform: scale(0.98);
+}
+
+/* Blindaje de Tablas Responsivas con scroll interno */
+.tabla-responsiva {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+th, td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+th {
+    background-color: #f8fafc;
+    color: var(--color-texto-medio);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+td {
+    color: var(--color-texto-oscuro);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.celda-carga {
+    padding: 30px;
+    text-align: center;
+    color: var(--color-texto-medio);
+}
+
+/* Spinner de carga estético */
+.spinner-carga {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--color-turquesa);
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    animation: girarSpinner 0.8s linear infinite;
+}
+
+@keyframes girarSpinner {
+    to { transform: rotate(360deg); }
+}
+
+/* Botones de acción originales de las celdas de Sheets */
+.btn-edit, .btn-delete {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-edit:hover, .btn-delete:hover {
+    transform: scale(1.2);
+}
+
+/* =========================================================================
+   DISTRIBUCIÓN PARALELA MAESTRA INTEGRADA (MÓDULOS DE LA FOTO)
+   ========================================================================= */
+.contenedor-modulos-paralelos {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+/* =========================================================================
+   SECCIÓN 1: VARIABLES GLOBALES Y CONFIGURACIÓN BASE DE LA INTERFAZ
+   Descripción: Inicializa los colores de fondo generales, las fuentes del
+   sistema y las sombras base de cada bloque de la aplicación.
    ========================================================================= */
 :root {
     --color-fondo: #f8fafc;
@@ -28,9 +370,10 @@ body {
     padding: 20px;
     line-height: 1.5;
 }
-
 /* =========================================================================
-   SECCIÓN 2: GRID PARALELO MAESTRO (LADO A LADO DE DOS COLUMNAS)
+   SECCIÓN 2: ARQUITECTURA PARALELA MAESTRA (DISTRIBUCIÓN EN 2 COLUMNAS)
+   Descripción: Controla que los bloques se claven lado a lado de manera 
+   simétrica en la tablet y se compacten verticalmente en móviles.
    ========================================================================= */
 .contenedor-modulos-paralelos {
     display: flex;
@@ -45,6 +388,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Fuerza el equilibrio simétrico 50/50 entre ambas columnas del respaldo */
 .bloque-carpetas-izquierda-empaquetado,
 .bloque-hojas-derecha-empaquetado {
     display: flex;
@@ -55,11 +399,18 @@ body {
     min-width: 340px;
 }
 
+/* Optimización Responsiva Estricta para Teléfonos Celulares */
 @media (max-width: 1100px) {
-    .contenedor-modulos-paralelos { flex-direction: column; align-items: center; }
-    .bloque-carpetas-izquierda-empaquetado, .bloque-hojas-derecha-empaquetado { width: 100% !important; min-width: 100% !important; }
+    .contenedor-modulos-paralelos {
+        flex-direction: column;
+        align-items: center;
+    }
+    .bloque-carpetas-izquierda-empaquetado,
+    .bloque-hojas-derecha-empaquetado {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
 }
-
 /* =========================================================================
    SECCIÓN 3: COMPONENTES ESTRUCTURALES Y UNIFICACIÓN DE INPUTS AMARILLOS
    Descripción: Controla el esqueleto de las tarjetas y fuerza a todas las 
@@ -122,70 +473,72 @@ body {
     gap: 16px;
     margin-bottom: 20px;
 }
-}
-
 /* =========================================================================
-   SECCIÓN 4: MAESTRÍA CROMÁTICA - INDEPENDENCIA TOTAL POR CLASES DE MÓDULO
-   Descripción: Distribuye tus colores base oficiales de forma aislada.
-   Asigna el tono oscuro a la cabecera y el pastel puro al fondo interno,
-   evitando filtraciones o rebotes en la cascada del navegador.
+   SECCIÓN 4: MASTRÍA CROMÁTICA - GAMA DE TONOS INDEPENDIENTES POR MÓDULO
+   Descripción: Mapea individualmente cada clase del index para inyectar 
+   los tres niveles de color partiendo de tus paletas pasteles oficiales.
    ========================================================================= */
 
-/* --- 📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff) --- */
-
+/* --- 📦 BLOQUE IZQUIERDO: MÓDULOS DE CARPETAS (Gama Lila Base: #f1efff) --- */
+.modulo-selector-carpetas, .modulo-cargar-carpetas, .modulo-yabla-carpetas {
+    background-color: #faf9ff !important; /* Fondo claro del módulo */
+}
 .modulo-selector-carpetas .tarjeta-cabecera,
 .modulo-cargar-carpetas .tarjeta-cabecera,
 .modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63 !important; /* Oscuro de la familia lila */
+    background-color: #3f3a63 !important; /* Cabecera oscura unificada */
     color: #ffffff !important;
 }
-
 .modulo-selector-carpetas .campo-formulario,
 .modulo-cargar-carpetas .campo-formulario,
 .modulo-yabla-carpetas .zona-archivos-disponibles {
     background-color: #f1efff !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
 }
 
-
-/* --- 📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMAS INDEPENDIENTES) --- */
+/* --- 📊 BLOQUE DERECHO: MÓDULOS DE HOJAS (Gamas Especiales Individuales) --- */
 
 /* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+.modulo-gama-verde {
+    background-color: #f7f9f4 !important; /* Fondo claro del módulo */
+}
 .modulo-gama-verde .tarjeta-cabecera {
-    background-color: #424a24 !important; /* Oscuro de la familia verde */
+    background-color: #424a24 !important; /* Cabecera oscura verde */
     color: #ffffff !important;
 }
-
 .modulo-gama-verde .contenedor-selector {
     background-color: #dbe8b2 !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
 }
 
 /* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
+.modulo-gama-violeta {
+    background-color: #f6f5ff !important; /* Fondo claro del módulo */
+}
 .modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361 !important; /* Oscuro de la familia violeta */
+    background-color: #2b2361 !important; /* Cabecera oscura violeta */
     color: #ffffff !important;
 }
-
-.modulo-gama-violeta form {
+.modulo-gama-violeta form,
+.modulo-gama-violeta .grid-formulario,
+.modulo-gama-violeta .campo-formulario {
     background-color: #d9d4fc !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
 }
 
-/* 3) Registros Almacenados / Tabla Sheets (Gama Lavanda Base: #e5e1fd) */
+/* 3) Registros Almacenados - Tabla (Gama Lavanda Base: #e5e1fd) */
+.modulo-gama-lavanda {
+    background-color: #f8f7ff !important; /* Fondo claro del módulo */
+}
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66 !important; /* Oscuro de la familia lavanda */
+    background-color: #312a66 !important; /* Cabecera oscura lavanda */
     color: #ffffff !important;
 }
-
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
     background-color: #e5e1fd !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-    border-radius: 8px;
 }
-
 /* =========================================================================
-   SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS (FOTO 1)
+   SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS
+   Descripción: Estiliza las acciones de guardar, los spinners de carga y 
+   las cabeceras horizontales internas de las cuadrículas de datos.
    ========================================================================= */
 .bloque-botones {
     display: flex;
@@ -210,21 +563,13 @@ body {
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.btn-primario {
-    background-color: var(--color-turquesa); /* 🌟 COMPLETAMENTE TURQUESA ORIGINAL */
-    color: #ffffff;
-}
+/* Sincronización cromática de botones con sus respectivas cabeceras oscuras */
+.modulo-cargar-carpetas .btn-primario { background-color: #3f3a63; color: #ffffff; }
+.modulo-gama-violeta .btn-primario { background-color: #2b2361; color: #ffffff; }
+.btn-primario { background-color: var(--color-turquesa); color: #ffffff; }
+.btn-primario:hover { filter: brightness(1.1); }
 
-.btn-primario:hover {
-    background-color: var(--color-turquesa-oscuro);
-}
-
-.btn-secundario {
-    background-color: #f1f5f9;
-    color: #ef4444;
-    border: 1px solid #fee2e2;
-}
-
+.btn-secundario { background-color: #f1f5f9; color: #ef4444; border: 1px solid #fee2e2; }
 .btn-secundario:hover { background-color: #fee2e2; }
 .btn-primario:active, .btn-secundario:active { transform: scale(0.98); }
 
@@ -237,14 +582,11 @@ body {
     margin-top: 10px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.85rem;
-}
-
 th, td { padding: 12px 14px; border-bottom: 1px solid var(--color-borde); }
+
+/* Fondos internos de celdas horizontales a juego con sus módulos */
+.modulo-yabla-carpetas th { background-color: #dbd6f5; color: var(--color-texto-oscuro); }
+.modulo-gama-lavanda th { background-color: #cac5fa; color: var(--color-texto-oscuro); }
 th { background-color: #f8fafc; color: var(--color-texto-medio); font-weight: 600; white-space: nowrap; }
 td { color: var(--color-texto-oscuro); }
 tr:last-child td { border-bottom: none; }
@@ -264,9 +606,10 @@ tr:last-child td { border-bottom: none; }
 .btn-edit, .btn-delete { background: none; border: none; font-size: 1.1rem; padding: 4px 8px; cursor: pointer; transition: transform 0.1s; }
 .btn-edit:hover, .btn-delete:hover { transform: scale(1.2); }
 
-
 /* =========================================================================
    SECCIÓN 6: ALERTAS PASTEL Y COMPONENTES DEL TABLERO PWA INFRAESTRUCTURA
+   Descripción: Controla la ventana de instalación compacta fija y las 
+   ventanas flotantes de error, éxito o información de red.
    ========================================================================= */
 div#bannerInstalacionPWA {
     background-color: #a12cbb !important;
@@ -353,4 +696,4 @@ button#btnInstalarPWA {
 .btn-alerta-pastel.confirmar-cancel { background-color: #f1f5f9 !important; color: #64748b !important; border: 1px solid #cbd5e1 !important; }
 .btn-alerta-pastel.confirmar-cancel:hover { background-color: #e2e8f0 !important; }
 
-@keyframes aparecerSutil { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes abrirSutil { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
