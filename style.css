@@ -84,25 +84,39 @@ body {
     font-size: 1.2rem;
 }
 
-/* 🛡️ COJÍN VISUAL CORREGIDO: Despega selectores, enlaces y formularios de todos los bordes */
+/* 🛡️ COJÍN VISUAL INTEGRAL: Despega selectores, enlaces y formularios de todos los bordes */
 .tarjeta-modulo .campo-formulario,
-.tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo form {
     padding: 20px 24px;
     box-sizing: border-box;
 }
 
-/* Forzar que las cajas de selección y entradas se expandan limpiamente sin desbordes */
+/* 🛡️ REGLA QUIRÚRGICA: Fuerza el espacio protector simétrico dentro del selector de hojas */
+.contenedor-selector label,
+.contenedor-selector select,
+.contenedor-selector .enlace-seccion-activa {
+    margin-left: 24px !important;
+    margin-right: 24px !important;
+    max-width: calc(100% - 48px) !important;
+}
+
+.contenedor-selector label {
+    display: block;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+}
+
+.contenedor-selector .enlace-seccion-activa {
+    display: block;
+    margin-top: 15px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Forzar que las cajas de selección y entradas se expandan limpiamente */
 .tarjeta-modulo select,
 .tarjeta-modulo input {
     width: 100% !important;
     box-sizing: border-box !important;
-}
-
-/* Espacio interno adicional para el enlace activo inferior */
-.tarjeta-modulo .enlace-seccion-activa {
-    display: block;
-    margin-top: 15px;
 }
 
 
