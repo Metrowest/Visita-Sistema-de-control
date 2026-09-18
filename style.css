@@ -473,68 +473,7 @@ body {
     gap: 16px;
     margin-bottom: 20px;
 }*/
-/* =========================================================================
-   SECCIÓN 4: MASTRÍA CROMÁTICA - GAMA DE TONOS INDEPENDIENTES POR MÓDULO
-   Descripción: Mapea individualmente cada clase del index para inyectar 
-   los tres niveles de color partiendo de tus paletas pasteles oficiales.
-   ========================================================================= */
 
-/* --- 📦 BLOQUE IZQUIERDO: MÓDULOS DE CARPETAS (Gama Lila Base: #f1efff) --- */
-.modulo-selector-carpetas, .modulo-cargar-carpetas, .modulo-yabla-carpetas {
-    background-color: #faf9ff !important; /* Fondo claro del módulo */
-}
-.modulo-selector-carpetas .tarjeta-cabecera,
-.modulo-cargar-carpetas .tarjeta-cabecera,
-.modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63 !important; /* Cabecera oscura unificada */
-    color: #ffffff !important;
-}
-.modulo-selector-carpetas .campo-formulario,
-.modulo-cargar-carpetas .campo-formulario,
-.modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-}
-
-/* --- 📊 BLOQUE DERECHO: MÓDULOS DE HOJAS (Gamas Especiales Individuales) --- */
-
-/* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
-.modulo-gama-verde {
-    background-color: #f7f9f4 !important; /* Fondo claro del módulo */
-}
-.modulo-gama-verde .tarjeta-cabecera {
-    background-color: #424a24 !important; /* Cabecera oscura verde */
-    color: #ffffff !important;
-}
-.modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2 !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-}
-
-/* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
-.modulo-gama-violeta {
-    background-color: #f6f5ff !important; /* Fondo claro del módulo */
-}
-.modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361 !important; /* Cabecera oscura violeta */
-    color: #ffffff !important;
-}
-.modulo-gama-violeta form,
-.modulo-gama-violeta .grid-formulario,
-.modulo-gama-violeta .campo-formulario {
-    background-color: #d9d4fc !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-}
-
-/* 3) Registros Almacenados - Tabla (Gama Lavanda Base: #e5e1fd) */
-.modulo-gama-lavanda {
-    background-color: #f8f7ff !important; /* Fondo claro del módulo */
-}
-.modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66 !important; /* Cabecera oscura lavanda */
-    color: #ffffff !important;
-}
-.modulo-gama-lavanda .campo-formulario,
-.modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd !important; /* 🌟 TU COLOR PASTEL INTERMEDIO */
-}
 /* =========================================================================
    SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS
    Descripción: Estiliza las acciones de guardar, los spinners de carga y 
