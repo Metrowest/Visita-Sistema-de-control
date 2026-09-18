@@ -133,8 +133,31 @@
         </div> <!-- CIERRE DE CARPETAS -->
 
 
-        <!-- 📌 HOJAS DESPUÉS: FORMULARIO Y TABLAS DE GOOGLE SHEETS -->
+        <!-- 📌 HOJAS DESPUÉS: SELECTOR, FORMULARIO Y TABLAS DE GOOGLE SHEETS -->
         <div class="bloque-columna-derecha" style="display: flex; flex-direction: column; gap: 24px;">
+
+            <!-- =========================================================================
+               HOJAS SECCIÓN 1: SELECTOR DE SECCIONES (HOJAS) ORIGINAL
+               ========================================================================= -->
+            <div class="contenedor-selector" style="background-color: var(--color-superficie); padding: 20px; border-radius: 12px; border: 1px solid var(--color-borde); box-shadow: var(--sombra-modulo);">
+                <label class="etiqueta-seleccion" for="selectorHoja">Selecciona una Sección:</label>
+                <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
+                    <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                    <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                    <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                    <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                    <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                    <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                    <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                    <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                    <option value="Seguridad">🛡️ Seguridad (Programa)</option>
+                </select>
+                <div style="margin-top: 8px;">
+                    <span class="enlace-seccion-activa">
+                        Sección activa: <a id="enlaceDinamico" class="link-moderno" href="#">...</a>
+                    </span>
+                </div>
+            </div>
 
             <!-- HOJAS SECCIÓN 5: FORMULARIO DE RECOPILACIÓN DE REGISTROS -->
             <div class="tarjeta-modulo">
@@ -205,6 +228,7 @@
         </div> <!-- FIN COLUMNA HOJAS -->
 
     </div> <!-- CIERRE DE CONTENEDOR-MODULOS-PARALELOS GLOBAL -->
+
 
 
     <!-- =========================================================================
