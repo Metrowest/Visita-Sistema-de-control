@@ -61,19 +61,19 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 3: COMPONENTES ESTRUCTURALES DE LAS TARJETAS (EQUILIBRADA)
-   Descripción: Controla el esqueleto físico de los cubículos. Mantiene el
-   fondo blanco original limpio y los aísla de filtraciones de color.
+   SECCIÓN 3: COMPONENTES ESTRUCTURALES Y UNIFICACIÓN DE INPUTS AMARILLOS
+   Descripción: Controla el esqueleto de las tarjetas y fuerza a todas las 
+   cajas de captura a tomar el color amarillo pastel claro.
    ========================================================================= */
 .tarjeta-modulo {
-    background-color: var(--color-superficie) !important; /* Mantiene la tarjeta blanca limpia */
+    background-color: var(--color-superficie);
     border-radius: 12px;
     border: 1px solid var(--color-borde);
     box-shadow: var(--sombra-modulo);
     padding: 24px;
     width: 100%;
     display: block;
-    overflow: hidden;
+    overflow: hidden; /* Limpia desbordes internos */
 }
 
 .tarjeta-cabecera {
@@ -83,17 +83,45 @@ body {
     margin-bottom: 20px;
     border-bottom: 1px solid var(--color-borde);
     padding-bottom: 12px;
-    background-color: transparent; /* Por defecto inicia limpia y transparente */
 }
 
 .tarjeta-modulo .campo-formulario,
 .tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo .zona-archivos-disponibles,
 .tarjeta-modulo .tabla-responsiva,
-.tarjeta-modulo form,
-.grid-formulario {
+.tarjeta-modulo form {
     padding: 10px 5px;
     box-sizing: border-box;
+}
+
+/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para toda la app */
+.tarjeta-modulo select,
+.tarjeta-modulo input,
+.tarjeta-modulo select option {
+    background-color: #fffde6 !important; /* Amarillo pastel claro */
+    color: #000000 !important;
+    border: 1px solid #dcdac2 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-family: var(--fuente-sistema);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.tarjeta-modulo select:focus,
+.tarjeta-modulo input:focus {
+    border-color: var(--color-turquesa) !important;
+    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1) !important;
+}
+
+.grid-formulario {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
 }
 
 /* =========================================================================
