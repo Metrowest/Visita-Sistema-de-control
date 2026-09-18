@@ -413,7 +413,7 @@ td {
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
    Descripción: Capas superpuestas que visten las alertas usando la gama de 
-   mentas y melocotones de alto contraste con texto negro puro.
+   azules y orquídeas de alta intensidad con texto negro puro.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -456,31 +456,32 @@ td {
     font-weight: 500 !important;
 }
 
-/* 🤔 Variante Confirmación / Información: Fondo Melocotón Claro con texto negro */
+/* 🤔 Variante Confirmación / Información: Fondo Rosa Orquídea Sutil con texto negro */
 .tarjeta-alerta-pastel.info {
-    background-color: #ffe0cc !important;
-    border-top: 6px solid #a8e0c5 !important; /* Encabezado Verde Menta Fuerte */
+    background-color: #f8d6eb !important;
+    border-top: 6px solid #78b7df !important; /* Encabezado Azul Cielo Intenso */
 }
 .tarjeta-alerta-pastel.info h4, .tarjeta-alerta-pastel.info p { color: #000000 !important; }
 
-/* ✨ Variante Éxito: Fondo Menta Suave con texto negro */
+/* ✨ Variante Éxito: Fondo Orquídea Claro con texto negro */
 .tarjeta-alerta-pastel.exito {
-    background-color: #c2ead7 !important;
-    border-top: 6px solid #a8e0c5 !important; /* Encabezado Verde Menta Fuerte */
+    background-color: #dec2ef !important;
+    border-top: 6px solid #78b7df !important; /* Encabezado Azul Cielo Intenso */
 }
 .tarjeta-alerta-pastel.exito h4, .tarjeta-alerta-pastel.exito p { color: #000000 !important; }
 
-/* ⚠️ Variante Error: Fondo Melocotón Intenso con texto negro */
+/* ⚠️ Variante Error: Fondo Azul Lavanda Suave con texto negro */
 .tarjeta-alerta-pastel.error {
-    background-color: #ffd3b7 !important;
-    border-top: 6px solid #a8e0c5 !important; /* Encabezado Verde Menta Fuerte */
+    background-color: #afc2f2 !important;
+    border-top: 6px solid #78b7df !important; /* Encabezado Azul Cielo Intenso */
 }
 .tarjeta-alerta-pastel.error h4, .tarjeta-alerta-pastel.error p { color: #000000 !important; }
+
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
    Descripción: Da formato a las respuestas de los botones usando el color 
-   intermedio Lila Lavanda para garantizar una legibilidad impecable.
+   intermedio Lila Orquídea para garantizar una legibilidad impecable.
    ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
@@ -499,14 +500,14 @@ td {
     transition: all 0.2s ease !important;
 }
 
-/* Botón Aceptar / Confirmar: Color Intermedio Lila Lavanda (#e5e1fd) con letras negras */
+/* Botón Aceptar / Confirmar: Color Intermedio Lila Orquídea (#c2b9f9) con letras negras */
 .btn-alerta-pastel.confirmar-ok {
-    background-color: #e5e1fd !important;
+    background-color: #c2b9f9 !important;
     color: #000000 !important;
     border: 2px solid #000000 !important;
 }
 .btn-alerta-pastel.confirmar-ok:hover { 
-    background-color: #cbd2fc !important; /* Oscurece un paso sutil en hover */
+    background-color: #af9ef0 !important; /* Oscurece un paso sutil en hover */
 }
 
 /* Botón Cancelar: Botón Blanco con contorno negro y letras negras */
@@ -523,3 +524,4 @@ td {
     from { opacity: 0; transform: scale(0.96); }
     to { opacity: 1; transform: scale(1); }
 }
+
