@@ -551,7 +551,7 @@ tr:last-child td { border-bottom: none; }
    ventanas flotantes de error, éxito o información de red.
    ========================================================================= */
 div#bannerInstalacionPWA {
-    background-color: #a12cbb !important;
+    background-color: #a12cbb;
     color: #ffffff !important;
     padding: 6px 12px !important; 
     position: fixed !important;
@@ -580,7 +580,7 @@ div#bannerInstalacionPWA p {
 }
 
 button#btnInstalarPWA {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
     color: #000000 !important;
     border: none !important;
     padding: 4px 8px !important; 
