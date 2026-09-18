@@ -18,12 +18,11 @@
     <meta property="og:image:height" content="512">
     <meta property="og:url" content="https://raw.githubusercontent.com/Metrowest/Visita-Sistema-de-control/refs/heads/main/img/og-image.png">
 
-    <!-- CDN DE FUENTES Y ESTILOS MAESTROS PURIFICADOS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- CDN DE FUENTES Y ESTILOS MAESTROS -->
+    <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com" rel="stylesheet"> 
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
     <link rel="manifest" href="manifest.json">
-
     <!-- Librería externa corregida para los iconos dinámicos -->   
     <link rel="stylesheet" href="https://cloudflare.com">
     <!-- Enlace a tus estilos externos independientes -->
@@ -61,57 +60,74 @@
 <body>
 
     <!-- =========================================================================
-         CONTENEDOR DE DISTRIBUCIÓN PARALELA MAESTRA (FLEXBOX ORIGINAL DE STYLE.CSS)
+       CABECERA GENERAL UNIFICADA DE LA INTERFAZ
+       ========================================================================= -->
+    <header style="text-align: center; margin-bottom: 24px; padding: 10px;">
+        <h1 style="color: #000000; font-size: 1.8rem; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif;">
+            Visita - Sistema de Control Operacional
+        </h1>
+    </header>
+
+    <!-- =========================================================================
+         CONTENEDOR DE DISTRIBUCIÓN PARALELA MAESTRA (DIRECCIÓN CONTROLADA POR REJILLA)
+         Nota: Mantiene el orden de carga Carpetas primero, Hojas después.
          ========================================================================= -->
-    <div class="contenedor-modulos-paralelos">
+    <div class="contenedor-principal" style="display: grid; gap: 24px;">
 
-        <!-- =========================================================================
-            ⭐ CARPETAS PRIMERO: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE (ORIGINAL)
+                 <!-- =========================================================================
+             📌 BLOQUE LOGICO PRIMERO (CARPETAS): CARGADO AL INICIO - VISUALIZADO A LA DERECHA
              ========================================================================= -->
-        <div id="moduloGestorCarpetas" class="tarjeta-modulo">
-            <div class="tarjeta-cabecera">
-                <span class="icono-titulo">📁</span>
-                <h2>Gestor de Archivos (Visita Actual)</h2>
-            </div>
+        <div class="bloque-columna-derecha" style="display: flex; flex-direction: column; gap: 24px;">
 
-            <!-- CARPETAS SECCION 2 FUNCION 2.1: MOTOR DE NAVEGACIÓN ORIGINAL ASÍNCRONO -->
-            <div class="campo-formulario" style="margin-bottom: 15px;">
-                <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
-                <select id="selectorSubcarpetas" class="control-selector">
-                    <!-- Las subcarpetas en vivo de tu Google Drive se inyectan aquí por carpetas.js -->
-                </select>
-            </div>
-
-            <!-- CARPETAS SECCION 3 - Módulo de carga de archivos original -->
-            <div class="campo-formulario" style="margin-bottom: 20px;">
-                <label for="archivoDriveInput" class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 8px;">
-                    Subir Documento o Carpeta a la Sección Activa
-                </label>
-                <!-- 🛡️ RESTAURADO ID EXACTO: id="archivoDriveInput" para sanar la línea 439 de app.js -->
-                <input type="file" id="archivoDriveInput" class="control-selector" style="width: 100%; padding: 8px; border: 1px solid var(--color-borde); border-radius: 8px; background-color: var(--color-fondo);">
-                
-                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
-                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
-                    <div id="vistaPreviaIconoDrive" style="font-size: 1.15rem; display: flex; align-items: center;"></div>
+            <!-- CARPETAS FUNCIÓN 1: GESTOR DE DIRECTORIOS -->
+            <div id="moduloGestorCarpetas" class="tarjeta-modulo">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📁</span>
+                    <h2>Gestor de Archivos (Visita Actual)</h2>
                 </div>
-
-                <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
-                    <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
+                <div class="campo-formulario" style="margin-top: 15px;">
+                    <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
+                    <select id="selectorSubcarpetas" class="selector-estilizado">
+                        <!-- Las subcarpetas en vivo de tu Google Drive se inyectan aquí por carpetas.js -->
+                    </select>
                 </div>
-
-                <!-- CARPETAS SECCION 3 FUNCION 3.1 -->
-                <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
-                    🚀 Subir a Carpeta Activa
-                </button>
             </div>
 
+            <!-- CARPETAS FUNCIÓN 2: COMPONENTE TRANSMISOR DE SUBIDAS -->
+            <div class="tarjeta-modulo">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📤</span>
+                    <h2>Subir Documento o Carpeta a la Sección Activa</h2>
+                </div>
+                <div class="campo-formulario" style="margin-top: 15px;">
+                    <!-- 🛡️ CONSERVADO ID ORIGINAL DE RESPALDO: archivoSubirDrive -->
+                    <input type="file" id="archivoSubirDrive" class="selector-estilizado">
+                    
+                    <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
+                        <div id="vistaPreviaIconoDrive" style="font-size: 1.15rem; display: flex; align-items: center;"></div>
+                    </div>
 
-            <!-- CARPETAS SECCION 4 - ZONA DE ARCHIVOS DISPONIBLES -->
-            <div class="zona-archivos-disponibles">
-                <h3 class="titulo-visor-drive">
-                    <span>📄</span> Archivos Disponibles en esta Carpeta:
-                </h3>
-                <div class="tabla-responsiva contenedor-scroll-drive">
+                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
+                        <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <!-- 🚀 Tu disparador binario original intacto -->
+                        <button type="button" id="btnIniciarCargaDrive" class="btn-turquesa" style="width: 100%;">
+                            🚀 Subir a Carpeta Activa
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARPETAS FUNCIÓN 3: REPOSITORIO DIGITAL DE ARCHIVOS DISPONIBLES -->
+            <div class="tarjeta-modulo">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📄</span>
+                    <h2>Archivos Disponibles en esta Carpeta</h2>
+                </div>
+                <div class="tabla-responsiva contenedor-scroll-drive" style="margin-top: 15px;">
                     <table>
                         <thead>
                             <tr>
@@ -120,7 +136,7 @@
                                 <th>Enlace</th>
                             </tr>
                         </thead>
-                        <!-- CARPETAS SECCION 4 FUNCION 4.1: MATRIZ RECEPTORA DINÁMICA DE ELEMENTOS DE DRIVE -->
+                        <!-- 🛡️ CONSERVADO ID ORIGINAL DE RESPALDO: tablaCuerpoDrive -->
                         <tbody id="tablaCuerpoDrive">
                             <tr>
                                 <td colspan="3" class="celda-carga">
@@ -132,42 +148,44 @@
                 </div>
             </div>
 
-        </div> <!-- CIERRE DE CARPETAS -->
+        </div> <!-- FIN COLUMNA DERECHA (CARPETAS) -->
 
+                 <!-- =========================================================================
+             📌 BLOQUE LOGICO SEGUNDO (HOJAS): CARGADO DESPUÉS - VISUALIZADO A LA IZQUIERDA
+             ========================================================================= -->
+        <div class="bloque-columna-izquierda" style="display: flex; flex-direction: column; gap: 24px;">
 
-        <!-- 📌 HOJAS DESPUÉS: SELECTOR, FORMULARIO Y TABLAS DE GOOGLE SHEETS -->
-        <div class="bloque-columna-derecha" style="display: flex; flex-direction: column; gap: 24px;">
-
-            <!-- =========================================================================
-               HOJAS SECCIÓN 1: SELECTOR DE SECCIONES (HOJAS) ORIGINAL
-               ========================================================================= -->
-            <div class="contenedor-selector" style="background-color: var(--color-superficie); padding: 20px; border-radius: 12px; border: 1px solid var(--color-borde); box-shadow: var(--sombra-modulo);">
-                <label class="etiqueta-seleccion" for="selectorHoja">Selecciona una Sección:</label>
-                <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
-                    <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                    <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                    <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                    <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                    <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                    <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                    <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                    <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                    <option value="Seguridad">🛡️ Seguridad (Programa)</option>
-                </select>
-                <div style="margin-top: 8px;">
-                    <span class="enlace-seccion-activa">
-                        Sección activa: <a id="enlaceDinamico" class="link-moderno" href="#">...</a>
-                    </span>
+            <!-- HOJAS FUNCIÓN 1: SELECTOR INDEPENDIENTE DE SECCIONES -->
+            <div class="tarjeta-modulo">
+                <div class="tarjeta-cabecera">
+                    <span class="icono-titulo">📂</span>
+                    <h2>Selecciona una Hoja</h2>
+                </div>
+                <div class="contenedor-selector">
+                    <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
+                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
+                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
+                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
+                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
+                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
+                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
+                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
+                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
+                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
+                    </select>
+                    <div class="enlace-seccion-activa" style="margin-top: 10px; font-weight: bold;">
+                        Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
+                    </div>
                 </div>
             </div>
 
-            <!-- HOJAS SECCIÓN 5: FORMULARIO DE RECOPILACIÓN DE REGISTROS -->
+            <!-- HOJAS FUNCIÓN 2: FORMULARIO DE RECOPILACIÓN DE REGISTROS -->
             <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
-                    <span class="icono-titulo">📝</span>
+                    <div class="icono-titulo">📋</div>
                     <h2 id="formTitulo">Añadir Registro</h2>
                 </div>
-                <form id="formularioCaptura" onsubmit="event.preventDefault();">
+                <form id="formularioSuperintendentes" class="formulario-estilizado">
                     <div class="grid-formulario">
                         <div class="campo-formulario" id="contenedorCampo1">
                             <label id="lblCampo1" for="txtGrupo">Grupo / Día</label>
@@ -181,57 +199,39 @@
                             <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
                             <input type="text" id="txtTelefono" placeholder="Información" required>
                         </div>
-                        <!-- Bloques dinámicos ocultos síncronos -->
-                        <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
-                            <label id="lblCampo4" for="txtCampo4">Campo 4</label>
-                            <input type="text" id="txtCampo4">
-                        </div>
-                        <div class="campo-formulario" id="contenedorCampo5" style="display: none;">
-                            <label id="lblCampo5" for="txtCampo5">Campo 5</label>
-                            <input type="text" id="txtCampo5">
-                        </div>
-                        <div class="campo-formulario" id="contenedorCampo6" style="display: none;">
-                            <label id="lblCampo6" for="txtCampo6">Campo 6</label>
-                            <input type="text" id="txtCampo6">
-                        </div>
-                        <div class="campo-formulario" id="contenedorCampo7" style="display: none;">
-                            <label id="lblCampo7" for="txtCampo7">Campo 7</label>
-                            <input type="text" id="txtCampo7">
-                        </div>
-                        <div class="campo-formulario" id="contenedorCampo8" style="display: none;">
-                            <label id="lblCampo8" for="txtCampo8">Campo 8</label>
-                            <input type="text" id="txtCampo8">
-                        </div>
+                        <div class="campo-formulario" id="contenedorCampo4" style="display: none;"><input type="text" id="txtCampo4"></div>
+                        <div class="campo-formulario" id="contenedorCampo5" style="display: none;"><input type="text" id="txtCampo5"></div>
+                        <div class="campo-formulario" id="contenedorCampo6" style="display: none;"><input type="text" id="txtCampo6"></div>
+                        <div class="campo-formulario" id="contenedorCampo7" style="display: none;"><input type="text" id="txtCampo7"></div>
+                        <div class="campo-formulario" id="contenedorCampo8" style="display: none;"><input type="text" id="txtCampo8"></div>
                     </div>
                     <div class="bloque-botones">
-                        <button type="button" class="btn-primario" onclick="window.guardarEdicion()">💾 Guardar Registro</button>
+                        <button type="submit" id="btnGuardar" class="btn-primario">💾 Guardar Registro</button>
+                        <button type="button" id="btnCancelar" class="btn-secundario" style="display: none;">❌ Cancelar Edición</button>
                     </div>
                 </form>
             </div>
 
-            <!-- HOJAS SECCIÓN 6: VISUALIZADOR CENTRAL DE TABLAS DE DATOS -->
-            <div id="contenedorTablaRegistros" class="tarjeta-modulo">
+            <!-- HOJAS FUNCIÓN 3: REJILLA GRÁFICA DE REGISTROS -->
+            <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
-                    <span class="icono-titulo">📊</span>
+                    <div class="icono-titulo">📂</div>
                     <h2>Registros Almacenados en la Hoja</h2>
                 </div>
                 <div class="tabla-responsiva">
-                    <table>
-                        <thead id="tablaCabecera">
-                            <!-- Inyección automatizada por app.js -->
-                        </thead>
+                    <table id="tablaRegistros">
+                        <thead id="tablaCabecera"></thead>
                         <tbody id="tablaCuerpo">
-                            <!-- Inyección automatizada por app.js -->
+                            <tr><td class="celda-carga"><div class="spinner-carga"></div>Cargando desde Google Sheets...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-        </div> <!-- FIN COLUMNA HOJAS -->
+        </div> <!-- FIN COLUMNA IZQUIERDA (HOJAS) -->
+    </div> <!-- FIN CONTENEDOR MAESTRO DE DISTRIBUCIÓN PARALELA -->
 
-    </div> <!-- CIERRE DE CONTENEDOR-MODULOS-PARALELOS GLOBAL -->
-
-    <!-- CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
+         <!-- CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO -->
     <div id="bannerInstalacionPWA">
         <p>Instala la aplicación en tu dispositivo para un acceso rápido.</p>
         <button id="btnInstalarPWA">Instalar</button>
@@ -248,9 +248,7 @@
         <div id="cuerpoAlertaPastel" class="tarjeta-alerta-pastel">
             <h4 id="tituloAlertaPastel">Aviso del Sistema</h4>
             <p id="mensajeAlertaPastel">Mensaje descriptivo...</p>
-            <div id="botonesAlertaPastel" class="contenedor-botones-pastel">
-                <!-- Los botones se inyectan dinámicamente según sea Alerta o Confirmación -->
-            </div>
+            <div id="botonesAlertaPastel" class="contenedor-botones-pastel"></div>
         </div>
     </div>
 
@@ -259,8 +257,7 @@
         let alertaBloqueada = false; 
 
         document.addEventListener("DOMContentLoaded", () => {
-            // 🛡️ SINCRONIZADO: Cambiado a archivoDriveInput para que no dé errores de lectura
-            const inputArchivoDrive = document.getElementById('archivoDriveInput');
+            const inputArchivoDrive = document.getElementById('archivoSubirDrive');
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
@@ -274,7 +271,6 @@
                 });
             }
         });
-
 
         window.alert = function(mensaje) {
             if (alertaBloqueada) {
@@ -340,3 +336,5 @@
      
 </body>
 </html>
+
+
