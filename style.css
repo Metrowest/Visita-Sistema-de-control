@@ -43,9 +43,9 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 3: COMPONENTES COMUNES DE TARJETAS (ESTRUCTURA BASE)
-   Descripción: Controla la estructura visual de cada módulo independiente, sus 
-   cabeceras y los espacios de amortiguación unificados.
+   SECCIÓN 3: COMPONENTES COMUNES DE TARJETAS (ESTRUCTURA PURA)
+   Descripción: Controla la estructura física y los cojines visuales. Se eliminan
+   los colores de fondo genéricos para que no bloqueen a la Sección 4.
    ========================================================================= */
 .tarjeta-modulo {
     border-radius: 14px;
@@ -71,7 +71,7 @@ body {
 
 .icono-titulo { font-size: 1.2rem; }
 
-/* Cojín visual integral centralizado para descolgar elementos de los bordes */
+/* Amortiguación visual interna unificada */
 .tarjeta-modulo .campo-formulario,
 .tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo .zona-archivos-disponibles,
@@ -80,92 +80,52 @@ body {
     box-sizing: border-box;
 }
 
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Todos del mismo color pastel neutro e idéntico */
+/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para todas las cajas */
 .tarjeta-modulo select,
 .tarjeta-modulo input {
+    background-color: #fffde6 !important; /* Amarillo pastel claro unificado */
+    color: #000000 !important; /* Texto negro de máxima legibilidad */
+    border: 1px solid #dcdac2 !important;
     width: 100% !important;
     box-sizing: border-box !important;
     padding: 10px 12px;
-    border: 1px solid var(--color-borde);
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.9rem;
-    color: var(--color-texto-oscuro);
-    background-color: var(--color-input-unico) !important;
 }
 
 /* =========================================================================
-   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES DEFINITIVA POR CLASE INDEPENDIENTE
+   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES DEFINITIVA POR CLASE DIRECTA
    Descripción: Distribuye tus colores base asignando oscuros para cabeceras,
    tonos medios para sub-cabeceras y claros para los fondos de los módulos.
    ========================================================================= */
 
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro y legible para todos */
-.modulo-selector-carpetas select, .modulo-selector-carpetas input,
-.modulo-cargar-carpetas select, .modulo-cargar-carpetas input,
-.modulo-yabla-carpetas select, .modulo-yabla-carpetas input,
-.modulo-gama-verde select, .modulo-gama-verde input,
-.modulo-gama-violeta select, .modulo-gama-violeta input,
-.modulo-gama-lavanda select, .modulo-gama-lavanda input {
-    background-color: #fffde6 !important; /* Amarillo pastel claro unificado */
-    color: #000000 !important; /* Texto negro de máxima legibilidad */
-    border: 1px solid #dcdac2 !important;
+/* -------------------------------------------------------------------------
+   A) MÓDULOS DE LA COLUMNA IZQUIERDA - DRIVE (Gama Lila Base: #f1efff)
+   ------------------------------------------------------------------------- */
+.modulo-gama-carpetas {
+    background-color: #faf9ff !important; /* Fondo claro de los módulos */
 }
-
-/* =========================================================================
-   📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff)
-   ========================================================================= */
-
-/* 1) Gestor de Archivos */
-.modulo-selector-carpetas {
-    background-color: #faf9ff !important; /* Fondo claro del módulo */
-}
-.modulo-selector-carpetas .tarjeta-cabecera {
+.modulo-gama-carpetas .tarjeta-cabecera {
     background-color: #3f3a63 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
-.modulo-selector-carpetas .campo-formulario {
+.modulo-gama-carpetas .campo-formulario,
+.modulo-gama-carpetas .zona-archivos-disponibles {
     background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
-
-/* 2) Cargar Carpetas / Subidas */
-.modulo-cargar-carpetas {
-    background-color: #faf9ff !important; /* Fondo claro del módulo */
-}
-.modulo-cargar-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63 !important; /* Tono oscuro base */
-    color: #ffffff !important;
-}
-.modulo-cargar-carpetas .campo-formulario {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
-}
-.modulo-cargar-carpetas .btn-primario {
+.modulo-gama-carpetas .btn-primario {
     background-color: #3f3a63 !important;
     color: #ffffff !important;
 }
-
-/* 3) Archivos Disponibles / Tabla */
-.modulo-yabla-carpetas {
-    background-color: #faf9ff !important; /* Fondo claro del módulo */
-}
-.modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63 !important; /* Tono oscuro base */
-    color: #ffffff !important;
-}
-.modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE INTERMEDIO */
-}
-.modulo-yabla-carpetas th {
+.modulo-gama-carpetas th {
     background-color: #dbd6f5 !important;
     color: #000000 !important;
 }
 
-
-/* =========================================================================
-   📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMA ESPECÍFICA SOLICITADA)
-   ========================================================================= */
-
-/* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+/* -------------------------------------------------------------------------
+   B) MÓDULO SELECTOR DE HOJAS (Gama Verde Base: #dbe8b2)
+   ------------------------------------------------------------------------- */
 .modulo-gama-verde {
     background-color: #f7f9f4 !important; /* Fondo claro del módulo */
 }
@@ -177,7 +137,9 @@ body {
     background-color: #dbe8b2 !important; /* 🌟 TU COLOR BASE INTERMEDIO */
 }
 
-/* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
+/* -------------------------------------------------------------------------
+   C) MÓDULO FORMULARIO AÑADIR REGISTRO (Gama Violeta Base: #d9d4fc)
+   ------------------------------------------------------------------------- */
 .modulo-gama-violeta {
     background-color: #f6f5ff !important; /* Fondo claro del módulo */
 }
@@ -185,6 +147,8 @@ body {
     background-color: #2b2361 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
+/* 🛡️ ESPECIFICIDAD MÁXIMA: Obliga al formulario y a la rejilla interna a pintarse con tu color */
+.modulo-gama-violeta form,
 .modulo-gama-violeta .grid-formulario,
 .modulo-gama-violeta .campo-formulario {
     background-color: #d9d4fc !important; /* 🌟 TU COLOR BASE INTERMEDIO */
@@ -194,7 +158,9 @@ body {
     color: #ffffff !important;
 }
 
-/* 3) Registros Almacenados / Tabla (Gama Lavanda Base: #e5e1fd) */
+/* -------------------------------------------------------------------------
+   D) MÓDULO REGISTROS ALMACENADOS - TABLA (Gama Lavanda Base: #e5e1fd)
+   ------------------------------------------------------------------------- */
 .modulo-gama-lavanda {
     background-color: #f8f7ff !important; /* Fondo claro del módulo */
 }
@@ -202,6 +168,7 @@ body {
     background-color: #312a66 !important; /* Tono oscuro base */
     color: #ffffff !important;
 }
+/* 🛡️ ESPECIFICIDAD MÁXIMA: Forza al contenedor interno de la tabla a pintarse con tu color */
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
     background-color: #e5e1fd !important; /* 🌟 TU COLOR BASE INTERMEDIO */
