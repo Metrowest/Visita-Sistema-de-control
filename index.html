@@ -19,10 +19,12 @@
     <meta property="og:url" content="https://raw.githubusercontent.com/Metrowest/Visita-Sistema-de-control/refs/heads/main/img/og-image.png">
 
     <!-- CDN DE FUENTES Y ESTILOS MAESTROS -->
-    <link rel="preconnect" href="https://googleapis.com">
+    <!-- CDN DE FUENTES Y ESTILOS MAESTROS PURIFICADOS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com" rel="stylesheet"> 
     <link rel="manifest" href="manifest.json">
+
     <!-- Librería externa corregida para los iconos dinámicos -->   
     <link rel="stylesheet" href="https://cloudflare.com">
     <!-- Enlace a tus estilos externos independientes -->
@@ -99,7 +101,7 @@
                     <h2>Subir Documento o Carpeta a la Sección Activa</h2>
                 </div>
                 <div>
-                    <!-- Conservamos tu input nativo estable -->
+                    <!-- 🛡️ ID RESTAURADO: Sanea la línea 439 del app.js de inmediato -->
                     <input type="file" id="archivoSubirDrive" class="selector-estilizado">
                     
                     <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
@@ -112,13 +114,13 @@
                     </div>
 
                     <div style="margin-top: 10px;">
-                        <!-- 🛡️ SOLUCIÓN MAESTRA: Se cambia id="btnIniciarCargaDrive" por id="btnSubirDrive" para sanar la línea 439 -->
-                        <button type="button" id="btnSubirDrive" class="btn-turquesa" style="width: 100%;">
+                        <button type="button" id="btnIniciarCargaDrive" class="btn-turquesa" style="width: 100%;">
                             🚀 Subir a Carpeta Activa
                         </button>
                     </div>
                 </div>
             </div>
+
 
             <!-- CARPETAS FUNCIÓN 3: REPOSITORIO DE ARCHIVOS DISPONIBLES -->
             <div class="tarjeta-modulo">
