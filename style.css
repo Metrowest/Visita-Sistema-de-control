@@ -181,44 +181,27 @@ body {
 
 
 /* =========================================================================
-   SECCIÓN 5: BOTONERAS, ELEMENTOS ASÍNCRONOS Y ENTORNO DE TABLAS
-   Descripción: Estiliza los componentes interactivos de las celdas, los 
-   spinners de carga y los títulos de campos descriptivos.
+   SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS
+   Descripción: Sincroniza todos los botones al color morado oscuro exacto
+   de las cabeceras de la aplicación para una identidad uniforme.
    ========================================================================= */
-.campo-formulario label,
-.contenedor-selector label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-texto-medio);
-}
-
-.enlace-seccion-activa {
-    font-size: 0.85rem;
-    color: var(--color-texto-medio);
-    font-weight: 500;
-}
-
-.link-moderno {
-    color: var(--color-turquesa);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.link-moderno:hover {
-    text-decoration: underline;
-}
-
 .bloque-botones {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-@media (min-width: 480px) {
-    .bloque-botones { flex-direction: row; }
+@media (min-width: 480px) { 
+    .bloque-botones { flex-direction: row; } 
 }
 
-.btn-primario, .btn-secundario {
+/* 🌟 UNIFICACIÓN DE BOTONES: Todos adoptan el morado oscuro de las cabeceras */
+.btn-primario, 
+.modulo-cargar-carpetas .btn-primario, 
+.modulo-gama-violeta .btn-primario,
+.tabla-responsiva a.link-moderno,
+.tabla-responsiva .btn-ver-drive,
+[id*="btn"] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -230,30 +213,26 @@ body {
     font-weight: 600;
     cursor: pointer;
     border: none;
+    background-color: #3f3a63 !important; /* Morado oscuro de la cabecera */
+    color: #ffffff !important;
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.btn-primario {
-    background-color: var(--color-turquesa);
-    color: #ffffff;
+/* Efecto hover suave para mantener la interactividad */
+.btn-primario:hover { 
+    filter: brightness(1.2) !important; 
 }
 
-.btn-primario:hover {
-    background-color: var(--color-turquesa-oscuro);
+.btn-secundario { 
+    background-color: #f1f5f9 !important; 
+    color: #ef4444 !important; 
+    border: 1px solid #fee2e2 !important; 
 }
-
-.btn-secundario {
-    background-color: #f1f5f9;
-    color: #ef4444;
-    border: 1px solid #fee2e2;
+.btn-secundario:hover { 
+    background-color: #fee2e2 !important; 
 }
-
-.btn-secundario:hover {
-    background-color: #fee2e2;
-}
-
-.btn-primario:active, .btn-secundario:active {
-    transform: scale(0.98);
+.btn-primario:active, .btn-secundario:active { 
+    transform: scale(0.98); 
 }
 
 .tabla-responsiva {
@@ -272,21 +251,17 @@ table {
     font-size: 0.85rem;
 }
 
-th, td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--color-borde);
+th, td { 
+    padding: 12px 14px; 
+    border-bottom: 1px solid var(--color-borde); 
 }
 
-th {
-    background-color: #f8fafc;
-    color: var(--color-texto-medio);
-    font-weight: 600;
-    white-space: nowrap;
+th { 
+    background-color: #dbd6f5; 
+    color: #000000; 
+    font-weight: 600; 
+    white-space: nowrap; 
 }
-
-/* Sincronización cromática para los th de las tablas */
-.modulo-yabla-carpetas th { background-color: #dbd6f5; color: #000000; }
-.modulo-gama-lavanda th { background-color: #cac5fa; color: #000000; }
 
 td { color: var(--color-texto-oscuro); }
 tr:last-child td { border-bottom: none; }
@@ -296,40 +271,22 @@ tr:last-child td { border-bottom: none; }
     width: 24px;
     height: 24px;
     border: 3px solid #e2e8f0;
-    border-top-color: var(--color-turquesa);
+    border-top-color: #3f3a63;
     border-radius: 50%;
     margin: 0 auto 10px auto;
     animation: girarSpinner 0.8s linear infinite;
 }
+@keyframes girarSpinner { to { transform: rotate(360deg); } }
 
-@keyframes girarSpinner {
-    to { transform: rotate(360deg); }
-}
+.btn-edit, .btn-delete { background: none; border: none; font-size: 1.1rem; padding: 4px 8px; cursor: pointer; transition: transform 0.1s; }
+.btn-edit:hover, .btn-delete:hover { transform: scale(1.2); }
 
-.btn-edit, .btn-delete {
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: transform 0.1s;
-}
-
-.btn-edit:hover, .btn-delete:hover {
-    transform: scale(1.2);
-}
-
-/* Integración de iconos de tu respaldo */
 .tabla-responsiva td i, .tarjeta-modulo i {
     margin-right: 8px;
     font-size: 1.15rem;
     vertical-align: middle;
 }
 
-@media (max-width: 768px) {
-    .grid-formulario { margin-bottom: 12px; }
-    .bloque-botones { margin-bottom: 40px; }
-}
 
 /* =========================================================================
    SECCIÓN 6: ALERTAS PASTEL Y COMPONENTES DEL TABLERO PWA INFRAESTRUCTURA
