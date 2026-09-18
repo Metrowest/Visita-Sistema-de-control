@@ -95,71 +95,66 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS POR MÓDULO
-   Descripción: Aplica las gamas solicitadas usando el color oscuro para 
-   cabeceras/botones, sub-cabeceras más claras y fondos intermedios.
+   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS POR CLASE DIRECTA
+   Descripción: Distribuye tus colores base asignando oscuros para cabeceras/botones,
+   tonos medios para sub-cabeceras y claros para fondos internos.
    ========================================================================= */
 
 /* -------------------------------------------------------------------------
-   A) MÓDULO SELECTOR DE HOJAS (Gama Verde Pastel: #dbe8b2 / #e5f0c9)
+   A) MÓDULO SELECTOR DE HOJAS (Gama Verde Pastel Base: #dbe8b2 / #e5f0c9)
    ------------------------------------------------------------------------- */
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(1) {
-    background-color: #f6f9ee; /* Fondo del módulo intermedio claro */
+.modulo-gama-verde {
+    background-color: #f7f9f2; /* Tono muy claro de fondo */
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(1) .tarjeta-cabecera {
-    background-color: #7f953c; /* Cabecera tono oscuro base */
+.modulo-gama-verde .tarjeta-cabecera {
+    background-color: #434c26; /* Tono oscuro extraído de la gama verde */
     color: #ffffff;
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(1) .contenedor-selector {
-    background-color: #e5f0c9; /* Sub-cabecera / Fondo del selector un poco más claro */
+.modulo-gama-verde .contenedor-selector {
+    background-color: #dbe8b2; /* Sub-cabecera / Color intermedio */
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(1) .btn-primario,
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(1) select {
-    background-color: var(--color-input-unico);
+.modulo-gama-verde label, .modulo-gama-verde .enlace-seccion-activa {
+    color: #1e1e24;
 }
 
 /* -------------------------------------------------------------------------
-   B) MÓDULO FORMULARIO AÑADIR REGISTRO (Gama Violeta Pastel: #d9d4fc)
+   B) MÓDULO FORMULARIO AÑADIR REGISTRO (Gama Violeta Pastel Base: #d9d4fc)
    ------------------------------------------------------------------------- */
-#formularioSuperintendentes, 
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(2) {
-    background-color: #f4f2ff; /* Fondo del módulo intermedio */
+.modulo-gama-violeta {
+    background-color: #f6f5fe; /* Tono muy claro de fondo */
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(2) .tarjeta-cabecera {
-    background-color: #4b3eb3; /* Cabecera tono oscuro base */
+.modulo-gama-violeta .tarjeta-cabecera {
+    background-color: #272159; /* Tono oscuro extraído de la gama violeta */
     color: #ffffff;
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(2) form {
-    background-color: #d9d4fc; /* Sub-cabecera interna / Contenedor de campos */
-    border-radius: 8px;
+.modulo-gama-violeta form {
+    background-color: #d9d4fc; /* Sub-cabecera / Entorno del formulario */
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(2) .btn-primario {
-    background-color: #4b3eb3; /* Botón oscuro a juego con cabecera */
+.modulo-gama-violeta .btn-primario {
+    background-color: #272159; /* Botón oscuro unificado */
     color: #ffffff;
 }
 
 /* -------------------------------------------------------------------------
-   C) MÓDULO REGISTROS ALMACENADOS - TABLA (Gama Lavanda Pastel: #e5e1fd)
+   C) MÓDULO REGISTROS ALMACENADOS - TABLA (Gama Lavanda Pastel Base: #e5e1fd)
    ------------------------------------------------------------------------- */
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(3) {
-    background-color: #f7f6fe; /* Fondo del módulo intermedio */
+.modulo-gama-lavanda {
+    background-color: #f8f7fe; /* Tono muy claro de fondo */
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(3) .tarjeta-cabecera {
-    background-color: #5b51c6; /* Cabecera tono oscuro base */
+.modulo-gama-lavanda .tarjeta-cabecera {
+    background-color: #2e2861; /* Tono oscuro unificado */
     color: #ffffff;
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(3) .tabla-responsiva {
-    background-color: #e5e1fd; /* Sub-cabecera de la tabla / Fondo contenedor */
-    padding: 12px;
-    border-radius: 8px;
+.modulo-gama-lavanda .campo-formulario {
+    background-color: #e5e1fd; /* Sub-cabecera / Entorno de la tabla */
 }
-.bloque-hojas-derecha-empaquetado .tarjeta-modulo:nth-of-type(3) th {
-    background-color: #c4bdfa; /* Encabezados de tabla un poco más claros */
-    color: var(--color-texto-oscuro);
+.modulo-gama-lavanda th {
+    background-color: #c8c2fa; /* Encabezado horizontal un poco más oscuro */
+    color: #1e1e24;
 }
 
 /* -------------------------------------------------------------------------
-   D) COLUMNA IZQUIERDA COMPLETA - DRIVE (Gama Lila/Gris Claro: #f1efff)
+   D) COLUMNA IZQUIERDA COMPLETA - DRIVE (Gama Lila Claro Neutro: #f1efff)
    ------------------------------------------------------------------------- */
 .bloque-carpetas-izquierda-empaquetado {
     display: flex;
@@ -169,23 +164,23 @@ body {
     width: 100%;
 }
 .bloque-carpetas-izquierda-empaquetado .tarjeta-modulo {
-    background-color: #fcfbfe; /* Fondo intermedio claro */
+    background-color: #faf9fe; /* Tono muy claro de fondo */
 }
 .bloque-carpetas-izquierda-empaquetado .tarjeta-modulo .tarjeta-cabecera {
-    background-color: #554da1; /* Cabecera tono oscuro base */
+    background-color: #332f54; /* Tono oscuro unificado */
     color: #ffffff;
 }
-.bloque-carpetas-izquierda-empaquetado .tarjeta-modulo .campo-formulario,
-.bloque-carpetas-izquierda-empaquetado .tarjeta-modulo .zona-archivos-disponibles {
+.bloque-carpetas-izquierda-empaquetado .campo-formulario,
+.bloque-carpetas-izquierda-empaquetado .zona-archivos-disponibles {
     background-color: #f1efff; /* Sub-cabecera / Entorno de controles interno */
 }
 .bloque-carpetas-izquierda-empaquetado .btn-primario {
-    background-color: #554da1; /* Botón oscuro a juego con cabecera */
+    background-color: #332f54; /* Botón oscuro unificado */
     color: #ffffff;
 }
 .bloque-carpetas-izquierda-empaquetado th {
-    background-color: #dcd7fa;
-    color: var(--color-texto-oscuro);
+    background-color: #dbd6fa;
+    color: #1e1e24;
 }
 
 /* =========================================================================
