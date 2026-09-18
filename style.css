@@ -135,69 +135,49 @@ body {
     margin-bottom: 20px;
 }
 /* =========================================================================
-   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS POR CLASE DIRECTA
-   Descripción: Repara ambas columnas. Fuerza a todas las tarjetas a ser 
-   blancas por fuera, aplicando los colores de forma aislada e independiente.
+   SECCIÓN 4: IDENTIDAD CROMÁTICA UNIFICADA - GAMA MORADO CORPORATIVO
+   Descripción: Sincroniza los 6 módulos de la pantalla bajo la misma familia
+   de tonos de la foto, garantizando la fluidez de la cascada nativa.
    ========================================================================= */
 
-/* --- 📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA: #f1efff) --- */
-.modulo-selector-carpetas, .modulo-cargar-carpetas, .modulo-yabla-carpetas {
-    background-color: #ffffff; /* Fuerza fondo blanco limpio en la izquierda */
-}
-.modulo-selector-carpetas .tarjeta-cabecera,
-.modulo-cargar-carpetas .tarjeta-cabecera,
-.modulo-yabla-carpetas .tarjeta-cabecera {
-    background-color: #3f3a63; /* Cabecera oscura lila */
-    color: #ffffff;
-}
-.modulo-selector-carpetas .campo-formulario,
-.modulo-cargar-carpetas .campo-formulario,
-.modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff; /* Sub-cabecera interna lila pastel */
-    border-radius: 8px;
-}
-.modulo-cargar-carpetas .btn-primario {
-    background-color: #3f3a63; /* Botón oscuro a juego */
-    color: #ffffff;
-}
+/* --- 📦 COLUMNA IZQUIERDA: COMPONENTES DE CARPETAS DE DRIVE --- */
 
-/* --- 📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMAS ESPECÍFICAS) --- */
-.modulo-gama-verde, .modulo-gama-violeta, .modulo-gama-lavanda {
-    background-color: #ffffff; /* Fuerza fondo blanco limpio en la derecha */
-}
-.modulo-gama-verde .tarjeta-cabecera {
-    background-color: #424a24; /* Cabecera oscura verde */
-    color: #ffffff;
-}
-.modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2; /* Sub-cabecera interna verde pastel */
-    border-radius: 8px;
-}
-.modulo-gama-violeta .tarjeta-cabecera {
-    background-color: #2b2361; /* Cabecera oscura violeta */
-    color: #ffffff;
-}
-.modulo-gama-violeta form {
-    background-color: #d9d4fc; /* Sub-cabecera interna violeta pastel */
-    border-radius: 8px;
-}
-.modulo-gama-violeta .btn-primario {
-    background-color: #2b2361; /* Botón oscuro a juego */
-    color: #ffffff;
-}
-.modulo-gama-lavanda .tarjeta-cabecera {
-    background-color: #312a66; /* Cabecera oscura lavanda */
-    color: #ffffff;
-}
+/* 1) Gestor de Archivos */
+.modulo-selector-carpetas { background-color: #ffffff; }
+.modulo-selector-carpetas .tarjeta-cabecera { background-color: #3f3a63; color: #ffffff; }
+.modulo-selector-carpetas .campo-formulario { background-color: #f1efff; border-radius: 8px; }
+
+/* 2) Componente de Subidas */
+.modulo-cargar-carpetas { background-color: #ffffff; }
+.modulo-cargar-carpetas .tarjeta-cabecera { background-color: #3f3a63; color: #ffffff; }
+.modulo-cargar-carpetas .campo-formulario { background-color: #f1efff; border-radius: 8px; }
+.modulo-cargar-carpetas .btn-primario { background-color: #3f3a63; color: #ffffff; }
+
+/* 3) Archivos Disponibles (Tabla) */
+.modulo-yabla-carpetas { background-color: #ffffff; }
+.modulo-yabla-carpetas .tarjeta-cabecera { background-color: #3f3a63; color: #ffffff; }
+.modulo-yabla-carpetas .zona-archivos-disponibles { background-color: #f1efff; border-radius: 8px; }
+.modulo-yabla-carpetas th { background-color: #dbd6f5; color: #000000; }
+
+/* --- 📊 COLUMNA DERECHA: COMPONENTES DE HOJAS DE SHEETS --- */
+
+/* 1) Selecciona una Hoja */
+.modulo-gama-verde { background-color: #ffffff; }
+.modulo-gama-verde .tarjeta-cabecera { background-color: #3f3a63; color: #ffffff; }
+.modulo-gama-verde .contenedor-selector { background-color: #f1efff; border-radius: 8px; }
+
+/* 2) Añadir Registro */
+.modulo-gama-violeta { background-color: #ffffff; }
+.modulo-gama-violeta .tarjeta-cabecera { background-color: #3f3a63; color: #ffffff; }
+.modulo-gama-violeta form { background-color: #f1efff; border-radius: 8px; }
+.modulo-gama-violeta .btn-primario { background-color: #3f3a63; color: #ffffff; }
+
+/* 3) Registros Almacenados (Tabla Base de Datos) */
+.modulo-gama-lavanda { background-color: #ffffff; }
+.modulo-gama-lavanda .tarjeta-cabecera { background-color: #3f3a63; color: #ffffff; }
 .modulo-gama-lavanda .campo-formulario,
-.modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd; /* Sub-cabecera interna lavanda pastel */
-    border-radius: 8px;
-}
-.modulo-gama-lavanda th {
-    background-color: #cac5fa; /* Encabezado de celda horizontal */
-    color: #000000;
-}
+.modulo-gama-lavanda .tabla-responsiva { background-color: #f1efff; border-radius: 8px; }
+.modulo-gama-lavanda th { background-color: #dbd6f5; color: #000000; }
 
 
 /* =========================================================================
