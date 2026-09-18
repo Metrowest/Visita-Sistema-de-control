@@ -84,41 +84,41 @@ body {
     font-size: 1.2rem;
 }
 
-/* 🛡️ COJÍN VISUAL INTEGRAL: Despega selectores, enlaces y formularios de todos los bordes */
+/* 🛡️ COJÍN VISUAL INTEGRAL CENTRALIZADO: Aplica un respiro generoso y despegado de los bordes */
 .tarjeta-modulo .campo-formulario,
+.tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo form {
     padding: 20px 24px;
     box-sizing: border-box;
 }
 
-/* 🛡️ REGLA QUIRÚRGICA: Fuerza el espacio protector simétrico dentro del selector de hojas */
-.contenedor-selector label,
-.contenedor-selector select,
-.contenedor-selector .enlace-seccion-activa {
-    margin-left: 24px !important;
-    margin-right: 24px !important;
-    max-width: calc(100% - 48px) !important;
-}
-
-.contenedor-selector label {
+/* Control estricto de la etiqueta tipográfica interna del selector */
+.contenedor-selector label.etiqueta-seleccion {
     display: block;
-    margin-top: 20px !important;
-    margin-bottom: 10px !important;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
-.contenedor-selector .enlace-seccion-activa {
+/* Control de espaciado y legibilidad para el enlace activo inferior */
+.tarjeta-modulo .enlace-seccion-activa {
     display: block;
-    margin-top: 15px !important;
-    margin-bottom: 20px !important;
+    margin-top: 15px;
+    font-weight: bold;
 }
 
-/* Forzar que las cajas de selección y entradas se expandan limpiamente */
+.tarjeta-modulo .enlace-seccion-activa a {
+    color: var(--color-turquesa);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* Forzar que todas las cajas de selección y entradas se expandan limpiamente sin salirse */
 .tarjeta-modulo select,
 .tarjeta-modulo input {
     width: 100% !important;
     box-sizing: border-box !important;
 }
-
 
 /* =========================================================================
    SECCIÓN 4: COLUMNA DE CARPETAS Y CONTROLES DE GOOGLE DRIVE
