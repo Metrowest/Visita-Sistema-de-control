@@ -61,12 +61,12 @@ body {
 }
 
 /* =========================================================================
-   SECCIÓN 3: COMPONENTES ESTRUCTURALES Y FORMULARIOS LIBERADOS (FOTO 1)
-   Descripción: Recupera las tarjetas blancas puras y elimina los candados 
-   de color sobre las etiquetas form, grid-formulario y campo-formulario.
+   SECCIÓN 3: COMPONENTES ESTRUCTURALES DE LAS TARJETAS (REPARADA)
+   Descripción: Controla el cascarón de las tarjetas manteniendo el fondo 
+   blanco original, liberando los contenedores para que acepten los colores.
    ========================================================================= */
 .tarjeta-modulo {
-    background-color: var(--color-superficie) !important; /* Fuerza el fondo blanco limpio original */
+    background-color: var(--color-superficie);
     border-radius: 12px;
     border: 1px solid var(--color-borde);
     box-shadow: var(--sombra-modulo);
@@ -85,71 +85,16 @@ body {
     padding-bottom: 12px;
 }
 
-/* 🔓 LIBERADOS: Los contenedores internos ya no tienen ningún fondo forzado */
+/* 🔓 LIBERADO: Removido el !important transparente para que la Sección 4 pueda pintar */
 .tarjeta-modulo .campo-formulario,
 .tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo .zona-archivos-disponibles,
 .tarjeta-modulo .tabla-responsiva,
 .tarjeta-modulo form,
 .grid-formulario {
-    background-color: transparent !important; /* Elimina cualquier rastro de morado o azul */
-    background: transparent !important;
-    padding: 10px 5px;
+    padding: 16px 12px;
     box-sizing: border-box;
 }
-
-/* 🛡️ ININPUTS UNIFICADOS: Amarillo pastel claro limpio para toda la aplicación */
-.tarjeta-modulo select,
-.tarjeta-modulo input,
-.tarjeta-modulo select option {
-    background-color: #fffde6 !important; /* Amarillo pastel claro solicitado */
-    color: var(--color-texto-oscuro) !important;
-    border: 1px solid var(--color-borde) !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: var(--fuente-sistema);
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.tarjeta-modulo select:focus,
-.tarjeta-modulo input:focus {
-    border-color: var(--color-turquesa) !important;
-    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1) !important;
-}
-
-.grid-formulario {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-
-@media (min-width: 480px) { .grid-formulario { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .grid-formulario { grid-template-columns: repeat(2, 1fr) !important; } }
-
-.campo-formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.campo-formulario label,
-.contenedor-selector label,
-.etiqueta-seleccion {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-texto-medio);
-}
-
-.enlace-seccion-activa { font-size: 0.85rem; color: var(--color-texto-medio); font-weight: 500; }
-.link-moderno { color: var(--color-turquesa); text-decoration: none; font-weight: 600; }
-.link-moderno:hover { text-decoration: underline; }
-.tabla-responsiva td i, .tarjeta-modulo i { margin-right: 8px; font-size: 1.15rem; vertical-align: middle; }
-
-@media (max-width: 768px) { .grid-formulario { margin-bottom: 12px; } .bloque-botones { margin-bottom: 40px; } }
 
 /* =========================================================================
    SECCIÓN 4: MAESTRÍA CROMÁTICA - UN SOLO COLOR EN DISTINTOS TONOS POR MÓDULO
