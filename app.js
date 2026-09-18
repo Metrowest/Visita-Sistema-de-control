@@ -138,12 +138,16 @@ function Secc30_Seguridad_DibujarRenglon(indice, objetoCampos, columnasVisibles)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
 
+// =========================================================================
+// SECCIÓN 3.1: DECODIFICADOR MAESTRO DE MATRICES CON MAPEO INTELIGENTE
+// Ubicación: Reemplaza la función recibirDatosDesdeGoogle(json) completa en app.js
+// =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
     const tablaCuerpo = document.getElementById("tablaCuerpo");
     
-    if(tablaCuerpo) tablaCuerpo.innerHTML = "";
+    if (tablaCuerpo) tablaCuerpo.innerHTML = "";
 
     let datosMatriz = json && json.data ? json.data : json;
     if (json && json.status === "success" && json.message && Array.isArray(json.message)) { 
@@ -153,7 +157,7 @@ function recibirDatosDesdeGoogle(json) {
     if (!datosMatriz || !Array.isArray(datosMatriz) || datosMatriz.length === 0) {
         const hojaActiva = document.getElementById("selectorHoja").value;
         const totalColumnas = (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) ? 9 : (hojaActiva === "Hospitalidad" ? 5 : 4);
-        if(tablaCuerpo) tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">No hay registros guardados en esta sección.</td></tr>`;
+        if (tablaCuerpo) tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">No hay registros guardados en esta sección.</td></tr>`;
         return;
     }
 
@@ -176,11 +180,11 @@ function recibirDatosDesdeGoogle(json) {
         llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
     }
 
-    // Dibujamos las cabeceras de columnas en sentido estrictamente horizontal
+    // Dibujamos las cabeceras de columnas en sentido strictly horizontal
     let htmlCabecera = "<tr>";
     encabezadosTextos.forEach(col => htmlCabecera += `<th>${col}</th>`);
     htmlCabecera += "<th>Acciones</th></tr>";
-    if(tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
+    if (tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
 
     // 🛡️ ACTUALIZACIÓN DE ETIQUETAS: Sincroniza dinámicamente los inputs superiores
     const lbl1 = document.getElementById("lblCampo1");
@@ -193,30 +197,29 @@ function recibirDatosDesdeGoogle(json) {
     const lbl8 = document.getElementById("lblCampo8");
 
     if (hojaActiva === "Superintendentes") {
-        if(lbl1) lbl1.innerText = "Grupo / Día";
-        if(lbl2) lbl2.innerText = "Superintendente / Visitante";
-        if(lbl3) lbl3.innerText = "Teléfono / Acompañante";
+        if (lbl1) lbl1.innerText = "Grupo / Día";
+        if (lbl2) lbl2.innerText = "Superintendente / Visitante";
+        if (lbl3) lbl3.innerText = "Teléfono / Acompañante";
     } else if (hojaActiva === "Hospitalidad") {
-        if(lbl1) lbl1.innerText = "Día";
-        if(lbl2) lbl2.innerText = "Nombre";
-        if(lbl3) lbl3.innerText = "Teléfono";
-        if(lbl4) lbl4.innerText = "Dirección";
+        if (lbl1) lbl1.innerText = "Día";
+        if (lbl2) lbl2.innerText = "Nombre";
+        if (lbl3) lbl3.innerText = "Teléfono";
+        if (lbl4) lbl4.innerText = "Dirección";
     } else if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
-        if(lbl1 && encabezadosTextos[0]) lbl1.innerText = encabezadosTextos[0];
-        if(lbl2 && encabezadosTextos[1]) lbl2.innerText = encabezadosTextos[1];
-        if(lbl3 && encabezadosTextos[2]) lbl3.innerText = encabezadosTextos[2];
-        if(lbl4 && encabezadosTextos[3]) lbl4.innerText = encabezadosTextos[3];
-        if(lbl5 && encabezadosTextos[4]) lbl5.innerText = encabezadosTextos[4];
-        if(lbl6 && encabezadosTextos[5]) lbl6.innerText = encabezadosTextos[5];
-        if(lbl7 && encabezadosTextos[6]) lbl7.innerText = encabezadosTextos[6];
-        if(lbl8 && encabezadosTextos[7]) lbl8.innerText = encabezadosTextos[7];
+        if (lbl1 && encabezadosTextos[0]) lbl1.innerText = encabezadosTextos[0];
+        if (lbl2 && encabezadosTextos[1]) lbl2.innerText = encabezadosTextos[1];
+        if (lbl3 && encabezadosTextos[2]) lbl3.innerText = encabezadosTextos[2];
+        if (lbl4 && encabezadosTextos[3]) lbl4.innerText = encabezadosTextos[3];
+        if (lbl5 && encabezadosTextos[4]) lbl5.innerText = encabezadosTextos[4];
+        if (lbl6 && encabezadosTextos[5]) lbl6.innerText = encabezadosTextos[5];
+        if (lbl7 && encabezadosTextos[6]) lbl7.innerText = encabezadosTextos[6];
+        if (lbl8 && encabezadosTextos[7]) lbl8.innerText = encabezadosTextos[7];
     }
 
     // =========================================================================
     // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
     // =========================================================================
     if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
-        
         let celdasPlanasRaw = [];
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
@@ -261,7 +264,6 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
-        // 🛡️ REPARACIÓN EXTRAORDINARIA HORIZONTAL: Restaurados los índices correctos [0],[1],[2],[3] de tu respaldo
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
@@ -276,7 +278,8 @@ function recibirDatosDesdeGoogle(json) {
             Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
         }
     }
-}
+} // 🛡️ LLAVE ÚNICA Y CORRECTA DE CIERRE COMPLETO DE LA FUNCIÓN MAESTRA
+
 
 
 } // 🛡️ LLAVE DE CIERRE HERMÉTICA DE LA FUNCIÓN MAESTRA DEL APP.JS
