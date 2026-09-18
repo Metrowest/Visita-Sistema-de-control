@@ -1,17 +1,17 @@
 /* =========================================================================
    STYLE.CSS - SECCIÓN 1: CONFIGURACIÓN MAESTRA Y VARIABLES GLOBALES
-   Descripción: Configura la paleta de mentas, lavandas y melocotones pasteles 
-   con texto y bordes en negro puro para lograr la máxima visibilidad en campo.
+   Descripción: Define la paleta de azules, lavandas y orquídeas intensas 
+   con texto y bordes en negro puro para garantizar el máximo contraste.
    ========================================================================= */
 :root {
-    --color-fondo: #ffe0cc;              /* Melocotón Claro para un fondo sutil sin reflejos */
+    --color-fondo: #f8d6eb;              /* Rosa Orquídea Sutil para base sin reflejos */
     --color-superficie: #ffffff;         /* Blanco puro para las tarjetas de contenido */
-    --color-turquesa: #e5e1fd;           /* Lila Lavanda Intermedio para los botones principales */
-    --color-turquesa-oscuro: #d3ccfc;    /* Lavanda un paso más saturado para hovers */
+    --color-turquesa: #c2b9f9;           /* Lila Orquídea (Intermedio para botones de la app) */
+    --color-turquesa-oscuro: #af9ef0;    /* Lila un paso más saturado para efectos hover */
     --color-texto-oscuro: #000000;       /* TEXTO EN NEGRO PURO REQUERIDO */
     --color-texto-medio: #000000;        /* ETIQUETAS EN NEGRO PURO */
     --color-borde: #000000;              /* BORDES EN NEGRO PURO PARA ALTO CONTRASTE */
-    --color-cabecera-tabla: #a8e0c5;     /* Verde Menta Fuerte para los encabezados de columnas */
+    --color-cabecera-tabla: #78b7df;     /* Azul Cielo Intenso para los encabezados oscuros */
     --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --sombra-modulo: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
@@ -82,35 +82,40 @@ body {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 3: ESTRUCTURA DE CONTENEDORES (TARJETAS)
-   Descripción: Define el aspecto visual de los cubículos independientes de la app.
+   Descripción: Cubículos independientes con encabezado oscuro (#78b7df).
    ========================================================================= */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
     border-radius: 12px;
-    border: 1px solid var(--color-borde);
+    border: 2px solid var(--color-borde);
     box-shadow: var(--sombra-modulo);
-    padding: 24px;
     width: 100%;
     display: block;
+    overflow: hidden;
 }
 
 .tarjeta-cabecera {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    background-color: var(--color-cabecera-tabla); /* 🟦 Encabezado Azul Cielo Intenso */
+    padding: 14px 24px;
     border-bottom: 2px solid var(--color-borde);
-    padding-bottom: 12px;
 }
 
 .icono-titulo {
     font-size: 1.4rem;
+    color: #000000;
 }
 
 h2 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--color-turquesa); /* Ahora usa el Verde Bosque Pastel Oscuro */
+    color: #000000;
+}
+
+.tarjeta-modulo > :not(.tarjeta-cabecera) {
+    padding: 24px;
 }
 
 /* =========================================================================
@@ -152,8 +157,8 @@ h2 {
 }
 
 .selector-estilizado:focus {
-    border-color: #35465c; /* Foco con Azul Medianoche Pastel */
-    box-shadow: 0 0 0 3px rgba(53, 70, 92, 0.15);
+    border-color: var(--color-turquesa-oscuro);
+    box-shadow: 0 0 0 3px rgba(194, 185, 249, 0.3);
 }
 
 .enlace-seccion-activa {
@@ -163,15 +168,14 @@ h2 {
 }
 
 .link-moderno {
-    color: #35465c; /* Hipervínculo dinámico en Azul Medianoche */
+    color: #000000;
     text-decoration: none;
-    font-weight: 600;
-    border-bottom: 1px dashed #35465c;
+    font-weight: 700;
+    border-bottom: 2px solid #000000;
 }
 
 .link-moderno:hover {
-    color: var(--color-turquesa);
-    text-decoration: none;
+    background-color: var(--color-turquesa);
 }
 
 /* =========================================================================
@@ -221,13 +225,13 @@ h2 {
 }
 
 .campo-formulario input[type="text"]:focus {
-    border-color: var(--color-turquesa);
-    box-shadow: 0 0 0 3px rgba(45, 74, 62, 0.15);
+    border-color: var(--color-turquesa-oscuro);
+    box-shadow: 0 0 0 3px rgba(194, 185, 249, 0.3);
 }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 6: BOTONES DE INTERACCIÓN Y CONTROL DE ENVÍO
-   Descripción: Configura el aspecto adaptativo del botón primario y secundario.
+   Descripción: Configura los botones de la interfaz usando el color Lila Orquídea (#c2b9f9).
    ========================================================================= */
 .bloque-botones {
     display: flex;
@@ -250,16 +254,15 @@ h2 {
     border-radius: 8px;
     font-family: var(--fuente-sistema);
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    border: none;
+    border: 2px solid var(--color-borde);
     transition: all 0.2s ease, transform 0.1s;
 }
 
 .btn-primario {
-    background-color: var(--color-turquesa); /* Botón principal Verde Bosque Pastel Oscuro */
-    color: #ffffff;
-    box-shadow: 0 4px 6px rgba(45, 74, 62, 0.15);
+    background-color: var(--color-turquesa); /* 🟪 Lila Orquídea */
+    color: #000000;
 }
 
 .btn-primario:hover {
@@ -267,9 +270,8 @@ h2 {
 }
 
 .btn-secundario {
-    background-color: #f8fafc;
+    background-color: #ffffff;
     color: #ef4444;
-    border: 2px solid #fee2e2;
 }
 
 .btn-secundario:hover {
@@ -282,6 +284,7 @@ h2 {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
+   Descripción: Renderizado con cabeceras oscuras en Azul Cielo Intenso.
    ========================================================================= */
 .tabla-responsiva {
     width: 100%;
@@ -301,12 +304,12 @@ table {
 
 th, td {
     padding: 12px 14px;
-    border-bottom: 2px solid var(--color-borde); /* Línea divisoria en negro puro */
+    border-bottom: 2px solid var(--color-borde);
 }
 
 th {
-    background-color: var(--color-cabecera-tabla); /* Verde Menta Fuerte */
-    color: #000000;                                /* Texto negro puro en cabecera */
+    background-color: var(--color-cabecera-tabla); /* 🟦 Azul Cielo Intenso */
+    color: #000000;
     font-weight: 700;
     white-space: nowrap;
     text-transform: uppercase;
@@ -316,14 +319,50 @@ th {
 
 td {
     color: var(--color-texto-oscuro);
-    background-color: #ffffff; /* Celdas blancas para lectura limpia */
+    background-color: #ffffff;
 }
 
+tr:last-child td {
+    border-bottom: none;
+}
+
+.celda-carga {
+    padding: 30px;
+    text-align: center;
+    color: var(--color-texto-medio);
+    background-color: #ffffff;
+}
+
+.spinner-carga {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--color-turquesa-oscuro);
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    animation: girarSpinner 0.8s linear infinite;
+}
+
+@keyframes girarSpinner {
+    to { transform: rotate(360deg); }
+}
+
+.btn-edit, .btn-delete {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-edit:hover, .btn-delete:hover {
+    transform: scale(1.2);
+}
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 8: PROPIEDADES DE COMPORTAMIENTO FLEXBOX PARALELO
-   Descripción: Controla las proporciones y la distribución de tamaño de las columnas 
-   en pantallas de tabletas y computadoras de escritorio.
+   Descripción: Controla las proporciones y la distribución de tamaño de las columnas.
    ========================================================================= */
 .contenedor-modulos-paralelos > .tarjeta-modulo:not(:last-child),
 .contenedor-modulos-paralelos > #moduloGestorCarpetas {
@@ -351,8 +390,7 @@ td {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 9: INTEGRACIÓN DE ICONOS DINÁMICOS Y PARÁMETROS MÓVILES
-   Descripción: Da formato a los elementos visuales decorativos y asegura la zona 
-   de amortiguación inferior para que el teclado móvil no tape los controles.
+   Descripción: Da formato a los elementos decorativos móviles.
    ========================================================================= */
 .tabla-responsiva td i, 
 .tarjeta-modulo i {
@@ -371,49 +409,61 @@ td {
 }
 
 /* =========================================================================
-   STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
+   STYLE.CSS - SECCIÓN 10: CONTROL CENTRAL DE ADAPTACIÓN DEL BANNER PWA
+   Descripción: Fija el banner, mutando su fondo al color oscuro dominante (#78b7df).
    ========================================================================= */
-.tabla-responsiva {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-    border: 2px solid var(--color-borde);
-    margin-top: 10px;
+div#bannerInstalacionPWA {
+    background-color: var(--color-cabecera-tabla) !important; /* 🟦 Muta a Azul Cielo Intenso Oscuro */
+    color: #000000 !important;                                 /* Letras negras puras */
+    padding: 6px 12px !important; 
+    position: fixed !important;
+    bottom: 8px !important;
+    left: 16px !important;
+    z-index: 9999 !important;
+    border-radius: 8px !important;
+    border: 2px solid #000000 !important;
+    
+    display: inline-flex !important;
+    flex-direction: row-reverse; 
+    align-items: center !important;
+    justify-content: flex-end !important; 
+    gap: 10px !important; 
+    
+    max-width: 300px !important;
+    max-height: 50px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.85rem;
+div#bannerInstalacionPWA p {
+    margin: 0 !important;
+    font-size: 0.75rem !important; 
+    font-weight: 700 !important;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000000 !important;
 }
 
-th, td {
-    padding: 12px 14px;
-    border-bottom: 2px solid var(--color-borde); /* Línea divisoria en negro puro */
-}
-
-th {
-    background-color: var(--color-cabecera-tabla); /* Verde Menta Fuerte */
-    color: #000000;                                /* Texto negro puro en cabecera */
-    font-weight: 700;
+button#btnInstalarPWA {
+    background-color: var(--color-turquesa) !important; /* Botón en Lila Orquídea Intermedio */
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+    padding: 4px 10px !important; 
+    font-weight: 700 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 0.72rem !important;
     white-space: nowrap;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
+    transition: background-color 0.2s !important;
 }
 
-td {
-    color: var(--color-texto-oscuro);
-    background-color: #ffffff; /* Celdas blancas para lectura limpia */
+button#btnInstalarPWA:hover {
+    background-color: var(--color-turquesa-oscuro) !important;
 }
-
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
-   Descripción: Capas superpuestas que visten las alertas usando la gama de 
-   azules y orquídeas de alta intensidad con texto negro puro.
+   Descripción: Capas de alertas flotantes vestidas con tus colores intensos.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -421,7 +471,7 @@ td {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(15, 23, 42, 0.4) !important; /* Fondo translúcido oscuro */
+    background-color: rgba(0, 0, 0, 0.4) !important;
     z-index: 10000 !important;
     display: none;
     align-items: center !important;
@@ -434,9 +484,9 @@ td {
     border-radius: 12px !important;
     max-width: 400px !important;
     width: 90% !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
     text-align: center !important;
-    border: 2px solid #000000 !important; /* Contorno negro nítido */
+    border: 2px solid #000000 !important;
 }
 
 .tarjeta-alerta-pastel h4 {
@@ -456,32 +506,30 @@ td {
     font-weight: 500 !important;
 }
 
-/* 🤔 Variante Confirmación / Información: Fondo Rosa Orquídea Sutil con texto negro */
+/* 🤔 Variante Confirmación / Información: Fondo Rosa Orquídea Sutil */
 .tarjeta-alerta-pastel.info {
     background-color: #f8d6eb !important;
-    border-top: 6px solid #78b7df !important; /* Encabezado Azul Cielo Intenso */
+    border-top: 6px solid var(--color-cabecera-tabla) !important; /* Encabezado oscuro */
 }
 .tarjeta-alerta-pastel.info h4, .tarjeta-alerta-pastel.info p { color: #000000 !important; }
 
-/* ✨ Variante Éxito: Fondo Orquídea Claro con texto negro */
+/* ✨ Variante Éxito: Fondo Orquídea Claro */
 .tarjeta-alerta-pastel.exito {
     background-color: #dec2ef !important;
-    border-top: 6px solid #78b7df !important; /* Encabezado Azul Cielo Intenso */
+    border-top: 6px solid var(--color-cabecera-tabla) !important; /* Encabezado oscuro */
 }
 .tarjeta-alerta-pastel.exito h4, .tarjeta-alerta-pastel.exito p { color: #000000 !important; }
 
-/* ⚠️ Variante Error: Fondo Azul Lavanda Suave con texto negro */
+/* ⚠️ Variante Error: Fondo Azul Lavanda Suave */
 .tarjeta-alerta-pastel.error {
     background-color: #afc2f2 !important;
-    border-top: 6px solid #78b7df !important; /* Encabezado Azul Cielo Intenso */
+    border-top: 6px solid var(--color-cabecera-tabla) !important; /* Encabezado oscuro */
 }
 .tarjeta-alerta-pastel.error h4, .tarjeta-alerta-pastel.error p { color: #000000 !important; }
 
-
 /* =========================================================================
    STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
-   Descripción: Da formato a las respuestas de los botones usando el color 
-   intermedio Lila Orquídea para garantizar una legibilidad impecable.
+   Descripción: Configura las respuestas de acción dentro de las alertas.
    ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
@@ -500,17 +548,16 @@ td {
     transition: all 0.2s ease !important;
 }
 
-/* Botón Aceptar / Confirmar: Color Intermedio Lila Orquídea (#c2b9f9) con letras negras */
+/* Botón Aceptar / Confirmar: Usa Lila Orquídea (#c2b9f9) con letras negras */
 .btn-alerta-pastel.confirmar-ok {
-    background-color: #c2b9f9 !important;
+    background-color: var(--color-turquesa) !important;
     color: #000000 !important;
     border: 2px solid #000000 !important;
 }
 .btn-alerta-pastel.confirmar-ok:hover { 
-    background-color: #af9ef0 !important; /* Oscurece un paso sutil en hover */
+    background-color: var(--color-turquesa-oscuro) !important;
 }
 
-/* Botón Cancelar: Botón Blanco con contorno negro y letras negras */
 .btn-alerta-pastel.confirmar-cancel {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -524,4 +571,3 @@ td {
     from { opacity: 0; transform: scale(0.96); }
     to { opacity: 1; transform: scale(1); }
 }
-
