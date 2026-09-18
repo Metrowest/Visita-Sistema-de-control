@@ -101,6 +101,8 @@ body {
    ========================================================================= */
 
 /* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro y legible para todos */
+div.tarjeta-modulo select,
+div.tarjeta-modulo input,
 .tarjeta-modulo select,
 .tarjeta-modulo input {
     background-color: #fffde6 !important; /* Amarillo pastel claro unificado */
@@ -115,103 +117,125 @@ body {
 }
 
 /* =========================================================================
-   📦 COLUMNA IZQUIERDA: MÓDULOS DE DRIVE
+   📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff)
    ========================================================================= */
 
-/* 1) Gestor de Archivos (Gama Lila/Gris Claro Base: #f1efff) */
+/* 1) Gestor de Archivos */
+div.tarjeta-modulo.modulo-selector-carpetas,
 .modulo-selector-carpetas {
-    background-color: #faf9ff !important; /* Fondo del módulo muy claro */
-    color: #000000 !important;
+    background-color: #faf9ff !important;
 }
+div.tarjeta-modulo.modulo-selector-carpetas .tarjeta-cabecera,
 .modulo-selector-carpetas .tarjeta-cabecera {
-    background: #3f3a63 !important; /* Tono oscuro de la familia lila */
+    background: #3f3a63 !important; /* Tono oscuro */
     color: #ffffff !important;
 }
+div.tarjeta-modulo.modulo-selector-carpetas .campo-formulario,
 .modulo-selector-carpetas .campo-formulario {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE EN LA SUB-CABECERA */
+    background-color: #f1efff !important; /* 🌟 TU COLOR BASE */
 }
 
-/* 2) Cargar Carpetas / Subidas (Gama Lila/Gris Claro Base: #f1efff) */
+/* 2) Cargar Carpetas / Subidas */
+div.tarjeta-modulo.modulo-cargar-carpetas,
 .modulo-cargar-carpetas {
-    background-color: #faf9ff !important; /* Fondo del módulo muy claro */
-    color: #000000 !important;
+    background-color: #faf9ff !important;
 }
+div.tarjeta-modulo.modulo-cargar-carpetas .tarjeta-cabecera,
 .modulo-cargar-carpetas .tarjeta-cabecera {
-    background: #3f3a63 !important; /* Tono oscuro de la familia lila */
+    background: #3f3a63 !important; /* Tono oscuro */
     color: #ffffff !important;
 }
+div.tarjeta-modulo.modulo-cargar-carpetas .campo-formulario,
 .modulo-cargar-carpetas .campo-formulario {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE EN LA SUB-CABECERA */
+    background-color: #f1efff !important; /* 🌟 TU COLOR BASE */
 }
+div.tarjeta-modulo.modulo-cargar-carpetas .btn-primario,
 .modulo-cargar-carpetas .btn-primario {
-    background-color: #3f3a63 !important; /* Botón oscuro a juego */
+    background-color: #3f3a63 !important;
     color: #ffffff !important;
 }
 
-/* 3) Archivos Disponibles / Tabla (Gama Lila/Gris Claro Base: #f1efff) */
+/* 3) Archivos Disponibles / Tabla */
+div.tarjeta-modulo.modulo-yabla-carpetas,
 .modulo-yabla-carpetas {
-    background-color: #faf9ff !important; /* Fondo del módulo muy claro */
-    color: #000000 !important;
+    background-color: #faf9ff !important;
 }
+div.tarjeta-modulo.modulo-yabla-carpetas .tarjeta-cabecera,
 .modulo-yabla-carpetas .tarjeta-cabecera {
-    background: #3f3a63 !important; /* Tono oscuro de la familia lila */
+    background: #3f3a63 !important; /* Tono oscuro */
     color: #ffffff !important;
 }
+div.tarjeta-modulo.modulo-yabla-carpetas .zona-archivos-disponibles,
 .modulo-yabla-carpetas .zona-archivos-disponibles {
-    background-color: #f1efff !important; /* 🌟 TU COLOR BASE EN LA SUB-CABECERA */
+    background-color: #f1efff !important; /* 🌟 TU COLOR BASE */
 }
+div.tarjeta-modulo.modulo-yabla-carpetas th,
 .modulo-yabla-carpetas th {
     background-color: #dbd6f5 !important;
     color: #000000 !important;
 }
 
+
 /* =========================================================================
-   📊 COLUMNA DERECHA: MÓDULOS DE HOJAS
+   📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMA ESPECÍFICA SOLICITADA)
    ========================================================================= */
 
-/* 1) Selecciona una Hoja (Gama Verde Combinada Base: #dbe8b2 / #e5f0c9) */
+/* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+div.tarjeta-modulo.modulo-gama-verde,
 .modulo-gama-verde {
-    background-color: #f7f9f4 !important; /* Fondo del módulo muy claro */
-    color: #000000 !important;
+    background-color: #f7f9f4 !important;
 }
+div.tarjeta-modulo.modulo-gama-verde .tarjeta-cabecera,
 .modulo-gama-verde .tarjeta-cabecera {
-    background: #424a24 !important; /* Tono oscuro de la familia verde */
+    background: #424a24 !important; /* Tono oscuro */
     color: #ffffff !important;
 }
+div.tarjeta-modulo.modulo-gama-verde .contenedor-selector,
 .modulo-gama-verde .contenedor-selector {
-    background-color: #dbe8b2 !important; /* 🌟 TU COLOR BASE EN LA SUB-CABECERA */
+    background-color: #dbe8b2 !important; /* 🌟 TU COLOR BASE */
 }
 
-/* 2) Añadir Registro (Gama Violeta Fuerte Base: #d9d4fc) */
-.modulo-gama-violeta {
-    background-color: #f6f5ff !important; /* Fondo del módulo muy claro */
-    color: #000000 !important;
+/* 2) Añadir Registro (Gama Violeta Base: #d9d4fc) */
+div.tarjeta-modulo.modulo-gama-violeta,
+.modulo-gama-violeta,
+div.tarjeta-modulo.modulo-gama-violeta form,
+.modulo-gama-violeta form {
+    background-color: #f6f5ff !important;
 }
+div.tarjeta-modulo.modulo-gama-violeta .tarjeta-cabecera,
 .modulo-gama-violeta .tarjeta-cabecera {
-    background: #2b2361 !important; /* Tono oscuro de la familia violeta */
+    background: #2b2361 !important; /* Tono oscuro */
     color: #ffffff !important;
 }
-.modulo-gama-violeta form {
-    background-color: #d9d4fc !important; /* 🌟 TU COLOR BASE EN LA SUB-CABECERA */
+div.tarjeta-modulo.modulo-gama-violeta .grid-formulario,
+div.tarjeta-modulo.modulo-gama-violeta .campo-formulario,
+.modulo-gama-violeta .grid-formulario,
+.modulo-gama-violeta .campo-formulario {
+    background-color: #d9d4fc !important; /* 🌟 TU COLOR BASE */
 }
+div.tarjeta-modulo.modulo-gama-violeta .btn-primario,
 .modulo-gama-violeta .btn-primario {
-    background-color: #2b2361 !important; /* Botón oscuro a juego */
+    background-color: #2b2361 !important;
     color: #ffffff !important;
 }
 
 /* 3) Registros Almacenados / Tabla (Gama Lavanda Base: #e5e1fd) */
+div.tarjeta-modulo.modulo-gama-lavanda,
 .modulo-gama-lavanda {
-    background-color: #f8f7ff !important; /* Fondo del módulo muy claro */
-    color: #000000 !important;
+    background-color: #f8f7ff !important;
 }
+div.tarjeta-modulo.modulo-gama-lavanda .tarjeta-cabecera,
 .modulo-gama-lavanda .tarjeta-cabecera {
-    background: #312a66 !important; /* Tono oscuro de la familia lavanda */
+    background: #312a66 !important; /* Tono oscuro */
     color: #ffffff !important;
 }
+div.tarjeta-modulo.modulo-gama-lavanda .campo-formulario,
+div.tarjeta-modulo.modulo-gama-lavanda .tabla-responsiva,
 .modulo-gama-lavanda .campo-formulario,
 .modulo-gama-lavanda .tabla-responsiva {
-    background-color: #e5e1fd !important; /* 🌟 TU COLOR BASE EN LA SUB-CABECERA */
+    background-color: #e5e1fd !important; /* 🌟 TU COLOR BASE */
 }
+div.tarjeta-modulo.modulo-gama-lavanda th,
 .modulo-gama-lavanda th {
     background-color: #cac5fa !important;
     color: #000000 !important;
