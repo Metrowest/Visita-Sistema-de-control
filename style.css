@@ -1,16 +1,20 @@
 /* =========================================================================
-   STYLE.CSS - PARTE 1: VARIABLES GLOBALES Y ESTRUCTURA EN BLOQUES LADO A LADO
+   STYLE.CSS - SECCIÓN 1: CONFIGURACIÓN MAESTRA Y VARIABLES GLOBALES
+   Descripción: Define la paleta de colores de Primavera Oscura de alto contraste, 
+   las fuentes del sistema y las propiedades de reinicio universal del DOM.
    ========================================================================= */
 :root {
-    --color-fondo: #f8fafc;
-    --color-superficie: #ffffff;
-    --color-turquesa: #2cbbb0;
-    --color-turquesa-oscuro: #229990;
-    --color-texto-oscuro: #0f172a;
-    --color-texto-medio: #475569;
-    --color-borde: #e2e8f0;
+    --color-fondo: #f4ebe1;              /* Crema Tierra Intenso: Menos brillo agresivo */
+    --color-superficie: #ffffff;         /* Blanco puro para las tarjetas de contenido */
+    --color-turquesa: #2d4a3e;           /* Verde Bosque Pastel Oscuro (Contraste Máximo) */
+    --color-turquesa-oscuro: #1d332a;    /* Verde profundo para estados activos y hovers */
+    --color-texto-oscuro: #1e293b;       /* Gris pizarra muy oscuro para textos de alta legibilidad */
+    --color-texto-medio: #334155;        /* Gris medio/oscuro para etiquetas secundarias */
+    --color-borde: #cbd5e1;              /* Gris pastel subido para contornos nítidos */
+    --color-cabecera-tabla: #35465c;     /* Azul Medianoche Pastel para títulos de columnas */
+    --color-divisoria-h2: #aae0d8;       /* Turquesa claro primaveral sutil */
     --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --sombra-modulo: 0 4px 6px -1px rgba(45, 74, 62, 0.05), 0 2px 4px -1px rgba(45, 74, 62, 0.03);
 }
 
 * {
@@ -27,45 +31,60 @@ body {
     line-height: 1.5;
 }
 
-/* Contenedor Principal Adaptativo en Rejilla Modular Inteligente */
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 2: ARQUITECTURA DISTRIBUIDA EN REJILLA MODULAR
+   Descripción: Controla la estructura en paralelo que alinea el ecosistema.
+   Organiza los bloques lado a lado en pantallas grandes.
+   ========================================================================= */
 .contenedor-principal {
     max-width: 1300px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr; /* Una columna por defecto en dispositivos móviles */
+    grid-template-columns: 1fr;
     gap: 24px;
 }
 
-/* DISTRIBUCIÓN AVANZADA: Reorganiza los bloques lado a lado en pantallas grandes (Estilo Foto 2) */
 @media (min-width: 992px) {
     .contenedor-principal {
-        grid-template-columns: repeat(2, 1fr); /* Divide la pantalla en dos columnas idénticas */
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    /* El selector de secciones superior se extiende a todo lo ancho de la cumbre */
     .contenedor-selector {
         grid-column: span 2;
     }
 
-    /* EL GESTOR DE ARCHIVOS FLOTA ARRIBA PANORÁMICO: Se extiende completo sobre las hojas */
     #moduloGestorCarpetas {
         grid-column: span 2;
     }
 
-    /* EL FORMULARIO DE AÑADIR REGISTRO SE CLAVA EN LA COLUMNA IZQUIERDA */
     .contenedor-principal > .tarjeta-modulo:nth-of-type(2) {
         grid-column: 1;
         align-self: start;
     }
 
-    /* LA TABLA DE REGISTROS ALMACENADOS SE CLAVA EN LA COLUMNA DERECHA */
     .contenedor-principal > .tarjeta-modulo:last-child {
         grid-column: 2;
         align-self: start;
     }
 }
 
-/* El diseño de cubículos independientes (Tarjetas Modulares Limpias) */
+.contenedor-modulos-paralelos {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 3: ESTRUCTURA DE CONTENEDORES (TARJETAS)
+   Descripción: Define el aspecto visual de los cubículos independientes de la app.
+   ========================================================================= */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
     border-radius: 12px;
@@ -81,7 +100,7 @@ body {
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--color-borde);
+    border-bottom: 2px solid var(--color-borde);
     padding-bottom: 12px;
 }
 
@@ -92,9 +111,13 @@ body {
 h2 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--color-texto-oscuro);
+    color: var(--color-turquesa); /* Ahora usa el Verde Bosque Pastel Oscuro */
 }
 
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 4: COMPONENTES DE ENRUTAMIENTO Y SELECCIÓN SUPERIOR
+   Descripción: Estiliza la barra de control nativa y selectores interactivos.
+   ========================================================================= */
 .contenedor-selector {
     display: flex;
     flex-direction: column;
@@ -114,27 +137,24 @@ h2 {
     font-weight: 600;
     color: var(--color-texto-medio);
 }
-/* =========================================================================
-   STYLE.CSS - PARTE 2: COMPONENTES, FORMULARIOS Y RESPONSIVIDAD ESTRICTA
-   ========================================================================= */
 
-/* Selectores e Inputs estilizados */
 .selector-estilizado {
     width: 100%;
     padding: 10px 14px;
     border-radius: 8px;
-    border: 1px solid var(--color-borde);
+    border: 2px solid var(--color-borde);
     background-color: var(--color-superficie);
     font-family: var(--fuente-sistema);
     font-size: 0.95rem;
     color: var(--color-texto-oscuro);
     outline: none;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .selector-estilizado:focus {
-    border-color: var(--color-turquesa);
+    border-color: #35465c; /* Foco con Azul Medianoche Pastel */
+    box-shadow: 0 0 0 3px rgba(53, 70, 92, 0.15);
 }
 
 .enlace-seccion-activa {
@@ -144,16 +164,21 @@ h2 {
 }
 
 .link-moderno {
-    color: var(--color-turquesa);
+    color: #35465c; /* Hipervínculo dinámico en Azul Medianoche */
     text-decoration: none;
     font-weight: 600;
+    border-bottom: 1px dashed #35465c;
 }
 
 .link-moderno:hover {
-    text-decoration: underline;
+    color: var(--color-turquesa);
+    text-decoration: none;
 }
 
-/* Grilla del Formulario interna (Campos 1, 2, 3...) */
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 5: DISEÑO Y GRILLA DEL FORMULARIO CONSOLIDADO
+   Descripción: Controla la disposición y el comportamiento de captura de inputs.
+   ========================================================================= */
 .grid-formulario {
     display: grid;
     grid-template-columns: 1fr;
@@ -161,15 +186,14 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Ajuste de columnas: 2 columnas en dispositivos móviles/tabletas y 3 columnas solo en computadoras */
 @media (min-width: 480px) {
     .grid-formulario {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles y tabletas */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 @media (min-width: 1024px) {
     .grid-formulario {
-        grid-template-columns: repeat(2, 1fr) !important; /* Fuerza solo 2 columnas de inputs */
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
 
@@ -189,20 +213,23 @@ h2 {
     width: 100%;
     padding: 10px 14px;
     border-radius: 8px;
-    border: 1px solid var(--color-borde);
+    border: 2px solid var(--color-borde);
     font-size: 0.9rem;
     color: var(--color-texto-oscuro);
     font-family: var(--fuente-sistema);
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
 }
 
 .campo-formulario input[type="text"]:focus {
     border-color: var(--color-turquesa);
-    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1);
+    box-shadow: 0 0 0 3px rgba(45, 74, 62, 0.15);
 }
 
-/* Bloque de Botones Flexibles y Adaptativos */
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 6: BOTONES DE INTERACCIÓN Y CONTROL DE ENVÍO
+   Descripción: Configura el aspecto adaptativo del botón primario y secundario.
+   ========================================================================= */
 .bloque-botones {
     display: flex;
     flex-direction: column;
@@ -220,19 +247,20 @@ h2 {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 8px;
     font-family: var(--fuente-sistema);
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     border: none;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: all 0.2s ease, transform 0.1s;
 }
 
 .btn-primario {
-    background-color: var(--color-turquesa);
+    background-color: var(--color-turquesa); /* Botón principal Verde Bosque Pastel Oscuro */
     color: #ffffff;
+    box-shadow: 0 4px 6px rgba(45, 74, 62, 0.15);
 }
 
 .btn-primario:hover {
@@ -240,9 +268,9 @@ h2 {
 }
 
 .btn-secundario {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
     color: #ef4444;
-    border: 1px solid #fee2e2;
+    border: 2px solid #fee2e2;
 }
 
 .btn-secundario:hover {
@@ -253,13 +281,16 @@ h2 {
     transform: scale(0.98);
 }
 
-/* Blindaje de Tablas Responsivas con scroll interno */
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 7: INTERFAZ GRÁFICA DE TABLAS RESPONSIVAS (REJILLAS)
+   Descripción: Renderizado y scroll interno para los datos de Sheets y Drive.
+   ========================================================================= */
 .tabla-responsiva {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: 8px;
-    border: 1px solid var(--color-borde);
+    border: 2px solid var(--color-borde);
     margin-top: 10px;
 }
 
@@ -276,14 +307,18 @@ th, td {
 }
 
 th {
-    background-color: #f8fafc;
-    color: var(--color-texto-medio);
+    background-color: var(--color-cabecera-tabla); /* Azul Medianoche Pastel */
+    color: #ffffff;                                /* Texto blanco puro */
     font-weight: 600;
     white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
 }
 
 td {
     color: var(--color-texto-oscuro);
+    background-color: #ffffff;
 }
 
 tr:last-child td {
@@ -294,13 +329,13 @@ tr:last-child td {
     padding: 30px;
     text-align: center;
     color: var(--color-texto-medio);
+    background-color: #ffffff;
 }
 
-/* Spinner de carga estético */
 .spinner-carga {
     width: 24px;
     height: 24px;
-    border: 3px solid #e2e8f0;
+    border: 3px solid #cbd5e1;
     border-top-color: var(--color-turquesa);
     border-radius: 50%;
     margin: 0 auto 10px auto;
@@ -311,7 +346,6 @@ tr:last-child td {
     to { transform: rotate(360deg); }
 }
 
-/* Botones de acción originales de las celdas de Sheets */
 .btn-edit, .btn-delete {
     background: none;
     border: none;
@@ -326,22 +360,10 @@ tr:last-child td {
 }
 
 /* =========================================================================
-   DISTRIBUCIÓN PARALELA MAESTRA INTEGRADA (MÓDULOS DE LA FOTO)
+   STYLE.CSS - SECCIÓN 8: PROPIEDADES DE COMPORTAMIENTO FLEXBOX PARALELO
+   Descripción: Controla las proporciones y la distribución de tamaño de las columnas 
+   en pantallas de tabletas y computadoras de escritorio.
    ========================================================================= */
-.contenedor-modulos-paralelos {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-/* Columna Izquierda (Carpetas) y Columna Central (Formulario) */
 .contenedor-modulos-paralelos > .tarjeta-modulo:not(:last-child),
 .contenedor-modulos-paralelos > #moduloGestorCarpetas {
     flex: 1;
@@ -349,14 +371,12 @@ tr:last-child td {
     margin: 0 !important;
 }
 
-/* Columna Derecha Ancha (Registros Almacenados de la Hoja) */
 .contenedor-modulos-paralelos > .tarjeta-modulo:last-child {
     flex: 2;
     min-width: 500px;
     margin: 0 !important;
 }
 
-/* Optimización Responsiva para Teléfonos y Tabletas Pequeñas */
 @media (max-width: 1100px) {
     .contenedor-modulos-paralelos {
         flex-direction: column;
@@ -369,10 +389,10 @@ tr:last-child td {
 }
 
 /* =========================================================================
-   NUEVAS ADICIONES: ICONOS DINÁMICOS Y COMPACTACIÓN DEL BANNER PWA
+   STYLE.CSS - SECCIÓN 9: INTEGRACIÓN DE ICONOS DINÁMICOS Y PARÁMETROS MÓVILES
+   Descripción: Da formato a los elementos visuales decorativos y asegura la zona 
+   de amortiguación inferior para que el teclado móvil no tape los controles.
    ========================================================================= */
-
-/* Alineación e integración de Iconos Dinámicos (MÓDULO DE CARPETAS) */
 .tabla-responsiva td i, 
 .tarjeta-modulo i {
     margin-right: 8px;
@@ -380,21 +400,22 @@ tr:last-child td {
     vertical-align: middle;
 }
 
-/* Zona de amortiguación para que el formulario no sea tapado en móviles */
 @media (max-width: 768px) {
     .grid-formulario {
         margin-bottom: 12px;
     }
     .bloque-botones {
-        margin-bottom: 40px; /* Deja un espacio libre abajo para que el botón "Guardar" suba y sea accesible */
+        margin-bottom: 40px; 
     }
 }
+
 /* =========================================================================
-   CONTROL CENTRAL COMPACTO DEL BANNER PWA - CORRECCIÓN DE PRIORIDAD VISUAL
+   STYLE.CSS - SECCIÓN 10: CONTROL CENTRAL DE ADAPTACIÓN DEL BANNER PWA
+   Descripción: Fija el banner PWA compacto de 300px a la base izquierda, mutando 
+   su color al Azul Medianoche con el botón interactivo en Amarillo Mostaza Sutil.
    ========================================================================= */
 div#bannerInstalacionPWA {
-    /* Fuerza al contenedor largo a tomar tu color morado de inmediato */
-    background-color: #a12cbb !important;
+    background-color: var(--color-cabecera-tabla) !important; /* Muta a Azul Medianoche */
     color: #ffffff !important;
     padding: 6px 12px !important; 
     position: fixed !important;
@@ -411,7 +432,8 @@ div#bannerInstalacionPWA {
     
     max-width: 300px !important;
     max-height: 50px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 div#bannerInstalacionPWA p {
@@ -425,21 +447,27 @@ div#bannerInstalacionPWA p {
 }
 
 button#btnInstalarPWA {
-    /* Fuerza al botón a ser blanco con la palabra 'Instalar' en negro */
-    background-color: #ffffff !important;
-    color: #000000 !important;
+    background-color: #e5c158 !important; /* Amarillo Mostaza Sutil */
+    color: #1e293b !important;           /* Letras oscuras para legibilidad */
     
     border: none !important;
-    padding: 4px 8px !important; 
-    font-weight: 600 !important;
+    padding: 4px 10px !important; 
+    font-weight: 700 !important;
     border-radius: 4px !important;
     cursor: pointer !important;
     font-size: 0.72rem !important;
     white-space: nowrap;
+    transition: background-color 0.2s !important;
+}
+
+button#btnInstalarPWA:hover {
+    background-color: #d1ae47 !important;
 }
 
 /* =========================================================================
-   ALERTAS Y MENSAJES FLOTANTES EN COLORES PASTELES (STYLE.CSS OPTIMIZADO)
+   STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
+   Descripción: Reglas del sistema de capas superpuestas que visten de gala 
+   las alertas pasteles nativas de red y confirmaciones.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -447,7 +475,7 @@ button#btnInstalarPWA {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(15, 23, 42, 0.4) !important;
+    background-color: rgba(30, 41, 59, 0.5) !important; /* Tinte oscuro balanceado */
     z-index: 10000 !important;
     display: none;
     align-items: center !important;
@@ -469,7 +497,7 @@ button#btnInstalarPWA {
 .tarjeta-alerta-pastel h4 {
     font-size: 1.15rem !important;
     margin-bottom: 10px !important;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: var(--fuente-sistema);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -477,28 +505,12 @@ button#btnInstalarPWA {
 }
 
 .tarjeta-alerta-pastel p {
-    color: #475569 !important;
+    color: var(--color-texto-medio) !important;
     font-size: 0.95rem !important;
     line-height: 1.5 !important;
 }
 
-/* Variante Éxito: Verde Pastel Suave */
-.tarjeta-alerta-pastel.exito {
-    background-color: #e8f5e9 !important;
-    border: 1px solid #c8e6c9 !important;
-    border-top: 5px solid #81c784 !important;
-}
-.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
-
-/* Variante Error: Rosa/Rojo Pastel Suave */
-.tarjeta-alerta-pastel.error {
-    background-color: #ffebee !important;
-    border: 1px solid #ffcdd2 !important;
-    border-top: 5px solid #e57373 !important;
-}
-.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
-
-/* Variante Confirmación / Información: Azul Pastel Suave */
+/* 🤔 Confirmación / Información: Azul Pastel Suave */
 .tarjeta-alerta-pastel.info {
     background-color: #e0f2fe !important;
     border: 1px solid #bae6fd !important;
@@ -506,7 +518,27 @@ button#btnInstalarPWA {
 }
 .tarjeta-alerta-pastel.info h4 { color: #0369a1 !important; }
 
-/* Contenedor y Botones del Entorno Pastel con Color más Subido */
+/* ✨ Éxito de Reemplazo y Archivo Nuevo: Verde Pastel Suave */
+.tarjeta-alerta-pastel.exito {
+    background-color: #e8f5e9 !important;
+    border: 1px solid #c8e6c9 !important;
+    border-top: 5px solid #81c784 !important;
+}
+.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
+
+/* ⚠️ Alertas de Error: Rosa/Rojo Pastel Suave */
+.tarjeta-alerta-pastel.error {
+    background-color: #ffebee !important;
+    border: 1px solid #ffcdd2 !important;
+    border-top: 5px solid #e57373 !important;
+}
+.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
+
+/* =========================================================================
+   STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
+   Descripción: Estiliza las respuestas sincrónicas limpias de las alertas
+   para evitar el congelamiento de flujos asíncronos en red.
+   ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
     justify-content: center !important;
@@ -521,20 +553,18 @@ button#btnInstalarPWA {
     font-size: 0.9rem !important;
     font-weight: 600 !important;
     cursor: pointer !important;
-    /* CORRECCIÓN: Color gris/azul pastel más subido y nítido para fondos blancos o claros */
     background-color: #cbd5e1 !important;
     color: #0f172a !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: all 0.2s ease !important;
 }
 .btn-alerta-pastel:hover { background-color: #94a3b8 !important; }
 
-/* Variantes para botones de Confirmación Doble */
 .btn-alerta-pastel.confirmar-ok {
-    background-color: #3b82f6 !important;
+    background-color: var(--color-cabecera-tabla) !important; /* Cambia a Azul Medianoche */
     color: #ffffff !important;
 }
-.btn-alerta-pastel.confirmar-ok:hover { background-color: #2563eb !important; }
+.btn-alerta-pastel.confirmar-ok:hover { background-color: #233042 !important; }
 
 .btn-alerta-pastel.confirmar-cancel {
     background-color: #f1f5f9 !important;
@@ -547,50 +577,3 @@ button#btnInstalarPWA {
     from { opacity: 0; transform: scale(0.96); }
     to { opacity: 1; transform: scale(1); }
 }
-/* =========================================================================
-   HOJAS SECCIÓN 5: ESTILOS DEL PROGRAMA DE SEGURIDAD AISLADO (STYLE.CSS)
-   ========================================================================= */
-.caja-seguridad-alerta {
-    background-color: #f0f4f8; /* Fondo sutil grisáceo/azul */
-    border-left: 5px solid #7a9cc6; /* Borde pastel azul sólido */
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-}
-
-.caja-seguridad-alerta h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #2c3e50;
-    font-size: 1.15rem;
-    font-weight: 600;
-}
-
-#listaLineasSeguridad {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-    max-height: 380px; /* Altura máxima balanceada con las tablas */
-    overflow-y: auto; /* Scroll interno para las 68 líneas */
-    padding-right: 5px;
-}
-
-/* Personalización elegante de la barra de desplazamiento interna */
-#listaLineasSeguridad::-webkit-scrollbar {
-    width: 6px;
-}
-
-#listaLineasSeguridad::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-#listaLineasSeguridad::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
-}
-
-#listaLineasSeguridad::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-}
-
