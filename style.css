@@ -1,20 +1,19 @@
 /* =========================================================================
    STYLE.CSS - SECCIÓN 1: CONFIGURACIÓN MAESTRA Y VARIABLES GLOBALES
-   Descripción: Define la paleta de colores de Primavera Oscura de alto contraste, 
-   las fuentes del sistema y las propiedades de reinicio universal del DOM.
+   Descripción: Define la paleta de colores pasteles encendidos de alta visibilidad 
+   con texto negro puro para garantizar el máximo contraste en exteriores.
    ========================================================================= */
 :root {
-    --color-fondo: #f4ebe1;              /* Crema Tierra Intenso: Menos brillo agresivo */
+    --color-fondo: #fcfcfc;              /* Fondo general ultra-limpio */
     --color-superficie: #ffffff;         /* Blanco puro para las tarjetas de contenido */
-    --color-turquesa: #2d4a3e;           /* Verde Bosque Pastel Oscuro (Contraste Máximo) */
-    --color-turquesa-oscuro: #1d332a;    /* Verde profundo para estados activos y hovers */
-    --color-texto-oscuro: #1e293b;       /* Gris pizarra muy oscuro para textos de alta legibilidad */
-    --color-texto-medio: #334155;        /* Gris medio/oscuro para etiquetas secundarias */
-    --color-borde: #cbd5e1;              /* Gris pastel subido para contornos nítidos */
-    --color-cabecera-tabla: #35465c;     /* Azul Medianoche Pastel para títulos de columnas */
-    --color-divisoria-h2: #aae0d8;       /* Turquesa claro primaveral sutil */
+    --color-turquesa: #b9e192;           /* Verde Hierba Pastel para elementos clave */
+    --color-turquesa-oscuro: #a6ce81;    /* Verde un paso más saturado para hovers */
+    --color-texto-oscuro: #000000;       /* TEXTO NEGRO PURO REQUERIDO */
+    --color-texto-medio: #000000;        /* TEXTO NEGRO PURO PARA ETIQUETAS */
+    --color-borde: #000000;              /* BORDES EN NEGRO PURO PARA ALTO CONTRASTE */
+    --color-cabecera-tabla: #b3c7f7;     /* Azul Cielo Claro para títulos de columnas */
     --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sombra-modulo: 0 4px 6px -1px rgba(45, 74, 62, 0.05), 0 2px 4px -1px rgba(45, 74, 62, 0.03);
+    --sombra-modulo: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -26,7 +25,7 @@
 body {
     background-color: var(--color-fondo);
     font-family: var(--fuente-sistema);
-    color: var(--color-texto-oscuro);
+    color: var(--color-texto-oscuro); /* Todo el texto base nace negro */
     padding: 20px;
     line-height: 1.5;
 }
@@ -466,8 +465,8 @@ button#btnInstalarPWA:hover {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
-   Descripción: Reglas del sistema de capas superpuestas que visten de gala 
-   las alertas pasteles nativas de red y confirmaciones.
+   Descripción: Reglas de las capas superpuestas que visten de gala las alertas 
+   natas usando tus colores pasteles exactos con bordes y textos en negro puro.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -475,7 +474,7 @@ button#btnInstalarPWA:hover {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(30, 41, 59, 0.5) !important; /* Tinte oscuro balanceado */
+    background-color: rgba(0, 0, 0, 0.4) !important; /* Fondo translúcido oscuro */
     z-index: 10000 !important;
     display: none;
     align-items: center !important;
@@ -484,14 +483,13 @@ button#btnInstalarPWA:hover {
 }
 
 .tarjeta-alerta-pastel {
-    background-color: #ffffff !important;
     padding: 24px !important;
     border-radius: 12px !important;
     max-width: 400px !important;
     width: 90% !important;
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
     text-align: center !important;
-    border-top: 5px solid #64748b !important;
+    border: 2px solid #000000 !important; /* Borde negro puro universal */
 }
 
 .tarjeta-alerta-pastel h4 {
@@ -502,42 +500,40 @@ button#btnInstalarPWA:hover {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    font-weight: 700 !important;
 }
 
 .tarjeta-alerta-pastel p {
-    color: var(--color-texto-medio) !important;
     font-size: 0.95rem !important;
     line-height: 1.5 !important;
+    font-weight: 500 !important;
 }
 
-/* 🤔 Confirmación / Información: Azul Pastel Suave */
+/* 🤔 Variante Confirmación / Información: Fondo Azul Cielo Claro con letras negras */
 .tarjeta-alerta-pastel.info {
-    background-color: #e0f2fe !important;
-    border: 1px solid #bae6fd !important;
-    border-top: 5px solid #7dd3fc !important;
+    background-color: #b3c7f7 !important;
+    border-top: 6px solid #000000 !important;
 }
-.tarjeta-alerta-pastel.info h4 { color: #0369a1 !important; }
+.tarjeta-alerta-pastel.info h4, .tarjeta-alerta-pastel.info p { color: #000000 !important; }
 
-/* ✨ Éxito de Reemplazo y Archivo Nuevo: Verde Pastel Suave */
+/* ✨ Variante Éxito: Fondo Verde Manzana Suave con letras negras */
 .tarjeta-alerta-pastel.exito {
-    background-color: #e8f5e9 !important;
-    border: 1px solid #c8e6c9 !important;
-    border-top: 5px solid #81c784 !important;
+    background-color: #cfebb6 !important;
+    border-top: 6px solid #000000 !important;
 }
-.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
+.tarjeta-alerta-pastel.exito h4, .tarjeta-alerta-pastel.exito p { color: #000000 !important; }
 
-/* ⚠️ Alertas de Error: Rosa/Rojo Pastel Suave */
+/* ⚠️ Variante Error: Fondo Rosa Algodón con borde superior en Rosa Intenso y letras negras */
 .tarjeta-alerta-pastel.error {
-    background-color: #ffebee !important;
-    border: 1px solid #ffcdd2 !important;
-    border-top: 5px solid #e57373 !important;
+    background-color: #f8b8d0 !important;
+    border-top: 6px solid #f194b8 !important;
 }
-.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
+.tarjeta-alerta-pastel.error h4, .tarjeta-alerta-pastel.error p { color: #000000 !important; }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
-   Descripción: Estiliza las respuestas sincrónicas limpias de las alertas
-   para evitar el congelamiento de flujos asíncronos en red.
+   Descripción: Estiliza los botones de acción síncrona dentro de las alertas 
+   garantizando un contraste brutal y nítido para evitar congelamientos en red.
    ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
@@ -549,29 +545,32 @@ button#btnInstalarPWA:hover {
 .btn-alerta-pastel {
     padding: 10px 22px !important;
     border-radius: 8px !important;
-    border: none !important;
     font-size: 0.9rem !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important; /* Letras gruesas para alta visibilidad */
     cursor: pointer !important;
-    background-color: #cbd5e1 !important;
-    color: #0f172a !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
     transition: all 0.2s ease !important;
 }
-.btn-alerta-pastel:hover { background-color: #94a3b8 !important; }
 
+/* Botón Aceptar / Confirmar: Botón Negro Puro con letras blancas */
 .btn-alerta-pastel.confirmar-ok {
-    background-color: var(--color-cabecera-tabla) !important; /* Cambia a Azul Medianoche */
+    background-color: #000000 !important;
     color: #ffffff !important;
+    border: 2px solid #000000 !important;
 }
-.btn-alerta-pastel.confirmar-ok:hover { background-color: #233042 !important; }
+.btn-alerta-pastel.confirmar-ok:hover { 
+    background-color: #222222 !important; 
+}
 
+/* Botón Cancelar: Botón Blanco con borde negro y letras negras */
 .btn-alerta-pastel.confirmar-cancel {
-    background-color: #f1f5f9 !important;
-    color: #64748b !important;
-    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
 }
-.btn-alerta-pastel.confirmar-cancel:hover { background-color: #e2e8f0 !important; }
+.btn-alerta-pastel.confirmar-cancel:hover { 
+    background-color: #f1f5f9 !important; 
+}
 
 @keyframes aparecerSutil {
     from { opacity: 0; transform: scale(0.96); }
