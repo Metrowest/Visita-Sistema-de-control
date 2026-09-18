@@ -307,12 +307,65 @@
     </div>
 
     <script>
-        // Variables globales de memoria pasiva para el control de archivos e iconos
+        // Variables globales de memoria pasiva originales intactas
         let tipoArchivoDetectadoPastel = '📋';
         let alertaBloqueada = false; 
 
-        // CARPETAS SECCION 1 FUNCION 1.2: Escucha el input y guarda el icono antes de que el formulario se limpie
+        // 🛡️ CONTROLADOR DE ETIQUETAS DINÁMICAS NATIVO (INDEX)
+        // Cambia los nombres de los cuadros superiores al instante según la sección activa
+        function SeccIdx_SincronizarEtiquetasFormulario(hojaRaw) {
+            console.log("🛡️ Sincronizando etiquetas superiores para: " + hojaRaw);
+            const lbl1 = document.getElementById("lblCampo1");
+            const lbl2 = document.getElementById("lblCampo2");
+            const lbl3 = document.getElementById("lblCampo3");
+            const lbl4 = document.getElementById("lblCampo4");
+            const lbl5 = document.getElementById("lblCampo5");
+            const lbl6 = document.getElementById("lblCampo6");
+            const lbl7 = document.getElementById("lblCampo7");
+            const lbl8 = document.getElementById("lblCampo8");
+
+            if (hojaRaw === "Superintendentes") {
+                if(lbl1) lbl1.innerText = "Grupo / Día";
+                if(lbl2) lbl2.innerText = "Superintendente / Visitante";
+                if(lbl3) lbl3.innerText = "Teléfono / Acompañante";
+            } else if (hojaRaw === "Hospitalidad") {
+                if(lbl1) lbl1.innerText = "Día";
+                if(lbl2) lbl2.innerText = "Nombre";
+                if(lbl3) lbl3.innerText = "Teléfono";
+                if(lbl4) lbl4.innerText = "Dirección";
+            } else if (hojaRaw.includes("Estudios")) {
+                if(lbl1) lbl1.innerText = "Día";
+                if(lbl2) lbl2.innerText = "Visitante";
+                if(lbl3) lbl3.innerText = "Acompañante";
+                if(lbl4) lbl4.innerText = "Teléfono";
+                if(lbl5) lbl5.innerText = "Estudiante";
+                if(lbl6) lbl6.innerText = "Dirección";
+                if(lbl7) lbl7.innerText = "Publicación";
+                if(lbl8) lbl8.innerText = "Detalles";
+            } else if (hojaRaw.includes("Pastoreo")) {
+                if(lbl1) lbl1.innerText = "Día";
+                if(lbl2) lbl2.innerText = "Acompanante";
+                if(lbl3) lbl3.innerText = "Teléfono";
+                if(lbl4) lbl4.innerText = "Hogar";
+                if(lbl5) lbl5.innerText = "Contacto";
+                if(lbl6) lbl6.innerText = "Dirección";
+                if(lbl7) lbl7.innerText = "Detalles";
+                if(lbl8) lbl8.innerText = "Objetivo";
+            }
+        }
+
+        // Registramos el evento de escucha en cuanto carga el documento
         document.addEventListener("DOMContentLoaded", () => {
+            const selector = document.getElementById("selectorHoja");
+            if (selector) {
+                // Escucha activa para cuando el usuario cambia de hoja manualmente
+                selector.addEventListener("change", function() {
+                    SeccIdx_SincronizarEtiquetasFormulario(this.value);
+                });
+                // Mapeo inicial para la primera hoja al arrancar la app
+                SeccIdx_SincronizarEtiquetasFormulario(selector.value);
+            }
+
             const inputArchivoDrive = document.getElementById('archivoSubirDrive');
             if (inputArchivoDrive) {
                 inputArchivoDrive.addEventListener('change', function() {
@@ -328,74 +381,50 @@
             }
         });
 
-        // HOJAS SECCION 1 FUNCION 1.2: INTERCEPTOR MAESTRO DE ALERTAS (window.alert - TRADUCTOR DE ENTORNO ÉXITO)
+        // Interceptores de ventanas flotantes estables de tu respaldo
         window.alert = function(mensaje) {
-            if (alertaBloqueada) {
-                console.log("Alerta secundaria retenida para proteger la ventana de decisión: " + mensaje);
-                return;
-            }
-
+            if (alertaBloqueada) return;
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
             const texto = document.getElementById('mensajeAlertaPastel');
             const cajaBotones = document.getElementById('botonesAlertaPastel');
-            
             if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return;
 
-            let mensajeProcesado = mensaje;
+            texto.innerText = mensaje;
             const msgMinuscula = mensaje.toLowerCase();
 
-            // NUEVA CONDICIÓN DE DOCUMENTO NUEVO: Si la alerta original indica éxito genérico de subida, inyectamos tu frase
-            if (msgMinuscula.includes('datos procesados con éxito') && tipoArchivoDetectadoPastel !== '📋') {
-                mensajeProcesado = "Documento procesado exitosamente.";
-            }
-
-            texto.innerText = mensajeProcesado;
-
-            // CLASIFICADOR PASTEL INTELIGENTE: Filtra el recordatorio obligatorio de reemplazo y lo fuerza en la tarjeta Verde Éxito
-            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados') || msgMinuscula.includes('recuerda') || msgMinuscula.includes('visita') || msgMinuscula.includes('exitosamente')) {
+            if (msgMinuscula.includes('éxito') || msgMinuscula.includes('exito') || msgMinuscula.includes('correctamente') || msgMinuscula.includes('procesados')) {
                 tarjeta.className = 'tarjeta-alerta-pastel exito';
                 titulo.innerHTML = `✨ ${tipoArchivoDetectadoPastel} ¡Excelente!`;
-            } else if (msgMinuscula.includes('error') || msgMinuscula.includes('fallo') || msgMinuscula.includes('no se pudo')) {
+            } else if (msgMinuscula.includes('error') || msgMinuscula.includes('fallo')) {
                 tarjeta.className = 'tarjeta-alerta-pastel error';
                 titulo.innerHTML = `⚠️ ${tipoArchivoDetectadoPastel} Aviso`;
             } else {
                 tarjeta.className = 'tarjeta-alerta-pastel info';
                 titulo.innerHTML = `ℹ️ ${tipoArchivoDetectadoPastel} Información`;
             }
-
-            // Inyección del botón con estilo forzado más oscuro para garantizar máxima legibilidad
-            cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
+            cajaBotones.innerHTML = `<button type="button" class="btn-alerta-pastel" style="background-color: #94a3b8 !important; color: #ffffff !important; font-weight: 700 !important;" onclick="cerrarAlertaPastel()">Entendido</button>`;
             modal.style.display = 'flex';
         };
 
-        // CARPETAS SECCION 2 FUNCION 2.2: INTERCEPTOR MAESTRO DE CONFIRMACIONES ESTÁNDAR (window.confirm)
         window.confirm = function(mensaje) {
             const modal = document.getElementById('contenedorAlertaPastel');
             const tarjeta = document.getElementById('cuerpoAlertaPastel');
             const titulo = document.getElementById('tituloAlertaPastel');
             const texto = document.getElementById('mensajeAlertaPastel');
             const cajaBotones = document.getElementById('botonesAlertaPastel');
-
-            if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) {
-                return true; 
-            }
+            if (!modal || !tarjeta || !texto || !titulo || !cajaBotones) return true; 
 
             texto.innerText = mensaje;
             tarjeta.className = 'tarjeta-alerta-pastel info';
             titulo.innerHTML = `🤔 ${tipoArchivoDetectadoPastel} Confirmación`;
 
-            // Mostramos los botones estéticos, pero configurados únicamente para cerrar el modal visual pasivamente
             cajaBotones.innerHTML = `
                 <button type="button" class="btn-alerta-pastel confirmar-cancel" style="padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="cerrarAlertaPastel()">Cancelar</button>
                 <button type="button" class="btn-alerta-pastel confirmar-ok" style="padding: 10px 20px; border-radius: 8px; background-color: #2563eb !important; color: white !important; cursor: pointer;" onclick="cerrarAlertaPastel()">Aceptar</button>
             `;
-            
             modal.style.display = 'flex';
-            
-            // SOLUCIÓN INTEGRAL AL BUCLE: Retornamos true inmediatamente al motor original de carpetas.js 
-            // Esto permite que el flujo de transmisión binaria hacia Drive continúe en segundo plano sin trabarse
             return true;
         };
 
@@ -405,6 +434,7 @@
             if (modal) modal.style.display = 'none';
         }
     </script>
+
      
 </body>
 
