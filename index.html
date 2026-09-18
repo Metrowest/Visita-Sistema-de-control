@@ -98,38 +98,37 @@
                 <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
                     <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
                 </div>
-
-                <!-- CARPETAS SECCION 3 FUNCION 3.1: DISPARADOR DE TRANSMISIÓN BINARIA HACIA DRIVE -->
-                <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
-                    🚀 Subir a Carpeta Activa
-                </button>
-            </div>
-                        <!-- CARPETAS SECCION 4 - ZONA DE ARCHIVOS DISPONIBLES: Estructura de tabla original de ayer -->
-            <div class="zona-archivos-disponibles">
-                <h3 class="titulo-visor-drive">
-                    <span>📄</span> Archivos Disponibles en esta Carpeta:
-                </h3>
-                <div class="tabla-responsiva contenedor-scroll-drive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre del Archivo</th>
-                                <th>Formato (Tipo)</th>
-                                <th>Enlace</th>
-                            </tr>
-                        </thead>
-                        <!-- CARPETAS SECCION 4 FUNCION 4.1: MATRIZ RECEPTORA DINÁMICA DE ELEMENTOS DE DRIVE -->
-                        <tbody id="tablaCuerpoDrive">
-                            <tr>
-                                <td colspan="3" class="celda-carga">
-                                    Selecciona una carpeta para listar los documentos disponibles...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- =========================================================================
+                 CARPETAS SECCIÓN 4: REPOSITORIO MODULAR DE ARCHIVOS DISPONIBLES (DRIVE)
+                 ========================================================================= -->
+            <div class="tarjeta-modulo" style="margin-top: 24px;">
+                <div class="tarjeta-cabecera">
+                    <div class="icono-titulo">📄</div>
+                    <h2>Archivos Disponibles en esta Carpeta:</h2>
                 </div>
-            </div>
 
+                <div class="zona-archivos-disponibles" style="padding: 15px 0 0 0;">
+                    <div class="tabla-responsiva contenedor-scroll-drive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Archivo</th>
+                                    <th>Formato (Tipo)</th>
+                                    <th>Enlace</th>
+                                </tr>
+                            </thead>
+                            <!-- 🛡️ BLINDAJE ORIGINAL: Matriz receptora intacta para carpetas.js -->
+                            <tbody id="tablaCuerpoDrive">
+                                <tr>
+                                    <td colspan="3" class="celda-carga">
+                                        Selecciona una carpeta para listar los documentos disponibles...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+           
         </div> <!-- CIERRE DE LA COLUMNA IZQUIERDA DE CARPETAS -->
 
 
