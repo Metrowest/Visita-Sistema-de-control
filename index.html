@@ -64,8 +64,7 @@
          CONTENEDOR DE DISTRIBUCIÓN PARALELA MAESTRA (FLEXBOX ORIGINAL DE STYLE.CSS)
          ========================================================================= -->
     <div class="contenedor-modulos-paralelos">
-
-        <!-- =========================================================================
+                 <!-- =========================================================================
             CARPETAS SECCION 2 - COLUMNA IZQUIERDA: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE (FIJO ORIGINAL)
              ========================================================================= -->
         <div id="moduloGestorCarpetas" class="tarjeta-modulo">
@@ -87,7 +86,6 @@
                 <label for="archivoSubirDrive" class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 8px;">
                     Subir Documento o Carpeta a la Sección Activa
                 </label>
-                <!-- El input nativo visible que usabas para buscar archivos -->
                 <input type="file" id="archivoSubirDrive" class="control-selector" style="width: 100%; padding: 8px; border: 1px solid var(--color-borde); border-radius: 8px; background-color: var(--color-fondo);">
                 
                 <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
@@ -98,39 +96,48 @@
                 <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
                     <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
                 </div>
-            <!-- =========================================================================
-                 CARPETAS SECCIÓN 4: REPOSITORIO MODULAR DE ARCHIVOS DISPONIBLES (DRIVE)
-                 ========================================================================= -->
-            <div class="tarjeta-modulo" style="margin-top: 24px;">
-                <div class="tarjeta-cabecera">
-                    <div class="icono-titulo">📄</div>
-                    <h2>Archivos Disponibles en esta Carpeta:</h2>
-                </div>
 
-                <div class="zona-archivos-disponibles" style="padding: 15px 0 0 0;">
-                    <div class="tabla-responsiva contenedor-scroll-drive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre del Archivo</th>
-                                    <th>Formato (Tipo)</th>
-                                    <th>Enlace</th>
-                                </tr>
-                            </thead>
-                            <!-- 🛡️ BLINDAJE ORIGINAL: Matriz receptora intacta para carpetas.js -->
-                            <tbody id="tablaCuerpoDrive">
-                                <tr>
-                                    <td colspan="3" class="celda-carga">
-                                        Selecciona una carpeta para listar los documentos disponibles...
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-           </div>
-        </div> <!-- CIERRE DE LA COLUMNA IZQUIERDA DE CARPETAS -->
+                <!-- 🚀 RESTAURADO: El botón cohete de subida original de tu respaldo con su etiqueta de cierre -->
+                <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
+                    🚀 Subir a Carpeta Activa
+                </button>
+            </div>
+        </div> <!-- 🛡️ RESTAURADO CIERRE MAESTRO DE LA PRIMERA TARJETA (moduloGestorCarpetas) -->
 
+        <!-- =========================================================================
+             CARPETAS SECCIÓN 4: REPOSITORIO MODULAR DE ARCHIVOS DISPONIBLES (DRIVE)
+             ========================================================================= -->
+        <div class="tarjeta-modulo" style="margin-top: 24px;">
+            <div class="tarjeta-cabecera">
+                <div class="icono-titulo">📄</div>
+                <h2>Archivos Disponibles en esta Carpeta:</h2>
+            </div>
+
+            <div class="zona-archivos-disponibles" style="padding: 15px 0 0 0;">
+                <div class="tabla-responsiva contenedor-scroll-drive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Archivo</th>
+                                <th>Formato (Tipo)</th>
+                                <th>Enlace</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaCuerpoDrive">
+                            <tr>
+                                <td colspan="3" class="celda-carga">
+                                    Selecciona una carpeta para listar los documentos disponibles...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> 
+         
+         <!-- 🛡️ CIERRE CORRECTO DE LA TARJETA DE ARCHIVOS DISPONIBLES -->
+
+         <!-- CIERRE DE LA COLUMNA IZQUIERDA DE CARPETAS -->
 
         <!-- ============================================================================================
              APLICACIÓN DE LAS HOJAS (ALINEADA TOTALMENTE A LA DERECHA EN LA GRID MAESTRA)
