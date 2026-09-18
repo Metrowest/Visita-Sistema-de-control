@@ -15,17 +15,17 @@
 
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--color-body-fondo);
+    background-color: var(--color-fondo);
+    font-family: var(--fuente-sistema);
     color: var(--color-texto-oscuro);
-    padding: 24px;
-    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.5;
 }
 
 /* =========================================================================
