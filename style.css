@@ -84,18 +84,27 @@ body {
     font-size: 1.2rem;
 }
 
-/* Cojín visual y balanceo automático para todos los selectores y formularios modulares */
+/* 🛡️ COJÍN VISUAL CORREGIDO: Despega selectores, enlaces y formularios de todos los bordes */
 .tarjeta-modulo .campo-formulario,
 .tarjeta-modulo .contenedor-selector,
 .tarjeta-modulo form {
-    padding: 16px 20px;
+    padding: 20px 24px;
+    box-sizing: border-box;
 }
 
-/* Forzar que las cajas de selección y entradas ocupen todo el ancho sin desbordes */
+/* Forzar que las cajas de selección y entradas se expandan limpiamente sin desbordes */
 .tarjeta-modulo select,
 .tarjeta-modulo input {
     width: 100% !important;
+    box-sizing: border-box !important;
 }
+
+/* Espacio interno adicional para el enlace activo inferior */
+.tarjeta-modulo .enlace-seccion-activa {
+    display: block;
+    margin-top: 15px;
+}
+
 
 /* =========================================================================
    SECCIÓN 4: COLUMNA DE CARPETAS Y CONTROLES DE GOOGLE DRIVE
