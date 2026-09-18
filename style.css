@@ -465,8 +465,8 @@ button#btnInstalarPWA:hover {
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 11: ARQUITECTURA DE DIÁLOGOS Y ALERTAS INTERCEPTADAS
-   Descripción: Reglas de las capas superpuestas que visten de gala las alertas 
-   natas usando tus colores pasteles exactos con bordes y textos en negro puro.
+   Descripción: Capas superpuestas que visten las alertas usando la gama de 
+   lilas y morados primaverales de alto contraste con texto negro puro.
    ========================================================================= */
 .modal-alerta-fondo {
     position: fixed !important;
@@ -474,7 +474,7 @@ button#btnInstalarPWA:hover {
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: rgba(0, 0, 0, 0.4) !important; /* Fondo translúcido oscuro */
+    background-color: rgba(15, 23, 42, 0.4) !important; /* Fondo translúcido oscuro */
     z-index: 10000 !important;
     display: none;
     align-items: center !important;
@@ -487,9 +487,9 @@ button#btnInstalarPWA:hover {
     border-radius: 12px !important;
     max-width: 400px !important;
     width: 90% !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 10px 25px rgba(105, 94, 193, 0.15) !important;
     text-align: center !important;
-    border: 2px solid #000000 !important; /* Borde negro puro universal */
+    border: 2px solid #000000 !important; /* Contorno negro nítido */
 }
 
 .tarjeta-alerta-pastel h4 {
@@ -509,31 +509,31 @@ button#btnInstalarPWA:hover {
     font-weight: 500 !important;
 }
 
-/* 🤔 Variante Confirmación / Información: Fondo Azul Cielo Claro con letras negras */
+/* 🤔 Variante Confirmación / Información: Fondo Lila Sutil Base con texto negro */
 .tarjeta-alerta-pastel.info {
-    background-color: #b3c7f7 !important;
-    border-top: 6px solid #000000 !important;
+    background-color: #d6d0fc !important;
+    border-top: 6px solid #695ec1 !important; /* Encabezado Morado Oscuro */
 }
 .tarjeta-alerta-pastel.info h4, .tarjeta-alerta-pastel.info p { color: #000000 !important; }
 
-/* ✨ Variante Éxito: Fondo Verde Manzana Suave con letras negras */
+/* ✨ Variante Éxito: Fondo Lila Claro Suave con texto negro */
 .tarjeta-alerta-pastel.exito {
-    background-color: #cfebb6 !important;
-    border-top: 6px solid #000000 !important;
+    background-color: #c2b9f9 !important;
+    border-top: 6px solid #695ec1 !important; /* Encabezado Morado Oscuro */
 }
 .tarjeta-alerta-pastel.exito h4, .tarjeta-alerta-pastel.exito p { color: #000000 !important; }
 
-/* ⚠️ Variante Error: Fondo Rosa Algodón con borde superior en Rosa Intenso y letras negras */
+/* ⚠️ Variante Error: Fondo Lila Intermedio Medio con texto negro */
 .tarjeta-alerta-pastel.error {
-    background-color: #f8b8d0 !important;
-    border-top: 6px solid #f194b8 !important;
+    background-color: #9b8bf4 !important;
+    border-top: 6px solid #695ec1 !important; /* Encabezado Morado Oscuro */
 }
 .tarjeta-alerta-pastel.error h4, .tarjeta-alerta-pastel.error p { color: #000000 !important; }
 
 /* =========================================================================
    STYLE.CSS - SECCIÓN 12: CONTROLES DE BOTONES DE LA PASARELA PASTEL
-   Descripción: Estiliza los botones de acción síncrona dentro de las alertas 
-   garantizando un contraste brutal y nítido para evitar congelamientos en red.
+   Descripción: Da formato a las respuestas de los botones usando la gama 
+   de morados intermedios para garantizar una legibilidad impecable.
    ========================================================================= */
 .contenedor-botones-pastel {
     display: flex !important;
@@ -546,23 +546,24 @@ button#btnInstalarPWA:hover {
     padding: 10px 22px !important;
     border-radius: 8px !important;
     font-size: 0.9rem !important;
-    font-weight: 700 !important; /* Letras gruesas para alta visibilidad */
+    font-weight: 700 !important;
     cursor: pointer !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
     transition: all 0.2s ease !important;
 }
 
-/* Botón Aceptar / Confirmar: Botón Negro Puro con letras blancas */
+/* Botón Aceptar / Confirmar: Color Intermedio Fuerte (#8274da) con letras negras */
 .btn-alerta-pastel.confirmar-ok {
-    background-color: #000000 !important;
-    color: #ffffff !important;
+    background-color: #8274da !important;
+    color: #000000 !important;
     border: 2px solid #000000 !important;
 }
 .btn-alerta-pastel.confirmar-ok:hover { 
-    background-color: #222222 !important; 
+    background-color: #695ec1 !important; 
+    color: #ffffff !important; /* Cambia a blanco en hover para contraste absoluto */
 }
 
-/* Botón Cancelar: Botón Blanco con borde negro y letras negras */
+/* Botón Cancelar: Botón Blanco con contorno negro y letras negras */
 .btn-alerta-pastel.confirmar-cancel {
     background-color: #ffffff !important;
     color: #000000 !important;
