@@ -61,74 +61,55 @@
 <body>
 
     <!-- =========================================================================
-       HOJAS SECCIÓN MAESTRA: BANNER O CABECERA GENERAL DE LA APP
-       ========================================================================= -->
-    <header style="text-align: center; margin-bottom: 24px; padding: 10px;">
-        <h1 style="color: #000000; font-size: 1.8rem; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif;">
-            Visita - Sistema de Control Operacional
-        </h1>
-    </header>
-
-    <!-- =========================================================================
-       CONTENEDOR MAESTRO DE DISTRIBUCIÓN PARALELA (ORDEN LOGICO SEGURO)
-       ========================================================================= -->
-    <div class="contenedor-principal">
+         CONTENEDOR DE DISTRIBUCIÓN PARALELA MAESTRA (FLEXBOX ORIGINAL DE STYLE.CSS)
+         ========================================================================= -->
+    <div class="contenedor-modulos-paralelos">
 
         <!-- =========================================================================
-             📌 BLOQUE LOGICO PRIMERO (CARPETAS): CARGADO AL INICIO - VISUALIZADO A LA DERECHA
+            ⭐ CARPETAS PRIMERO: GESTOR DE ARCHIVOS Y COMPONENTES DE DRIVE (ORIGINAL)
              ========================================================================= -->
-        <div class="bloque-columna-derecha" style="display: flex; flex-direction: column; gap: 24px;">
-
-            <!-- CARPETAS FUNCIÓN 1: GESTOR DE ARCHIVOS Y CARPETAS -->
-            <div id="moduloGestorCarpetas" class="tarjeta-modulo">
-                <div class="tarjeta-cabecera">
-                    <span class="icono-titulo">📁</span>
-                    <h2>Gestor de Archivos (Visita Actual)</h2>
-                </div>
-                <div>
-                    <label for="selectorSubcarpetas" class="etiqueta-seleccion" style="font-weight: 600; display: block; margin-bottom: 8px;">Selecciona una Carpeta para Navegar:</label>
-                    <select id="selectorSubcarpetas" class="selector-estilizado">
-                        <!-- Las subcarpetas en vivo de tu Google Drive se inyectan aquí por carpetas.js -->
-                    </select>
-                </div>
-            </div>
-             
-            <!-- CARPETAS FUNCIÓN 2: COMPONENTE TRANSMISOR DE SUBIDAS -->
-            <div class="tarjeta-modulo">
-                <div class="tarjeta-cabecera">
-                    <span class="icono-titulo">📤</span>
-                    <h2>Subir Documento o Carpeta a la Sección Activa</h2>
-                </div>
-                <div>
-                    <input type="file" id="archivoSubirDrive" class="selector-estilizado">
-                    
-                    <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
-                        <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
-                        <div id="vistaPreviaIconoDrive" style="font-size: 1.15rem; display: flex; align-items: center;"></div>
-                    </div>
-
-                    <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
-                        <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <!-- 🛡️ DOBLE IDENTIFICACIÓN SEGURO: id="btnSubirDrive" repara la línea 439 en app.js; 
-                             id="btnIniciarCargaDrive" mantiene el motor intacto en carpetas.js -->
-                        <button type="button" id="btnSubirDrive" data-id-alterno="btnIniciarCargaDrive" class="btn-turquesa" style="width: 100%;" onclick="if(typeof iniciarCargaDrive === 'function') iniciarCargaDrive(); else if(document.getElementById('btnIniciarCargaDrive')) document.getElementById('btnIniciarCargaDrive').click();">
-                            🚀 Subir a Carpeta Activa
-                        </button>
-                    </div>
-                </div>
+        <div id="moduloGestorCarpetas" class="tarjeta-modulo">
+            <div class="tarjeta-cabecera">
+                <span class="icono-titulo">📁</span>
+                <h2>Gestor de Archivos (Visita Actual)</h2>
             </div>
 
+            <!-- CARPETAS SECCION 2 FUNCION 2.1: MOTOR DE NAVEGACIÓN ORIGINAL ASÍNCRONO -->
+            <div class="campo-formulario" style="margin-bottom: 15px;">
+                <label for="selectorSubcarpetas" class="etiqueta-selector">Selecciona una Carpeta para Navegar:</label>
+                <select id="selectorSubcarpetas" class="control-selector">
+                    <!-- Las subcarpetas en vivo de tu Google Drive se inyectan aquí por carpetas.js -->
+                </select>
+            </div>
 
-            <!-- CARPETAS FUNCIÓN 3: REPOSITORIO DE ARCHIVOS DISPONIBLES -->
-            <div class="tarjeta-modulo">
-                <div class="tarjeta-cabecera">
-                    <span class="icono-titulo">📄</span>
-                    <h2>Archivos Disponibles en esta Carpeta:</h2>
+            <!-- CARPETAS SECCION 3 - Módulo de carga de archivos original -->
+            <div class="campo-formulario" style="margin-bottom: 20px;">
+                <label for="archivoSubirDrive" class="etiqueta-selector" style="font-weight: 600; display: block; margin-bottom: 8px;">
+                    Subir Documento o Carpeta a la Sección Activa
+                </label>
+                <input type="file" id="archivoSubirDrive" class="control-selector" style="width: 100%; padding: 8px; border: 1px solid var(--color-borde); border-radius: 8px; background-color: var(--color-fondo);">
+                
+                <div style="display: flex; align-items: center; justify-content: flex-start; gap: 15px; margin-top: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                    <div id="nombreArchivoSeleccionado" class="texto-archivo-seleccionado" style="margin: 0; font-size: 0.85rem; color: var(--color-texto-medio);">Ningún archivo seleccionado</div>
+                    <div id="vistaPreviaIconoDrive" style="font-size: 1.15rem; display: flex; align-items: center;"></div>
                 </div>
-                <div class="tabla-responsiva">
+
+                <div id="contenedorPrevisualizacionFoto" class="preview-foto-drive" style="display: none; margin-bottom: 10px;">
+                    <img id="previewFotoDriveImg" src="" alt="Previsualización" style="max-width: 100%; border-radius: 6px;">
+                </div>
+
+                <!-- CARPETAS SECCION 3 FUNCION 3.1: DISPARADOR DE TRANSMISIÓN BINARIA HACIA DRIVE -->
+                <button type="button" id="btnIniciarCargaDrive" class="btn-primario" style="width: 100%;">
+                    🚀 Subir a Carpeta Activa
+                </button>
+            </div>
+
+            <!-- CARPETAS SECCION 4 - ZONA DE ARCHIVOS DISPONIBLES -->
+            <div class="zona-archivos-disponibles">
+                <h3 class="titulo-visor-drive">
+                    <span>📄</span> Archivos Disponibles en esta Carpeta:
+                </h3>
+                <div class="tabla-responsiva contenedor-scroll-drive">
                     <table>
                         <thead>
                             <tr>
@@ -137,6 +118,7 @@
                                 <th>Enlace</th>
                             </tr>
                         </thead>
+                        <!-- CARPETAS SECCION 4 FUNCION 4.1: MATRIZ RECEPTORA DINÁMICA DE ELEMENTOS DE DRIVE -->
                         <tbody id="tablaCuerpoDrive">
                             <tr>
                                 <td colspan="3" class="celda-carga">
@@ -148,45 +130,16 @@
                 </div>
             </div>
 
-        </div> <!-- FIN BLOQUE CARPETAS -->
+        </div> <!-- CIERRE DE CARPETAS -->
 
-             <!-- =========================================================================
-             📌 BLOQUE LOGICO SEGUNDO (HOJAS): CARGADO DESPUÉS - VISUALIZADO A LA IZQUIERDA
-             ========================================================================= -->
-        <div class="bloque-columna-izquierda" style="display: flex; flex-direction: column; gap: 24px;">
-            
-            <!-- HOJAS FUNCIÓN 1: SELECTOR DE SECCIONES -->
-            <div class="tarjeta-modulo">
-                <div class="tarjeta-cabecera">
-                    <span class="icono-titulo">📂</span>
-                    <h2>Selecciona una Hoja</h2>
-                </div>
-                <div>
-                    <label class="etiqueta-seleccion" for="selectorHoja">Selecciona una Sección:</label>
-                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
-                        <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
-                        <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
-                        <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
-                        <option value="Estudios Día 2">📚 Estudios Día 2 (Vertical)</option>
-                        <option value="Estudios Día 3">📚 Estudios Día 3 (Vertical)</option>
-                        <option value="Pastoreo Día 1">🐑 Pastoreo Día 1 (Vertical)</option>
-                        <option value="Pastoreo Día 2">🐑 Pastoreo Día 2 (Vertical)</option>
-                        <option value="Pastoreo Día 3">🐑 Pastoreo Día 3 (Vertical)</option>
-                        <option value="Seguridad">🛡️ Seguridad (Programa)</option>
-                    </select>
-                    <div style="margin-top: 8px;">
-                        <span class="enlace-seccion-activa">
-                            Sección activa: <a id="enlaceDinamico" class="link-moderno" href="#">...</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- HOJAS FUNCIÓN 2: FORMULARIO DE RECOPILACIÓN DE REGISTROS -->
+        <!-- 📌 HOJAS DESPUÉS: FORMULARIO Y TABLAS DE GOOGLE SHEETS -->
+        <div class="bloque-columna-derecha" style="display: flex; flex-direction: column; gap: 24px;">
+
+            <!-- HOJAS SECCIÓN 5: FORMULARIO DE RECOPILACIÓN DE REGISTROS -->
             <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
                     <span class="icono-titulo">📝</span>
-                    <!-- 🛡️ RESTAURADO: id="formTitulo" para que el script sepa dónde escribir al editar -->
                     <h2 id="formTitulo">Añadir Registro</h2>
                 </div>
                 <form id="formularioCaptura" onsubmit="event.preventDefault();">
@@ -203,6 +156,7 @@
                             <label id="lblCampo3" for="txtTelefono">Teléfono / Acompañante</label>
                             <input type="text" id="txtTelefono" placeholder="Información" required>
                         </div>
+                        <!-- Bloques dinámicos ocultos síncronos -->
                         <div class="campo-formulario" id="contenedorCampo4" style="display: none;">
                             <label id="lblCampo4" for="txtCampo4">Campo 4</label>
                             <input type="text" id="txtCampo4">
@@ -230,7 +184,7 @@
                 </form>
             </div>
 
-            <!-- HOJAS FUNCIÓN 3: VISUALIZADOR CENTRAL DE TABLAS DE DATOS -->
+            <!-- HOJAS SECCIÓN 6: VISUALIZADOR CENTRAL DE TABLAS DE DATOS -->
             <div id="contenedorTablaRegistros" class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
                     <span class="icono-titulo">📊</span>
@@ -248,9 +202,10 @@
                 </div>
             </div>
 
-        </div> <!-- FIN COLUMNA IZQUIERDA (HOJAS) -->
+        </div> <!-- FIN COLUMNA HOJAS -->
 
-    </div> <!-- FIN CONTENEDOR MAESTRO DE DISTRIBUCIÓN PARALELA -->
+    </div> <!-- CIERRE DE CONTENEDOR-MODULOS-PARALELOS GLOBAL -->
+
 
     <!-- =========================================================================
        CODIGO MADRE SECCIÓN 2 - BANNER PWA REQUERIDO
