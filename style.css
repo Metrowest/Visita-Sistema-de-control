@@ -375,7 +375,7 @@ body {
    Descripción: Controla que los bloques se claven lado a lado de manera 
    simétrica en la tablet y se compacten verticalmente en móviles.
    ========================================================================= */
-.contenedor-modulos-paralelos {
+/* .contenedor-modulos-paralelos {
     display: flex;
     flex-direction: row;
     gap: 24px;
@@ -472,7 +472,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
     margin-bottom: 20px;
-}
+}*/
 /* =========================================================================
    SECCIÓN 4: MASTRÍA CROMÁTICA - GAMA DE TONOS INDEPENDIENTES POR MÓDULO
    Descripción: Mapea individualmente cada clase del index para inyectar 
