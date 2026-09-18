@@ -1,5 +1,7 @@
 /* =========================================================================
-   STYLE.CSS - PARTE 1: VARIABLES GLOBALES Y ESTRUCTURA EN BLOQUES LADO A LADO
+   SECCIÓN 1: VARIABLES GLOBALES Y CONFIGURACIÓN MAESTRA DE LA INTERFAZ
+   Descripción: Inicializa el color de fondo general de la pantalla,
+   la tipografía Plus Jakarta Sans y las sombras base de tu respaldo original.
    ========================================================================= */
 :root {
     --color-fondo: #f8fafc;
@@ -9,8 +11,8 @@
     --color-texto-oscuro: #0f172a;
     --color-texto-medio: #475569;
     --color-borde: #e2e8f0;
-    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -27,45 +29,52 @@ body {
     line-height: 1.5;
 }
 
-/* Contenedor Principal Adaptativo en Rejilla Modular Inteligente */
-.contenedor-principal {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr; /* Una columna por defecto en dispositivos móviles */
+/* =========================================================================
+   SECCIÓN 2: ARQUITECTURA PARALELA MAESTRA (DISTRIBUCIÓN EN 2 COLUMNAS)
+   Descripción: Controla que los bloques se alineen de manera simétrica en la
+   tablet y se compacten de forma vertical en pantallas más pequeñas.
+   ========================================================================= */
+.contenedor-modulos-paralelos {
+    display: flex;
+    flex-direction: row;
     gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-/* DISTRIBUCIÓN AVANZADA: Reorganiza los bloques lado a lado en pantallas grandes (Estilo Foto 2) */
-@media (min-width: 992px) {
-    .contenedor-principal {
-        grid-template-columns: repeat(2, 1fr); /* Divide la pantalla en dos columnas idénticas */
-    }
+.bloque-carpetas-izquierda-empaquetado,
+.bloque-hojas-derecha-empaquetado {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+    width: 100%;
+    min-width: 340px;
+}
 
-    /* El selector de secciones superior se extiende a todo lo ancho de la cumbre */
-    .contenedor-selector {
-        grid-column: span 2;
+/* Adaptación responsiva estricta para pantallas menores a 1100px */
+@media (max-width: 1100px) {
+    .contenedor-modulos-paralelos {
+        flex-direction: column;
+        align-items: center;
     }
-
-    /* EL GESTOR DE ARCHIVOS FLOTA ARRIBA PANORÁMICO: Se extiende completo sobre las hojas */
-    #moduloGestorCarpetas {
-        grid-column: span 2;
-    }
-
-    /* EL FORMULARIO DE AÑADIR REGISTRO SE CLAVA EN LA COLUMNA IZQUIERDA */
-    .contenedor-principal > .tarjeta-modulo:nth-of-type(2) {
-        grid-column: 1;
-        align-self: start;
-    }
-
-    /* LA TABLA DE REGISTROS ALMACENADOS SE CLAVA EN LA COLUMNA DERECHA */
-    .contenedor-principal > .tarjeta-modulo:last-child {
-        grid-column: 2;
-        align-self: start;
+    .bloque-carpetas-izquierda-empaquetado,
+    .bloque-hojas-derecha-empaquetado {
+        width: 100%;
+        min-width: 100%;
     }
 }
 
-/* El diseño de cubículos independientes (Tarjetas Modulares Limpias) */
+/* =========================================================================
+   SECCIÓN 3: COMPONENTES ESTRUCTURALES Y REGISTRO DE INPUTS AMARILLOS
+   Descripción: Controla el cascarón de las tarjetas y define la regla maestra 
+   para pintar los inputs de amarillo pastel de forma libre y transparente.
+   ========================================================================= */
 .tarjeta-modulo {
     background-color: var(--color-superficie);
     border-radius: 12px;
@@ -74,6 +83,7 @@ body {
     padding: 24px;
     width: 100%;
     display: block;
+    overflow: hidden;
 }
 
 .tarjeta-cabecera {
@@ -85,56 +95,139 @@ body {
     padding-bottom: 12px;
 }
 
-.icono-titulo {
-    font-size: 1.4rem;
+.tarjeta-modulo .campo-formulario,
+.tarjeta-modulo .contenedor-selector,
+.tarjeta-modulo .zona-archivos-disponibles,
+.tarjeta-modulo .tabla-responsiva,
+.tarjeta-modulo form,
+.grid-formulario {
+    padding: 10px 5px;
+    box-sizing: border-box;
 }
 
-h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
+/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro fluido sin candados */
+.tarjeta-modulo select,
+.tarjeta-modulo input,
+.tarjeta-modulo select option {
+    background-color: #fffde6; /* Amarillo pastel claro solicitado */
     color: var(--color-texto-oscuro);
-}
-
-.contenedor-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-@media (min-width: 768px) {
-    .contenedor-selector {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-}
-
-.etiqueta-seleccion {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-texto-medio);
-}
-/* =========================================================================
-   STYLE.CSS - PARTE 2: COMPONENTES, FORMULARIOS Y RESPONSIVIDAD ESTRICTA
-   ========================================================================= */
-
-/* Selectores e Inputs estilizados */
-.selector-estilizado {
+    border: 1px solid var(--color-borde);
     width: 100%;
+    box-sizing: border-box;
     padding: 10px 14px;
     border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    background-color: var(--color-superficie);
     font-family: var(--fuente-sistema);
     font-size: 0.95rem;
-    color: var(--color-texto-oscuro);
     outline: none;
-    cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.selector-estilizado:focus {
+.tarjeta-modulo select:focus,
+.tarjeta-modulo input:focus {
     border-color: var(--color-turquesa);
+    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1);
+}
+
+.grid-formulario {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+/* =========================================================================
+   SECCIÓN 4: ASIGNACIÓN DE TONOS PASTELES PERSONALIZADOS POR CLASE ÚNICA
+   Descripción: Distribuye tus colores base oficiales de forma aislada. 
+   Establece cabeceras oscuras, sub-cabeceras medias y fondos muy claros.
+   ========================================================================= */
+
+/* --- 📦 COLUMNA IZQUIERDA: MÓDULOS DE CARPETAS (GAMA LILA BASE: #f1efff) --- */
+.modulo-selector-carpetas, 
+.modulo-cargar-carpetas, 
+.modulo-yabla-carpetas {
+    background-color: #faf9ff; /* Fondo de la tarjeta muy claro */
+}
+
+.modulo-selector-carpetas .tarjeta-cabecera,
+.modulo-cargar-carpetas .tarjeta-cabecera,
+.modulo-yabla-carpetas .tarjeta-cabecera {
+    background-color: #3f3a63; /* Cabecera tono oscuro de la familia */
+    color: #ffffff;
+}
+
+.modulo-selector-carpetas .campo-formulario,
+.modulo-cargar-carpetas .campo-formulario,
+.modulo-yabla-carpetas .zona-archivos-disponibles {
+    background-color: #f1efff; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    border-radius: 8px;
+}
+
+.modulo-cargar-carpetas .btn-primario {
+    background-color: #3f3a63; /* Botón oscuro unificado a su cabecera */
+    color: #ffffff;
+}
+
+/* --- 📊 COLUMNA DERECHA: MÓDULOS DE HOJAS (GAMAS INDEPENDIENTES) --- */
+
+/* 1) Selecciona una Hoja (Gama Verde Base: #dbe8b2) */
+.modulo-gama-verde {
+    background-color: #f7f9f4; /* Fondo de la tarjeta muy claro */
+}
+
+.modulo-gama-verde .tarjeta-cabecera {
+    background-color: #424a24; /* Cabecera tono oscuro de la familia */
+    color: #ffffff;
+}
+
+.modulo-gama-verde .contenedor-selector {
+    background-color: #dbe8b2; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    border-radius: 8px;
+}
+
+/* 2) Formulario Añadir Registro (Gama Violeta Base: #d9d4fc) */
+.modulo-gama-violeta {
+    background-color: #f6f5ff; /* Fondo de la tarjeta muy claro */
+}
+
+.modulo-gama-violeta .tarjeta-cabecera {
+    background-color: #2b2361; /* Cabecera tono oscuro de la familia */
+    color: #ffffff;
+}
+
+.modulo-gama-violeta form {
+    background-color: #d9d4fc; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    border-radius: 8px;
+}
+
+.modulo-gama-violeta .btn-primario {
+    background-color: #2b2361; /* Botón oscuro unificado a su cabecera */
+    color: #ffffff;
+}
+
+/* 3) Registros Almacenados / Tabla Sheets (Gama Lavanda Base: #e5e1fd) */
+.modulo-gama-lavanda {
+    background-color: #f8f7ff; /* Fondo de la tarjeta muy claro */
+}
+
+.modulo-gama-lavanda .tarjeta-cabecera {
+    background-color: #312a66; /* Cabecera tono oscuro de la familia */
+    color: #ffffff;
+}
+
+.modulo-gama-lavanda .campo-formulario,
+.modulo-gama-lavanda .tabla-responsiva {
+    background-color: #e5e1fd; /* Sub-cabecera: TU COLOR BASE INTERMEDIO */
+    border-radius: 8px;
+}
+/* =========================================================================
+   SECCIÓN 5: BOTONERAS, ELEMENTOS ASÍNCRONOS Y ENTORNO DE TABLAS
+   Descripción: Estiliza los componentes interactivos de las celdas, los 
+   spinners de carga y los títulos de campos descriptivos.
+   ========================================================================= */
+.campo-formulario label,
+.contenedor-selector label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-texto-medio);
 }
 
 .enlace-seccion-activa {
@@ -153,56 +246,6 @@ h2 {
     text-decoration: underline;
 }
 
-/* Grilla del Formulario interna (Campos 1, 2, 3...) */
-.grid-formulario {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-/* Ajuste de columnas: 2 columnas en dispositivos móviles/tabletas y 3 columnas solo en computadoras */
-@media (min-width: 480px) {
-    .grid-formulario {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles y tabletas */
-    }
-}
-@media (min-width: 1024px) {
-    .grid-formulario {
-        grid-template-columns: repeat(2, 1fr) !important; /* Fuerza solo 2 columnas de inputs */
-    }
-}
-
-.campo-formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.campo-formulario label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-texto-medio);
-}
-
-.campo-formulario input[type="text"] {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    font-size: 0.9rem;
-    color: var(--color-texto-oscuro);
-    font-family: var(--fuente-sistema);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.campo-formulario input[type="text"]:focus {
-    border-color: var(--color-turquesa);
-    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1);
-}
-
-/* Bloque de Botones Flexibles y Adaptativos */
 .bloque-botones {
     display: flex;
     flex-direction: column;
@@ -210,9 +253,7 @@ h2 {
 }
 
 @media (min-width: 480px) {
-    .bloque-botones {
-        flex-direction: row;
-    }
+    .bloque-botones { flex-direction: row; }
 }
 
 .btn-primario, .btn-secundario {
@@ -253,7 +294,6 @@ h2 {
     transform: scale(0.98);
 }
 
-/* Blindaje de Tablas Responsivas con scroll interno */
 .tabla-responsiva {
     width: 100%;
     overflow-x: auto;
@@ -282,21 +322,14 @@ th {
     white-space: nowrap;
 }
 
-td {
-    color: var(--color-texto-oscuro);
-}
+/* Sincronización cromática para los th de las tablas */
+.modulo-yabla-carpetas th { background-color: #dbd6f5; color: #000000; }
+.modulo-gama-lavanda th { background-color: #cac5fa; color: #000000; }
 
-tr:last-child td {
-    border-bottom: none;
-}
+td { color: var(--color-texto-oscuro); }
+tr:last-child td { border-bottom: none; }
+.celda-carga { padding: 30px; text-align: center; color: var(--color-texto-medio); }
 
-.celda-carga {
-    padding: 30px;
-    text-align: center;
-    color: var(--color-texto-medio);
-}
-
-/* Spinner de carga estético */
 .spinner-carga {
     width: 24px;
     height: 24px;
@@ -311,7 +344,6 @@ tr:last-child td {
     to { transform: rotate(360deg); }
 }
 
-/* Botones de acción originales de las celdas de Sheets */
 .btn-edit, .btn-delete {
     background: none;
     border: none;
@@ -325,314 +357,123 @@ tr:last-child td {
     transform: scale(1.2);
 }
 
-/* =========================================================================
-   DISTRIBUCIÓN PARALELA MAESTRA INTEGRADA (MÓDULOS DE LA FOTO)
-   ========================================================================= */
-.contenedor-modulos-paralelos {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 10px;
-    box-sizing: border-box;
-}
-/* =========================================================================
-   SECCIÓN 1: VARIABLES GLOBALES Y CONFIGURACIÓN BASE DE LA INTERFAZ
-   Descripción: Inicializa los colores de fondo generales, las fuentes del
-   sistema y las sombras base de cada bloque de la aplicación.
-   ========================================================================= */
-:root {
-    --color-fondo: #f8fafc;
-    --color-superficie: #ffffff;
-    --color-turquesa: #2cbbb0;
-    --color-turquesa-oscuro: #229990;
-    --color-texto-oscuro: #0f172a;
-    --color-texto-medio: #475569;
-    --color-borde: #e2e8f0;
-    --fuente-sistema: 'Plus Jakarta Sans', -apple-system, sans-serif;
-    --sombra-modulo: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+/* Integración de iconos de tu respaldo */
+.tabla-responsiva td i, .tarjeta-modulo i {
+    margin-right: 8px;
+    font-size: 1.15rem;
+    vertical-align: middle;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+@media (max-width: 768px) {
+    .grid-formulario { margin-bottom: 12px; }
+    .bloque-botones { margin-bottom: 40px; }
 }
-
-body {
-    background-color: var(--color-fondo);
-    font-family: var(--fuente-sistema);
-    color: var(--color-texto-oscuro);
-    padding: 20px;
-    line-height: 1.5;
-}
-/* =========================================================================
-   SECCIÓN 2: ARQUITECTURA PARALELA MAESTRA (DISTRIBUCIÓN EN 2 COLUMNAS)
-   Descripción: Controla que los bloques se claven lado a lado de manera 
-   simétrica en la tablet y se compacten verticalmente en móviles.
-   ========================================================================= */
- .contenedor-modulos-paralelos {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-/* Fuerza el equilibrio simétrico 50/50 entre ambas columnas del respaldo */
-.bloque-carpetas-izquierda-empaquetado,
-.bloque-hojas-derecha-empaquetado {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    flex: 1;
-    width: 100%;
-    min-width: 340px;
-}
-
-/* Optimización Responsiva Estricta para Teléfonos Celulares */
-@media (max-width: 1100px) {
-    .contenedor-modulos-paralelos {
-        flex-direction: column;
-        align-items: center;
-    }
-    .bloque-carpetas-izquierda-empaquetado,
-    .bloque-hojas-derecha-empaquetado {
-        width: 100% !important;
-        min-width: 100% !important;
-    }
-}
-/* =========================================================================
-   SECCIÓN 3: COMPONENTES ESTRUCTURALES Y UNIFICACIÓN DE INPUTS AMARILLOS
-   Descripción: Controla el esqueleto de las tarjetas y fuerza a todas las 
-   cajas de captura a tomar el color amarillo pastel claro.
-   ========================================================================= */
-/* .tarjeta-modulo {
-    background-color: var(--color-superficie);
-    border-radius: 12px;
-    border: 1px solid var(--color-borde);
-    box-shadow: var(--sombra-modulo);
-    padding: 24px;
-    width: 100%;
-    display: block;
-    overflow: hidden; /* Limpia desbordes internos 
-}
-
-.tarjeta-cabecera {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--color-borde);
-    padding-bottom: 12px;
-}
-
-.tarjeta-modulo .campo-formulario,
-.tarjeta-modulo .contenedor-selector,
-.tarjeta-modulo .zona-archivos-disponibles,
-.tarjeta-modulo .tabla-responsiva,
-.tarjeta-modulo form {
-    padding: 10px 5px;
-    box-sizing: border-box;
-}
-
-/* 🛡️ UNIFICACIÓN MAESTRA DE INPUTS: Amarillo pastel claro para toda la app 
-.tarjeta-modulo select,
-.tarjeta-modulo input,
-.tarjeta-modulo select option {
-    background-color: #fffde6 !important; /* Amarillo pastel claro 
-    color: #000000 !important;
-    border: 1px solid #dcdac2 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-family: var(--fuente-sistema);
-    font-size: 0.95rem;
-    outline: none;
-}
-
-.tarjeta-modulo select:focus,
-.tarjeta-modulo input:focus {
-    border-color: var(--color-turquesa) !important;
-    box-shadow: 0 0 0 3px rgba(44, 187, 176, 0.1) !important;
-}
-
-.grid-formulario {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-bottom: 20px;
-}*/
-
-/* =========================================================================
-   SECCIÓN 5: BOTONERAS, COMPONENTES ASÍNCRONOS Y ENTORNO DE TABLAS
-   Descripción: Estiliza las acciones de guardar, los spinners de carga y 
-   las cabeceras horizontales internas de las cuadrículas de datos.
-   ========================================================================= */
-.bloque-botones {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-@media (min-width: 480px) { .bloque-botones { flex-direction: row; } }
-
-.btn-primario, .btn-secundario {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-family: var(--fuente-sistema);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.2s, transform 0.1s;
-}
-
-/* Sincronización cromática de botones con sus respectivas cabeceras oscuras */
-.modulo-cargar-carpetas .btn-primario { background-color: #3f3a63; color: #ffffff; }
-.modulo-gama-violeta .btn-primario { background-color: #2b2361; color: #ffffff; }
-.btn-primario { background-color: var(--color-turquesa); color: #ffffff; }
-.btn-primario:hover { filter: brightness(1.1); }
-
-.btn-secundario { background-color: #f1f5f9; color: #ef4444; border: 1px solid #fee2e2; }
-.btn-secundario:hover { background-color: #fee2e2; }
-.btn-primario:active, .btn-secundario:active { transform: scale(0.98); }
-
-.tabla-responsiva {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    margin-top: 10px;
-}
-
-th, td { padding: 12px 14px; border-bottom: 1px solid var(--color-borde); }
-
-/* Fondos internos de celdas horizontales a juego con sus módulos */
-.modulo-yabla-carpetas th { background-color: #dbd6f5; color: var(--color-texto-oscuro); }
-.modulo-gama-lavanda th { background-color: #cac5fa; color: var(--color-texto-oscuro); }
-th { background-color: #f8fafc; color: var(--color-texto-medio); font-weight: 600; white-space: nowrap; }
-td { color: var(--color-texto-oscuro); }
-tr:last-child td { border-bottom: none; }
-.celda-carga { padding: 30px; text-align: center; color: var(--color-texto-medio); }
-
-.spinner-carga {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #e2e8f0;
-    border-top-color: var(--color-turquesa);
-    border-radius: 50%;
-    margin: 0 auto 10px auto;
-    animation: girarSpinner 0.8s linear infinite;
-}
-@keyframes girarSpinner { to { transform: rotate(360deg); } }
-
-.btn-edit, .btn-delete { background: none; border: none; font-size: 1.1rem; padding: 4px 8px; cursor: pointer; transition: transform 0.1s; }
-.btn-edit:hover, .btn-delete:hover { transform: scale(1.2); }
 
 /* =========================================================================
    SECCIÓN 6: ALERTAS PASTEL Y COMPONENTES DEL TABLERO PWA INFRAESTRUCTURA
-   Descripción: Controla la ventana de instalación compacta fija y las 
-   ventanas flotantes de error, éxito o información de red.
+   Descripción: Controla el banner flotante de instalación y los avisos modales.
    ========================================================================= */
 div#bannerInstalacionPWA {
     background-color: #a12cbb;
-    color: #ffffff !important;
-    padding: 6px 12px !important; 
-    position: fixed !important;
-    bottom: 8px !important;
-    left: 16px !important;
-    z-index: 9999 !important;
-    border-radius: 8px !important;
-    display: inline-flex !important;
+    color: #ffffff;
+    padding: 6px 12px; 
+    position: fixed;
+    bottom: 8px;
+    left: 16px;
+    z-index: 9999;
+    border-radius: 8px;
+    display: inline-flex;
     flex-direction: row-reverse; 
-    align-items: center !important;
-    justify-content: flex-end !important; 
-    gap: 10px !important; 
-    max-width: 300px !important;
-    max-height: 50px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+    align-items: center;
+    justify-content: flex-end; 
+    gap: 10px; 
+    max-width: 300px;
+    max-height: 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 div#bannerInstalacionPWA p {
-    margin: 0 !important;
-    font-size: 0.75rem !important; 
-    font-weight: 500 !important;
+    margin: 0;
+    font-size: 0.75rem; 
+    font-weight: 500;
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #ffffff !important;
+    color: #ffffff;
 }
 
 button#btnInstalarPWA {
     background-color: #ffffff;
-    color: #000000 !important;
-    border: none !important;
-    padding: 4px 8px !important; 
-    font-weight: 600 !important;
-    border-radius: 4px !important;
-    cursor: pointer !important;
-    font-size: 0.72rem !important;
+    color: #000000;
+    border: none;
+    padding: 4px 8px; 
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.72rem;
     white-space: nowrap;
 }
 
 .modal-alerta-fondo {
-    position: fixed !important;
-    top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important;
-    background-color: rgba(15, 23, 42, 0.4) !important;
-    z-index: 10000 !important;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.4);
+    z-index: 10000;
     display: none;
-    align-items: center !important; justify-content: center !important;
+    align-items: center;
+    justify-content: center;
     animation: aparecerSutil 0.2s ease-out;
 }
 
 .tarjeta-alerta-pastel {
-    background-color: #ffffff !important;
-    padding: 24px !important;
-    border-radius: 12px !important;
-    max-width: 400px !important; width: 90% !important;
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08) !important;
-    text-align: center !important;
-    border-top: 5px solid #64748b !important;
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+    text-align: center;
+    border-top: 5px solid #64748b;
 }
 
-.tarjeta-alerta-pastel h4 { font-size: 1.15rem !important; margin-bottom: 10px !important; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.tarjeta-alerta-pastel p { color: #475569 !important; font-size: 0.95rem !important; line-height: 1.5 !important; }
+.tarjeta-alerta-pastel h4 {
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    font-family: var(--fuente-sistema);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 
-.tarjeta-alerta-pastel.exito { background-color: #e8f5e9 !important; border: 1px solid #c8e6c9 !important; border-top: 5px solid #81c784 !important; }
-.tarjeta-alerta-pastel.exito h4 { color: #2e7d32 !important; }
+.tarjeta-alerta-pastel p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
 
-.tarjeta-alerta-pastel.error { background-color: #ffebee !important; border: 1px solid #ffcdd2 !important; border-top: 5px solid #e57373 !important; }
-.tarjeta-alerta-pastel.error h4 { color: #c62828 !important; }
+.tarjeta-alerta-pastel.exito { background-color: #e8f5e9; border: 1px solid #c8e6c9; border-top: 5px solid #81c784; }
+.tarjeta-alerta-pastel.exito h4 { color: #2e7d32; }
 
-.tarjeta-alerta-pastel.info { background-color: #e0f2fe !important; border: 1px solid #bae6fd !important; border-top: 5px solid #7dd3fc !important; }
-.tarjeta-alerta-pastel.info h4 { color: #0369a1 !important; }
+.tarjeta-alerta-pastel.error { background-color: #ffebee; border: 1px solid #ffcdd2; border-top: 5px solid #e57373; }
+.tarjeta-alerta-pastel.error h4 { color: #c62828; }
 
-.contenedor-botones-pastel { display: flex !important; justify-content: center !important; gap: 12px !important; margin-top: 20px !important; }
+.tarjeta-alerta-pastel.info { background-color: #e0f2fe; border: 1px solid #bae6fd; border-top: 5px solid #7dd3fc; }
+.tarjeta-alerta-pastel.info h4 { color: #0369a1; }
+
+.contenedor-botones-pastel { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
 
 .btn-alerta-pastel {
-    padding: 10px 22px !important; border-radius: 8px !important; border: none !important; font-size: 0.9rem !important; font-weight: 600 !important; cursor: pointer !important;
-    background-color: #cbd5e1 !important; color: #0f172a !important; box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important; transition: background-color 0.2s, transform 0.1s;
+    padding: 10px 22px; border-radius: 8px; border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    background-color: #cbd5e1; color: #0f172a; box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: background-color 0.2s, transform 0.1s;
 }
-.btn-alerta-pastel:hover { background-color: #94a3b8 !important; }
-.btn-alerta-pastel.confirmar-ok { background-color: #3b82f6 !important; color: #ffffff !important; }
-.btn-alerta-pastel.confirmar-ok:hover { background-color: #2563eb !important; }
-.btn-alerta-pastel.confirmar-cancel { background-color: #f1f5f9 !important; color: #64748b !important; border: 1px solid #cbd5e1 !important; }
-.btn-alerta-pastel.confirmar-cancel:hover { background-color: #e2e8f0 !important; }
+.btn-alerta-pastel:hover { background-color: #94a3b8; }
+.btn-alerta-pastel.confirmar-ok { background-color: #3b82f6; color: #ffffff; }
+.btn-alerta-pastel.confirmar-ok:hover { background-color: #2563eb; }
+.btn-alerta-pastel.confirmar-cancel { background-color: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+.btn-alerta-pastel.confirmar-cancel:hover { background-color: #e2e8f0; }
 
-@keyframes abrirSutil { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes aparecerSutil {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
