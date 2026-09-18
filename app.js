@@ -21,33 +21,11 @@ function cargarDatos() {
     console.log("Solicitando registros para la sección: " + hoja);
 
     // BLINDAJE DE RED: Si el usuario elige las carpetas, este script se apaga de inmediato
+    // y no ejecuta las llamadas de Sheets para evitar que las tablas se queden colgadas
     if (hoja === "Gestor_Carpetas") {
         console.log("Tablero de Sheets apagado. Cediendo control a carpetas.js...");
         return;
     }
-
-    // =========================================================================
-    // ¡AQUÍ VA EL INTERCEPTOR DE SEGURIDAD PERFECTAMENTE ENCAJADO!
-    // =========================================================================
-    const tarjetaRegistros = document.querySelector(".tarjeta-modulo"); 
-    const contSeguridad = document.getElementById("contenedorSeguridad");
-
-    if (hoja === "Seguridad") {
-        console.log("Sección de Seguridad detectada. Desviando flujo de red...");
-        
-        // Ocultamos la rejilla de la sección 4 y mostramos el contenedor aislado
-        if (tarjetaRegistros) tarjetaRegistros.style.display = "none";
-        if (contSeguridad) contSeguridad.style.display = "block";
-        
-        // Disparamos la inyección controlada de las 68 líneas
-        generarLineasSeguridad();
-        return; // Detiene el flujo AQUÍ para evitar llamadas innecesarias a Sheets
-    } else {
-        // Si elige cualquier otra sección estable, aseguramos que regrese la vista normal
-        if (contSeguridad) contSeguridad.style.display = "none";
-        if (tarjetaRegistros) tarjetaRegistros.style.display = "block";
-    }
-    // =========================================================================
 
     // Removemos ganchos viejos para evitar duplicación de scripts en memoria
     const scriptViejo = document.getElementById("script-carga-hojas");
@@ -59,14 +37,13 @@ function cargarDatos() {
     script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
     document.body.appendChild(script);
 }
-    
+
 // =========================================================================
-// SECCIÓN 3.0 (FIJA - MODIFICACIÓN DE BLINDAJE): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
-// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA)
+// SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
+// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA NUNCA MODIFICAR)
 // =========================================================================
 function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
     const tablaCuerpo = document.getElementById("tablaCuerpo");
-    const hojaActiva = document.getElementById("selectorHoja").value;
     
     // Construimos la fila en sentido estrictamente horizontal recorriendo las llaves del registro
     let htmlFila = "<tr>";
@@ -74,62 +51,12 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
         htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? objetoCampos[propiedad] : ""}</td>`;
     });
     
-    // 🛡️ CONTROL DE EDICIÓN PARA LA HOJA DE SEGURIDAD
-    let estilosBotones = "";
-    if (hojaActiva === "Seguridad") {
-        if (indice === 0) {
-            // Línea 1 (Índice 0): Permite editar pero ocultamos borrar por completo
-            estilosBotones = `
-                <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
-                <button type="button" class="btn-delete" style="cursor:pointer; display:none;" onclick="window.borrarRegistro(${indice})">🗑️</button>
-            `;
-        } else {
-            // Líneas de la 2 a la 68: Se ocultan ambos botones para impedir alteraciones
-            estilosBotones = `
-                <button type="button" class="btn-edit" style="cursor:pointer; display:none;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
-                <button type="button" class="btn-delete" style="cursor:pointer; display:none;" onclick="window.borrarRegistro(${indice})">🗑️</button>
-            `;
-        }
-        } else {
-        // Comportamiento universal para todas las demás hojas estables del libro
-        estilosBotones = `
-            <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
-            <button type="button" class="btn-delete" style="cursor:pointer;" onclick="window.borrarRegistro(${indice})">🗑️</button>
-        `;
-    }
+    // Inyección fija universal de botones interactivos con sus puentes de red locales
+    htmlFila += `<td>
+        <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
+        <button type="button" class="btn-delete" style="cursor:pointer;" onclick="window.borrarRegistro(${indice})">🗑️</button>
+    </td></tr>`;
     
-    htmlFila += `<td>${estilosBotones}</td></tr>`;
-    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
-}
-
-// =========================================================================
-// FUNCIÓN NUEVA AISLADA: MOTOR CONSTRUCTOR EXCLUSIVO PARA SEGURIDAD (APP.JS)
-// Ubicación del bloque: ABAJO DE LA SECCIÓN 3.0 ORIGINAL (CERO RIESGO)
-// =========================================================================
-function Secc30_Seguridad_DibujarRenglon(indice, objetoCampos, columnasVisibles) {
-    const tablaCuerpo = document.getElementById("tablaCuerpo");
-    
-    let htmlFila = "<tr>";
-    columnasVisibles.forEach(propiedad => {
-        htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? objetoCampos[propiedad] : ""}</td>`;
-    });
-    
-    let estilosBotones = "";
-    if (indice === 0) {
-        // ÚNICAMENTE la Línea 1 recibe el lápiz de edición oficial
-        estilosBotones = `
-            <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
-            <button type="button" class="btn-delete" style="cursor:pointer; display:none;">🗑️</button>
-        `;
-    } else {
-        // De la Línea 2 a la 68 nacen completamente desarmadas
-        estilosBotones = `
-            <button type="button" class="btn-edit" style="cursor:pointer; display:none;">✏️</button>
-            <button type="button" class="btn-delete" style="cursor:pointer; display:none;">🗑️</button>
-        `;
-    }
-    
-    htmlFila += `<td>${estilosBotones}</td></tr>`;
     tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
 }
 
@@ -137,17 +64,12 @@ function Secc30_Seguridad_DibujarRenglon(indice, objetoCampos, columnasVisibles)
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
-
-// =========================================================================
-// SECCIÓN 3.1: DECODIFICADOR MAESTRO DE MATRICES CON MAPEO INTELIGENTE
-// Ubicación: Reemplaza la función recibirDatosDesdeGoogle(json) completa en app.js
-// =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
     const tablaCuerpo = document.getElementById("tablaCuerpo");
     
-    if (tablaCuerpo) tablaCuerpo.innerHTML = "";
+    if(tablaCuerpo) tablaCuerpo.innerHTML = "";
 
     let datosMatriz = json && json.data ? json.data : json;
     if (json && json.status === "success" && json.message && Array.isArray(json.message)) { 
@@ -157,132 +79,13 @@ function recibirDatosDesdeGoogle(json) {
     if (!datosMatriz || !Array.isArray(datosMatriz) || datosMatriz.length === 0) {
         const hojaActiva = document.getElementById("selectorHoja").value;
         const totalColumnas = (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) ? 9 : (hojaActiva === "Hospitalidad" ? 5 : 4);
-        if (tablaCuerpo) tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">No hay registros guardados en esta sección.</td></tr>`;
+        if(tablaCuerpo) tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">No hay registros guardados en esta sección.</td></tr>`;
         return;
     }
 
     const hojaActiva = document.getElementById("selectorHoja").value;
     let encabezadosTextos = [];
     let llavesMapeo = [];
-
-    // Mapeo nativo oficial de tus hojas
-    if (hojaActiva === "Superintendentes") {
-        encabezadosTextos = ["Grupo", "Superintendente", "Teléfono"];
-        llavesMapeo = ["grupo", "superintendente", "telefono"];
-    } else if (hojaActiva === "Hospitalidad") {
-        encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
-    } else if (hojaActiva.includes("Estudios")) {
-        encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
-    } else if (hojaActiva.includes("Pastoreo")) {
-        encabezadosTextos = ["Día", "Acompañante", "Teléfono", "Hogar", "Contacto", "Dirección", "Detalles", "Objetivo"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
-    }
-
-    // Dibujamos las cabeceras de columnas en sentido strictly horizontal
-    let htmlCabecera = "<tr>";
-    encabezadosTextos.forEach(col => htmlCabecera += `<th>${col}</th>`);
-    htmlCabecera += "<th>Acciones</th></tr>";
-    if (tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
-
-    // 🛡️ ACTUALIZACIÓN DE ETIQUETAS: Sincroniza dinámicamente los inputs superiores
-    const lbl1 = document.getElementById("lblCampo1");
-    const lbl2 = document.getElementById("lblCampo2");
-    const lbl3 = document.getElementById("lblCampo3");
-    const lbl4 = document.getElementById("lblCampo4");
-    const lbl5 = document.getElementById("lblCampo5");
-    const lbl6 = document.getElementById("lblCampo6");
-    const lbl7 = document.getElementById("lblCampo7");
-    const lbl8 = document.getElementById("lblCampo8");
-
-    if (hojaActiva === "Superintendentes") {
-        if (lbl1) lbl1.innerText = "Grupo / Día";
-        if (lbl2) lbl2.innerText = "Superintendente / Visitante";
-        if (lbl3) lbl3.innerText = "Teléfono / Acompañante";
-    } else if (hojaActiva === "Hospitalidad") {
-        if (lbl1) lbl1.innerText = "Día";
-        if (lbl2) lbl2.innerText = "Nombre";
-        if (lbl3) lbl3.innerText = "Teléfono";
-        if (lbl4) lbl4.innerText = "Dirección";
-    } else if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
-        if (lbl1 && encabezadosTextos[0]) lbl1.innerText = encabezadosTextos[0];
-        if (lbl2 && encabezadosTextos[1]) lbl2.innerText = encabezadosTextos[1];
-        if (lbl3 && encabezadosTextos[2]) lbl3.innerText = encabezadosTextos[2];
-        if (lbl4 && encabezadosTextos[3]) lbl4.innerText = encabezadosTextos[3];
-        if (lbl5 && encabezadosTextos[4]) lbl5.innerText = encabezadosTextos[4];
-        if (lbl6 && encabezadosTextos[5]) lbl6.innerText = encabezadosTextos[5];
-        if (lbl7 && encabezadosTextos[6]) lbl7.innerText = encabezadosTextos[6];
-        if (lbl8 && encabezadosTextos[7]) lbl8.innerText = encabezadosTextos[7];
-    }
-
-    // =========================================================================
-    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
-    // =========================================================================
-    if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
-        let celdasPlanasRaw = [];
-        datosMatriz.forEach(fila => {
-            if (Array.isArray(fila)) {
-                celdasPlanasRaw.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
-            } else {
-                celdasPlanasRaw.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
-            }
-        });
-
-        let celdasPlanas = [];
-        for (let k = 0; k < celdasPlanasRaw.length; k++) {
-            if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
-                console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
-                continue;
-            }
-            celdasPlanas.push(celdasPlanasRaw[k]);
-        }
-        
-        let contadorBloque = 0;
-        
-        for (let i = 0; i < celdasPlanas.length; i += 8) {
-            if (i >= celdasPlanas.length) break;
-            if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
-
-            let objetoFila = {
-                grupo: celdasPlanas[i] || "",            
-                superintendente: celdasPlanas[i+1] || "", 
-                telefono: celdasPlanas[i+2] || "",        
-                campo4: celdasPlanas[i+3] || "",          
-                campo5: celdasPlanas[i+4] || "",          
-                campo6: celdasPlanas[i+5] || "",          
-                campo7: celdasPlanas[i+6] || "",          
-                campo8: celdasPlanas[i+7] || ""           
-            };
-            
-            Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
-            contadorBloque++;
-        }
-        
-        if (contadorBloque === 0 && tablaCuerpo) {
-            tablaCuerpo.innerHTML = `<tr><td colspan="9">No hay registros válidos guardados en esta sección.</td></tr>`;
-        }
-        
-    } else {
-        for (let i = 1; i < datosMatriz.length; i++) {
-            const fila = datosMatriz[i];
-            if (!fila || fila.length === 0) continue;
-
-            let objetoFila = {
-                grupo: fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "",
-                superintendente: fila[1] !== undefined && fila[1] !== null ? fila[1].toString().trim() : "",
-                telefono: fila[2] !== undefined && fila[2] !== null ? fila[2].toString().trim() : "",
-                direccion: fila[3] !== undefined && fila[3] !== null ? fila[3].toString().trim() : ""
-            };
-            
-            Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
-        }
-    }
-} // 🛡️ LLAVE ÚNICA Y CORRECTA DE CIERRE COMPLETO DE LA FUNCIÓN MAESTRA
-
-
-
-} // 🛡️ LLAVE DE CIERRE HERMÉTICA DE LA FUNCIÓN MAESTRA DEL APP.JS
 
     // =========================================================================
     // CONFIGURACIÓN DE TABLAS: Mapeamos los títulos reales de tus hojas
@@ -294,11 +97,7 @@ function recibirDatosDesdeGoogle(json) {
     } else if (hojaActiva === "Hospitalidad") {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
-
-    } else if (hojaActiva === "Seguridad") {
-        encabezadosTextos = ["Línea", "Programa de Seguridad / Fecha", "Control"];
-        llavesMapeo = ["grupo", "superintendente", "telefono"];
-
+        
     } else if (hojaActiva.includes("Estudios")) {
         encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
@@ -366,7 +165,6 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
-
         // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
@@ -379,14 +177,7 @@ function recibirDatosDesdeGoogle(json) {
                 direccion: fila[3] !== undefined && fila[3] !== null ? fila[3].toString().trim() : ""
             };
             
-            // 🛡️ BIFURCACIÓN DE CONTROL DE AISLAMIENTO TOTAL:
-            // Si la tablet detecta que es Seguridad, usa el motor nuevo desarmado.
-            // Para Superintendentes o Hospitalidad, sigue usando tu función nativa original de ayer.
-            if (hojaActiva === "Seguridad") {
-                Secc30_Seguridad_DibujarRenglon(i - 1, objetoFila, llavesMapeo);
-            } else {
-                Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
-            }
+            Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
         }
     }
 }
@@ -395,8 +186,6 @@ function recibirDatosDesdeGoogle(json) {
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 3)
 // =========================================================================
-
-        
 function editarRegistro(index, rowData) {
     console.log("Cargando registro seleccionado en los campos de edición superior...");
     const hojaActiva = document.getElementById("selectorHoja").value;
@@ -591,22 +380,26 @@ window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
 // Disparamos la lectura automática de la base de datos en cuanto se abre el archivo
 document.addEventListener("DOMContentLoaded", cargarDatos);
 
-// =========================================================================
-// SECCIÓN 8.2.1 (FIJA): MOTOR DE INYECCIÓN DE SCRIPTS ASÍNCRONOS
-// Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE RED SEGURO)
-// =========================================================================
+// Enlazamos forzosamente los receptores en la ventana window para el protocolo local file:///
+window.recibirDatosDesdeGoogle = recibirDatosDesdeGoogle;
+window.recibirRespuestaAccion = recibirRespuestaAccion;
+window.editarRegistro = editarRegistro;
+window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
 
-function Secc821_1_DispararPeticionServidor(url) {
-    console.log("Inyectando etiqueta script de red de forma segura...");
-    
+// =========================================================================
+// SECCIÓN 8.2.1 (FIJA - NO SE TOCA): MOTOR PURO DE INYECCIÓN LOCAL (APP.JS)
+// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
+// =========================================================================
+function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
+    console.log("¡Motor fijo inyectando script local libre de CORS!");
     const scriptViejo = document.getElementById("script-carga-hojas");
     if (scriptViejo) scriptViejo.remove();
 
     const script = document.createElement("script");
     script.id = "script-carga-hojas";
-    script.src = url;
+    script.src = urlFinalConParametros;
     document.body.appendChild(script);
-} // <-- Esta es la llave de cierre crítica que se pudo haber perdido
+}
 
 // =========================================================================
 // SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
@@ -616,25 +409,7 @@ function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
     
-    const bloqueSuper = document.getElementById("contenedorCampo2");
-    const bloqueTelef = document.getElementById("contenedorCampo3");
-    const inputSuper = document.getElementById("txtSuperintendente");
-    const inputTelef = document.getElementById("txtTelefono");
-
-    // REGLA DE ADAPTACIÓN DE FORMULARIO PARA SEGURIDAD
-    if (hojaRaw === "Seguridad") {
-        console.log("Adaptando formulario para Seguridad: Ocultando campos excedentes.");
-        if (bloqueSuper) bloqueSuper.style.display = "none";
-        if (bloqueTelef) bloqueTelef.style.display = "none";
-        if (inputSuper) inputSuper.required = false;
-        if (inputTelef) inputTelef.required = false;
-    } else {
-        if (bloqueSuper) bloqueSuper.style.display = "block";
-        if (bloqueTelef) bloqueTelef.style.display = "block";
-        if (inputSuper) inputSuper.required = true;
-        if (inputTelef) inputTelef.required = true;
-    }
-    
+    // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
     let hoja = hojaRaw.replace(/_/g, " ");
     if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
     if (hoja === "Estudios Dia 2") hoja = "Estudios Día 2";
@@ -645,7 +420,8 @@ function cargarDatos() {
     
     let urlConstruida = "";
 
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
+    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
+    if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
     } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
@@ -672,6 +448,8 @@ function actualizarEnlaceUbicacion() {
 
     const hojaSeleccionada = selector.value;
     
+    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
+    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
     if (hojaSeleccionada === "Gestor_Carpetas") {
         console.log("Cediendo control total visual al archivo carpetas.js...");
         return; 
@@ -680,7 +458,7 @@ function actualizarEnlaceUbicacion() {
     const etiquetaEnlace = document.getElementById("enlaceDinamico");
     const tituloFormulario = document.getElementById("formTitulo");
 
-    const lbl1 = document.getElementById("lblCampo1");
+    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
     if (etiquetaEnlace) {
@@ -691,48 +469,45 @@ function actualizarEnlaceUbicacion() {
         } else if (hojaSeleccionada === "Superintendentes") {
             etiquetaEnlace.href = "https://github.io";
             etiquetaEnlace.innerHTML = "👥 Superintendentes";
-        } else if (hojaSeleccionada === "Seguridad") {
-            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
-            etiquetaEnlace.innerHTML = "🛡️ Seguridad";
         } else {
             etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
             etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
         }
     }
 
+    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
+        if (lbl4) lbl4.innerText = "Dirección";
+
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-    } else if (hojaSeleccionada === "Seguridad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Modificar Programa (Seguridad)";
-        if (lbl1) lbl1.innerText = "Fecha / Estado"; 
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
+        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
+        
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
+        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
+        
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
         
     } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día";
+        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
+        
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
 }
-
-
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
@@ -774,33 +549,3 @@ window.addEventListener("appinstalled", () => {
     const banner = document.getElementById("bannerInstalacionPWA");
     if (banner) banner.style.display = "none";
 });
-
-// =========================================================================
-// HOJAS SECCIÓN 5: GENERADOR DINÁMICO DEL PROGRAMA DE SEGURIDAD (APP.JS)
-// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
-// =========================================================================
-function generarLineasSeguridad() {
-    const lista = document.getElementById("listaLineasSeguridad");
-    if (!lista) return;
-    
-    // BLINDAJE DE DUPLICIDAD: Si ya existen elementos cargados, frena la función
-    if (lista.children.length > 0) return; 
-
-    // ESTRUCTURA BASE DE LAS 68 LÍNEAS DEL PROGRAMA DE SEGURIDAD
-    const lineasPrograma = [];
-    for (let i = 1; i <= 68; i++) {
-        lineasPrograma.push(`Línea ${i}: Protocolo de control operacional, prevención de riesgos y verificación modular estándar.`);
-    }
-
-    // INYECCIÓN LIMPIA EN EL DOM
-    lineasPrograma.forEach(texto => {
-        const li = document.createElement("li");
-        li.style.padding = "8px 0";
-        li.style.borderBottom = "1px solid #e2e8f0";
-        li.style.color = "#4a5568";
-        li.style.fontSize = "0.95rem";
-        li.innerText = texto;
-        lista.appendChild(li);
-    });
-}
-
