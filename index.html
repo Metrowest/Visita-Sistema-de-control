@@ -158,19 +158,19 @@
         <div class="bloque-hojas-derecha-empaquetado">
 
             <!-- =========================================================================
-                 HOJAS SECCIÓN 1: SELECTOR DE SECCIONES INTERACTIVO (EMPAQUETADO)
+                 HOJAS SECCIÓN 1: SELECTOR DE SECCIONES INTERACTIVO (EMPAQUETADO y PURIFICADO)
                  ========================================================================= -->
-
             <div class="tarjeta-modulo">
                 <div class="tarjeta-cabecera">
                     <span class="icono-titulo">📂</span>
                     <h2>Selecciona una Hoja</h2>
                 </div>
-                <div style="padding: 15px 0 0 0;">
-                    <label for="selectorHoja" class="etiqueta-seleccion" style="display: block; margin-bottom: 8px; font-weight: 600;">Selecciona una Sección</label>
+                
+                <div class="contenedor-selector">
+                    <label for="selectorHoja" class="etiqueta-seleccion">Selecciona una Sección</label>
                     
-                    <!-- 🛡️ CONSERVADO INTACTO: El selector nativo oficial de tu respaldo -->
-                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();" style="width: 100%;">
+                    <!-- 🛡️ CONSERVADO INTACTO: El selector nativo oficial de tu respaldo sin atributos inline -->
+                    <select id="selectorHoja" class="selector-estilizado" onchange="cargarDatos(); actualizarEnlaceUbicacion();">
                         <option value="Superintendentes">👥 Superintendentes (Horizontal)</option>
                         <option value="Hospitalidad">🏨 Hospitalidad (Horizontal)</option>
                         <option value="Estudios Día 1">📚 Estudios Día 1 (Vertical)</option>
@@ -182,14 +182,14 @@
                         <option value="Seguridad">🛡️ Seguridad (Programa)</option>
                     </select>
 
-                    <!-- 🛡️ CONSERVADO INTACTO: El enlace dinámico exacto de tu backend -->
-                    <div class="enlace-seccion-activa" style="margin-top: 12px; font-weight: bold;">
-                        Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno" style="color: var(--color-turquesa); text-decoration: underline; font-weight: bold;">👥 Superintendentes (Horizontal)</a>
+                    <!-- 🛡️ CONSERVADO INTACTO: El enlace dinámico exacto de tu backend sin atributos inline -->
+                    <div class="enlace-seccion-activa">
+                        Sección activa: <a href="https://github.io" target="_blank" id="enlaceDinamico" class="link-moderno">👥 Superintendentes (Horizontal)</a>
                     </div>
                 </div>
             </div>
-
-                         <!-- =========================================================================
+             
+                 <!-- =========================================================================
                  HOJAS SECCIÓN 3: FORMULARIO DE CAPTURA INDEPENDIENTE BLINDADO
                  ========================================================================= -->
             <div class="tarjeta-modulo">
