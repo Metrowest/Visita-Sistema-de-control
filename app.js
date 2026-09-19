@@ -476,21 +476,29 @@ function actualizarEnlaceUbicacion() {
     const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
+    // 🌟 AQUÍ QUEDA INSERTADO EL NUEVO CÓDIGO DE ENLACES EXTERNOS SELLADOS:
     if (etiquetaEnlace) {
         etiquetaEnlace.target = "_blank";
+        
+        // Lee directamente la URL del diccionario de la Sección 1 usando el identificador de la hoja
+        const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
+        etiquetaEnlace.href = urlDestinoReal || "#";
+
         if (hojaSeleccionada === "Hospitalidad") {
-            etiquetaEnlace.href = "https://github.io";
             etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
         } else if (hojaSeleccionada === "Superintendentes") {
-            etiquetaEnlace.href = "https://github.io";
             etiquetaEnlace.innerHTML = "👥 Superintendentes";
+        } else if (hojaSeleccionada === "Seguridad") {
+            etiquetaEnlace.innerHTML = "🛡️ Seguridad";
         } else {
-            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
-            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
+            // Limpia el texto de las hojas verticales quitando los guiones bajos visualmente
+            const textoLimpio = hojaSeleccionada.replace(/_/g, " ");
+            etiquetaEnlace.innerHTML = `📚 ${textoLimpio}`;
         }
+        console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
+    // 🌟 DE AQUÍ EN ADELANTE SE MANTIENE TODO TU CÓDIGO ORIGINAL RESPONSIVO DE CAMPOS INTACTO:
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
@@ -523,6 +531,7 @@ function actualizarEnlaceUbicacion() {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
 }
+
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
