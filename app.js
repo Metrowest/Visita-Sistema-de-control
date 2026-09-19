@@ -22,7 +22,6 @@ const ENLACES_HOJAS = {
     "Seguridad": "https://metrowest.github.io/Visita/seguridad.html"
 };
 
-
 // =========================================================================
 // SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 1)
@@ -30,7 +29,7 @@ const ENLACES_HOJAS = {
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // 🌟 CORRECCIÓN MAESTRA: Sincroniza y sella el enlace exterior al instante
+    // Sincroniza el texto visual del enlace
     actualizarEnlaceUbicacion();
 
     const hoja = document.getElementById("selectorHoja").value;
@@ -53,8 +52,8 @@ function cargarDatos() {
 
 // =========================================================================
 // SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
-// Descripción: Evita que el href apunte a la macro de Google. Toma la
-// URL real de tu página web externa y la inyecta limpiamente con sello de seguridad.
+// Descripción: SELLO ABSOLUTO. Rompe la navegación HTML nativa para que ningún
+// temporizador ni script de la app pueda inyectar la URL de Google.
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     console.log("Sincronizando enlace de la sección activa...");
@@ -65,43 +64,34 @@ function actualizarEnlaceUbicacion() {
     if (!selector || !enlace) return;
     
     const valorSeleccionado = selector.value;
-    const urlDestino = ENLACES_HOJAS[valorSeleccionado];
     
-    // 🌟 SELLO ANTIFUGAS: Limpiamos eventos previos para evitar duplicados
-    enlace.onclick = null;
+    // Cambiamos el texto para que el usuario sepa dónde va
+    enlace.textContent = selector.options[selector.selectedIndex].text;
     
-    if (urlDestino) {
-        enlace.href = urlDestino;
-        enlace.textContent = selector.options[selector.selectedIndex].text;
-        enlace.target = "_blank"; // Abre de forma segura en pestaña nueva
-        console.log("Enlace corregido con éxito hacia: " + urlDestino);
-    } else {
-        enlace.href = "#";
-        enlace.textContent = "Sección Local (Sin enlace externo)";
-        enlace.removeAttribute("target");
-        
-        // Neutralizamos el clic por completo si no hay una URL configurada
-        enlace.onclick = function(e) {
-            e.preventDefault();
-            console.log("Acceso externo deshabilitado para esta sección.");
-        };
-    }
+    // 🌟 EL SELLO DEFINITIVO: Neutralizamos el href nativo. 
+    // Ahora el enlace NO VA A NINGÚN LADO por sí solo. Es inmune a alteraciones de la app.
+    enlace.href = "javascript:void(0);"; 
+    enlace.removeAttribute("target");
 
-    // 🌟 SELLO DE SEGURIDAD ABSOLUTO: Si el temporizador o la inyección de Google 
-    // intentan alterar el enlace metiendo la URL de la macro, este bloque frena la fuga.
-    enlace.addEventListener('click', function(evento) {
-        if (enlace.href.includes("://google.com")) {
-            evento.preventDefault(); 
-            console.error("¡Bloqueo de fuga activado! Se interceptó redirección a la API.");
-            
-            // Rescate inmediato leyendo la URL real del diccionario
-            const urlRescate = ENLACES_HOJAS[document.getElementById("selectorHoja").value];
-            if (urlRescate) {
-                window.open(urlRescate, '_blank');
-            }
+    // Asignamos la acción directamente mediante JavaScript puro en tiempo real
+    enlace.onclick = function(evento) {
+        // Detiene cualquier otra acción o evento que la app intente colar aquí
+        evento.preventDefault();
+        evento.stopPropagation();
+        
+        // Volvemos a leer el diccionario de la Sección 1 JUSTO en el milisegundo del clic
+        const urlDestino Real = ENLACES_HOJAS[selector.value];
+        
+        if (urlDestinoReal) {
+            console.log("Desconectando de la app... Redirigiendo a web externa: " + urlDestinoReal);
+            // Forzamos la apertura de la ventana de GitHub Pages de manera limpia y aislada
+            window.open(urlDestinoReal, '_blank');
+        } else {
+            console.log("Esta sección no requiere navegación externa.");
         }
-    });
+    };
 }
+
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
