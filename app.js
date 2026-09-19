@@ -26,10 +26,6 @@ const ENLACES_HOJAS = {
 // SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 1)
 // =========================================================================
-// =========================================================================
-// SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
-// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 1)
-// =========================================================================
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
@@ -105,7 +101,7 @@ function actualizarEnlaceUbicacion() {
 
 
 // =========================================================================
-// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
+// SECCIÓN 3 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
 function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
