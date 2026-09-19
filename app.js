@@ -417,7 +417,7 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
 }
 
 // =========================================================================
-// SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
+// SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLERANTE
 // Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
 // =========================================================================
 function cargarDatos() {
@@ -436,7 +436,8 @@ function cargarDatos() {
     let urlConstruida = "";
 
     // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
+    // 🌟 MODIFICADO: Agregamos oficialmente la hoja "Seguridad" junto a las horizontales
+    if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
     } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
@@ -452,6 +453,7 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
