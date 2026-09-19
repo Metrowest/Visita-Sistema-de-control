@@ -56,24 +56,6 @@ function cargarDatos() {
 // SECCIÓN 3 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
-function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
-    const tablaCuerpo = document.getElementById("tablaCuerpo");
-    
-    // Construimos la fila en sentido estrictamente horizontal recorriendo las llaves del registro
-    let htmlFila = "<tr>";
-    columnasVisibles.forEach(propiedad => {
-        htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? objetoCampos[propiedad] : ""}</td>`;
-    });
-    
-    // Inyección fija universal de botones interactivos con sus puentes de red locales
-    htmlFila += `<td>
-        <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
-        <button type="button" class="btn-delete" style="cursor:pointer;" onclick="window.borrarRegistro(${indice})">🗑️</button>
-    </td></tr>`;
-    
-    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
-}
-
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
@@ -131,26 +113,23 @@ function recibirDatosDesdeGoogle(json) {
     // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
     // =========================================================================
     
-    // 🌟 1. FLUJO CORREGIDO PARA SEGURIDAD (Extracción vertical alineada para Línea 1)
+    // 🌟 1. CORRECCIÓN ABSOLUTA PARA SEGURIDAD: Lee ÚNICAMENTE la celda A1 de la hoja
     if (hojaActiva === "Seguridad") {
-        let celdasPlanas = [];
-        datosMatriz.forEach(fila => {
-            if (Array.isArray(fila)) {
-                // Si la fila viene como un array interno, tomamos la celda A pura de la columna
-                celdasPlanas.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
-            } else {
-                celdasPlanas.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
-            }
-        });
-
-        // 🌟 REPARADO: Mapea verticalmente hacia abajo extrayendo fila 1, fila 2 y fila 3 del vector
+        
+        // Extraemos con precisión quirúrgica el texto crudo contenido solo en la primera celda A1
+        let textoCeldaA1 = "";
+        if (datosMatriz && datosMatriz[0]) {
+            textoCeldaA1 = Array.isArray(datosMatriz[0]) ? datosMatriz[0][0] : datosMatriz[0];
+        }
+        
+        // Mapeamos el objeto fila concentrando todo el valor de la celda A1 en la columna central
         let objetoFila = {
-            grupo: celdasPlanas[0] || "",            // Celda A1 (Ej. "Actualizado: 09/17/2026")
-            superintendente: celdasPlanas[1] || "", // Celda A2 (Ej. Texto largo del Cuerpo de Ancianos)
-            telefono: celdasPlanas[2] || ""        // Celda A3 (Ej. "◆ MEDIDAS GENERALES DE SEGURIDAD ◆")
+            grupo: "Línea 1", // Identificador fijo para saber que es el primer bloque
+            superintendente: textoCeldaA1 !== undefined && textoCeldaA1 !== null ? textoCeldaA1.toString().trim() : "", // 🌟 Aquí cae todo el texto de A1
+            telefono: "Plan Fijo" // Etiqueta descriptiva para la tercera columna
         };
         
-        // Enviamos a la tabla con índice fijo 0
+        // Lo mandamos a pintar a la tabla con el índice 0 para que sea editable
         Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
 
     // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
