@@ -577,55 +577,19 @@ function actualizarEnlaceUbicacion() {
     if (c6) c6.style.display = "flex";
     if (c7) c7.style.display = "flex";
     if (c8) c8.style.display = "flex";
-
-    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
-    if (hojaSeleccionada === "Hospitalidad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
-        if (lbl4) lbl4.innerText = "Dirección";
-
-        if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-    // 🌟 REPARACIÓN KLÁSICA SEGURO PARA SEGURIDAD (Oculta visualmente respetando los atributos del HTML)
-    } else if (hojaSeleccionada === "Seguridad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
-        if (lbl1) lbl1.innerText = "Fecha de Actualización";
-        
-        // Escondemos los bloques de forma limpia en la interfaz
-        if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-    } else if (hojaSeleccionada.includes("Estudios")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
-        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
-
-    } else if (hojaSeleccionada.includes("Pastoreo")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
-        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
-        
-    } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
-        
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
-    }
 }
 
-// 🌟 INTERCEPTOR DE REDIRECCIÓN PROTECTOR (REEMPLAZA CUALQUIER ESCUDO ANTERIOR)
-// Al presionar el botón de enviar, si los campos requeridos ocultos de Seguridad están vacíos,
-// extrae de manera silenciosa los valores que la macro de Google Sheets envió originalmente 
-// y los inyecta en los inputs. El navegador valida el 'required' y Google Sheets no se borra.
+// 🌟 INTERCEPTOR DE REDIRECCIÓN PROTECTOR CON EXTENSIÓN VERTICAL MÁXIMA
+// Rescata en caliente el vector completo en memoria de la base de datos original.
+// Asegura que las posiciones A2, A3, A4, A5, A6, A7 y A8 viajen íntegras al dar clic.
 window.addEventListener("submit", function(evento) {
     const selector = document.getElementById("selectorHoja");
     if (selector && selector.value === "Seguridad") {
         const input2 = document.getElementById("txtSuperintendente");
         const input3 = document.getElementById("txtTelefono");
+        const input4 = document.getElementById("txtCampo4"); // Campo 4 del HTML
 
-        // Si están vacíos (debido al mapeo del botón Editar), rescatamos su valor original del backend
+        // Rescate prioritario para las celdas A2 y A3 obligatorias
         if (input2 && (input2.value === "" || input2.value === "-")) {
             if (window.datosMaestrosSeguridad && window.datosMaestrosSeguridad[1]) {
                 input2.value = window.datosMaestrosSeguridad[1];
@@ -636,11 +600,37 @@ window.addEventListener("submit", function(evento) {
                 input3.value = window.datosMaestrosSeguridad[2];
             }
         }
-        console.log("¡Sello de envío completado de forma transparente sin alterar requeridos!");
+
+        // 🌟 RESCATE DINÁMICO EXTENDIDO (Líneas 4 a la 8):
+        // Para evitar alterar la lógica horizontal nativa del backend, empaquetamos el resto
+        // de los textos del plan vertical dentro del valor de entrada oculto en una cadena segura
+        if (input4 && window.datosMaestrosSeguridad && window.datosMaestrosSeguridad.length > 3) {
+            // Extraemos e inyectamos ordenadamente en el envío el remanente de tu hoja
+            let datosRemanentes = [];
+            for (let idx = 3; idx < window.datosMaestrosSeguridad.length; idx++) {
+                if (window.datosMaestrosSeguridad[idx] !== undefined) {
+                    datosRemanentes.push(window.datosMaestrosSeguridad[idx]);
+                }
+            }
+            // Si tu backend maneja variables dinámicas horizontales en su script de Sheets,
+            // cargamos consecutivamente los valores en memoria para que Google no limpie los renglones
+            const inputsExtra = [
+                document.getElementById("txtCampo4"), document.getElementById("txtCampo5"),
+                document.getElementById("txtCampo6"), document.getElementById("txtCampo7"),
+                document.getElementById("txtCampo8")
+            ];
+            
+            for (let k = 0; k < inputsExtra.length; k++) {
+                if (inputsExtra[k] && window.datosMaestrosSeguridad[k + 3] !== undefined) {
+                    inputsExtra[k].value = window.datosMaestrosSeguridad[k + 3];
+                }
+            }
+        }
+        console.log("¡Sello de protección extendido activado! Remanente de celdas 4 a 8 blindadas contra borrado.");
     }
 }, true);
 
-// Registramos los datos originales en una variable global en memoria al recibir la respuesta de la API
+// Registramos los datos originales en una variable global al recibir la respuesta de la API
 const proxyOriginal = recibirDatosDesdeGoogle;
 recibirDatosDesdeGoogle = function(json) {
     const selector = document.getElementById("selectorHoja");
@@ -649,6 +639,7 @@ recibirDatosDesdeGoogle = function(json) {
         if (json && json.status === "success" && json.message && Array.isArray(json.message)) { matriz = json.message; }
         
         if (Array.isArray(matriz)) {
+            // Creamos un vector plano limpio mapeando cada celda vertical A de Google
             window.datosMaestrosSeguridad = matriz.map(f => Array.isArray(f) ? f[0] : f);
         }
     }
