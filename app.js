@@ -6,11 +6,10 @@
 // Enlace exclusivo hacia la base de datos de las hojas (Google Sheets)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5f-HM7FAWTxf3oDPFafcZ4EUL-5Bbt6UtBU6JgqsHIqEGAN1Z5TFyx3af7B6nijvAvg/exec";
 
-
 // Variable global de memoria para controlar el índice del registro en edición
 let registroEditandoIndex = null;
 
-// 🌟 INYECTADO: Diccionario de tus páginas web externas para cada sección
+// 🌟 DICCIONARIO COMPLETO: Enlaces a tus páginas web reales de GitHub Pages
 const ENLACES_HOJAS = {
     "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes",
     "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
@@ -22,6 +21,7 @@ const ENLACES_HOJAS = {
     "Pastoreo Día 3": "https://metrowest.github.io/Visita/pastoreo3A.html",
     "Seguridad": "https://metrowest.github.io/Visita/seguridad.html"
 };
+
 
 // =========================================================================
 // SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
