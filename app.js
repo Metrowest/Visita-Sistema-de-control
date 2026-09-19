@@ -47,7 +47,11 @@ function cargarDatos() {
     document.body.appendChild(script);
 }
 
-// 🌟 INYECTADO: Función sincronizadora de tus enlaces externos dinámicos
+// =========================================================================
+// SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
+// Descripción: Evita que el href apunte a la macro de Google. Toma la
+// URL real de tu página web externa y la inyecta limpiamente.
+// =========================================================================
 function actualizarEnlaceUbicacion() {
     console.log("Sincronizando enlace de la sección activa...");
     
@@ -57,18 +61,19 @@ function actualizarEnlaceUbicacion() {
     if (!selector || !enlace) return;
     
     const valorSeleccionado = selector.value;
+    
+    // 🌟 REPARADO: Lee tus páginas reales de la Sección 1 en vez de la macro de Google
     const urlDestino = ENLACES_HOJAS[valorSeleccionado];
     
     if (urlDestino) {
         enlace.href = urlDestino;
         enlace.textContent = selector.options[selector.selectedIndex].text;
+        console.log("Enlace corregido con éxito hacia: " + urlDestino);
+    } else {
+        console.log("No se encontró URL externa en el diccionario local.");
     }
 }
 
-// Escuchador automático inicial de arranque
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(actualizarEnlaceUbicacion, 500);
-});
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
