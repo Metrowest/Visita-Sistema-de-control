@@ -475,106 +475,10 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
-// =========================================================================
-// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
-// =========================================================================
-function actualizarEnlaceUbicacion() {
-    const selector = document.getElementById("selectorHoja");
-    if (!selector) return;
 
-    const hojaSeleccionada = selector.value;
-    
-    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
-    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
-    if (hojaSeleccionada === "Gestor_Carpetas") {
-        console.log("Cediendo control total visual al archivo carpetas.js...");
-        return; 
-    }
-
-    const etiquetaEnlace = document.getElementById("enlaceDinamico");
-    const tituloFormulario = document.getElementById("formTitulo");
-
-    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
-    const c2 = document.getElementById("contenedorCampo2");
-    const c3 = document.getElementById("contenedorCampo3");
-    const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
-
-    // Elementos interactivos reales del HTML
-    const input2 = document.getElementById("txtSuperintendente");
-    const input3 = document.getElementById("txtTelefono");
-
-    // ENLACES EXTERNOS SELLADOS: Conectados al diccionario maestro sin tocar el diseño visual viejo
-    if (etiquetaEnlace) {
-        etiquetaEnlace.target = "_blank";
-        
-        const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
-        etiquetaEnlace.href = urlDestinoReal || "#";
-
-        if (hojaSeleccionada === "Hospitalidad") {
-            etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
-        } else if (hojaSeleccionada === "Superintendentes") {
-            etiquetaEnlace.innerHTML = "👥 Superintendentes";
-        } else if (hojaSeleccionada === "Seguridad") {
-            etiquetaEnlace.innerHTML = "🛡️ Seguridad";
-        } else {
-            const textoLimpio = hojaSeleccionada.replace(/_/g, " ");
-            etiquetaEnlace.innerHTML = `📚 ${textoLimpio}`;
-        }
-        console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
-    }
-
-    // RESTABLECIMIENTO UNIVERSAL ORIGINAL DE VISIBILIDAD Y REQUERIDOS
-    if (c2) c2.style.display = "flex";
-    if (c3) c3.style.display = "flex";
-    if (c4) c4.style.display = "flex";
-    if (c5) c5.style.display = "flex";
-    if (c6) c6.style.display = "flex";
-    if (c7) c7.style.display = "flex";
-    if (c8) c8.style.display = "flex";
-    
-    if (input2) input2.required = true;
-    if (input3) input3.required = true;
-
-    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
-    if (hojaSeleccionada === "Hospitalidad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
-        if (lbl4) lbl4.innerText = "Dirección";
-
-        if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-    // 🌟 REPARACIÓN MAESTRA PARA SEGURIDAD: Oculta visualmente los bloques en la pantalla
-    } else if (hojaSeleccionada === "Seguridad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
-        if (lbl1) lbl1.innerText = "Fecha de Actualización";
-        
-        if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-    } else if (hojaSeleccionada.includes("Estudios")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
-        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
-
-    } else if (hojaSeleccionada.includes("Pastoreo")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
-        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
-        
-    } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
-        
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
-    }
-}
-
-// 🌟 ESCUDO DE INTERCEPCIÓN DINÁMICA DE ENVIÓ (SIN ALTERAR DATOS)
-// Este bloque captura el clic en fase de prioridad. Si es la hoja "Seguridad", apaga
-// el 'required' por un milisegundo para permitir el envío y lo vuelve a encender de inmediato.
+// 🌟 ESCUDO DE RESCATE DINÁMICO DE DATOS (FINAL DE LA SECCIÓN 8.2.3)
+// Este bloque intercepta el envío. Si es Seguridad, rescata los datos originales
+// directamente de la respuesta que Google Sheets dejó guardada en la tabla para no borrarlos.
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
@@ -582,16 +486,35 @@ document.addEventListener("click", function(e) {
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
             
-            // ➡️ Paso 1: Apagamos el required para que el navegador autorice el envío sin bloquearse
+            // 🌟 EL SELLO DE RESCATE: Si los inputs están vacíos al dar clic, 
+            // extraemos los textos originales desde las celdas ocultas de la tabla en pantalla
+            if (input2 && (input2.value === "" || input2.value === "-")) {
+                // Buscamos la fila de la tabla y extraemos de forma segura el texto original
+                const filaTabla = document.querySelector("#tablaCuerpo tr");
+                if (filaTabla && filaTabla.cells && filaTabla.cells[1]) {
+                    const textoRescatado2 = filaTabla.cells[1].textContent || filaTabla.cells[1].innerText;
+                    if (textoRescatado2) input2.value = textoRescatado2.trim();
+                }
+            }
+            
+            if (input3 && (input3.value === "" || input3.value === "-")) {
+                const filaTabla = document.getElementById("tablaCuerpo")?.querySelector("tr");
+                if (filaTabla && filaTabla.cells && filaTabla.cells[2]) {
+                    const textoRescatado3 = filaTabla.cells[2].textContent || filaTabla.cells[2].innerText;
+                    if (textoRescatado3) input3.value = textoRescatado3.trim();
+                }
+            }
+            
+            // Apagamos momentáneamente el required para evitar bloqueos del navegador
             if (input2) input2.required = false;
             if (input3) input3.required = false;
-            console.log("¡Escudo activado! Removiendo requerimiento invisible de Seguridad de forma segura.");
-
-            // ➡️ Paso 2: Con un retraso mínimo, volvemos a encender el required para proteger el formulario original
+            
+            console.log("¡Rescate de datos completado! Enviando: ", input2.value, input3.value);
+            
+            // Restauramos el estado obligatorio un instante después del envío
             setTimeout(function() {
                 if (input2) input2.required = true;
                 if (input3) input3.required = true;
-                console.log("¡Requerimiento original restaurado en caliente!");
             }, 500);
         }
     }
