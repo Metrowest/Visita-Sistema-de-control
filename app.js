@@ -112,6 +112,11 @@ function recibirDatosDesdeGoogle(json) {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
         
+    // 🌟 ENRUTADOR INSERTADO: Títulos correspondientes para la hoja Seguridad
+    } else if (hojaActiva === "Seguridad") {
+        encabezadosTextos = ["Grupo / Día", "Superintendente / Encargado", "Teléfono / Contacto"];
+        llavesMapeo = ["grupo", "superintendente", "telefono"];
+        
     } else if (hojaActiva.includes("Estudios")) {
         encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
@@ -128,9 +133,32 @@ function recibirDatosDesdeGoogle(json) {
     if(tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
 
     // =========================================================================
-    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
+    // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
     // =========================================================================
-    if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
+    
+    // 🌟 1. NUEVO FLUJO EXCLUSIVO PARA SEGURIDAD (Mapea la Línea 1 desde el vector vertical)
+    if (hojaActiva === "Seguridad") {
+        let celdasPlanas = [];
+        datosMatriz.forEach(fila => {
+            if (Array.isArray(fila)) {
+                celdasPlanas.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
+            } else {
+                celdasPlanas.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
+            }
+        });
+
+        // Extraemos las primeras 3 celdas verticales de la hoja para rellenar la Línea 1
+        let objetoFila = {
+            grupo: celdasPlanas[0] || "",            // Fila 1 de Google Sheets
+            superintendente: celdasPlanas[1] || "", // Fila 2 de Google Sheets
+            telefono: celdasPlanas[2] || ""        // Fila 3 de Google Sheets
+        };
+        
+        // Lo mandamos a pintar en pantalla en el bloque fijo con índice 0
+        Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
+
+    // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
+    } else if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
         
         let celdasPlanasRaw = [];
         datosMatriz.forEach(fila => {
@@ -141,33 +169,30 @@ function recibirDatosDesdeGoogle(json) {
             }
         });
 
-        // REGLA DE DETECCIÓN INTELIGENTE: Si en la Columna A la celda actual y la siguiente 
-        // son idénticas, limpiamos el duplicado en memoria para realinear todo el vector vertical
         let celdasPlanas = [];
         for (let k = 0; k < celdasPlanasRaw.length; k++) {
             if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
                 console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
-                continue; // Saltamos el elemento repetido para empujar las variables un lugar hacia atrás
+                continue; 
             }
             celdasPlanas.push(celdasPlanasRaw[k]);
         }
         
         let contadorBloque = 0;
         
-        // Recorremos la lista limpia saltando de 8 en 8 celdas consecutivas hacia abajo
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
             if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
 
             let objetoFila = {
-                grupo: celdasPlanas[i] || "",            // Celda 1: Día
-                superintendente: celdasPlanas[i+1] || "", // Celda 2: Acompañante o Visitante
-                telefono: celdasPlanas[i+2] || "",        // Celda 3: Teléfono o Acompañante
-                campo4: celdasPlanas[i+3] || "",          // Celda 4: Hogar o Teléfono
-                campo5: celdasPlanas[i+4] || "",          // Celda 5: Contacto o Estudiante
-                campo6: celdasPlanas[i+5] || "",          // Celda 6: Dirección
-                campo7: celdasPlanas[i+6] || "",          // Celda 7: Detalles o Publicación
-                campo8: celdasPlanas[i+7] || ""           // Celda 8: Objetivo o Detalles
+                grupo: celdasPlanas[i] || "",            
+                superintendente: celdasPlanas[i+1] || "", 
+                telefono: celdasPlanas[i+2] || "",        
+                campo4: celdasPlanas[i+3] || "",          
+                campo5: celdasPlanas[i+4] || "",          
+                campo6: celdasPlanas[i+5] || "",          
+                campo7: celdasPlanas[i+6] || "",          
+                campo8: celdasPlanas[i+7] || ""           
             };
             
             Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
@@ -179,7 +204,7 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
-        // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
+        // 3. TU FLUJO HORIZONTAL ORIGINAL PARA LAS PRIMERAS DOS PESTAÑAS (Intacto de fábrica)
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
@@ -195,7 +220,6 @@ function recibirDatosDesdeGoogle(json) {
         }
     }
 }
-
 
 // =========================================================================
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
