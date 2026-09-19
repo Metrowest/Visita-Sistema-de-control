@@ -29,7 +29,7 @@ const ENLACES_HOJAS = {
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // Sincroniza el texto visual del enlace
+    // Sincroniza el enlace exterior inmediatamente al cambiar de hoja
     actualizarEnlaceUbicacion();
 
     const hoja = document.getElementById("selectorHoja").value;
@@ -52,8 +52,8 @@ function cargarDatos() {
 
 // =========================================================================
 // SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
-// Descripción: SELLO ABSOLUTO. Rompe la navegación HTML nativa para que ningún
-// temporizador ni script de la app pueda inyectar la URL de Google.
+// Descripción: Evita que el href apunte a la macro de Google. Toma la
+// URL real de tu página web externa y la inyecta limpiamente sin congelamientos.
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     console.log("Sincronizando enlace de la sección activa...");
@@ -64,34 +64,25 @@ function actualizarEnlaceUbicacion() {
     if (!selector || !enlace) return;
     
     const valorSeleccionado = selector.value;
+    const urlDestinoReal = ENLACES_HOJAS[valorSeleccionado];
     
-    // Cambiamos el texto para que el usuario sepa dónde va
+    // Cambia el texto del enlace según la opción seleccionada (Restablecido)
     enlace.textContent = selector.options[selector.selectedIndex].text;
     
-    // 🌟 EL SELLO DEFINITIVO: Neutralizamos el href nativo. 
-    // Ahora el enlace NO VA A NINGÚN LADO por sí solo. Es inmune a alteraciones de la app.
-    enlace.href = "javascript:void(0);"; 
-    enlace.removeAttribute("target");
-
-    // Asignamos la acción directamente mediante JavaScript puro en tiempo real
-    enlace.onclick = function(evento) {
-        // Detiene cualquier otra acción o evento que la app intente colar aquí
-        evento.preventDefault();
-        evento.stopPropagation();
-        
-        // Volvemos a leer el diccionario de la Sección 1 JUSTO en el milisegundo del clic
-        const urlDestino Real = ENLACES_HOJAS[selector.value];
-        
-        if (urlDestinoReal) {
-            console.log("Desconectando de la app... Redirigiendo a web externa: " + urlDestinoReal);
-            // Forzamos la apertura de la ventana de GitHub Pages de manera limpia y aislada
-            window.open(urlDestinoReal, '_blank');
-        } else {
-            console.log("Esta sección no requiere navegación externa.");
-        }
-    };
+    if (urlDestinoReal) {
+        enlace.href = urlDestinoReal;
+        enlace.target = "_blank"; // Abre en pestaña nueva
+        enlace.onclick = null;    // Limpia bloqueos previos
+        console.log("Enlace corregido con éxito hacia: " + urlDestinoReal);
+    } else {
+        enlace.href = "#";
+        enlace.removeAttribute("target");
+        enlace.onclick = function(e) {
+            e.preventDefault();
+            console.log("No se encontró URL externa para: " + valorSeleccionado);
+        };
+    }
 }
-
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
