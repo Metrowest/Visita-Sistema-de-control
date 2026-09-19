@@ -503,6 +503,13 @@ function actualizarEnlaceUbicacion() {
     const c2 = document.getElementById("contenedorCampo2") || (lbl2 ? lbl2.parentElement : null);
     const c3 = document.getElementById("contenedorCampo3") || (lbl3 ? lbl3.parentElement : null);
 
+    // 🌟 CAPTURA DE INPUTS: Obtenemos todos los elementos interactivos del formulario
+    const inputsFormulario = [
+        document.getElementById("campo1"), document.getElementById("campo2"), document.getElementById("campo3"),
+        document.getElementById("campo4"), document.getElementById("campo5"), document.getElementById("campo6"),
+        document.getElementById("campo7"), document.getElementById("campo8")
+    ];
+
     // ENLACES EXTERNOS SELLADOS: Conectados al diccionario maestro sin tocar el diseño visual viejo
     if (etiquetaEnlace) {
         etiquetaEnlace.target = "_blank";
@@ -523,9 +530,16 @@ function actualizarEnlaceUbicacion() {
         console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    // Restablecemos la visualización de los contenedores 2 y 3 por defecto
+    // 🌟 RESTABLECIMIENTO UNIVERSAL DE FÁBRICA: Todos los campos visibles y obligatorios por defecto
     if (c2) c2.style.display = "flex";
     if (c3) c3.style.display = "flex";
+    if (c4) c4.style.display = "flex";
+    if (c5) c5.style.display = "flex";
+    if (c6) c6.style.display = "flex";
+    if (c7) c7.style.display = "flex";
+    if (c8) c8.style.display = "flex";
+    
+    inputsFormulario.forEach(ip => { if (ip) ip.required = true; });
 
     // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
@@ -533,35 +547,33 @@ function actualizarEnlaceUbicacion() {
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
         if (lbl4) lbl4.innerText = "Dirección";
 
-        if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+        
+        // Apagamos validación requerida de campos ocultos del 5 al 8 para Hospitalidad
+        for (let idx = 4; idx <= 7; idx++) { if (inputsFormulario[idx]) inputsFormulario[idx].required = false; }
 
-    // 🌟 REPARACIÓN MAESTRA PARA SEGURIDAD: Apaga los cuadros 2 y 3 dejando SOLO 1 input activo
+    // 🌟 REPARACIÓN ABSOLUTA PARA SEGURIDAD: Oculta campos y destruye temporalmente su propiedad 'required'
     } else if (hojaSeleccionada === "Seguridad") {
         if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha de Actualización";
         
-        // Ocultamos absolutamente todos los demás campos para que no exija rellenarlos
-        if (c2) c2.style.display = "none";
-        if (c3) c3.style.display = "none";
+        // Ocultamos físicamente los bloques en la pantalla
+        if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+
+        // Apagamos de raíz la propiedad 'required' desde el campo 2 hasta el 8 para que el navegador no se trabe
+        for (let idx = 1; idx <= 7; idx++) { if (inputsFormulario[idx]) inputsFormulario[idx].required = false; }
 
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
         if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
-        
-        if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
-        if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
         if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
-        
-        if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
-        if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
         
     } else {
         if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
@@ -569,8 +581,12 @@ function actualizarEnlaceUbicacion() {
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
+        
+        // Apagamos validación requerida de campos ocultos del 4 al 8 para Superintendentes
+        for (let idx = 3; idx <= 7; idx++) { if (inputsFormulario[idx]) inputsFormulario[idx].required = false; }
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
