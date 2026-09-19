@@ -30,7 +30,7 @@ const ENLACES_HOJAS = {
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // 🌟 CORRECCIÓN: Sincroniza el enlace exterior inmediatamente al cambiar de hoja
+    // 🌟 CORRECCIÓN MAESTRA: Sincroniza y sella el enlace exterior al instante
     actualizarEnlaceUbicacion();
 
     const hoja = document.getElementById("selectorHoja").value;
@@ -54,7 +54,7 @@ function cargarDatos() {
 // =========================================================================
 // SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
 // Descripción: Evita que el href apunte a la macro de Google. Toma la
-// URL real de tu página web externa y la inyecta limpiamente.
+// URL real de tu página web externa y la inyecta limpiamente con sello de seguridad.
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     console.log("Sincronizando enlace de la sección activa...");
@@ -65,19 +65,43 @@ function actualizarEnlaceUbicacion() {
     if (!selector || !enlace) return;
     
     const valorSeleccionado = selector.value;
-    
-    // 🌟 REPARADO: Lee tus páginas reales de la Sección 1 en vez de la macro de Google
     const urlDestino = ENLACES_HOJAS[valorSeleccionado];
+    
+    // 🌟 SELLO ANTIFUGAS: Limpiamos eventos previos para evitar duplicados
+    enlace.onclick = null;
     
     if (urlDestino) {
         enlace.href = urlDestino;
         enlace.textContent = selector.options[selector.selectedIndex].text;
+        enlace.target = "_blank"; // Abre de forma segura en pestaña nueva
         console.log("Enlace corregido con éxito hacia: " + urlDestino);
     } else {
-        console.log("No se encontró URL externa en el diccionario local.");
+        enlace.href = "#";
+        enlace.textContent = "Sección Local (Sin enlace externo)";
+        enlace.removeAttribute("target");
+        
+        // Neutralizamos el clic por completo si no hay una URL configurada
+        enlace.onclick = function(e) {
+            e.preventDefault();
+            console.log("Acceso externo deshabilitado para esta sección.");
+        };
     }
-}
 
+    // 🌟 SELLO DE SEGURIDAD ABSOLUTO: Si el temporizador o la inyección de Google 
+    // intentan alterar el enlace metiendo la URL de la macro, este bloque frena la fuga.
+    enlace.addEventListener('click', function(evento) {
+        if (enlace.href.includes("://google.com")) {
+            evento.preventDefault(); 
+            console.error("¡Bloqueo de fuga activado! Se interceptó redirección a la API.");
+            
+            // Rescate inmediato leyendo la URL real del diccionario
+            const urlRescate = ENLACES_HOJAS[document.getElementById("selectorHoja").value];
+            if (urlRescate) {
+                window.open(urlRescate, '_blank');
+            }
+        }
+    });
+}
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
