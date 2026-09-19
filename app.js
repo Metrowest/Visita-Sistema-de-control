@@ -583,7 +583,7 @@ function actualizarEnlaceUbicacion() {
         if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha de Actualización";
         
-        // Ocultamos de forma limpia los campos del 2 al 8 en pantalla para dejar un solo input visible
+        // Ocultamos de forma limpia los campos del 2 al 8 en pantalla
         if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
@@ -606,27 +606,34 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-// 🌟 ACCIÓN ATÓMICA AISLADA PARA LA HOJA SEGURIDAD
-// Intercepta el envío nativo. Si es Seguridad, cancela el guardado masivo antiguo, 
-// extrae únicamente el valor del primer input y actualiza la celda A1 directamente en Google Sheets.
+// 🌟 ACCIÓN ATÓMICA AISLADA PARA LA HOJA SEGURIDAD (CORREGIDA)
+// Intercepta el envío nativo. Si es Seguridad, cancela el guardado masivo antiguo,
+// limpia textos duplicados y actualiza estrictamente la celda A1.
 window.addEventListener("submit", function(evento) {
     const selector = document.getElementById("selectorHoja");
     if (selector && selector.value === "Seguridad") {
-        // Detener por completo el envío masivo tradicional de la app para que no borre nada
+        // Detener por completo el envío masivo tradicional de la app para evitar duplicados y borrados
         evento.preventDefault();
         evento.stopPropagation();
 
-        // Obtener el valor del único input visible en pantalla (normalmente enlazado al Campo 1)
+        // Detectar el input correcto de la interfaz
         const inputFecha = document.getElementById("txtGrupo") || document.getElementById("txtCampo1"); 
         if (!inputFecha || inputFecha.value.trim() === "") {
             alert("Por favor, introduzca una fecha válida.");
             return;
         }
 
-        const valorFinal = "Actualizado " + inputFecha.value;
+        // Limpiamos el valor: si ya trae la palabra "Actualizado", la removemos para no duplicarla
+        let fechaLimpia = inputFecha.value.replace(/Actualizado\s*/g, "").trim();
+        const valorFinal = "Actualizado " + fechaLimpia;
 
-        // Llamada directa y atómica a la macro de Google Apps Script. 
-        // Solo enviamos los datos necesarios para modificar una única celda.
+        const payload = {
+            hoja: "Seguridad",
+            celda: "A1",
+            valor: valorFinal
+        };
+
+        // EJECUCIÓN EN ENTORNO PRODUCTION DE GOOGLE SHEETS
         if (typeof google !== "undefined" && google.script && google.script.run) {
             google.script.run
                 .withSuccessHandler(function() {
@@ -635,16 +642,20 @@ window.addEventListener("submit", function(evento) {
                 .withFailureHandler(function(err) {
                     alert("Error al actualizar la celda: " + err);
                 })
-                .actualizarCeldaUnicaSheets({
-                    hoja: "Seguridad",
-                    celda: "A1",
-                    valor: valorFinal
-                });
+                .actualizarCeldaUnicaSheets(payload);
+        } else if (typeof googleScriptRunSimulador === "function") {
+            // Soporte para entorno de desarrollo local con simulador externo
+            googleScriptRunSimulador("actualizarCeldaUnicaSheets", payload);
         } else {
-            console.log("Entorno local detectado. Payload enviado:", { hoja: "Seguridad", celda: "A1", valor: valorFinal });
+            // Intento de ejecución directa por si está declarado globalmente
+            console.log("Entorno local / Simulación. Payload procesado:", payload);
+            if (typeof actualizarCeldaUnicaSheets === "function") {
+                actualizarCeldaUnicaSheets(payload);
+            }
         }
     }
 }, true);
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
