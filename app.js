@@ -6,8 +6,22 @@
 // Enlace exclusivo hacia la base de datos de las hojas (Google Sheets)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5f-HM7FAWTxf3oDPFafcZ4EUL-5Bbt6UtBU6JgqsHIqEGAN1Z5TFyx3af7B6nijvAvg/exec";
 
+
 // Variable global de memoria para controlar el índice del registro en edición
 let registroEditandoIndex = null;
+
+// 🌟 INYECTADO: Diccionario de tus páginas web externas para cada sección
+const ENLACES_HOJAS = {
+    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html(punto-superintendentes)",
+    "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
+    "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
+    "Estudios Día 2": "https://metrowest.github.io/Visita/estudio2A.html",
+    "Estudios Día 3": "https://metrowest.github.io/Visita/estudio3A.html",
+    "Pastoreo Día 1": "https://metrowest.github.io/Visita/pastoreo1A.html",
+    "Pastoreo Día 2": "https://metrowest.github.io/Visita/pastoreo2A.html",
+    "Pastoreo Día 3": "https://metrowest.github.io/Visita/pastoreo3A.html",
+    "Seguridad": "https://metrowest.github.io/Visita/seguridad.html"
+};
 
 // =========================================================================
 // SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
@@ -16,31 +30,49 @@ let registroEditandoIndex = null;
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // Capturamos el valor en vivo del selectorHoja que agregamos en el HTML
     const hoja = document.getElementById("selectorHoja").value;
     console.log("Solicitando registros para la sección: " + hoja);
 
-    // BLINDAJE DE RED: Si el usuario elige las carpetas, este script se apaga de inmediato
-    // y no ejecuta las llamadas de Sheets para evitar que las tablas se queden colgadas
     if (hoja === "Gestor_Carpetas") {
         console.log("Tablero de Sheets apagado. Cediendo control a carpetas.js...");
         return;
     }
 
-    // Removemos ganchos viejos para evitar duplicación de scripts en memoria
     const scriptViejo = document.getElementById("script-carga-hojas");
     if (scriptViejo) scriptViejo.remove();
 
-    // Inyectamos una etiqueta script dinámicamente pasándole la hoja seleccionada por URL
     const script = document.createElement("script");
     script.id = "script-carga-hojas";
     script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
     document.body.appendChild(script);
 }
 
+// 🌟 INYECTADO: Función sincronizadora de tus enlaces externos dinámicos
+function actualizarEnlaceUbicacion() {
+    console.log("Sincronizando enlace de la sección activa...");
+    
+    const selector = document.getElementById("selectorHoja");
+    const enlace = document.getElementById("enlaceDinamico");
+    
+    if (!selector || !enlace) return;
+    
+    const valorSeleccionado = selector.value;
+    const urlDestino = ENLACES_HOJAS[valorSeleccionado];
+    
+    if (urlDestino) {
+        enlace.href = urlDestino;
+        enlace.textContent = selector.options[selector.selectedIndex].text;
+    }
+}
+
+// Escuchador automático inicial de arranque
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(actualizarEnlaceUbicacion, 500);
+});
+
 // =========================================================================
-// SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
-// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA NUNCA MODIFICAR)
+// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
+// Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // =========================================================================
 function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
     const tablaCuerpo = document.getElementById("tablaCuerpo");
