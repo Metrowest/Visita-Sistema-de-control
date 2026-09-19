@@ -476,7 +476,6 @@ function cargarDatos() {
     }
 }
 
-
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -499,12 +498,15 @@ function actualizarEnlaceUbicacion() {
 
     const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
+    
+    // Elementos de los contenedores 2 y 3 para poder ocultarlos por completo en Seguridad
+    const c2 = document.getElementById("contenedorCampo2") || (lbl2 ? lbl2.parentElement : null);
+    const c3 = document.getElementById("contenedorCampo3") || (lbl3 ? lbl3.parentElement : null);
 
-    // 🌟 AQUÍ QUEDA INSERTADO EL NUEVO CÓDIGO DE ENLACES EXTERNOS SELLADOS:
+    // ENLACES EXTERNOS SELLADOS: Conectados al diccionario maestro sin tocar el diseño visual viejo
     if (etiquetaEnlace) {
         etiquetaEnlace.target = "_blank";
         
-        // Lee directamente la URL del diccionario de la Sección 1 usando el identificador de la hoja
         const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
         etiquetaEnlace.href = urlDestinoReal || "#";
 
@@ -515,14 +517,17 @@ function actualizarEnlaceUbicacion() {
         } else if (hojaSeleccionada === "Seguridad") {
             etiquetaEnlace.innerHTML = "🛡️ Seguridad";
         } else {
-            // Limpia el texto de las hojas verticales quitando los guiones bajos visualmente
             const textoLimpio = hojaSeleccionada.replace(/_/g, " ");
             etiquetaEnlace.innerHTML = `📚 ${textoLimpio}`;
         }
         console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    // 🌟 DE AQUÍ EN ADELANTE SE MANTIENE TODO TU CÓDIGO ORIGINAL RESPONSIVO DE CAMPOS INTACTO:
+    // Restablecemos la visualización de los contenedores 2 y 3 por defecto
+    if (c2) c2.style.display = "flex";
+    if (c3) c3.style.display = "flex";
+
+    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
@@ -530,6 +535,17 @@ function actualizarEnlaceUbicacion() {
 
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+
+    // 🌟 REPARACIÓN MAESTRA PARA SEGURIDAD: Apaga los cuadros 2 y 3 dejando SOLO 1 input activo
+    } else if (hojaSeleccionada === "Seguridad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
+        if (lbl1) lbl1.innerText = "Fecha de Actualización";
+        
+        // Ocultamos absolutamente todos los demás campos para que no exija rellenarlos
+        if (c2) c2.style.display = "none";
+        if (c3) c3.style.display = "none";
+        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
