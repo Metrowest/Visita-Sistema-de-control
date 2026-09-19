@@ -497,18 +497,13 @@ function actualizarEnlaceUbicacion() {
     const tituloFormulario = document.getElementById("formTitulo");
 
     const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
+    const c2 = document.getElementById("contenedorCampo2");
+    const c3 = document.getElementById("contenedorCampo3");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
-    
-    // Elementos de los contenedores 2 y 3 para poder ocultarlos por completo en Seguridad
-    const c2 = document.getElementById("contenedorCampo2") || (lbl2 ? lbl2.parentElement : null);
-    const c3 = document.getElementById("contenedorCampo3") || (lbl3 ? lbl3.parentElement : null);
 
-    // 🌟 CAPTURA DE INPUTS: Obtenemos todos los elementos interactivos del formulario
-    const inputsFormulario = [
-        document.getElementById("campo1"), document.getElementById("campo2"), document.getElementById("campo3"),
-        document.getElementById("campo4"), document.getElementById("campo5"), document.getElementById("campo6"),
-        document.getElementById("campo7"), document.getElementById("campo8")
-    ];
+    // Capturamos tus elementos HTML reales para controlarlos de forma directa
+    const input2 = document.getElementById("txtSuperintendente");
+    const input3 = document.getElementById("txtTelefono");
 
     // ENLACES EXTERNOS SELLADOS: Conectados al diccionario maestro sin tocar el diseño visual viejo
     if (etiquetaEnlace) {
@@ -530,7 +525,7 @@ function actualizarEnlaceUbicacion() {
         console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    // 🌟 RESTABLECIMIENTO UNIVERSAL DE FÁBRICA: Todos los campos visibles y obligatorios por defecto
+    // 🌟 RESTABLECIMIENTO UNIVERSAL ORIGINAL DE VISIBILIDAD (Todos en flex)
     if (c2) c2.style.display = "flex";
     if (c3) c3.style.display = "flex";
     if (c4) c4.style.display = "flex";
@@ -538,8 +533,12 @@ function actualizarEnlaceUbicacion() {
     if (c6) c6.style.display = "flex";
     if (c7) c7.style.display = "flex";
     if (c8) c8.style.display = "flex";
-    
-    inputsFormulario.forEach(ip => { if (ip) ip.required = true; });
+
+    // Si los campos ocultos tenían el autocompletado de seguridad, los limpiamos al cambiar de hoja
+    if (hojaSeleccionada !== "Seguridad") {
+        if (input2 && input2.value === "Seguridad_Fijo") input2.value = "";
+        if (input3 && input3.value === "Seguridad_Fijo") input3.value = "";
+    }
 
     // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
@@ -548,22 +547,21 @@ function actualizarEnlaceUbicacion() {
         if (lbl4) lbl4.innerText = "Dirección";
 
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-        
-        // Apagamos validación requerida de campos ocultos del 5 al 8 para Hospitalidad
-        for (let idx = 4; idx <= 7; idx++) { if (inputsFormulario[idx]) inputsFormulario[idx].required = false; }
 
-    // 🌟 REPARACIÓN ABSOLUTA PARA SEGURIDAD: Oculta campos y destruye temporalmente su propiedad 'required'
+    // 🌟 REPARACIÓN KLÁSICA PARA SEGURIDAD (Oculta visualmente y rellena de forma transparente)
     } else if (hojaSeleccionada === "Seguridad") {
         if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha de Actualización";
         
-        // Ocultamos físicamente los bloques en la pantalla
+        // Escondemos los bloques en la interfaz del usuario
         if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-        // Apagamos de raíz la propiedad 'required' desde el campo 2 hasta el 8 para que el navegador no se trabe
-        for (let idx = 1; idx <= 7; idx++) { if (inputsFormulario[idx]) inputsFormulario[idx].required = false; }
+        // 🌟 EL TRUCO ORIGINAL DE LLENADO: Inyectamos un valor de escape en los campos ocultos. 
+        // El navegador verá que tienen datos, validará el 'required' y dejará enviar el formulario.
+        if (input2 && (input2.value === "" || !input2.value)) input2.value = "Seguridad_Fijo";
+        if (input3 && (input3.value === "" || !input3.value)) input3.value = "Seguridad_Fijo";
 
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
@@ -581,11 +579,9 @@ function actualizarEnlaceUbicacion() {
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
-        
-        // Apagamos validación requerida de campos ocultos del 4 al 8 para Superintendentes
-        for (let idx = 3; idx <= 7; idx++) { if (inputsFormulario[idx]) inputsFormulario[idx].required = false; }
     }
 }
+
 
 
 // =========================================================================
