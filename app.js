@@ -475,7 +475,6 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
-
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -525,7 +524,7 @@ function actualizarEnlaceUbicacion() {
         console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    // RESTABLECIMIENTO UNIVERSAL ORIGINAL DE VISIBILIDAD
+    // RESTABLECIMIENTO UNIVERSAL ORIGINAL DE VISIBILIDAD Y REQUERIDOS
     if (c2) c2.style.display = "flex";
     if (c3) c3.style.display = "flex";
     if (c4) c4.style.display = "flex";
@@ -533,6 +532,9 @@ function actualizarEnlaceUbicacion() {
     if (c6) c6.style.display = "flex";
     if (c7) c7.style.display = "flex";
     if (c8) c8.style.display = "flex";
+    
+    if (input2) input2.required = true;
+    if (input3) input3.required = true;
 
     // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
@@ -542,7 +544,7 @@ function actualizarEnlaceUbicacion() {
 
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-    // 🌟 REPARACIÓN KLÁSICA PARA SEGURIDAD: Oculta visualmente
+    // 🌟 REPARACIÓN MAESTRA PARA SEGURIDAD: Oculta visualmente los bloques en la pantalla
     } else if (hojaSeleccionada === "Seguridad") {
         if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha de Actualización";
@@ -570,24 +572,31 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-// 🌟 ESCUDO DETECTOR DE ENVÍO DE FORMULARIO MAESTRO
-// Este bloque captura el clic del botón del formulario antes de que actúe la validación nativa.
-// Si estamos en la hoja "Seguridad", rellena con guiones las cajas invisibles al instante para que no den error.
+// 🌟 ESCUDO DE INTERCEPCIÓN DINÁMICA DE ENVIÓ (SIN ALTERAR DATOS)
+// Este bloque captura el clic en fase de prioridad. Si es la hoja "Seguridad", apaga
+// el 'required' por un milisegundo para permitir el envío y lo vuelve a encender de inmediato.
 document.addEventListener("click", function(e) {
-    // Buscamos si lo que presionó el usuario fue el botón de enviar/guardar del formulario
     if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         if (selector && selector.value === "Seguridad") {
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
             
-            // Si están vacíos, inyectamos un carácter de escape para engañar al navegador de forma segura
-            if (input2 && (input2.value === "" || !input2.value)) input2.value = "-";
-            if (input3 && (input3.value === "" || !input3.value)) input3.value = "-";
-            console.log("¡Escudo de envío activado! Rellenando campos invisibles de Seguridad para autorizar navegación.");
+            // ➡️ Paso 1: Apagamos el required para que el navegador autorice el envío sin bloquearse
+            if (input2) input2.required = false;
+            if (input3) input3.required = false;
+            console.log("¡Escudo activado! Removiendo requerimiento invisible de Seguridad de forma segura.");
+
+            // ➡️ Paso 2: Con un retraso mínimo, volvemos a encender el required para proteger el formulario original
+            setTimeout(function() {
+                if (input2) input2.required = true;
+                if (input3) input3.required = true;
+                console.log("¡Requerimiento original restaurado en caliente!");
+            }, 500);
         }
     }
-}, true); // El parámetro true intercepta el evento de forma prioritaria en fase de captura
+}, true);
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
