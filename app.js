@@ -135,11 +135,10 @@ function recibirDatosDesdeGoogle(json) {
     // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
     // =========================================================================
     
-    // 🌟 1. CONFIGURACIÓN EXCLUSIVA PARA SEGURIDAD (Extracción vertical indexada de celdas)
+    // 🌟 1. CONFIGURACIÓN EXCLUSIVA PARA SEGURIDAD (Muestra SOLO A1 y limpia las otras dos columnas)
     if (hojaActiva === "Seguridad") {
         let celdasPlanas = [];
         
-        // Convertimos la matriz vertical de Google en una lista plana de textos
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
                 celdasPlanas.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
@@ -148,14 +147,14 @@ function recibirDatosDesdeGoogle(json) {
             }
         });
 
-        // Asignamos las celdas verticales de la Columna A una a una a su respectiva columna horizontal
+        // 🌟 ELIMINACIÓN DE CELDAS EXTRA: Extraemos celda A1 y dejamos las columnas 2 y 3 vacías en pantalla
         let objetoFila = {
-            grupo: celdasPlanas[0] || "",            // Fila A1 -> Va a "Grupo / Día"
-            superintendente: celdasPlanas[1] || "", // Fila A2 -> Va a "Superintendente / Encargado"
-            telefono: celdasPlanas[2] || ""        // Fila A3 -> Va a "Teléfono / Contacto"
+            grupo: celdasPlanas[0] || "", // Muestra exclusivamente la celda A1 (Ej. "Actualizado: 09/17/2026")
+            superintendente: "",         // ❌ ELIMINADO: Celda A2 queda oculta visualmente
+            telefono: ""                // ❌ ELIMINADO: Celda A3 queda oculta visualmente
         };
         
-        // Lo mandamos a pintar a la tabla con el índice 0 para habilitar la edición
+        // Lo mandamos a pintar a la tabla con el índice fijo 0
         Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
 
     // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
@@ -219,7 +218,6 @@ function recibirDatosDesdeGoogle(json) {
         }
     }
 }
-
 
 // =========================================================================
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
