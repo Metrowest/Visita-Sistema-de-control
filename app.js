@@ -30,6 +30,9 @@ const ENLACES_HOJAS = {
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
+    // 🌟 CORRECCIÓN: Sincroniza el enlace exterior inmediatamente al cambiar de hoja
+    actualizarEnlaceUbicacion();
+
     const hoja = document.getElementById("selectorHoja").value;
     console.log("Solicitando registros para la sección: " + hoja);
 
@@ -46,6 +49,7 @@ function cargarDatos() {
     script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
     document.body.appendChild(script);
 }
+
 
 // =========================================================================
 // SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
