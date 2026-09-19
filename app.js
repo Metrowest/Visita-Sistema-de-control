@@ -74,10 +74,6 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
     tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
 }
 
-// =========================================================================
-// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
-// Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
-// =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
     const tablaCabecera = document.getElementById("tablaCabecera");
@@ -112,7 +108,6 @@ function recibirDatosDesdeGoogle(json) {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
         
-    // 🌟 ENRUTADOR INSERTADO: Títulos correspondientes para la hoja Seguridad
     } else if (hojaActiva === "Seguridad") {
         encabezadosTextos = ["Grupo / Día", "Superintendente / Encargado", "Teléfono / Contacto"];
         llavesMapeo = ["grupo", "superintendente", "telefono"];
@@ -136,25 +131,26 @@ function recibirDatosDesdeGoogle(json) {
     // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
     // =========================================================================
     
-    // 🌟 1. NUEVO FLUJO EXCLUSIVO PARA SEGURIDAD (Mapea la Línea 1 desde el vector vertical)
+    // 🌟 1. FLUJO CORREGIDO PARA SEGURIDAD (Extracción vertical alineada para Línea 1)
     if (hojaActiva === "Seguridad") {
         let celdasPlanas = [];
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
+                // Si la fila viene como un array interno, tomamos la celda A pura de la columna
                 celdasPlanas.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
             } else {
                 celdasPlanas.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
             }
         });
 
-        // Extraemos las primeras 3 celdas verticales de la hoja para rellenar la Línea 1
+        // 🌟 REPARADO: Mapea verticalmente hacia abajo extrayendo fila 1, fila 2 y fila 3 del vector
         let objetoFila = {
-            grupo: celdasPlanas[0] || "",            // Fila 1 de Google Sheets
-            superintendente: celdasPlanas[1] || "", // Fila 2 de Google Sheets
-            telefono: celdasPlanas[2] || ""        // Fila 3 de Google Sheets
+            grupo: celdasPlanas[0] || "",            // Celda A1 (Ej. "Actualizado: 09/17/2026")
+            superintendente: celdasPlanas[1] || "", // Celda A2 (Ej. Texto largo del Cuerpo de Ancianos)
+            telefono: celdasPlanas[2] || ""        // Celda A3 (Ej. "◆ MEDIDAS GENERALES DE SEGURIDAD ◆")
         };
         
-        // Lo mandamos a pintar en pantalla en el bloque fijo con índice 0
+        // Enviamos a la tabla con índice fijo 0
         Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
 
     // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
