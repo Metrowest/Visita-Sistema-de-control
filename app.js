@@ -51,10 +51,32 @@ function cargarDatos() {
     document.body.appendChild(script);
 }
 
-
 // =========================================================================
 // SECCIÓN 3 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
+// =========================================================================
+function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
+    const tablaCuerpo = document.getElementById("tablaCuerpo");
+    if (!tablaCuerpo) return;
+    
+    // Construimos la fila en sentido estrictamente horizontal recorriendo las llaves del registro
+    let htmlFila = "<tr>";
+    columnasVisibles.forEach(propiedad => {
+        htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? objetoCampos[propiedad] : ""}</td>`;
+    });
+    
+    // Inyección fija universal de botones interactivos con sus puentes de red locales
+    htmlFila += `<td>
+        <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${indice}, ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">✏️</button>
+        <button type="button" class="btn-delete" style="cursor:pointer;" onclick="window.borrarRegistro(${indice})">🗑️</button>
+    </td></tr>`;
+    
+    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+}
+
+// =========================================================================
+// SECCIÓN 3.1: DECODIFICADOR MAESTRO DE MATRICES - PROCESAR DATOS GOOGLE
+// Ubicación del bloque: CENTRO (PARTE MEDIA)
 // =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
@@ -90,6 +112,7 @@ function recibirDatosDesdeGoogle(json) {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
         
+    // 🌟 ENRUTADOR DINÁMICO: Títulos correspondientes para tu cuadrícula de Seguridad
     } else if (hojaActiva === "Seguridad") {
         encabezadosTextos = ["Grupo / Día", "Superintendente / Encargado", "Teléfono / Contacto"];
         llavesMapeo = ["grupo", "superintendente", "telefono"];
@@ -113,28 +136,30 @@ function recibirDatosDesdeGoogle(json) {
     // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
     // =========================================================================
     
-    // 🌟 1. CORRECCIÓN ABSOLUTA PARA SEGURIDAD: Lee ÚNICAMENTE la celda A1 de la hoja
+    // 🌟 1. CONFIGURACIÓN EXCLUSIVA PARA SEGURIDAD (Captura y alinea la celda A1)
     if (hojaActiva === "Seguridad") {
+        let textoLimpioA1 = "";
         
-        // Extraemos con precisión quirúrgica el texto crudo contenido solo en la primera celda A1
-        let textoCeldaA1 = "";
-        if (datosMatriz && datosMatriz[0]) {
-            textoCeldaA1 = Array.isArray(datosMatriz[0]) ? datosMatriz[0][0] : datosMatriz[0];
+        // Extraemos de forma ultra segura el contenido del primer registro vertical A1
+        if (Array.isArray(datosMatriz) && datosMatriz.length > 0) {
+            let itemUno = datosMatriz[0];
+            textoLimpioA1 = Array.isArray(itemUno) ? itemUno[0] : itemUno;
+        } else {
+            textoLimpioA1 = datosMatriz;
         }
         
-        // Mapeamos el objeto fila concentrando todo el valor de la celda A1 en la columna central
+        // Empacamos el registro colocando el texto largo de A1 en la columna del centro
         let objetoFila = {
-            grupo: "Línea 1", // Identificador fijo para saber que es el primer bloque
-            superintendente: textoCeldaA1 !== undefined && textoCeldaA1 !== null ? textoCeldaA1.toString().trim() : "", // 🌟 Aquí cae todo el texto de A1
-            telefono: "Plan Fijo" // Etiqueta descriptiva para la tercera columna
+            grupo: "Actualizado:", 
+            superintendente: textoLimpioA1 !== undefined && textoLimpioA1 !== null ? textoLimpioA1.toString().trim() : "", 
+            telefono: "Programa Activo" 
         };
         
-        // Lo mandamos a pintar a la tabla con el índice 0 para que sea editable
+        // Llama a tu función original (Sección 3) usando el índice fijo 0
         Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
 
     // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
     } else if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
-        
         let celdasPlanasRaw = [];
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
@@ -154,7 +179,6 @@ function recibirDatosDesdeGoogle(json) {
         }
         
         let contadorBloque = 0;
-        
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
             if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
