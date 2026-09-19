@@ -583,7 +583,7 @@ function actualizarEnlaceUbicacion() {
         if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha de Actualización";
         
-        // Ocultamos de forma limpia los campos del 2 al 8 en pantalla
+        // Ocultamos de forma limpia los campos del 2 al 8 en pantalla para dejar un solo input visible
         if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
@@ -606,46 +606,45 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-// 🌟 ESCUDO PROTECTOR DE BASE DE DATOS (Añadido al final de la Sección 8.2.3)
-// Intercepta el envío nativo. Si es Seguridad y los campos ocultos están vacíos, 
-// rescata los textos estables del plan original directamente desde la memoria global de la API.
+// 🌟 ACCIÓN ATÓMICA AISLADA PARA LA HOJA SEGURIDAD
+// Intercepta el envío nativo. Si es Seguridad, cancela el guardado masivo antiguo, 
+// extrae únicamente el valor del primer input y actualiza la celda A1 directamente en Google Sheets.
 window.addEventListener("submit", function(evento) {
     const selector = document.getElementById("selectorHoja");
     if (selector && selector.value === "Seguridad") {
-        const input2 = document.getElementById("txtSuperintendente");
-        const input3 = document.getElementById("txtTelefono");
+        // Detener por completo el envío masivo tradicional de la app para que no borre nada
+        evento.preventDefault();
+        evento.stopPropagation();
 
-        // Si el formulario los capturó vacíos, les reinyectamos sus datos legítimos en segundo plano
-        if (input2 && (input2.value === "" || input2.value === "-")) {
-            if (window.cacheOriginalSeguridad && window.cacheOriginalSeguridad[1]) {
-                input2.value = window.cacheOriginalSeguridad[1];
-            }
+        // Obtener el valor del único input visible en pantalla (normalmente enlazado al Campo 1)
+        const inputFecha = document.getElementById("txtGrupo") || document.getElementById("txtCampo1"); 
+        if (!inputFecha || inputFecha.value.trim() === "") {
+            alert("Por favor, introduzca una fecha válida.");
+            return;
         }
-        if (input3 && (input3.value === "" || input3.value === "-")) {
-            if (window.cacheOriginalSeguridad && window.cacheOriginalSeguridad[2]) {
-                input3.value = window.cacheOriginalSeguridad[2];
-            }
+
+        const valorFinal = "Actualizado " + inputFecha.value;
+
+        // Llamada directa y atómica a la macro de Google Apps Script. 
+        // Solo enviamos los datos necesarios para modificar una única celda.
+        if (typeof google !== "undefined" && google.script && google.script.run) {
+            google.script.run
+                .withSuccessHandler(function() {
+                    alert("¡Celda A1 de Seguridad actualizada con éxito!");
+                })
+                .withFailureHandler(function(err) {
+                    alert("Error al actualizar la celda: " + err);
+                })
+                .actualizarCeldaUnicaSheets({
+                    hoja: "Seguridad",
+                    celda: "A1",
+                    valor: valorFinal
+                });
+        } else {
+            console.log("Entorno local detectado. Payload enviado:", { hoja: "Seguridad", celda: "A1", valor: valorFinal });
         }
-        console.log("¡Sello de envío completado de forma transparente! Datos a salvo.");
     }
 }, true);
-
-// Captura y respalda la respuesta inicial de Google Sheets de forma silenciosa e independiente
-if (typeof recibirDatosDesdeGoogle === "function") {
-    const backupAPI = recibirDatosDesdeGoogle;
-    recibirDatosDesdeGoogle = function(json) {
-        const selector = document.getElementById("selectorHoja");
-        if (selector && selector.value === "Seguridad") {
-            let matriz = json && json.data ? json.data : json;
-            if (json && json.status === "success" && json.message && Array.isArray(json.message)) { matriz = json.message; }
-            if (Array.isArray(matriz)) {
-                // Guardamos una copia exacta de las celdas A2 y A3 originales en la memoria interna
-                window.cacheOriginalSeguridad = matriz.map(f => Array.isArray(f) ? f[0] : f);
-            }
-        }
-        backupAPI(json);
-    };
-}
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
