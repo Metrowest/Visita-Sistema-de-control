@@ -26,10 +26,14 @@ const ENLACES_HOJAS = {
 // SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 1)
 // =========================================================================
+// =========================================================================
+// SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
+// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 1)
+// =========================================================================
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // Sincroniza el enlace exterior inmediatamente al cambiar de hoja
+    // Sincroniza y repara el enlace exterior inmediatamente al cambiar de hoja
     actualizarEnlaceUbicacion();
 
     const hoja = document.getElementById("selectorHoja").value;
@@ -52,8 +56,8 @@ function cargarDatos() {
 
 // =========================================================================
 // SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
-// Descripción: Evita que el href apunte a la macro de Google. Toma la
-// URL real de tu página web externa y la inyecta limpiamente sin congelamientos.
+// Descripción: Código original recuperado. Bloquea el href nativo y 
+// obliga a la etiqueta <a> a abrir la URL correcta del diccionario.
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     console.log("Sincronizando enlace de la sección activa...");
@@ -66,23 +70,39 @@ function actualizarEnlaceUbicacion() {
     const valorSeleccionado = selector.value;
     const urlDestinoReal = ENLACES_HOJAS[valorSeleccionado];
     
-    // Cambia el texto del enlace según la opción seleccionada (Restablecido)
+    // Cambia el texto del enlace según la opción seleccionada tal como antes
     enlace.textContent = selector.options[selector.selectedIndex].text;
     
     if (urlDestinoReal) {
+        // Almacenamos la URL real en una propiedad personalizada "inmune"
+        enlace.setAttribute("data-url", urlDestinoReal);
         enlace.href = urlDestinoReal;
-        enlace.target = "_blank"; // Abre en pestaña nueva
-        enlace.onclick = null;    // Limpia bloqueos previos
-        console.log("Enlace corregido con éxito hacia: " + urlDestinoReal);
+        enlace.target = "_blank";
+        
+        // El Sello Original: Intercepta el clic en el último milisegundo
+        enlace.onclick = function(evento) {
+            // Evitamos que cualquier proceso de la app altere la navegación
+            evento.stopPropagation();
+            
+            // Leemos directamente el almacenamiento inmune del elemento
+            const urlSegura = this.getAttribute("data-url");
+            if (urlSegura) {
+                window.open(urlSegura, '_blank');
+                return false; // Bloquea cualquier redirección residual a Google
+            }
+        };
+        console.log("Enlace sellado con éxito hacia: " + urlDestinoReal);
     } else {
         enlace.href = "#";
         enlace.removeAttribute("target");
+        enlace.removeAttribute("data-url");
         enlace.onclick = function(e) {
             e.preventDefault();
-            console.log("No se encontró URL externa para: " + valorSeleccionado);
+            console.log("No hay URL externa para esta sección.");
         };
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
