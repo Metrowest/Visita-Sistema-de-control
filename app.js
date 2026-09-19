@@ -29,31 +29,51 @@ const ENLACES_HOJAS = {
 function cargarDatos() {
     console.log("¡Iniciando carga de tabla mediante inyección de script local!");
 
-    // Sincroniza y repara el enlace exterior inmediatamente al cambiar de hoja
-    actualizarEnlaceUbicacion();
+    // 🌟 REPARADO: Sincroniza el enlace de GitHub Pages en el mismo instante del cambio
+    if (typeof actualizarEnlaceUbicacion === "function") {
+        actualizarEnlaceUbicacion();
+    }
 
-    const hoja = document.getElementById("selectorHoja").value;
-    console.log("Solicitando registros para la sección: " + hoja);
+    // Capturamos el valor en vivo del selectorHoja que agregamos en el HTML
+    const hojaRaw = document.getElementById("selectorHoja").value;
+    console.log("Solicitando registros para la sección: " + hojaRaw);
 
-    if (hoja === "Gestor_Carpetas") {
+    // BLINDAJE DE RED: Si el usuario elige las carpetas, este script se apaga de inmediato
+    if (hojaRaw === "Gestor_Carpetas") {
         console.log("Tablero de Sheets apagado. Cediendo control a carpetas.js...");
         return;
     }
 
+    // Adaptación tolerante para definir si la hoja requiere lectura horizontal o vertical
+    let hoja = hojaRaw.replace(/_/g, " ");
+    if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
+    if (hoja === "Estudios Dia 2") hoja = "Estudios Día 2";
+    if (hoja === "Estudios Dia 3") hoja = "Estudios Día 3";
+    if (hoja === "Pastoreo Dia 1") hoja = "Pastoreo Día 1";
+    if (hoja === "Pastoreo Dia 2") hoja = "Pastoreo Día 2";
+    if (hoja === "Pastoreo Dia 3") hoja = "Pastoreo Día 3";
+
+    // Removemos ganchos viejos para evitar duplicación de scripts en memoria
     const scriptViejo = document.getElementById("script-carga-hojas");
     if (scriptViejo) scriptViejo.remove();
 
+    // Determina dinámicamente el tipo de acción correcto para que no se rompan las matrices
+    let accionEstructura = "leer";
+    if (hoja.includes("Estudios") || hoja.includes("Pastoreo")) {
+        accionEstructura = "leerVertical";
+    }
+
+    // Inyectamos la etiqueta script dinámicamente con la acción y hoja correspondientes
     const script = document.createElement("script");
     script.id = "script-carga-hojas";
-    script.src = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
+    script.src = `${WEB_APP_URL}?accion=${accionEstructura}&hoja=${encodeURIComponent(hoja)}`;
     document.body.appendChild(script);
 }
 
 
 // =========================================================================
 // SINCRONIZADOR DE ENLACES EXTERNOS REALES (REPARACIÓN DE DIRECCIÓN)
-// Descripción: Código original recuperado. Bloquea el href nativo y 
-// obliga a la etiqueta <a> a abrir la URL correcta del diccionario.
+// Descripción: Toma la URL real de tu página web externa y la inyecta limpiamente.
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     console.log("Sincronizando enlace de la sección activa...");
@@ -64,41 +84,34 @@ function actualizarEnlaceUbicacion() {
     if (!selector || !enlace) return;
     
     const valorSeleccionado = selector.value;
+    
+    // Busca la URL correspondiente en el diccionario maestro de la Sección 1
     const urlDestinoReal = ENLACES_HOJAS[valorSeleccionado];
     
-    // Cambia el texto del enlace según la opción seleccionada tal como antes
+    // Cambia la palabra visual del enlace según la opción seleccionada
     enlace.textContent = selector.options[selector.selectedIndex].text;
     
     if (urlDestinoReal) {
-        // Almacenamos la URL real en una propiedad personalizada "inmune"
-        enlace.setAttribute("data-url", urlDestinoReal);
         enlace.href = urlDestinoReal;
-        enlace.target = "_blank";
-        
-        // El Sello Original: Intercepta el clic en el último milisegundo
-        enlace.onclick = function(evento) {
-            // Evitamos que cualquier proceso de la app altere la navegación
-            evento.stopPropagation();
-            
-            // Leemos directamente el almacenamiento inmune del elemento
-            const urlSegura = this.getAttribute("data-url");
-            if (urlSegura) {
-                window.open(urlSegura, '_blank');
-                return false; // Bloquea cualquier redirección residual a Google
-            }
-        };
-        console.log("Enlace sellado con éxito hacia: " + urlDestinoReal);
+        enlace.target = "_blank"; // Abre de forma segura en pestaña nueva
+        enlace.onclick = null;    // Limpia cualquier comportamiento residual
+        console.log("Enlace corregido con éxito hacia: " + urlDestinoReal);
     } else {
         enlace.href = "#";
         enlace.removeAttribute("target");
-        enlace.removeAttribute("data-url");
         enlace.onclick = function(e) {
             e.preventDefault();
-            console.log("No hay URL externa para esta sección.");
+            console.log("No se requiere enlace externo para esta sección.");
         };
     }
 }
 
+// Inicialización automática del enlace la primera vez que se abre el tablero
+document.addEventListener("DOMContentLoaded", function() {
+    if (typeof actualizarEnlaceUbicacion === "function") {
+        actualizarEnlaceUbicacion();
+    }
+});
 
 // =========================================================================
 // SECCIÓN 3 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
