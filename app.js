@@ -520,6 +520,141 @@ document.addEventListener("click", function(e) {
     }
 }, true);
 
+// =========================================================================
+// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
+// =========================================================================
+function actualizarEnlaceUbicacion() {
+    const selector = document.getElementById("selectorHoja");
+    if (!selector) return;
+
+    const hojaSeleccionada = selector.value;
+    
+    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
+    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
+    if (hojaSeleccionada === "Gestor_Carpetas") {
+        console.log("Cediendo control total visual al archivo carpetas.js...");
+        return; 
+    }
+
+    const etiquetaEnlace = document.getElementById("enlaceDinamico");
+    const tituloFormulario = document.getElementById("formTitulo");
+
+    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
+    const c2 = document.getElementById("contenedorCampo2");
+    const c3 = document.getElementById("contenedorCampo3");
+    const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
+
+    // Elementos interactivos reales de tu HTML
+    const input2 = document.getElementById("txtSuperintendente");
+    const input3 = document.getElementById("txtTelefono");
+
+    // ENLACES EXTERNOS SELLADOS: Conectados al diccionario maestro sin tocar el diseño visual viejo
+    if (etiquetaEnlace) {
+        etiquetaEnlace.target = "_blank";
+        
+        const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
+        etiquetaEnlace.href = urlDestinoReal || "#";
+
+        if (hojaSeleccionada === "Hospitalidad") {
+            etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
+        } else if (hojaSeleccionada === "Superintendentes") {
+            etiquetaEnlace.innerHTML = "👥 Superintendentes";
+        } else if (hojaSeleccionada === "Seguridad") {
+            etiquetaEnlace.innerHTML = "🛡️ Seguridad";
+        } else {
+            const textoLimpio = hojaSeleccionada.replace(/_/g, " ");
+            etiquetaEnlace.innerHTML = `📚 ${textoLimpio}`;
+        }
+        console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
+    }
+
+    // RESTABLECIMIENTO UNIVERSAL DE VISIBILIDAD DE FÁBRICA
+    if (c2) c2.style.display = "flex";
+    if (c3) c3.style.display = "flex";
+    if (c4) c4.style.display = "flex";
+    if (c5) c5.style.display = "flex";
+    if (c6) c6.style.display = "flex";
+    if (c7) c7.style.display = "flex";
+    if (c8) c8.style.display = "flex";
+
+    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
+    if (hojaSeleccionada === "Hospitalidad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
+        if (lbl4) lbl4.innerText = "Dirección";
+
+        if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+
+    // 🌟 REPARACIÓN KLÁSICA SEGURO PARA SEGURIDAD (Oculta visualmente respetando los atributos del HTML)
+    } else if (hojaSeleccionada === "Seguridad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
+        if (lbl1) lbl1.innerText = "Fecha de Actualización";
+        
+        // Escondemos los bloques de forma limpia en la interfaz
+        if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
+        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+
+    } else if (hojaSeleccionada.includes("Estudios")) {
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
+        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
+
+    } else if (hojaSeleccionada.includes("Pastoreo")) {
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
+        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
+        
+    } else {
+        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
+        
+        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
+    }
+}
+
+// 🌟 INTERCEPTOR DE REDIRECCIÓN PROTECTOR (REEMPLAZA CUALQUIER ESCUDO ANTERIOR)
+// Al presionar el botón de enviar, si los campos requeridos ocultos de Seguridad están vacíos,
+// extrae de manera silenciosa los valores que la macro de Google Sheets envió originalmente 
+// y los inyecta en los inputs. El navegador valida el 'required' y Google Sheets no se borra.
+window.addEventListener("submit", function(evento) {
+    const selector = document.getElementById("selectorHoja");
+    if (selector && selector.value === "Seguridad") {
+        const input2 = document.getElementById("txtSuperintendente");
+        const input3 = document.getElementById("txtTelefono");
+
+        // Si están vacíos (debido al mapeo del botón Editar), rescatamos su valor original del backend
+        if (input2 && (input2.value === "" || input2.value === "-")) {
+            if (window.datosMaestrosSeguridad && window.datosMaestrosSeguridad[1]) {
+                input2.value = window.datosMaestrosSeguridad[1];
+            }
+        }
+        if (input3 && (input3.value === "" || input3.value === "-")) {
+            if (window.datosMaestrosSeguridad && window.datosMaestrosSeguridad[2]) {
+                input3.value = window.datosMaestrosSeguridad[2];
+            }
+        }
+        console.log("¡Sello de envío completado de forma transparente sin alterar requeridos!");
+    }
+}, true);
+
+// Registramos los datos originales en una variable global en memoria al recibir la respuesta de la API
+const proxyOriginal = recibirDatosDesdeGoogle;
+recibirDatosDesdeGoogle = function(json) {
+    const selector = document.getElementById("selectorHoja");
+    if (selector && selector.value === "Seguridad") {
+        let matriz = json && json.data ? json.data : json;
+        if (json && json.status === "success" && json.message && Array.isArray(json.message)) { matriz = json.message; }
+        
+        if (Array.isArray(matriz)) {
+            window.datosMaestrosSeguridad = matriz.map(f => Array.isArray(f) ? f[0] : f);
+        }
+    }
+    proxyOriginal(json);
+};
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
