@@ -112,7 +112,6 @@ function recibirDatosDesdeGoogle(json) {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
         
-    // 🌟 ENRUTADOR DINÁMICO: Títulos correspondientes para tu cuadrícula de Seguridad
     } else if (hojaActiva === "Seguridad") {
         encabezadosTextos = ["Grupo / Día", "Superintendente / Encargado", "Teléfono / Contacto"];
         llavesMapeo = ["grupo", "superintendente", "telefono"];
@@ -136,26 +135,27 @@ function recibirDatosDesdeGoogle(json) {
     // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
     // =========================================================================
     
-    // 🌟 1. CONFIGURACIÓN EXCLUSIVA PARA SEGURIDAD (Captura y alinea la celda A1)
+    // 🌟 1. CONFIGURACIÓN EXCLUSIVA PARA SEGURIDAD (Extracción vertical indexada de celdas)
     if (hojaActiva === "Seguridad") {
-        let textoLimpioA1 = "";
+        let celdasPlanas = [];
         
-        // Extraemos de forma ultra segura el contenido del primer registro vertical A1
-        if (Array.isArray(datosMatriz) && datosMatriz.length > 0) {
-            let itemUno = datosMatriz[0];
-            textoLimpioA1 = Array.isArray(itemUno) ? itemUno[0] : itemUno;
-        } else {
-            textoLimpioA1 = datosMatriz;
-        }
-        
-        // Empacamos el registro colocando el texto largo de A1 en la columna del centro
+        // Convertimos la matriz vertical de Google en una lista plana de textos
+        datosMatriz.forEach(fila => {
+            if (Array.isArray(fila)) {
+                celdasPlanas.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
+            } else {
+                celdasPlanas.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
+            }
+        });
+
+        // Asignamos las celdas verticales de la Columna A una a una a su respectiva columna horizontal
         let objetoFila = {
-            grupo: "Actualizado:", 
-            superintendente: textoLimpioA1 !== undefined && textoLimpioA1 !== null ? textoLimpioA1.toString().trim() : "", 
-            telefono: "Programa Activo" 
+            grupo: celdasPlanas[0] || "",            // Fila A1 -> Va a "Grupo / Día"
+            superintendente: celdasPlanas[1] || "", // Fila A2 -> Va a "Superintendente / Encargado"
+            telefono: celdasPlanas[2] || ""        // Fila A3 -> Va a "Teléfono / Contacto"
         };
         
-        // Llama a tu función original (Sección 3) usando el índice fijo 0
+        // Lo mandamos a pintar a la tabla con el índice 0 para habilitar la edición
         Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
 
     // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
@@ -219,6 +219,7 @@ function recibirDatosDesdeGoogle(json) {
         }
     }
 }
+
 
 // =========================================================================
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
