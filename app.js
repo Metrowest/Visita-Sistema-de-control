@@ -501,7 +501,7 @@ function actualizarEnlaceUbicacion() {
     const c3 = document.getElementById("contenedorCampo3");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
-    // Capturamos tus elementos HTML reales para controlarlos de forma directa
+    // Elementos interactivos reales del HTML
     const input2 = document.getElementById("txtSuperintendente");
     const input3 = document.getElementById("txtTelefono");
 
@@ -525,7 +525,7 @@ function actualizarEnlaceUbicacion() {
         console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    // 🌟 RESTABLECIMIENTO UNIVERSAL ORIGINAL DE VISIBILIDAD (Todos en flex)
+    // RESTABLECIMIENTO UNIVERSAL ORIGINAL DE VISIBILIDAD
     if (c2) c2.style.display = "flex";
     if (c3) c3.style.display = "flex";
     if (c4) c4.style.display = "flex";
@@ -533,12 +533,6 @@ function actualizarEnlaceUbicacion() {
     if (c6) c6.style.display = "flex";
     if (c7) c7.style.display = "flex";
     if (c8) c8.style.display = "flex";
-
-    // Si los campos ocultos tenían el autocompletado de seguridad, los limpiamos al cambiar de hoja
-    if (hojaSeleccionada !== "Seguridad") {
-        if (input2 && input2.value === "Seguridad_Fijo") input2.value = "";
-        if (input3 && input3.value === "Seguridad_Fijo") input3.value = "";
-    }
 
     // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
@@ -548,20 +542,14 @@ function actualizarEnlaceUbicacion() {
 
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-    // 🌟 REPARACIÓN KLÁSICA PARA SEGURIDAD (Oculta visualmente y rellena de forma transparente)
+    // 🌟 REPARACIÓN KLÁSICA PARA SEGURIDAD: Oculta visualmente
     } else if (hojaSeleccionada === "Seguridad") {
         if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
         if (lbl1) lbl1.innerText = "Fecha de Actualización";
         
-        // Escondemos los bloques en la interfaz del usuario
         if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-        // 🌟 EL TRUCO ORIGINAL DE LLENADO: Inyectamos un valor de escape en los campos ocultos. 
-        // El navegador verá que tienen datos, validará el 'required' y dejará enviar el formulario.
-        if (input2 && (input2.value === "" || !input2.value)) input2.value = "Seguridad_Fijo";
-        if (input3 && (input3.value === "" || !input3.value)) input3.value = "Seguridad_Fijo";
 
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
@@ -582,7 +570,24 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-
+// 🌟 ESCUDO DETECTOR DE ENVÍO DE FORMULARIO MAESTRO
+// Este bloque captura el clic del botón del formulario antes de que actúe la validación nativa.
+// Si estamos en la hoja "Seguridad", rellena con guiones las cajas invisibles al instante para que no den error.
+document.addEventListener("click", function(e) {
+    // Buscamos si lo que presionó el usuario fue el botón de enviar/guardar del formulario
+    if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
+        const selector = document.getElementById("selectorHoja");
+        if (selector && selector.value === "Seguridad") {
+            const input2 = document.getElementById("txtSuperintendente");
+            const input3 = document.getElementById("txtTelefono");
+            
+            // Si están vacíos, inyectamos un carácter de escape para engañar al navegador de forma segura
+            if (input2 && (input2.value === "" || !input2.value)) input2.value = "-";
+            if (input3 && (input3.value === "" || !input3.value)) input3.value = "-";
+            console.log("¡Escudo de envío activado! Rellenando campos invisibles de Seguridad para autorizar navegación.");
+        }
+    }
+}, true); // El parámetro true intercepta el evento de forma prioritaria en fase de captura
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
