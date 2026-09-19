@@ -12,7 +12,7 @@ let registroEditandoIndex = null;
 
 // 🌟 INYECTADO: Diccionario de tus páginas web externas para cada sección
 const ENLACES_HOJAS = {
-    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html(punto-superintendentes)",
+    "Superintendentes": "https://metrowest.github.io/Visita/desastre.html#punto-superintendentes",
     "Hospitalidad": "https://metrowest.github.io/Visita/Almuerzo.html",
     "Estudios Día 1": "https://metrowest.github.io/Visita/estudio1A.html",
     "Estudios Día 2": "https://metrowest.github.io/Visita/estudio2A.html",
