@@ -451,10 +451,50 @@ function cargarDatos() {
     if (hoja === "Pastoreo Dia 2") hoja = "Pastoreo Día 2";
     if (hoja === "Pastoreo Dia 3") hoja = "Pastoreo Día 3";
     
+    // =========================================================================
+    // 🌟 MOTOR AUTOMÁTICO DE ENRUTAMIENTO DE INPUTS (DESCONGELADOR DE FORMULARIO)
+    // Controla visualmente los campos superiores según la hoja seleccionada
+    // =========================================================================
+    const contenedorFormulario = document.getElementById("formularioEdicion") || document.querySelector(".form-group-seguridad")?.parentElement;
+    
+    if (hoja === "Seguridad") {
+        // CONDICIÓN SEGURIDAD: Esconde absolutamente todos los bloques de inputs tradicionales
+        // Buscamos los contenedores de los inputs mediante sus clases o elementos wrapper
+        const bloquesInputsGenerales = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div, label[for='txtSuperintendente'], label[for='txtTelefono']");
+        bloquesInputsGenerales.forEach(elemento => {
+            elemento.style.display = "none";
+        });
+        
+        // Ejecutamos el renderizado del input único de fecha en su contenedor asignado
+        renderSeguridad("formularioEdicion"); 
+
+    } else {
+        // CONDICIÓN OTRAS HOJAS: Removemos el input de seguridad si existía
+        const inputViejoSeguridad = document.getElementById("input-fecha-seguridad");
+        if (inputViejoSeguridad) {
+            inputViejoSeguridad.parentElement.remove();
+        }
+
+        // Restablecemos la visibilidad de los inputs base
+        const bloquesInputsGenerales = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div");
+        bloquesInputsGenerales.forEach(elemento => {
+            elemento.style.display = "block";
+        });
+
+        // 🌟 DINÁMICA DE EXPANSIÓN (3 a 8 inputs):
+        // Si la hoja requiere los 8 campos (como Estudios o Pastoreo), forzamos su visibilidad aquí
+        const camposExtendidos = document.querySelectorAll(".campo-oculto-inicial, .input-extra-modular");
+        if (hoja.includes("Estudios") || hoja.includes("Pastoreo")) {
+            camposExtendidos.forEach(campo => campo.style.display = "block");
+        } else {
+            camposExtendidos.forEach(campo => campo.style.display = "none");
+        }
+    }
+    // =========================================================================
+
     let urlConstruida = "";
 
     // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
-    // 🌟 MODIFICADO: Agregamos oficialmente la hoja "Seguridad" junto a las horizontales
     if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
@@ -473,45 +513,40 @@ function cargarDatos() {
 }
 
 // 🌟 ESCUDO DE RESCATE DINÁMICO DE DATOS (FINAL DE LA SECCIÓN 8.2.3)
-// Este bloque intercepta el envío. Si es Seguridad, rescata los datos originales
-// directamente de la respuesta que Google Sheets dejó guardada en la tabla para no borrarlos.
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         if (selector && selector.value === "Seguridad") {
-            const input2 = document.getElementById("txtSuperintendente");
-            const input3 = document.getElementById("txtTelefono");
+            const inputFecha = document.getElementById("input-fecha-seguridad");
             
-            // 🌟 EL SELLO DE RESCATE: Si los inputs están vacíos al dar clic, 
-            // extraemos los textos originales desde las celdas ocultas de la tabla en pantalla
-            if (input2 && (input2.value === "" || input2.value === "-")) {
-                // Buscamos la fila de la tabla y extraemos de forma segura el texto original
-                const filaTabla = document.querySelector("#tablaCuerpo tr");
-                if (filaTabla && filaTabla.cells && filaTabla.cells[1]) {
-                    const textoRescatado2 = filaTabla.cells[1].textContent || filaTabla.cells[1].innerText;
-                    if (textoRescatado2) input2.value = textoRescatado2.trim();
-                }
+            if (!inputFecha || !inputFecha.value) {
+                alert("Error: El campo de fecha de seguridad no puede estar vacío.");
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             }
             
-            if (input3 && (input3.value === "" || input3.value === "-")) {
-                const filaTabla = document.getElementById("tablaCuerpo")?.querySelector("tr");
-                if (filaTabla && filaTabla.cells && filaTabla.cells[2]) {
-                    const textoRescatado3 = filaTabla.cells[2].textContent || filaTabla.cells[2].innerText;
-                    if (textoRescatado3) input3.value = textoRescatado3.trim();
-                }
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const nuevaFecha = inputFecha.value;
+            const partes = nuevaFecha.split('-');
+            const fechaFormateada = `Actualizado ${partes[1]}/${partes[2]}/${partes[0]}`; // Formato MM/DD/YYYY
+            
+            const payloadSeguridad = {
+                hoja: "Seguridad",
+                celda: "A1",
+                valor: fechaFormateada,
+                soloCelda: true 
+            };
+            
+            if (typeof procesarPayloadLocal === 'function') {
+                procesarPayloadLocal(payloadSeguridad);
+            } else if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run
+                    .withSuccessHandler(() => alert("¡Celda A1 de Seguridad guardada con éxito!"))
+                    .actualizarCeldaA1Seguridad(fechaFormateada);
             }
-            
-            // Apagamos momentáneamente el required para evitar bloqueos del navegador
-            if (input2) input2.required = false;
-            if (input3) input3.required = false;
-            
-            console.log("¡Rescate de datos completado! Enviando: ", input2.value, input3.value);
-            
-            // Restauramos el estado obligatorio un instante después del envío
-            setTimeout(function() {
-                if (input2) input2.required = true;
-                if (input3) input3.required = true;
-            }, 500);
         }
     }
 }, true);
@@ -520,46 +555,40 @@ document.addEventListener("click", function(e) {
 // SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD'
 // ==========================================
 function renderSeguridad(containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-  // 1. Limpiamos únicamente el contenedor modular designado
-  container.innerHTML = '';
+    // Buscamos si ya existe el contenedor exclusivo para no duplicarlo en la pantalla
+    let formGroup = document.getElementById("bloque-exclusivo-seguridad");
+    if (!formGroup) {
+        formGroup = document.createElement('div');
+        formGroup.id = "bloque-exclusivo-seguridad";
+        formGroup.className = 'form-group-seguridad';
+        formGroup.style.display = 'block';
+        formGroup.style.padding = "15px 0";
 
-  // 2. FORZAR OCULTAMIENTO de los inputs genéricos del formulario superior
-  // Esto evita que aparezcan los campos que deben permanecer escondidos
-  const camposFormularioGeneral = document.querySelectorAll('.campo-formulario-general, #formularioEdicion input');
-  camposFormularioGeneral.forEach(input => {
-    if (input.id !== 'input-fecha-seguridad') {
-      input.style.display = 'none'; 
-      input.required = false; // Desactivamos validación nativa para que no cause congelamiento
+        const label = document.createElement('label');
+        label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
+        label.style.fontWeight = 'bold';
+        label.style.display = "block";
+        label.style.marginBottom = "8px";
+        
+        const inputFecha = document.createElement('input');
+        inputFecha.type = 'date';
+        inputFecha.id = 'input-fecha-seguridad';
+        inputFecha.required = true;
+        inputFecha.className = "form-control"; // Mantiene el estilo responsivo de tu app
+        
+        // Forzamos la fecha capturada en tu tabla "09/19/2026" por defecto para consistencia
+        inputFecha.value = "2026-09-19"; 
+
+        formGroup.appendChild(label);
+        formGroup.appendChild(inputFecha);
+        container.appendChild(formGroup);
     }
-  });
-
-  // 3. Crear el bloque del input único exclusivo de Seguridad
-  const formGroup = document.createElement('div');
-  formGroup.className = 'form-group-seguridad';
-  formGroup.style.display = 'block'; // Aseguramos su visibilidad en este módulo
-
-  const label = document.createElement('label');
-  label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
-  label.style.fontWeight = 'bold';
-  
-  const inputFecha = document.createElement('input');
-  inputFecha.type = 'date';
-  inputFecha.id = 'input-fecha-seguridad';
-  inputFecha.required = true; // Este campo sí es estrictamente obligatorio
-  // Inicializar con la fecha de hoy por defecto
-  inputFecha.value = new Date().toISOString().split('T')[0]; 
-
-  // Inyectamos el input en su cubículo modular
-  formGroup.appendChild(label);
-  formGroup.appendChild(inputFecha);
-  container.appendChild(formGroup);
-  
-  console.log("✅ Interfaz de Seguridad establecida: Inputs generales ocultados con éxito.");
+    
+    console.log("✅ Interfaz de Seguridad establecida: Formulario descongelado.");
 }
-
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
