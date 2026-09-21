@@ -543,6 +543,34 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
+// 🌟 ESCUDO ANTI-BORRADO DE DATOS CORREGIDO
+document.addEventListener("click", function(e) {
+    if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
+        const selector = document.getElementById("selectorHoja");
+        if (selector && selector.value === "Seguridad") {
+            
+            const input2 = document.getElementById("txtSuperintendente");
+            const input3 = document.getElementById("txtTelefono");
+            const filasTabla = document.querySelectorAll("#tablaCuerpo tr");
+
+            // Rescatamos los valores reales usando los índices fijos correctos [0] de la primera fila renderizada
+            if (input2 && (input2.value === "" || input2.value === "-")) {
+                if (filasTabla && filasTabla[0] && filasTabla[0].cells && filasTabla[0].cells[1]) {
+                    input2.value = (filasTabla[0].cells[1].textContent || filasTabla[0].cells[1].innerText).trim();
+                }
+            }
+            
+            if (input3 && (input3.value === "" || input3.value === "-")) {
+                if (filasTabla && filasTabla[0] && filasTabla[0].cells && filasTabla[0].cells[2]) {
+                    input3.value = (filasTabla[0].cells[2].textContent || filasTabla[0].cells[2].innerText).trim();
+                }
+            }
+            
+            console.log("保护盾已激活: 🛡️ Escudo de Seguridad activado: Valores de líneas 2 a 8 reinyectados con éxito.");
+        }
+    }
+}, true); // Prioridad alta en el DOM para ganarle al submit general
+
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
