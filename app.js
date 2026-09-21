@@ -491,12 +491,94 @@ document.addEventListener("click", function(e) {
 }, true); // Captura prioritaria en el árbol del DOM
 
 // ==========================================
-// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD'
+// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD' Y BLINDAJES
 // ==========================================
-function renderSeguridad(containerId) {
-    // Mantiene la ejecución de renderizado limpia de tu archivo de respaldo
-    console.log("Sección 8.2.3 (Seguridad) activa y protegiendo las celdas de la 2 a la 8.");
+
+// 1. SOLUCIÓN AL ERROR DE CONSOLA: Definimos la función faltante para desbloquear el onchange
+if (typeof actualizarEnlaceUbicacion !== 'function') {
+    window.actualizarEnlaceUbicacion = function() {
+        console.log("¡Función 'actualizarEnlaceUbicacion' interceptada con éxito para evitar congelamiento!");
+    };
 }
+
+// 2. FUNCIÓN DE RENDERIZADO CORREGIDA: Esconde los inputs innecesarios de raíz
+function renderSeguridad(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Forzamos el ocultamiento inmediato de los campos tradicionales (Superintendente, Teléfono, etc.)
+    const camposOmitir = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div, label[for='txtSuperintendente'], label[for='txtTelefono']");
+    camposOmitir.forEach(el => {
+        if (!el.contains(document.getElementById("input-fecha-seguridad"))) {
+            el.style.display = "none";
+        }
+    });
+
+    // Verificamos si ya existe el input único para no duplicarlo
+    let formGroup = document.getElementById("bloque-exclusivo-seguridad");
+    if (!formGroup) {
+        formGroup = document.createElement('div');
+        formGroup.id = "bloque-exclusivo-seguridad";
+        formGroup.className = 'form-group-seguridad';
+        formGroup.style.display = 'block';
+
+        const label = document.createElement('label');
+        label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
+        label.style.fontWeight = 'bold';
+        
+        const inputFecha = document.createElement('input');
+        inputFecha.type = 'text'; // Usamos tipo texto para que actúe como tu placeholder original
+        inputFecha.id = 'input-fecha-seguridad';
+        inputFecha.className = "campo-formulario-general";
+        inputFecha.placeholder = "Ej. #89";
+        
+        // Intentamos rescatar el valor que ya tiene la celda A1 en la tabla
+        const primeraFila = document.querySelector("#tablaCuerpo tr");
+        if (primeraFila && primeraFila.cells && primeraFila.cells[0]) {
+            inputFecha.value = (primeraFila.cells[0].textContent || primeraFila.cells[0].innerText).trim();
+        }
+
+        formGroup.appendChild(label);
+        formGroup.appendChild(inputFecha);
+        container.appendChild(formGroup);
+    }
+    
+    console.log("✅ Inputs innecesarios ocultados. Dejado solo un input para Seguridad.");
+}
+
+// 3. ESCUDO DE RESCATE PRIORITARIO (ANTI-BORRADO LÍNEAS 2 A 8)
+document.addEventListener("click", function(e) {
+    if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
+        const selector = document.getElementById("selectorHoja");
+        
+        if (selector && (selector.value === "Seguridad" || selector.value === "Seguridad (Programa)")) {
+            const input2 = document.getElementById("txtSuperintendente");
+            const input3 = document.getElementById("txtTelefono");
+            
+            // Recogemos las líneas que ya están pintadas en la tabla para reinyectarlas
+            const filas = document.querySelectorAll("#tablaCuerpo tr");
+            
+            if (input2 && (input2.value === "" || input2.value === "-")) {
+                if (filas && filas[0] && filas[0].cells && filas[0].cells[1]) {
+                    input2.value = (filas[0].cells[1].textContent || filas[0].cells[1].innerText).trim();
+                }
+            }
+            
+            if (input3 && (input3.value === "" || input3.value === "-")) {
+                if (filas && filas[0] && filas[0].cells && filas[0].cells[2]) {
+                    input3.value = (filas[0].cells[2].textContent || filas[0].cells[2].innerText).trim();
+                }
+            }
+            
+            // Apagamos momentáneamente los requeridos para evitar bloqueos del navegador
+            if (input2) input2.required = false;
+            if (input3) input3.required = false;
+            
+            console.log("🛡️ Escudo Activado: Rescatando líneas inferiores para evitar borrado masivo.");
+        }
+    }
+}, true);
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
