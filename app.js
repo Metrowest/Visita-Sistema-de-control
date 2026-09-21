@@ -506,6 +506,7 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
+
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -577,42 +578,45 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO PROTECTOR DE DATOS (FINAL ABSOLUTO DE LA SECCIÓN 8.2.3)
-// Intercepta el guardado EXCLUSIVAMENTE para Seguridad e inyecta los datos
-// originales de las filas inferiores antes de enviar, evitando que se borren.
+// 🌟 ESCUDO PROTECTOR DE DATOS CON CLÁUSULA TOTAL ANTI-VACÍO
 // =========================================================================
 document.addEventListener("click", function(e) {
-    // Detectamos si el clic fue en el botón de guardar o registrar
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         
-        // Operamos estrictamente si el usuario está en la hoja Seguridad
         if (selector && selector.value === "Seguridad") {
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
             
-            // Apuntamos a la primera fila de la tabla donde están tus datos estables en pantalla
+            // Localizamos la primera fila de datos reales en la tabla
             const primeraFila = document.querySelector("#tablaCuerpo tr");
 
-            if (primeraFila && primeraFila.cells) {
-                // Si el campo de la Línea 2 está vacío por estar oculto, le devolvemos su valor real de la tabla
-                if (input2 && (input2.value.trim() === "" || input2.value.trim() === "-")) {
-                    if (primeraFila.cells[1]) {
-                        input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
-                    }
-                }
-                
-                // Si el campo de la Línea 3 está vacío por estar oculto, le devolvemos su valor real de la tabla
-                if (input3 && (input3.value.trim() === "" || input3.value.trim() === "-")) {
-                    if (primeraFila.cells[2]) {
-                        input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
-                    }
+            // 🛑 FRENO ABSOLUTO INTERACTIVO: Si la tabla está vacía o cargando datos de Google Sheets, ABORTAMOS
+            if (!primeraFila || primeraFila.innerText.includes("Cargando") || !primeraFila.cells || primeraFila.cells.length < 2) {
+                alert("⚠️ Acción denegada por seguridad: Espera a que la base de datos de Google Sheets termine de cargar en la pantalla antes de guardar.");
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            // Si los campos están ocultos y vacíos, forzamos la reyección segura desde las celdas recuperadas del DOM
+            if (input2 && (input2.value.trim() === "" || input2.value.trim() === "-")) {
+                if (primeraFila.cells[1]) {
+                    input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
                 }
             }
-            console.log("🛡️ Escudo Anti-Borrado: Líneas de la 2 a la 8 rescatadas y protegidas para el envío.");
+            
+            if (input3 && (input3.value.trim() === "" || input3.value.trim() === "-")) {
+                if (primeraFila.cells[2]) {
+                    input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
+                }
+            }
+            
+            console.log("🛡️ Escudo Anti-Borrado: Líneas de la 2 a la 8 verificadas e inyectadas de forma segura.");
         }
     }
-}, true); // El parámetro 'true' fuerza a que este rescate ocurra ANTES de que app.js procese los datos vacíos
+}, true);
+
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
