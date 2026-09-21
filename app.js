@@ -490,94 +490,63 @@ document.addEventListener("click", function(e) {
     }
 }, true); // Captura prioritaria en el árbol del DOM
 
-// ==========================================
-// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD' Y BLINDAJES
-// ==========================================
+// =========================================================================
+// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD' Y ESCUDO ANTI-BORRADO DE LÍNEAS 2 A 8
+// =========================================================================
 
-// 1. SOLUCIÓN AL ERROR DE CONSOLA: Definimos la función faltante para desbloquear el onchange
-if (typeof actualizarEnlaceUbicacion !== 'function') {
-    window.actualizarEnlaceUbicacion = function() {
-        console.log("¡Función 'actualizarEnlaceUbicacion' interceptada con éxito para evitar congelamiento!");
-    };
-}
-
-// 2. FUNCIÓN DE RENDERIZADO CORREGIDA: Esconde los inputs innecesarios de raíz
-function renderSeguridad(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // Forzamos el ocultamiento inmediato de los campos tradicionales (Superintendente, Teléfono, etc.)
-    const camposOmitir = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div, label[for='txtSuperintendente'], label[for='txtTelefono']");
-    camposOmitir.forEach(el => {
-        if (!el.contains(document.getElementById("input-fecha-seguridad"))) {
-            el.style.display = "none";
-        }
-    });
-
-    // Verificamos si ya existe el input único para no duplicarlo
-    let formGroup = document.getElementById("bloque-exclusivo-seguridad");
-    if (!formGroup) {
-        formGroup = document.createElement('div');
-        formGroup.id = "bloque-exclusivo-seguridad";
-        formGroup.className = 'form-group-seguridad';
-        formGroup.style.display = 'block';
-
-        const label = document.createElement('label');
-        label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
-        label.style.fontWeight = 'bold';
-        
-        const inputFecha = document.createElement('input');
-        inputFecha.type = 'text'; // Usamos tipo texto para que actúe como tu placeholder original
-        inputFecha.id = 'input-fecha-seguridad';
-        inputFecha.className = "campo-formulario-general";
-        inputFecha.placeholder = "Ej. #89";
-        
-        // Intentamos rescatar el valor que ya tiene la celda A1 en la tabla
-        const primeraFila = document.querySelector("#tablaCuerpo tr");
-        if (primeraFila && primeraFila.cells && primeraFila.cells[0]) {
-            inputFecha.value = (primeraFila.cells[0].textContent || primeraFila.cells[0].innerText).trim();
-        }
-
-        formGroup.appendChild(label);
-        formGroup.appendChild(inputFecha);
-        container.appendChild(formGroup);
-    }
-    
-    console.log("✅ Inputs innecesarios ocultados. Dejado solo un input para Seguridad.");
-}
-
-// 3. ESCUDO DE RESCATE PRIORITARIO (ANTI-BORRADO LÍNEAS 2 A 8)
+// 1. ESCUDO DE RESCATE PRIORITARIO (Intercepta el clic en el botón antes de que app.js procese datos vacíos)
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         
+        // Verificamos de forma flexible si estamos parados en la sección de Seguridad
         if (selector && (selector.value === "Seguridad" || selector.value === "Seguridad (Programa)")) {
-            const input2 = document.getElementById("txtSuperintendente");
-            const input3 = document.getElementById("txtTelefono");
             
-            // Recogemos las líneas que ya están pintadas en la tabla para reinyectarlas
-            const filas = document.querySelectorAll("#tablaCuerpo tr");
+            // Localizamos el único input que se necesita usar para esta actualización (Celda A1)
+            const inputFechaSeguro = document.getElementById("input-fecha-seguridad") || document.querySelector("#formularioEdicion input[type='text']") || document.querySelector(".campo-formulario-general");
             
-            if (input2 && (input2.value === "" || input2.value === "-")) {
-                if (filas && filas[0] && filas[0].cells && filas[0].cells[1]) {
-                    input2.value = (filas[0].cells[1].textContent || filas[0].cells[1].innerText).trim();
-                }
+            if (!inputFechaSeguro || !inputFechaSeguro.value.trim()) {
+                alert("Error: El campo de fecha de seguridad no puede estar vacío.");
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             }
-            
-            if (input3 && (input3.value === "" || input3.value === "-")) {
-                if (filas && filas[0] && filas[0].cells && filas[0].cells[2]) {
-                    input3.value = (filas[0].cells[2].textContent || filas[0].cells[2].innerText).trim();
-                }
+
+            // 🛡️ ACCIÓN CRÍTICA DE PROTECCIÓN: Detenemos el envío general destructivo de app.js
+            e.preventDefault();
+            e.stopPropagation();
+
+            const valorA1 = inputFechaSeguro.value.trim();
+            console.log("🛡️ [Aislamiento Celda A1] Enviando payload controlado para proteger líneas de la 2 a la 8. Valor: " + valorA1);
+
+            // Estructura de payload purificada y aislada
+            const payloadSeguridad = {
+                hoja: "Seguridad",
+                celda: "A1",
+                valor: valorA1,
+                soloCelda: true // Bandera que frena el borrado de filas en el motor simulador
+            };
+
+            // Ejecución del guardado según el entorno activo de tu WebApp
+            if (typeof procesarPayloadLocal === 'function') {
+                procesarPayloadLocal(payloadSeguridad);
+            } else if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run
+                    .withSuccessHandler(() => alert("¡Fecha guardada correctamente! Las líneas 2 a la 8 se mantuvieron intactas."))
+                    .withFailureHandler((err) => alert("Error al guardar en el servidor: " + err))
+                    .actualizarCeldaA1Seguridad(valorA1);
+            } else {
+                console.log("Simulación ejecutada: ", payloadSeguridad);
+                alert("Modificado solo A1 en simulación. Datos inferiores a salvo.");
             }
-            
-            // Apagamos momentáneamente los requeridos para evitar bloqueos del navegador
-            if (input2) input2.required = false;
-            if (input3) input3.required = false;
-            
-            console.log("🛡️ Escudo Activado: Rescatando líneas inferiores para evitar borrado masivo.");
         }
     }
-}, true);
+}, true); // El parámetro 'true' es vital para ganarle la prioridad al evento nativo de app.js
+
+// 2. FUNCIÓN DE RENDERIZADO: Respeta tu diseño de respaldo
+function renderSeguridad(containerId) {
+    console.log("Sección 8.2.3 (Seguridad) activa. Interfaz original protegida con éxito.");
+}
 
 
 // =========================================================================
