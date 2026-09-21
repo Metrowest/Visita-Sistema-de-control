@@ -506,7 +506,6 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
-
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -578,14 +577,13 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO REDIRIGIDO ISOLADO (PREVIENE ABSOLUTAMENTE EL PROCESADO ESTRUCTURAL)
+// 🌟 ESCUDO REDIRIGIDO ISOLADO CON TRANSMISIÓN DIRECTA A LA NUBE (HTTP FETCH)
 // =========================================================================
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         
         if (selector && selector.value === "Seguridad") {
-            // Capturamos el input de la línea 1 (txtGrupo es el campo asignado por el motor)
             const input1 = document.getElementById("txtGrupo");
             
             if (!input1 || !input1.value.trim()) {
@@ -595,35 +593,36 @@ document.addEventListener("click", function(e) {
                 return false;
             }
 
-            // 🛑 EL CAMBIO DE RAÍZ: Bloqueamos por completo el paso a las líneas 263 y 282 de app.js
+            // Bloqueo prioritario absoluto para proteger las líneas de la 2 a la 8
             e.preventDefault();
             e.stopPropagation();
 
             const valorA1 = input1.value.trim();
             console.warn("🛡️ [Bypass Activado] Saltando motor estructural masivo. Transmitiendo exclusivamente celda A1.");
 
-            // Si estás corriendo en entorno de producción real con Google Apps Script:
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run
-                    .withSuccessHandler((respuesta) => {
-                        alert("¡Línea 1 actualizada con éxito! Las líneas de la 2 a la 8 están a salvo.");
-                        // Recargamos la tabla para ver el cambio reflejado en vivo
-                        if (typeof cargarDatos === "function") cargarDatos();
-                    })
-                    .withFailureHandler((err) => alert("Error en el servidor de Google Sheets: " + err))
-                    .actualizarCeldaA1Seguridad(valorA1); // Llama directo a tu macro especializada de A1
-            } else {
-                // Si estás en simulación local:
-                if (typeof procesarPayloadLocal === 'function') {
-                    procesarPayloadLocal({ hoja: "Seguridad", celda: "A1", valor: valorA1, soloCelda: true });
-                } else {
-                    console.log("Datos salvados en simulación aislada. Valor enviado: " + valorA1);
-                    alert("Simulación: Actualizado solo A1. Líneas inferiores protegidas.");
-                }
-            }
+            // CONEXIÓN DIRECTA VIA WEB API (Para entornos de simulación y producción basados en URL)
+            // Construimos la URL de inyección limpia para que impacte en tu Script de Google
+            const urlUpdateA1 = `${WEB_APP_URL}?accion=actualizar&hoja=Seguridad&celda=A1&valor=${encodeURIComponent(valorA1)}`;
+            
+            console.log("🚀 Transmitiendo actualización directa a la nube: " + urlUpdateA1);
+
+            // Inyección limpia mediante script de red tolerante (Evita bloqueos de CORS y simulación local vacía)
+            const scriptPuente = document.createElement("script");
+            scriptPuente.src = urlUpdateA1 + "&callback=recibirRespuestaA1";
+            
+            // Creamos una función global temporal para capturar el éxito del servidor de Google
+            window.recibirRespuestaA1 = function(respuesta) {
+                console.log("¡Respuesta del servidor recibida!", respuesta);
+                alert("¡Línea 1 actualizada con éxito! Las líneas de la 2 a la 8 están a salvo.");
+                scriptPuente.remove(); // Limpieza del DOM
+                if (typeof cargarDatos === "function") cargarDatos(); // Recargar la tabla en pantalla
+            };
+
+            // Ejecutamos la transmisión insertándolo en el documento
+            document.body.appendChild(scriptPuente);
         }
     }
-}, true); // El parámetro true intercepta el clic de manera prioritaria en el navegador
+}, true);
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
