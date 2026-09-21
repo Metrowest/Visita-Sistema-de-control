@@ -578,44 +578,52 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO PROTECTOR DE DATOS CON CLÁUSULA TOTAL ANTI-VACÍO
+// 🌟 ESCUDO REDIRIGIDO ISOLADO (PREVIENE ABSOLUTAMENTE EL PROCESADO ESTRUCTURAL)
 // =========================================================================
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         
         if (selector && selector.value === "Seguridad") {
-            const input2 = document.getElementById("txtSuperintendente");
-            const input3 = document.getElementById("txtTelefono");
+            // Capturamos el input de la línea 1 (txtGrupo es el campo asignado por el motor)
+            const input1 = document.getElementById("txtGrupo");
             
-            // Localizamos la primera fila de datos reales en la tabla
-            const primeraFila = document.querySelector("#tablaCuerpo tr");
-
-            // 🛑 FRENO ABSOLUTO INTERACTIVO: Si la tabla está vacía o cargando datos de Google Sheets, ABORTAMOS
-            if (!primeraFila || primeraFila.innerText.includes("Cargando") || !primeraFila.cells || primeraFila.cells.length < 2) {
-                alert("⚠️ Acción denegada por seguridad: Espera a que la base de datos de Google Sheets termine de cargar en la pantalla antes de guardar.");
+            if (!input1 || !input1.value.trim()) {
+                alert("Error: El campo Fecha / Estado no puede estar vacío.");
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
             }
 
-            // Si los campos están ocultos y vacíos, forzamos la reyección segura desde las celdas recuperadas del DOM
-            if (input2 && (input2.value.trim() === "" || input2.value.trim() === "-")) {
-                if (primeraFila.cells[1]) {
-                    input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
+            // 🛑 EL CAMBIO DE RAÍZ: Bloqueamos por completo el paso a las líneas 263 y 282 de app.js
+            e.preventDefault();
+            e.stopPropagation();
+
+            const valorA1 = input1.value.trim();
+            console.warn("🛡️ [Bypass Activado] Saltando motor estructural masivo. Transmitiendo exclusivamente celda A1.");
+
+            // Si estás corriendo en entorno de producción real con Google Apps Script:
+            if (typeof google !== 'undefined' && google.script && google.script.run) {
+                google.script.run
+                    .withSuccessHandler((respuesta) => {
+                        alert("¡Línea 1 actualizada con éxito! Las líneas de la 2 a la 8 están a salvo.");
+                        // Recargamos la tabla para ver el cambio reflejado en vivo
+                        if (typeof cargarDatos === "function") cargarDatos();
+                    })
+                    .withFailureHandler((err) => alert("Error en el servidor de Google Sheets: " + err))
+                    .actualizarCeldaA1Seguridad(valorA1); // Llama directo a tu macro especializada de A1
+            } else {
+                // Si estás en simulación local:
+                if (typeof procesarPayloadLocal === 'function') {
+                    procesarPayloadLocal({ hoja: "Seguridad", celda: "A1", valor: valorA1, soloCelda: true });
+                } else {
+                    console.log("Datos salvados en simulación aislada. Valor enviado: " + valorA1);
+                    alert("Simulación: Actualizado solo A1. Líneas inferiores protegidas.");
                 }
             }
-            
-            if (input3 && (input3.value.trim() === "" || input3.value.trim() === "-")) {
-                if (primeraFila.cells[2]) {
-                    input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
-                }
-            }
-            
-            console.log("🛡️ Escudo Anti-Borrado: Líneas de la 2 a la 8 verificadas e inyectadas de forma segura.");
         }
     }
-}, true);
+}, true); // El parámetro true intercepta el clic de manera prioritaria en el navegador
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
