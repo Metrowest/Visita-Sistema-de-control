@@ -506,6 +506,7 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
+
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -577,52 +578,41 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO REDIRIGIDO ISOLADO CON TRANSMISIÓN DIRECTA A LA NUBE (HTTP FETCH)
+// 🌟 ESCUDO REPARADO: ASIGNACIÓN PRE-TRANSMISIÓN PARA CELDAS DEL DOM
 // =========================================================================
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         
         if (selector && selector.value === "Seguridad") {
-            const input1 = document.getElementById("txtGrupo");
+            const input2 = document.getElementById("txtSuperintendente");
+            const input3 = document.getElementById("txtTelefono");
             
-            if (!input1 || !input1.value.trim()) {
-                alert("Error: El campo Fecha / Estado no puede estar vacío.");
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
+            // Accedemos a las filas reales cargadas de la tabla
+            const filas = document.querySelectorAll("#tablaCuerpo tr");
+
+            if (filas && filas.length > 0) {
+                // Buscamos la fila 2 para el Superintendente
+                if (input2 && (input2.value.trim() === "" || input2.value.trim() === "-")) {
+                    const fila2 = filas[1] || filas[0]; 
+                    if (fila2 && fila2.cells && fila2.cells[1]) {
+                        input2.value = (fila2.cells[1].textContent || fila2.cells[1].innerText).trim();
+                    }
+                }
+                
+                // Buscamos la fila 3 para el Teléfono / Campo inferior
+                if (input3 && (input3.value.trim() === "" || input3.value.trim() === "-")) {
+                    const fila3 = filas[2] || filas[0];
+                    if (fila3 && fila3.cells && fila3.cells[1]) {
+                        input3.value = (fila3.cells[1].textContent || fila3.cells[1].innerText).trim();
+                    }
+                }
             }
-
-            // Bloqueo prioritario absoluto para proteger las líneas de la 2 a la 8
-            e.preventDefault();
-            e.stopPropagation();
-
-            const valorA1 = input1.value.trim();
-            console.warn("🛡️ [Bypass Activado] Saltando motor estructural masivo. Transmitiendo exclusivamente celda A1.");
-
-            // CONEXIÓN DIRECTA VIA WEB API (Para entornos de simulación y producción basados en URL)
-            // Construimos la URL de inyección limpia para que impacte en tu Script de Google
-            const urlUpdateA1 = `${WEB_APP_URL}?accion=actualizar&hoja=Seguridad&celda=A1&valor=${encodeURIComponent(valorA1)}`;
             
-            console.log("🚀 Transmitiendo actualización directa a la nube: " + urlUpdateA1);
-
-            // Inyección limpia mediante script de red tolerante (Evita bloqueos de CORS y simulación local vacía)
-            const scriptPuente = document.createElement("script");
-            scriptPuente.src = urlUpdateA1 + "&callback=recibirRespuestaA1";
-            
-            // Creamos una función global temporal para capturar el éxito del servidor de Google
-            window.recibirRespuestaA1 = function(respuesta) {
-                console.log("¡Respuesta del servidor recibida!", respuesta);
-                alert("¡Línea 1 actualizada con éxito! Las líneas de la 2 a la 8 están a salvo.");
-                scriptPuente.remove(); // Limpieza del DOM
-                if (typeof cargarDatos === "function") cargarDatos(); // Recargar la tabla en pantalla
-            };
-
-            // Ejecutamos la transmisión insertándolo en el documento
-            document.body.appendChild(scriptPuente);
+            console.log("🛡️ Escudo Completado: Datos preexistentes inyectados en los inputs ocultos. Procesando transmisión nativa...");
         }
     }
-}, true);
+}, true); // Prioridad de intercepción alta
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
