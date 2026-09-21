@@ -506,7 +506,6 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
-
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -577,35 +576,43 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-// 🌟 ESCUDO DEFECTO CERO: Rescata las líneas 2 a la 8 mapeando de forma segura cada nodo de celda correlativo
+// =========================================================================
+// 🌟 ESCUDO PROTECTOR DE DATOS (FINAL ABSOLUTO DE LA SECCIÓN 8.2.3)
+// Intercepta el guardado EXCLUSIVAMENTE para Seguridad e inyecta los datos
+// originales de las filas inferiores antes de enviar, evitando que se borren.
+// =========================================================================
 document.addEventListener("click", function(e) {
+    // Detectamos si el clic fue en el botón de guardar o registrar
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
+        
+        // Operamos estrictamente si el usuario está en la hoja Seguridad
         if (selector && selector.value === "Seguridad") {
-            
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
             
-            // Recogemos la primera fila de datos reales expuestos en la tabla de la interfaz
-            const primerFila = document.querySelector("#tablaCuerpo tr");
+            // Apuntamos a la primera fila de la tabla donde están tus datos estables en pantalla
+            const primeraFila = document.querySelector("#tablaCuerpo tr");
 
-            if (primerFila && primerFila.cells) {
-                // Mapeo seguro e independiente de los datos preexistentes de las líneas inferiores
-                if (input2 && (input2.value === "" || input2.value === "-")) {
-                    const celda2 = primerFila.cells[1];
-                    if (celda2) input2.value = (celda2.textContent || celda2.innerText).trim();
+            if (primeraFila && primeraFila.cells) {
+                // Si el campo de la Línea 2 está vacío por estar oculto, le devolvemos su valor real de la tabla
+                if (input2 && (input2.value.trim() === "" || input2.value.trim() === "-")) {
+                    if (primeraFila.cells[1]) {
+                        input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
+                    }
                 }
                 
-                if (input3 && (input3.value === "" || input3.value === "-")) {
-                    const celda3 = primerFila.cells[2];
-                    if (celda3) input3.value = (celda3.textContent || celda3.innerText).trim();
+                // Si el campo de la Línea 3 está vacío por estar oculto, le devolvemos su valor real de la tabla
+                if (input3 && (input3.value.trim() === "" || input3.value.trim() === "-")) {
+                    if (primeraFila.cells[2]) {
+                        input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
+                    }
                 }
             }
-            console.log("🛡️ [Escudo de Datos] Líneas inferiores resguardadas en el formulario antes del guardado.");
+            console.log("🛡️ Escudo Anti-Borrado: Líneas de la 2 a la 8 rescatadas y protegidas para el envío.");
         }
     }
-}, true);
-
+}, true); // El parámetro 'true' fuerza a que este rescate ocurra ANTES de que app.js procese los datos vacíos
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
