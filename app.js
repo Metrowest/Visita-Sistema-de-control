@@ -434,14 +434,15 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
     document.body.appendChild(script);
 }
 
+
 // =========================================================================
-// SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLERANTE
+// SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
 // Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
 // =========================================================================
 function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
-    
+
     // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
     let hoja = hojaRaw.replace(/_/g, " ");
     if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
@@ -450,57 +451,16 @@ function cargarDatos() {
     if (hoja === "Pastoreo Dia 1") hoja = "Pastoreo Día 1";
     if (hoja === "Pastoreo Dia 2") hoja = "Pastoreo Día 2";
     if (hoja === "Pastoreo Dia 3") hoja = "Pastoreo Día 3";
-    
-    // =========================================================================
-    // 🌟 MOTOR AUTOMÁTICO DE ENRUTAMIENTO DE INPUTS (DESCONGELADOR DE FORMULARIO)
-    // Controla visualmente los campos superiores según la hoja seleccionada
-    // =========================================================================
-    const contenedorFormulario = document.getElementById("formularioEdicion") || document.querySelector(".form-group-seguridad")?.parentElement;
-    
-    if (hoja === "Seguridad") {
-        // CONDICIÓN SEGURIDAD: Esconde absolutamente todos los bloques de inputs tradicionales
-        // Buscamos los contenedores de los inputs mediante sus clases o elementos wrapper
-        const bloquesInputsGenerales = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div, label[for='txtSuperintendente'], label[for='txtTelefono']");
-        bloquesInputsGenerales.forEach(elemento => {
-            elemento.style.display = "none";
-        });
-        
-        // Ejecutamos el renderizado del input único de fecha en su contenedor asignado
-        renderSeguridad("formularioEdicion"); 
-
-    } else {
-        // CONDICIÓN OTRAS HOJAS: Removemos el input de seguridad si existía
-        const inputViejoSeguridad = document.getElementById("input-fecha-seguridad");
-        if (inputViejoSeguridad) {
-            inputViejoSeguridad.parentElement.remove();
-        }
-
-        // Restablecemos la visibilidad de los inputs base
-        const bloquesInputsGenerales = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div");
-        bloquesInputsGenerales.forEach(elemento => {
-            elemento.style.display = "block";
-        });
-
-        // 🌟 DINÁMICA DE EXPANSIÓN (3 a 8 inputs):
-        // Si la hoja requiere los 8 campos (como Estudios o Pastoreo), forzamos su visibilidad aquí
-        const camposExtendidos = document.querySelectorAll(".campo-oculto-inicial, .input-extra-modular");
-        if (hoja.includes("Estudios") || hoja.includes("Pastoreo")) {
-            camposExtendidos.forEach(campo => campo.style.display = "block");
-        } else {
-            camposExtendidos.forEach(campo => campo.style.display = "none");
-        }
-    }
-    // =========================================================================
 
     let urlConstruida = "";
 
     // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
+    if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
-        
+
     } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
         urlConstruida = `${WEB_APP_URL}?accion=leerVertical&hoja=${encodeURIComponent(hoja)}`;
-        
+
     } else if (hoja === "Pastoreo Día 1" || hoja === "Pastoreo Día 2" || hoja === "Pastoreo Día 3") {
         urlConstruida = `${WEB_APP_URL}?accion=leerVertical&hoja=${encodeURIComponent(hoja)}`;
     }
@@ -512,82 +472,75 @@ function cargarDatos() {
     }
 }
 
-// 🌟 ESCUDO DE RESCATE DINÁMICO DE DATOS (FINAL DE LA SECCIÓN 8.2.3)
-document.addEventListener("click", function(e) {
-    if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
-        const selector = document.getElementById("selectorHoja");
-        if (selector && selector.value === "Seguridad") {
-            const inputFecha = document.getElementById("input-fecha-seguridad");
-            
-            if (!inputFecha || !inputFecha.value) {
-                alert("Error: El campo de fecha de seguridad no puede estar vacío.");
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-            
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const nuevaFecha = inputFecha.value;
-            const partes = nuevaFecha.split('-');
-            const fechaFormateada = `Actualizado ${partes[1]}/${partes[2]}/${partes[0]}`; // Formato MM/DD/YYYY
-            
-            const payloadSeguridad = {
-                hoja: "Seguridad",
-                celda: "A1",
-                valor: fechaFormateada,
-                soloCelda: true 
-            };
-            
-            if (typeof procesarPayloadLocal === 'function') {
-                procesarPayloadLocal(payloadSeguridad);
-            } else if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run
-                    .withSuccessHandler(() => alert("¡Celda A1 de Seguridad guardada con éxito!"))
-                    .actualizarCeldaA1Seguridad(fechaFormateada);
-            }
+// =========================================================================
+// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
+// =========================================================================
+function actualizarEnlaceUbicacion() {
+    const selector = document.getElementById("selectorHoja");
+    if (!selector) return;
+
+    const hojaSeleccionada = selector.value;
+
+    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
+    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
+    if (hojaSeleccionada === "Gestor_Carpetas") {
+        console.log("Cediendo control total visual al archivo carpetas.js...");
+        return;
+    }
+
+    const etiquetaEnlace = document.getElementById("enlaceDinamico");
+    const tituloFormulario = document.getElementById("formTitulo");
+
+    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
+    const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
+
+    if (etiquetaEnlace) {
+        etiquetaEnlace.target = "_blank";
+        if (hojaSeleccionada === "Hospitalidad") {
+            etiquetaEnlace.href = "https://github.io";
+            etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
+        } else if (hojaSeleccionada === "Superintendentes") {
+            etiquetaEnlace.href = "https://github.io";
+            etiquetaEnlace.innerHTML = "👥 Superintendentes";
+        } else {
+            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
+            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
         }
     }
-}, true);
 
-// ==========================================
-// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD'
-// ==========================================
-function renderSeguridad(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
+    if (hojaSeleccionada === "Hospitalidad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
+        if (lbl4) lbl4.innerText = "Dirección";
 
-    // Buscamos si ya existe el contenedor exclusivo para no duplicarlo en la pantalla
-    let formGroup = document.getElementById("bloque-exclusivo-seguridad");
-    if (!formGroup) {
-        formGroup = document.createElement('div');
-        formGroup.id = "bloque-exclusivo-seguridad";
-        formGroup.className = 'form-group-seguridad';
-        formGroup.style.display = 'block';
-        formGroup.style.padding = "15px 0";
+        if (c4) c4.style.display = "flex";
+        if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-        const label = document.createElement('label');
-        label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
-        label.style.fontWeight = 'bold';
-        label.style.display = "block";
-        label.style.marginBottom = "8px";
-        
-        const inputFecha = document.createElement('input');
-        inputFecha.type = 'date';
-        inputFecha.id = 'input-fecha-seguridad';
-        inputFecha.required = true;
-        inputFecha.className = "form-control"; // Mantiene el estilo responsivo de tu app
-        
-        // Forzamos la fecha capturada en tu tabla "09/19/2026" por defecto para consistencia
-        inputFecha.value = "2026-09-19"; 
+    } else if (hojaSeleccionada.includes("Estudios")) {
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
+        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
 
-        formGroup.appendChild(label);
-        formGroup.appendChild(inputFecha);
-        container.appendChild(formGroup);
+        if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
+        if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
+
+    } else if (hojaSeleccionada.includes("Pastoreo")) {
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
+        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
+
+        if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
+        if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
+
+    } else {
+        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
+
+        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
-    
-    console.log("✅ Interfaz de Seguridad establecida: Formulario descongelado.");
 }
 
 // =========================================================================
