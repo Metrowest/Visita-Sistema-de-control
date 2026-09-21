@@ -587,19 +587,20 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO PROTECTOR DE REYCCIÓN (FINAL DE LA SECCIÓN 8.2.3)
-// Intercepta el clic en el botón. Si es Seguridad, rescata los datos de las lineas
-// de la 2 a la 8 directamente desde el array de datos de la tabla para no borrarlos.
+// 🌟 ESCUDO PROTECTOR AUTOMÁTICO SÍNCRONO POR INTERCEPCIÓN EN EL FORMULARIO
+// Obliga de forma inmediata al DOM a rellenar los datos antes del procesado de la app.js
 // =========================================================================
-document.addEventListener("click", function(e) {
-    if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
+(function blindarFormularioSeguridad() {
+    const formulario = document.getElementById("formularioEdicion") || document.querySelector("form");
+    if (!formulario) return;
+
+    formulario.addEventListener("submit", function(e) {
         const selector = document.getElementById("selectorHoja");
         if (selector && selector.value === "Seguridad") {
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
             
-            // Si los inputs ocultos están vacíos al dar clic, les devolvemos su valor real
-            // de la primera fila estable renderizada en la tabla
+            // Forzamos síncronamente la extracción directa de las filas cargadas antes del empaquetado
             const primeraFila = document.querySelector("#tablaCuerpo tr");
             if (primeraFila && primeraFila.cells) {
                 if (input2 && (input2.value === "" || input2.value === "-")) {
@@ -613,10 +614,10 @@ document.addEventListener("click", function(e) {
                     }
                 }
             }
-            console.log("🛡️ Escudo de Rescate completado: Datos originales de la 2 a la 8 inyectados para el envío.");
+            console.log("🛡️ [Sincronización Crítica] Líneas de la 2 a la 8 reinyectadas exitosamente en el DOM justo antes del submit.");
         }
-    }
-}, true); // El parámetro true le da prioridad absoluta sobre el submit del motor general
+    }, false); // Usamos fase normal para que ocurra exactamente al gatillar el envío nativo del formulario
+})();
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
