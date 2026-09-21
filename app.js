@@ -374,10 +374,6 @@ function Secc53_1_ActivarBorradoPuente(index) {
     script.src = `${WEB_APP_URL}?accion=borrar&hoja=${encodeURIComponent(hoja)}&index=${index}`;
     document.body.appendChild(script);
 }
-// =========================================================================
-// SECCIÓN 8: PUENTES DE COMPATIBILIDAD GLOBAL Y ESCUCHAS DE EVENTOS (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DEL ARCHIVO APP.JS
-// =========================================================================
 
 // =========================================================================
 // SECCIÓN 8: PUENTES DE COMPATIBILIDAD GLOBAL Y ESCUCHAS DE EVENTOS (APP.JS)
@@ -520,142 +516,69 @@ document.addEventListener("click", function(e) {
     }
 }, true);
 
-// =========================================================================
-// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
-// =========================================================================
-function actualizarEnlaceUbicacion() {
-    const selector = document.getElementById("selectorHoja");
-    if (!selector) return;
+// ==========================================
+// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD'
+// ==========================================
+function renderSeguridad(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
-    const hojaSeleccionada = selector.value;
-    
-    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
-    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
-    if (hojaSeleccionada === "Gestor_Carpetas") {
-        console.log("Cediendo control total visual al archivo carpetas.js...");
-        return; 
-    }
+  // 1. Limpiar contenedor de la interfaz gráfica únicamente
+  container.innerHTML = '';
 
-    const etiquetaEnlace = document.getElementById("enlaceDinamico");
-    const tituloFormulario = document.getElementById("formTitulo");
+  // 2. Crear estructura del input único en pantalla
+  const formGroup = document.createElement('div');
+  formGroup.className = 'form-group-seguridad';
 
-    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
-    const c2 = document.getElementById("contenedorCampo2");
-    const c3 = document.getElementById("contenedorCampo3");
-    const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
+  const label = document.createElement('label');
+  label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
+  
+  const inputFecha = document.createElement('input');
+  inputFecha.type = 'date';
+  inputFecha.id = 'input-fecha-seguridad';
+  // Inicializa con la fecha actual del sistema
+  inputFecha.value = new Date().toISOString().split('T')[0]; 
 
-    // Elementos interactivos reales de tu HTML
-    const input2 = document.getElementById("txtSuperintendente");
-    const input3 = document.getElementById("txtTelefono");
+  const btnActualizar = document.createElement('button');
+  btnActualizar.className = 'btn-submit-seguridad';
+  btnActualizar.innerText = 'Actualizar A1';
 
-    // ENLACES EXTERNOS SELLADOS: Conectados al diccionario maestro sin tocar el diseño visual viejo
-    if (etiquetaEnlace) {
-        etiquetaEnlace.target = "_blank";
-        const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
-        etiquetaEnlace.href = urlDestinoReal || "#";
+  // 3. Manejador del evento con desvío (Bypass) del flujo general
+  btnActualizar.addEventListener('click', () => {
+    const nuevaFecha = inputFecha.value;
+    if (!nuevaFecha) return alert('Por favor, selecciona una fecha.');
 
-        if (hojaSeleccionada === "Hospitalidad") {
-            etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
-        } else if (hojaSeleccionada === "Superintendentes") {
-            etiquetaEnlace.innerHTML = "👥 Superintendentes";
-        } else if (hojaSeleccionada === "Seguridad") {
-            etiquetaEnlace.innerHTML = "🛡️ Seguridad";
-        } else {
-            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada.replace(/_/g, " ")}`;
-        }
-    }
+    // Formateamos la fecha para el payload simulado
+    const fechaFormateada = `Actualizado ${nuevaFecha.split('-')[1]}/${nuevaFecha.split('-')[2]}/${nuevaFecha.split('-')[0]}`;
 
-    // RESTABLECIMIENTO UNIVERSAL DE VISIBILIDAD DE FÁBRICA (Limpia el desorden de inputs extras)
-    if (c2) c2.style.display = "flex"; if (c3) c3.style.display = "flex";
-    if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
-    if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
+    console.warn('⚠️ [Bypass Seguridad] Evitando flujo general de app.js para proteger celdas inferiores.');
 
-    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
-    if (hojaSeleccionada === "Hospitalidad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
-        if (lbl4) lbl4.innerText = "Dirección";
-        if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+    // DETALLE CRUCIAL: Estructura de payload específica de celda única
+    const payloadSeguridad = {
+      hoja: "Seguridad",
+      celda: "A1",
+      valor: fechaFormateada,
+      soloCelda: true // Bandera lógica para indicarle a tu simulación que NO use el limpiador masivo
+    };
 
-    // 🌟 REPARACIÓN ESTRUCTURAL LIMPIA PARA SEGURIDAD: Muestra 1 solo input en la interfaz
-    } else if (hojaSeleccionada === "Seguridad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Actualizar Registro (Seguridad)";
-        if (lbl1) lbl1.innerText = "Fecha de Actualización";
-        
-        // Ocultamos de forma limpia los campos del 2 al 8 en pantalla
-        if (c2) c2.style.display = "none"; if (c3) c3.style.display = "none";
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-    } else if (hojaSeleccionada.includes("Estudios")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
-        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
-
-    } else if (hojaSeleccionada.includes("Pastoreo")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
-        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
-        
+    // Llamada directa a tu procesador de simulación (Línea 651 aproximadamente)
+    // Pasamos explícitamente el objeto configurado para una sola celda
+    if (typeof procesarPayloadLocal === 'function') {
+      procesarPayloadLocal(payloadSeguridad);
     } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-        if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
+      // Si va directo a Google Sheets en producción:
+      google.script.run
+        .withSuccessHandler(() => alert('¡Celda A1 actualizada de forma aislada!'))
+        .actualizarCeldaA1Seguridad(fechaFormateada);
     }
+  });
+
+  // Renderizar en la interfaz
+  formGroup.appendChild(label);
+  formGroup.appendChild(inputFecha);
+  formGroup.appendChild(btnActualizar);
+  container.appendChild(formGroup);
 }
-
-// 🌟 ACCIÓN ATÓMICA AISLADA PARA LA HOJA SEGURIDAD (CORREGIDA)
-// Intercepta el envío nativo. Si es Seguridad, cancela el guardado masivo antiguo,
-// limpia textos duplicados y actualiza estrictamente la celda A1.
-window.addEventListener("submit", function(evento) {
-    const selector = document.getElementById("selectorHoja");
-    if (selector && selector.value === "Seguridad") {
-        // Detener por completo el envío masivo tradicional de la app para evitar duplicados y borrados
-        evento.preventDefault();
-        evento.stopPropagation();
-
-        // Detectar el input correcto de la interfaz
-        const inputFecha = document.getElementById("txtGrupo") || document.getElementById("txtCampo1"); 
-        if (!inputFecha || inputFecha.value.trim() === "") {
-            alert("Por favor, introduzca una fecha válida.");
-            return;
-        }
-
-        // Limpiamos el valor: si ya trae la palabra "Actualizado", la removemos para no duplicarla
-        let fechaLimpia = inputFecha.value.replace(/Actualizado\s*/g, "").trim();
-        const valorFinal = "Actualizado " + fechaLimpia;
-
-        const payload = {
-            hoja: "Seguridad",
-            celda: "A1",
-            valor: valorFinal
-        };
-
-        // EJECUCIÓN EN ENTORNO PRODUCTION DE GOOGLE SHEETS
-        if (typeof google !== "undefined" && google.script && google.script.run) {
-            google.script.run
-                .withSuccessHandler(function() {
-                    alert("¡Celda A1 de Seguridad actualizada con éxito!");
-                })
-                .withFailureHandler(function(err) {
-                    alert("Error al actualizar la celda: " + err);
-                })
-                .actualizarCeldaUnicaSheets(payload);
-        } else if (typeof googleScriptRunSimulador === "function") {
-            // Soporte para entorno de desarrollo local con simulador externo
-            googleScriptRunSimulador("actualizarCeldaUnicaSheets", payload);
-        } else {
-            // Intento de ejecución directa por si está declarado globalmente
-            console.log("Entorno local / Simulación. Payload procesado:", payload);
-            if (typeof actualizarCeldaUnicaSheets === "function") {
-                actualizarCeldaUnicaSheets(payload);
-            }
-        }
-    }
-}, true);
-
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
