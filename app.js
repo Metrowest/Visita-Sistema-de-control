@@ -578,7 +578,7 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO REPARADO: ASIGNACIÓN PRE-TRANSMISIÓN PARA CELDAS DEL DOM
+// 🌟 ESCUDO ANTI-BORRADO MEDIANTE INYECCIÓN DE VALORES ESTABLES
 // =========================================================================
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
@@ -587,32 +587,20 @@ document.addEventListener("click", function(e) {
         if (selector && selector.value === "Seguridad") {
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
-            
-            // Accedemos a las filas reales cargadas de la tabla
-            const filas = document.querySelectorAll("#tablaCuerpo tr");
 
-            if (filas && filas.length > 0) {
-                // Buscamos la fila 2 para el Superintendente
-                if (input2 && (input2.value.trim() === "" || input2.value.trim() === "-")) {
-                    const fila2 = filas[1] || filas[0]; 
-                    if (fila2 && fila2.cells && fila2.cells[1]) {
-                        input2.value = (fila2.cells[1].textContent || fila2.cells[1].innerText).trim();
-                    }
-                }
-                
-                // Buscamos la fila 3 para el Teléfono / Campo inferior
-                if (input3 && (input3.value.trim() === "" || input3.value.trim() === "-")) {
-                    const fila3 = filas[2] || filas[0];
-                    if (fila3 && fila3.cells && fila3.cells[1]) {
-                        input3.value = (fila3.cells[1].textContent || fila3.cells[1].innerText).trim();
-                    }
-                }
+            // 🛡️ REINYECCIÓN AUTOMÁTICA FIJA: Rellenamos con guiones o valores estables
+            // Esto evita que el motor envíe strings vacíos y borre las filas en Google Sheets
+            if (input2 && (!input2.value.trim() || input2.value === "-")) {
+                input2.value = "-"; 
             }
-            
-            console.log("🛡️ Escudo Completado: Datos preexistentes inyectados en los inputs ocultos. Procesando transmisión nativa...");
+            if (input3 && (!input3.value.trim() || input3.value === "-")) {
+                input3.value = "-";
+            }
+
+            console.log("🛡️ Escudo de Seguridad activado: Campos inyectados con valores estables para blindar las líneas de la 2 a la 8.");
         }
     }
-}, true); // Prioridad de intercepción alta
+}, true); // Parámetro true para adelantarse al envío masivo de la app
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
