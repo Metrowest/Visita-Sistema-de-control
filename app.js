@@ -523,62 +523,43 @@ function renderSeguridad(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  // 1. Limpiar contenedor de la interfaz gráfica únicamente
+  // 1. Limpiamos únicamente el contenedor modular designado
   container.innerHTML = '';
 
-  // 2. Crear estructura del input único en pantalla
+  // 2. FORZAR OCULTAMIENTO de los inputs genéricos del formulario superior
+  // Esto evita que aparezcan los campos que deben permanecer escondidos
+  const camposFormularioGeneral = document.querySelectorAll('.campo-formulario-general, #formularioEdicion input');
+  camposFormularioGeneral.forEach(input => {
+    if (input.id !== 'input-fecha-seguridad') {
+      input.style.display = 'none'; 
+      input.required = false; // Desactivamos validación nativa para que no cause congelamiento
+    }
+  });
+
+  // 3. Crear el bloque del input único exclusivo de Seguridad
   const formGroup = document.createElement('div');
   formGroup.className = 'form-group-seguridad';
+  formGroup.style.display = 'block'; // Aseguramos su visibilidad en este módulo
 
   const label = document.createElement('label');
   label.innerText = 'Actualizar Fecha de Seguridad (Celda A1):';
+  label.style.fontWeight = 'bold';
   
   const inputFecha = document.createElement('input');
   inputFecha.type = 'date';
   inputFecha.id = 'input-fecha-seguridad';
-  // Inicializa con la fecha actual del sistema
+  inputFecha.required = true; // Este campo sí es estrictamente obligatorio
+  // Inicializar con la fecha de hoy por defecto
   inputFecha.value = new Date().toISOString().split('T')[0]; 
 
-  const btnActualizar = document.createElement('button');
-  btnActualizar.className = 'btn-submit-seguridad';
-  btnActualizar.innerText = 'Actualizar A1';
-
-  // 3. Manejador del evento con desvío (Bypass) del flujo general
-  btnActualizar.addEventListener('click', () => {
-    const nuevaFecha = inputFecha.value;
-    if (!nuevaFecha) return alert('Por favor, selecciona una fecha.');
-
-    // Formateamos la fecha para el payload simulado
-    const fechaFormateada = `Actualizado ${nuevaFecha.split('-')[1]}/${nuevaFecha.split('-')[2]}/${nuevaFecha.split('-')[0]}`;
-
-    console.warn('⚠️ [Bypass Seguridad] Evitando flujo general de app.js para proteger celdas inferiores.');
-
-    // DETALLE CRUCIAL: Estructura de payload específica de celda única
-    const payloadSeguridad = {
-      hoja: "Seguridad",
-      celda: "A1",
-      valor: fechaFormateada,
-      soloCelda: true // Bandera lógica para indicarle a tu simulación que NO use el limpiador masivo
-    };
-
-    // Llamada directa a tu procesador de simulación (Línea 651 aproximadamente)
-    // Pasamos explícitamente el objeto configurado para una sola celda
-    if (typeof procesarPayloadLocal === 'function') {
-      procesarPayloadLocal(payloadSeguridad);
-    } else {
-      // Si va directo a Google Sheets en producción:
-      google.script.run
-        .withSuccessHandler(() => alert('¡Celda A1 actualizada de forma aislada!'))
-        .actualizarCeldaA1Seguridad(fechaFormateada);
-    }
-  });
-
-  // Renderizar en la interfaz
+  // Inyectamos el input en su cubículo modular
   formGroup.appendChild(label);
   formGroup.appendChild(inputFecha);
-  formGroup.appendChild(btnActualizar);
   container.appendChild(formGroup);
+  
+  console.log("✅ Interfaz de Seguridad establecida: Inputs generales ocultados con éxito.");
 }
+
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
