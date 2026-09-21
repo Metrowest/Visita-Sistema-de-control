@@ -490,62 +490,93 @@ document.addEventListener("click", function(e) {
     }
 }, true); // Captura prioritaria en el árbol del DOM
 
-// =========================================================================
-// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD' Y ESCUDO ANTI-BORRADO DE LÍNEAS 2 A 8
-// =========================================================================
+// ==========================================
+// SECCIÓN 8.2.3: CONFIGURACIÓN HOJA 'SEGURIDAD' (BLINDAJE DE OCULTACIÓN Y LÍNEAS 2-8)
+// ==========================================
 
-// 1. ESCUDO DE RESCATE PRIORITARIO (Intercepta el clic en el botón antes de que app.js procese datos vacíos)
+// CORRECCIÓN DE ERROR NATIVO: Definimos la función faltante para evitar que el onchange congele la interfaz
+window.actualizarEnlaceUbicacion = window.actualizarEnlaceUbicacion || function() {
+    console.log("🛡️ [Antivuelco] Función 'actualizarEnlaceUbicacion' emulada con éxito.");
+};
+
+// 1. ESCUDO DE INTERCEPCIÓN ABSOLUTO (Frena el borrado masivo de las líneas 2 a la 8)
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.type === "submit" || e.target.id === "btnGuardar" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
         
-        // Verificamos de forma flexible si estamos parados en la sección de Seguridad
         if (selector && (selector.value === "Seguridad" || selector.value === "Seguridad (Programa)")) {
+            // Buscamos el único input que debe estar en pantalla (Grupo/Día o el input de texto del formulario)
+            const inputUnico = document.getElementById("txtGrupo") || document.querySelector("#formularioEdicion input[type='text']") || document.querySelector(".campo-formulario-general");
             
-            // Localizamos el único input que se necesita usar para esta actualización (Celda A1)
-            const inputFechaSeguro = document.getElementById("input-fecha-seguridad") || document.querySelector("#formularioEdicion input[type='text']") || document.querySelector(".campo-formulario-general");
-            
-            if (!inputFechaSeguro || !inputFechaSeguro.value.trim()) {
-                alert("Error: El campo de fecha de seguridad no puede estar vacío.");
+            if (!inputUnico || !inputUnico.value.trim()) {
+                alert("Error: El campo de actualización para la Línea 1 no puede estar vacío.");
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
             }
 
-            // 🛡️ ACCIÓN CRÍTICA DE PROTECCIÓN: Detenemos el envío general destructivo de app.js
+            // DETENCIÓN CRÍTICA: Impedimos que el evento llegue a los procesadores masivos de app.js
             e.preventDefault();
             e.stopPropagation();
 
-            const valorA1 = inputFechaSeguro.value.trim();
-            console.log("🛡️ [Aislamiento Celda A1] Enviando payload controlado para proteger líneas de la 2 a la 8. Valor: " + valorA1);
+            const valorActualizadoA1 = inputUnico.value.trim();
+            console.warn("🚀 [Aislamiento Celda A1] Bypass ejecutado. Enviando exclusivamente valor: " + valorActualizadoA1);
 
-            // Estructura de payload purificada y aislada
+            // Generamos el payload aislado sin columnas o strings vacíos que alteren filas de la 2 a la 8
             const payloadSeguridad = {
                 hoja: "Seguridad",
                 celda: "A1",
-                valor: valorA1,
-                soloCelda: true // Bandera que frena el borrado de filas en el motor simulador
+                valor: valorActualizadoA1,
+                soloCelda: true
             };
 
-            // Ejecución del guardado según el entorno activo de tu WebApp
+            // Enrutamiento directo al motor según el entorno de ejecución activo
             if (typeof procesarPayloadLocal === 'function') {
                 procesarPayloadLocal(payloadSeguridad);
             } else if (typeof google !== 'undefined' && google.script && google.script.run) {
                 google.script.run
-                    .withSuccessHandler(() => alert("¡Fecha guardada correctamente! Las líneas 2 a la 8 se mantuvieron intactas."))
-                    .withFailureHandler((err) => alert("Error al guardar en el servidor: " + err))
-                    .actualizarCeldaA1Seguridad(valorA1);
+                    .withSuccessHandler(() => alert("¡Línea 1 (Celda A1) modificada correctamente! Líneas 2 a la 8 intactas."))
+                    .withFailureHandler((err) => alert("Error en servidor: " + err))
+                    .actualizarCeldaA1Seguridad(valorActualizadoA1);
             } else {
-                console.log("Simulación ejecutada: ", payloadSeguridad);
-                alert("Modificado solo A1 en simulación. Datos inferiores a salvo.");
+                console.log("Entorno de simulación sin backend. Objeto protegido enviado: ", payloadSeguridad);
+                alert("Actualizado solo A1. Líneas inferiores protegidas.");
             }
         }
     }
-}, true); // El parámetro 'true' es vital para ganarle la prioridad al evento nativo de app.js
+}, true); // Captura prioritaria en el árbol del DOM
 
-// 2. FUNCIÓN DE RENDERIZADO: Respeta tu diseño de respaldo
+// 2. FUNCIÓN DE RENDERIZADO: Fuerza el ocultamiento físico de los inputs sobrantes y deja solo 1
 function renderSeguridad(containerId) {
-    console.log("Sección 8.2.3 (Seguridad) activa. Interfaz original protegida con éxito.");
+    console.log("⚙️ Ejecutando limpieza e inyección modular para la sección Seguridad...");
+
+    // Buscamos las cajas de los inputs tradicionales (Superintendente, Teléfono, etc.)
+    const todosLosBloques = document.querySelectorAll("#formularioEdicion .form-group, #formularioEdicion div, label[for='txtSuperintendente'], label[for='txtTelefono']");
+    
+    todosLosBloques.forEach(bloque => {
+        // Buscamos el primer input (usualmente txtGrupo o el primer elemento de texto) para mantenerlo visible
+        const tienePrimerInput = bloque.querySelector("#txtGrupo") || bloque.id === "txtGrupo";
+        
+        // Si es el primer input lo dejamos visible; escondemos de raíz todo lo demás
+        if (tienePrimerInput) {
+            bloque.style.display = "block";
+            const labelOriginal = bloque.querySelector("label");
+            if (labelOriginal) labelOriginal.innerText = "Actualizar Fecha de Seguridad (Celda A1):";
+            
+            const inputTxt = bloque.querySelector("input");
+            if (inputTxt) {
+                inputTxt.placeholder = "Ej. #89";
+                inputTxt.required = true;
+            }
+        } else {
+            // Escondemos los inputs 2 y 3 que no se necesitan en esta sección
+            bloque.style.display = "none";
+            const inputOculto = bloque.querySelector("input");
+            if (inputOculto) inputOculto.required = false; // Desactivamos validación para evitar bloqueos
+        }
+    });
+
+    console.log("✅ Limpieza completada: Inputs excedentes escondidos. Dejado solo 1 input para editar la línea 1.");
 }
 
 
