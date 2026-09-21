@@ -506,7 +506,6 @@ function cargarDatos() {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
 }
-
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
@@ -561,6 +560,35 @@ function actualizarEnlaceUbicacion() {
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
+    } else if (hojaSeleccionada === "Seguridad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Modificar Programa (Seguridad)";
+        if (lbl1) lbl1.innerText = "Fecha / Estado"; 
+        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+
+        // 🌟 INYECCIÓN SÍNCRONA DEFINITIVA (EVITA EL BORRADO DE LAS LÍNEAS 2 A LA 8)
+        // En lugar de esperar el clic, rellenamos de forma inmediata los inputs ocultos
+        // mapeando de forma segura las celdas 1 y 2 de la primera fila renderizada de la tabla
+        setTimeout(function() {
+            const input2 = document.getElementById("txtSuperintendente");
+            const input3 = document.getElementById("txtTelefono");
+            const primeraFila = document.querySelector("#tablaCuerpo tr");
+
+            if (primeraFila && primeraFila.cells) {
+                if (input2 && (input2.value === "" || input2.value === "-")) {
+                    if (primeraFila.cells[1]) {
+                        input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
+                    }
+                }
+                if (input3 && (input3.value === "" || input3.value === "-")) {
+                    if (primeraFila.cells[2]) {
+                        input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
+                    }
+                }
+                console.log("🛡️ Escudo de Persistencia Síncrono: Inputs pre-cargados con éxito.");
+            }
+        }, 150); // Margen mínimo de retraso para garantizar la existencia de la tabla en pantalla
+
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
@@ -585,40 +613,6 @@ function actualizarEnlaceUbicacion() {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
 }
-
-// =========================================================================
-// 🌟 ESCUDO PROTECTOR AUTOMÁTICO SÍNCRONO POR INTERCEPCIÓN EN EL FORMULARIO
-// Obliga de forma inmediata al DOM a rellenar los datos antes del procesado de la app.js
-// =========================================================================
-(function blindarFormularioSeguridad() {
-    const formulario = document.getElementById("formularioEdicion") || document.querySelector("form");
-    if (!formulario) return;
-
-    formulario.addEventListener("submit", function(e) {
-        const selector = document.getElementById("selectorHoja");
-        if (selector && selector.value === "Seguridad") {
-            const input2 = document.getElementById("txtSuperintendente");
-            const input3 = document.getElementById("txtTelefono");
-            
-            // Forzamos síncronamente la extracción directa de las filas cargadas antes del empaquetado
-            const primeraFila = document.querySelector("#tablaCuerpo tr");
-            if (primeraFila && primeraFila.cells) {
-                if (input2 && (input2.value === "" || input2.value === "-")) {
-                    if (primeraFila.cells[1]) {
-                        input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
-                    }
-                }
-                if (input3 && (input3.value === "" || input3.value === "-")) {
-                    if (primeraFila.cells[2]) {
-                        input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
-                    }
-                }
-            }
-            console.log("🛡️ [Sincronización Crítica] Líneas de la 2 a la 8 reinyectadas exitosamente en el DOM justo antes del submit.");
-        }
-    }, false); // Usamos fase normal para que ocurra exactamente al gatillar el envío nativo del formulario
-})();
-
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
 // Ubicación del bloque: FINAL ABSOLUTO DEL SCRIPT CENTRAL APP.JS
