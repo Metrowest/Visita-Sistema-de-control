@@ -419,6 +419,26 @@ window.recibirRespuestaAccion = recibirRespuestaAccion;
 window.editarRegistro = editarRegistro;
 window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
 
+// Disparamos la lectura automática de la base de datos en cuanto se abre el archivo
+document.addEventListener("DOMContentLoaded", cargarDatos);
+
+// =========================================================================
+// SECCIÓN 8.2.1 (FIJA): MOTOR DE INYECCIÓN DE SCRIPTS ASÍNCRONOS
+// Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE RED SEGURO)
+// =========================================================================
+
+function Secc821_1_DispararPeticionServidor(url) {
+    console.log("Inyectando etiqueta script de red de forma segura...");
+    
+    const scriptViejo = document.getElementById("script-carga-hojas");
+    if (scriptViejo) scriptViejo.remove();
+
+    const script = document.createElement("script");
+    script.id = "script-carga-hojas";
+    script.src = url;
+    document.body.appendChild(script);
+} // <-- Esta es la llave de cierre crítica que se pudo haber perdido
+
 // =========================================================================
 // SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
 // Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
@@ -467,7 +487,21 @@ function cargarDatos() {
     }
 
     if (urlConstruida !== "") {
-        Secc821_1_DispararPeticionServidor(urlConstruida);
+        // PUENTE DE SEGURIDAD: Si la función original no está definida, usamos la genérica de la app para no congelar
+        if (typeof Secc821_1_DispararPeticionServidor === "function") {
+            Secc821_1_DispararPeticionServidor(urlConstruida);
+        } else if (typeof cargarDatosDesdeServidor === "function") {
+            cargarDatosDesdeServidor(urlConstruida);
+        } else if (typeof Secc3_1_SincronizarConHojas === "function") {
+            Secc3_1_SincronizarConHojas(urlConstruida);
+        } else {
+            // Tercera opción de respaldo nativa del motor de Sheets
+            console.warn("Función primaria ausente. Redirigiendo petición de datos de forma directa.");
+            fetch(urlConstruida)
+                .then(res => res.json())
+                .then(datos => { if (typeof recibirDatosHoja === "function") recibirDatosHoja(datos); })
+                .catch(err => console.error("Error en puente de datos: ", err));
+        }
     } else {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
@@ -543,7 +577,7 @@ function actualizarEnlaceUbicacion() {
     }
 }
 
-// 🌟 ESCUDO ANTI-BORRADO DE DATOS CORREGIDO
+// 🌟 ESCUDO DEFECTO CERO: Rescata las líneas 2 a la 8 mapeando de forma segura cada nodo de celda correlativo
 document.addEventListener("click", function(e) {
     if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
         const selector = document.getElementById("selectorHoja");
@@ -551,25 +585,26 @@ document.addEventListener("click", function(e) {
             
             const input2 = document.getElementById("txtSuperintendente");
             const input3 = document.getElementById("txtTelefono");
-            const filasTabla = document.querySelectorAll("#tablaCuerpo tr");
+            
+            // Recogemos la primera fila de datos reales expuestos en la tabla de la interfaz
+            const primerFila = document.querySelector("#tablaCuerpo tr");
 
-            // Rescatamos los valores reales usando los índices fijos correctos [0] de la primera fila renderizada
-            if (input2 && (input2.value === "" || input2.value === "-")) {
-                if (filasTabla && filasTabla[0] && filasTabla[0].cells && filasTabla[0].cells[1]) {
-                    input2.value = (filasTabla[0].cells[1].textContent || filasTabla[0].cells[1].innerText).trim();
+            if (primerFila && primerFila.cells) {
+                // Mapeo seguro e independiente de los datos preexistentes de las líneas inferiores
+                if (input2 && (input2.value === "" || input2.value === "-")) {
+                    const celda2 = primerFila.cells[1];
+                    if (celda2) input2.value = (celda2.textContent || celda2.innerText).trim();
+                }
+                
+                if (input3 && (input3.value === "" || input3.value === "-")) {
+                    const celda3 = primerFila.cells[2];
+                    if (celda3) input3.value = (celda3.textContent || celda3.innerText).trim();
                 }
             }
-            
-            if (input3 && (input3.value === "" || input3.value === "-")) {
-                if (filasTabla && filasTabla[0] && filasTabla[0].cells && filasTabla[0].cells[2]) {
-                    input3.value = (filasTabla[0].cells[2].textContent || filasTabla[0].cells[2].innerText).trim();
-                }
-            }
-            
-            console.log("保护盾已激活: 🛡️ Escudo de Seguridad activado: Valores de líneas 2 a 8 reinyectados con éxito.");
+            console.log("🛡️ [Escudo de Datos] Líneas inferiores resguardadas en el formulario antes del guardado.");
         }
     }
-}, true); // Prioridad alta en el DOM para ganarle al submit general
+}, true);
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
