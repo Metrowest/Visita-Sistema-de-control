@@ -442,8 +442,26 @@ function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
 function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
+    
+    const bloqueSuper = document.getElementById("contenedorCampo2");
+    const bloqueTelef = document.getElementById("contenedorCampo3");
+    const inputSuper = document.getElementById("txtSuperintendente");
+    const inputTelef = document.getElementById("txtTelefono");
 
-    // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
+    // REGLA DE ADAPTACIÓN DE FORMULARIO PARA SEGURIDAD
+    if (hojaRaw === "Seguridad") {
+        console.log("Adaptando formulario para Seguridad: Ocultando campos excedentes.");
+        if (bloqueSuper) bloqueSuper.style.display = "none";
+        if (bloqueTelef) bloqueTelef.style.display = "none";
+        if (inputSuper) inputSuper.required = false;
+        if (inputTelef) inputTelef.required = false;
+    } else {
+        if (bloqueSuper) bloqueSuper.style.display = "block";
+        if (bloqueTelef) bloqueTelef.style.display = "block";
+        if (inputSuper) inputSuper.required = true;
+        if (inputTelef) inputTelef.required = true;
+    }
+    
     let hoja = hojaRaw.replace(/_/g, " ");
     if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
     if (hoja === "Estudios Dia 2") hoja = "Estudios Día 2";
@@ -451,16 +469,15 @@ function cargarDatos() {
     if (hoja === "Pastoreo Dia 1") hoja = "Pastoreo Día 1";
     if (hoja === "Pastoreo Dia 2") hoja = "Pastoreo Día 2";
     if (hoja === "Pastoreo Dia 3") hoja = "Pastoreo Día 3";
-
+    
     let urlConstruida = "";
 
-    // VALIDACIÓN INTERACTIVA DINÁMICA CON LOS NOMBRES EXACTOS DE LAS HOJAS
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
+    if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
-
+        
     } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
         urlConstruida = `${WEB_APP_URL}?accion=leerVertical&hoja=${encodeURIComponent(hoja)}`;
-
+        
     } else if (hoja === "Pastoreo Día 1" || hoja === "Pastoreo Día 2" || hoja === "Pastoreo Día 3") {
         urlConstruida = `${WEB_APP_URL}?accion=leerVertical&hoja=${encodeURIComponent(hoja)}`;
     }
@@ -481,18 +498,16 @@ function actualizarEnlaceUbicacion() {
     if (!selector) return;
 
     const hojaSeleccionada = selector.value;
-
-    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
-    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
+    
     if (hojaSeleccionada === "Gestor_Carpetas") {
         console.log("Cediendo control total visual al archivo carpetas.js...");
-        return;
+        return; 
     }
 
     const etiquetaEnlace = document.getElementById("enlaceDinamico");
     const tituloFormulario = document.getElementById("formTitulo");
 
-    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
+    const lbl1 = document.getElementById("lblCampo1");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
     if (etiquetaEnlace) {
@@ -503,40 +518,41 @@ function actualizarEnlaceUbicacion() {
         } else if (hojaSeleccionada === "Superintendentes") {
             etiquetaEnlace.href = "https://github.io";
             etiquetaEnlace.innerHTML = "👥 Superintendentes";
+        } else if (hojaSeleccionada === "Seguridad") {
+            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
+            etiquetaEnlace.innerHTML = "🛡️ Seguridad";
         } else {
             etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
             etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
         }
     }
 
-    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
-        if (lbl4) lbl4.innerText = "Dirección";
-
+        if (lbl1) lbl1.innerText = "Día";
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
+    } else if (hojaSeleccionada === "Seguridad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Modificar Programa (Seguridad)";
+        if (lbl1) lbl1.innerText = "Fecha / Estado"; 
+        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
+
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
-        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
-
+        if (lbl1) lbl1.innerText = "Día";
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
-        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
-
+        if (lbl1) lbl1.innerText = "Día";
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
-
+        
     } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
-
+        if (lbl1) lbl1.innerText = "Grupo / Día";
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
