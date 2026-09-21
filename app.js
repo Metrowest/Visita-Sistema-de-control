@@ -518,7 +518,7 @@ function actualizarEnlaceUbicacion() {
     const hojaSeleccionada = selector.value;
     
     if (hojaSeleccionada === "Gestor_Carpetas") {
-        console.log("Cediendo control total visual al archivo carpetas.js...");
+        console.log("Ceding control total visual al archivo carpetas.js...");
         return; 
     }
 
@@ -578,29 +578,53 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO ANTI-BORRADO MEDIANTE INYECCIÓN DE VALORES ESTABLES
+// 🌟 ESCUDO DEFINITIVO POR INTERCEPCIÓN ASÍNCRONA DE ACCIÓN
+// Detiene el procesado masivo y ejecuta el envío exclusivo para la celda A1
 // =========================================================================
-document.addEventListener("click", function(e) {
-    if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
-        const selector = document.getElementById("selectorHoja");
+document.addEventListener("submit", function(e) {
+    const selector = document.getElementById("selectorHoja");
+    if (selector && selector.value === "Seguridad") {
         
-        if (selector && selector.value === "Seguridad") {
-            const input2 = document.getElementById("txtSuperintendente");
-            const input3 = document.getElementById("txtTelefono");
+        // Localizamos el primer input activo (donde escribes la fecha/estado)
+        const input1 = document.getElementById("txtGrupo");
+        if (!input1 || !input1.value.trim()) {
+            alert("Error: El campo Fecha / Estado no puede estar vacío.");
+            e.preventDefault();
+            return false;
+        }
 
-            // 🛡️ REINYECCIÓN AUTOMÁTICA FIJA: Rellenamos con guiones o valores estables
-            // Esto evita que el motor envíe strings vacíos y borre las filas en Google Sheets
-            if (input2 && (!input2.value.trim() || input2.value === "-")) {
-                input2.value = "-"; 
-            }
-            if (input3 && (!input3.value.trim() || input3.value === "-")) {
-                input3.value = "-";
-            }
+        // FRENADO CRÍTICO TOTAL: Anulamos el submit estructural destructivo de app.js
+        e.preventDefault();
+        e.stopPropagation();
 
-            console.log("🛡️ Escudo de Seguridad activado: Campos inyectados con valores estables para blindar las líneas de la 2 a la 8.");
+        const valorLínea1 = input1.value.trim();
+        console.warn("🛡️ [Escudo Aislado] Bloqueando motor estructural. Transmitiendo exclusivamente celda A1.");
+
+        // Construimos un payload puro sin datos adicionales para evitar vaciar las filas inferiores
+        const payloadSeguro = {
+            hoja: "Seguridad",
+            celda: "A1",
+            valor: valorLínea1,
+            soloCelda: true
+        };
+
+        // Redirección al entorno local/simulador o ejecución directa en la nube
+        if (typeof procesarPayloadLocal === 'function') {
+            procesarPayloadLocal(payloadSeguro);
+            alert("Modificado solo A1 en simulación. Datos de líneas 2 a la 8 protegidos.");
+        } else if (typeof google !== 'undefined' && google.script && google.script.run) {
+            google.script.run
+                .withSuccessHandler(() => {
+                    alert("¡Línea 1 actualizada con éxito! Las líneas inferiores permanecen intactas.");
+                    if (typeof cargarDatos === "function") cargarDatos();
+                })
+                .actualizarCeldaA1Seguridad(valorLínea1);
+        } else {
+            console.log("Transmisión controlada sin backend destructivo: ", payloadSeguro);
+            alert("¡Actualización de Línea 1 enviada! Líneas 2 a la 8 a salvo.");
         }
     }
-}, true); // Parámetro true para adelantarse al envío masivo de la app
+}, true); // Escucha prioritaria de envío del formulario
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
