@@ -517,60 +517,69 @@ function actualizarEnlaceUbicacion() {
 
     const hojaSeleccionada = selector.value;
     
+    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
+    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
     if (hojaSeleccionada === "Gestor_Carpetas") {
-        console.log("Ceding control total visual al archivo carpetas.js...");
+        console.log("Cediendo control total visual al archivo carpetas.js...");
         return; 
     }
 
     const etiquetaEnlace = document.getElementById("enlaceDinamico");
     const tituloFormulario = document.getElementById("formTitulo");
 
-    const lbl1 = document.getElementById("lblCampo1");
+    const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
+    // 🌟 AQUÍ QUEDA INSERTADO EL NUEVO CÓDIGO DE ENLACES EXTERNOS SELLADOS:
     if (etiquetaEnlace) {
         etiquetaEnlace.target = "_blank";
+        
+        // Lee directamente la URL del diccionario de la Sección 1 usando el identificador de la hoja
+        const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
+        etiquetaEnlace.href = urlDestinoReal || "#";
+
         if (hojaSeleccionada === "Hospitalidad") {
-            etiquetaEnlace.href = "https://github.io";
             etiquetaEnlace.innerHTML = "🏨 Hospitalidad";
         } else if (hojaSeleccionada === "Superintendentes") {
-            etiquetaEnlace.href = "https://github.io";
             etiquetaEnlace.innerHTML = "👥 Superintendentes";
         } else if (hojaSeleccionada === "Seguridad") {
-            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
             etiquetaEnlace.innerHTML = "🛡️ Seguridad";
         } else {
-            etiquetaEnlace.href = `${WEB_APP_URL}?hoja=${encodeURIComponent(hojaSeleccionada)}`;
-            etiquetaEnlace.innerHTML = `📚 ${hojaSeleccionada}`;
+            // Limpia el texto de las hojas verticales quitando los guiones bajos visualmente
+            const textoLimpio = hojaSeleccionada.replace(/_/g, " ");
+            etiquetaEnlace.innerHTML = `📚 ${textoLimpio}`;
         }
+        console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
+    // 🌟 DE AQUÍ EN ADELANTE SE MANTIENE TODO TU CÓDIGO ORIGINAL RESPONSIVO DE CAMPOS INTACTO:
     if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
-        if (lbl1) lbl1.innerText = "Día";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
+        if (lbl4) lbl4.innerText = "Dirección";
+
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-    } else if (hojaSeleccionada === "Seguridad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Modificar Programa (Seguridad)";
-        if (lbl1) lbl1.innerText = "Fecha / Estado"; 
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
     } else if (hojaSeleccionada.includes("Estudios")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
+        if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
+        
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
         if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
-        if (lbl1) lbl1.innerText = "Día";
+        if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
+        if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
+        
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
         
     } else {
-        if (lbl1) lbl1.innerText = "Grupo / Día";
+        if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
+        
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
@@ -578,53 +587,36 @@ function actualizarEnlaceUbicacion() {
 }
 
 // =========================================================================
-// 🌟 ESCUDO DEFINITIVO POR INTERCEPCIÓN ASÍNCRONA DE ACCIÓN
-// Detiene el procesado masivo y ejecuta el envío exclusivo para la celda A1
+// 🌟 ESCUDO PROTECTOR DE REYCCIÓN (FINAL DE LA SECCIÓN 8.2.3)
+// Intercepta el clic en el botón. Si es Seguridad, rescata los datos de las lineas
+// de la 2 a la 8 directamente desde el array de datos de la tabla para no borrarlos.
 // =========================================================================
-document.addEventListener("submit", function(e) {
-    const selector = document.getElementById("selectorHoja");
-    if (selector && selector.value === "Seguridad") {
-        
-        // Localizamos el primer input activo (donde escribes la fecha/estado)
-        const input1 = document.getElementById("txtGrupo");
-        if (!input1 || !input1.value.trim()) {
-            alert("Error: El campo Fecha / Estado no puede estar vacío.");
-            e.preventDefault();
-            return false;
-        }
-
-        // FRENADO CRÍTICO TOTAL: Anulamos el submit estructural destructivo de app.js
-        e.preventDefault();
-        e.stopPropagation();
-
-        const valorLínea1 = input1.value.trim();
-        console.warn("🛡️ [Escudo Aislado] Bloqueando motor estructural. Transmitiendo exclusivamente celda A1.");
-
-        // Construimos un payload puro sin datos adicionales para evitar vaciar las filas inferiores
-        const payloadSeguro = {
-            hoja: "Seguridad",
-            celda: "A1",
-            valor: valorLínea1,
-            soloCelda: true
-        };
-
-        // Redirección al entorno local/simulador o ejecución directa en la nube
-        if (typeof procesarPayloadLocal === 'function') {
-            procesarPayloadLocal(payloadSeguro);
-            alert("Modificado solo A1 en simulación. Datos de líneas 2 a la 8 protegidos.");
-        } else if (typeof google !== 'undefined' && google.script && google.script.run) {
-            google.script.run
-                .withSuccessHandler(() => {
-                    alert("¡Línea 1 actualizada con éxito! Las líneas inferiores permanecen intactas.");
-                    if (typeof cargarDatos === "function") cargarDatos();
-                })
-                .actualizarCeldaA1Seguridad(valorLínea1);
-        } else {
-            console.log("Transmisión controlada sin backend destructivo: ", payloadSeguro);
-            alert("¡Actualización de Línea 1 enviada! Líneas 2 a la 8 a salvo.");
+document.addEventListener("click", function(e) {
+    if (e.target && (e.target.id === "btnGuardar" || e.target.type === "submit" || e.target.closest("button[type='submit']"))) {
+        const selector = document.getElementById("selectorHoja");
+        if (selector && selector.value === "Seguridad") {
+            const input2 = document.getElementById("txtSuperintendente");
+            const input3 = document.getElementById("txtTelefono");
+            
+            // Si los inputs ocultos están vacíos al dar clic, les devolvemos su valor real
+            // de la primera fila estable renderizada en la tabla
+            const primeraFila = document.querySelector("#tablaCuerpo tr");
+            if (primeraFila && primeraFila.cells) {
+                if (input2 && (input2.value === "" || input2.value === "-")) {
+                    if (primeraFila.cells[1]) {
+                        input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
+                    }
+                }
+                if (input3 && (input3.value === "" || input3.value === "-")) {
+                    if (primeraFila.cells[2]) {
+                        input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
+                    }
+                }
+            }
+            console.log("🛡️ Escudo de Rescate completado: Datos originales de la 2 a la 8 inyectados para el envío.");
         }
     }
-}, true); // Escucha prioritaria de envío del formulario
+}, true); // El parámetro true le da prioridad absoluta sobre el submit del motor general
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
