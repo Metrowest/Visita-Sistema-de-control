@@ -319,7 +319,7 @@ function procesarGuardadoRegistro(evento) {
     const script = document.createElement("script");
     script.id = "script-guardar-hojas";
     
-    // Despachamos la URL limpia. El Code.gs ya sabe qué hacer si la hoja es "Seguridad" sin necesidad de parches
+    // Despachamos la URL limpia hacia el backend
     script.src = `${WEB_APP_URL}?accion=guardar&hoja=${encodeURIComponent(hoja)}&index=${registroEditandoIndex}&grupo=${encodeURIComponent(grupo)}&superintendente=${encodeURIComponent(superint)}&telefono=${(hoja === "Hospitalidad" || hoja.includes("Estudios") || hoja.includes("Pastoreo")) ? tel : encodeURIComponent(tel)}`;
     document.body.appendChild(script);
 }
@@ -340,8 +340,8 @@ function recibirRespuestaAccion(resultado) {
     }
 
     if (resultado && resultado.status === "success") {
-        // Desplegamos un aviso limpio en tu pantalla confirmando el éxito
-        alert(resultado.message || "¡Operación realizada con éxito en la base de datos!");
+        // 🌟 REEMPLAZO 1: Toast elegante flotante en lugar del viejo alert() de éxito
+        mostrarNotificacionToast(resultado.message || "¡Registro procesado con éxito!");
 
         // LIMPIEZA ADAPTATIVA: Vaciamos todas las cajas de texto superiores de forma segura
         document.getElementById("txtGrupo").value = "";
@@ -364,51 +364,39 @@ function recibirRespuestaAccion(resultado) {
         // REFRESO DE RED AUTOMÁTICO: Llama al tablero maestro para recargar la tabla real limpia
         cargarDatos();
     } else {
-        // Si Google reporta algún fallo o bloqueo, avisamos al usuario y liberamos el botón
-        alert("Aviso del Servidor: " + (resultado.message || "No se pudo completar la acción. Revisa tu conexión."));
+        // 🌟 REEMPLAZO 2: Toast rojo flotante en lugar del alert() genérico de error del servidor
+        mostrarNotificacionToast("Aviso del Servidor: " + (resultado.message || "No se pudo completar la acción."), true);
     }
 }
 
-// 🌟 CONSTRUCTOR DE NOTIFICACIONES FLOTANTES ANIMADAS (TOASTS)
+// =========================================================================
+// SECCIÓN 6.1 (NUEVA): MOTOR CONSTRUCTOR DE ALERTAS FLOTANTES (TOASTS)
+// Ubicación del bloque: CENTRO (JUSTO DEBAJO DE LA SECCIÓN 6)
+// Descripción: Crea dinámicamente tarjetas animadas que entran desde la derecha,
+// permanecen 4 segundos visibles y se desvanecen de forma automática.
+// =========================================================================
 function mostrarNotificacionToast(mensaje, esError = false) {
     const contenedor = document.getElementById("contenedor-toasts");
     if (!contenedor) return;
 
-    // Creamos la tarjeta del elemento HTML dinámicamente
+    // Creamos el elemento HTML de la alerta sobre la marcha
     const toast = document.createElement("div");
     toast.className = `alerta-toast${esError ? " toast-error" : ""}`;
     toast.innerHTML = `<span>${mensaje}</span><span style="cursor:pointer; font-weight:bold; margin-left:10px;" onclick="this.parentElement.remove()">×</span>`;
 
-    // Lo inyectamos en el contenedor de la pantalla
+    // Lo inyectamos físicamente dentro del contenedor fijo
     contenedor.appendChild(toast);
 
-    // Programamos su desvanecimiento automático y remoción a los 4 segundos
+    // Ciclo de desvanecimiento temporizado: 4 segundos activo y 300ms de salida suave
     setTimeout(() => {
         toast.style.opacity = "0";
         toast.style.transform = "scale(0.9)";
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
-// 🌟 CONSTRUCTOR DE NOTIFICACIONES FLOTANTES ANIMADAS (TOASTS)
-function mostrarNotificacionToast(mensaje, esError = false) {
-    const contenedor = document.getElementById("contenedor-toasts");
-    if (!contenedor) return;
 
-    // Creamos la tarjeta del elemento HTML dinámicamente
-    const toast = document.createElement("div");
-    toast.className = `alerta-toast${esError ? " toast-error" : ""}`;
-    toast.innerHTML = `<span>${mensaje}</span><span style="cursor:pointer; font-weight:bold; margin-left:10px;" onclick="this.parentElement.remove()">×</span>`;
-
-    // Lo inyectamos en el contenedor de la pantalla
-    contenedor.appendChild(toast);
-
-    // Programamos su desvanecimiento automático y remoción a los 4 segundos
-    setTimeout(() => {
-        toast.style.opacity = "0";
-        toast.style.transform = "scale(0.9)";
-        setTimeout(() => toast.remove(), 300);
-    }, 4000);
-}
+// Vinculamos de forma obligatoria en la ventana window para el constructor dinámico
+window.mostrarNotificacionToast = mostrarNotificacionToast;
 
 
 // =========================================================================
