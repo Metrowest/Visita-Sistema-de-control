@@ -75,8 +75,11 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
 }
 
 // =========================================================================
-// SECCIÓN 3.1: DECODIFICADOR MAESTRO DE MATRICES - PROCESAR DATOS GOOGLE
-// Ubicación del bloque: CENTRO (PARTE MEDIA)
+// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
+// Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
+// Descripción: Clasifica y procesa de forma adaptativa las estructuras. Si es 
+// Seguridad, rompe la regla limitadora vieja, genera la cabecera "Fecha / Estado" 
+// y despliega las 67 líneas completas. Mantiene intactos tus flujos verticales y horizontales.
 // =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
@@ -104,17 +107,17 @@ function recibirDatosDesdeGoogle(json) {
     // =========================================================================
     // CONFIGURACIÓN DE TABLAS: Mapeamos los títulos reales de tus hojas
     // =========================================================================
-    if (hojaActiva === "Superintendentes") {
+    if (hojaActiva === "Seguridad") {
+        encabezadosTextos = ["Fecha / Estado"];
+        llavesMapeo = ["grupo"]; // Mapea de forma temporal la celda al input superior txtGrupo
+        
+    } else if (hojaActiva === "Superintendentes") {
         encabezadosTextos = ["Grupo", "Superintendente", "Teléfono"];
         llavesMapeo = ["grupo", "superintendente", "telefono"];
         
     } else if (hojaActiva === "Hospitalidad") {
         encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
-        
-    } else if (hojaActiva === "Seguridad") {
-        encabezadosTextos = ["Grupo / Día", "Superintendente / Encargado", "Teléfono / Contacto"];
-        llavesMapeo = ["grupo", "superintendente", "telefono"];
         
     } else if (hojaActiva.includes("Estudios")) {
         encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
@@ -132,33 +135,36 @@ function recibirDatosDesdeGoogle(json) {
     if(tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
 
     // =========================================================================
-    // ENRUTADOR DE PROCESAMIENTO EXCLUSIVO SEGÚN LA HOJA ACTIVA
+    // 🛡️ ENRUTADOR EXCLUSIVO ADAPTATIVO PARA DESPLEGAR LAS 67 LÍNEAS DE SEGURIDAD
     // =========================================================================
-    
-    // 🌟 1. CONFIGURACIÓN EXCLUSIVA PARA SEGURIDAD (Muestra SOLO A1 y limpia las otras dos columnas)
     if (hojaActiva === "Seguridad") {
-        let celdasPlanas = [];
-        
-        datosMatriz.forEach(fila => {
-            if (Array.isArray(fila)) {
-                celdasPlanas.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
-            } else {
-                celdasPlanas.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
-            }
+        datosMatriz.forEach((row, index) => {
+            // Extrae el valor de la fila de forma tolerante (por clave u objeto de matriz plano)
+            let valorReal = (typeof row === "object" && row !== null) ? (row["Fecha / Estado"] || row["grupo"] || Object.values(row)[0]) : row;
+            
+            // Ignoramos la línea si repite por accidente el nombre de la cabecera de la hoja
+            if (String(valorReal).trim() === "Fecha / Estado") return;
+
+            let htmlFila = "<tr>";
+            htmlFila += `<td>${String(valorReal || "").trim()}</td>`;
+            
+            // Creamos un objeto limpio compatible con tu actualizador para inyectar en el input txtGrupo
+            let objetoFila = { grupo: String(valorReal || "").trim() };
+            
+            htmlFila += `<td>
+                <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${index}, ${JSON.stringify(objetoFila).replace(/"/g, '&quot;')})">✏️</button>
+            </td></tr>`;
+            
+            if(tablaCuerpo) tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
         });
+        return; // Finaliza el flujo de Seguridad de forma aislada con blindaje absoluto
+    }
 
-        // 🌟 ELIMINACIÓN DE CELDAS EXTRA: Extraemos celda A1 y dejamos las columnas 2 y 3 vacías en pantalla
-        let objetoFila = {
-            grupo: celdasPlanas[0] || "", // Muestra exclusivamente la celda A1 (Ej. "Actualizado: 09/17/2026")
-            superintendente: "",         // ❌ ELIMINADO: Celda A2 queda oculta visualmente
-            telefono: ""                // ❌ ELIMINADO: Celda A3 queda oculta visualmente
-        };
+    // =========================================================================
+    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO (INTACTO)
+    // =========================================================================
+    if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
         
-        // Lo mandamos a pintar a la tabla con el índice fijo 0
-        Secc30_1_DibujarRenglonEnPantalla(0, objetoFila, llavesMapeo);
-
-    // 2. TU FLUJO VERTICAL ORIGINAL PARA ESTUDIOS Y PASTOREO (Intacto de fábrica)
-    } else if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
         let celdasPlanasRaw = [];
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
@@ -178,6 +184,7 @@ function recibirDatosDesdeGoogle(json) {
         }
         
         let contadorBloque = 0;
+        
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
             if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
@@ -202,7 +209,7 @@ function recibirDatosDesdeGoogle(json) {
         }
         
     } else {
-        // 3. TU FLUJO HORIZONTAL ORIGINAL PARA LAS PRIMERAS DOS PESTAÑAS (Intacto de fábrica)
+        // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
