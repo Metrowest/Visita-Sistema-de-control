@@ -53,6 +53,47 @@ function cargarDatos() {
 }
 
 // ==========================================================
+// SECCIÓN 3.0 (FIJA): MOTOR CONSTRUCTOR VISUAL DE FILAS
+// Ubicación: Centro (Parte Media - Función Fija)
+// ==========================================================
+function Secc30_1_DibujarRenglonEnPantalla(
+    indice, 
+    objetoCampos, 
+    columnasVisibles
+) {
+    const tablaCuerpo = document.getElementById("tablaCuerpo");
+    
+    // Construcción horizontal recorriendo las llaves
+    let htmlFila = "<tr>";
+    columnasVisibles.forEach(propiedad => {
+        const val = objetoCampos[propiedad];
+        htmlFila += `<td>${val !== undefined ? val : ""}</td>`;
+    });
+    
+    // Inyección de botones con puentes de red locales
+    const jsonLimpio = JSON.stringify(objetoCampos)
+        .replace(/"/g, '&quot;');
+
+    htmlFila += `<td>
+        <button type="button" class="btn-edit" 
+            style="cursor:pointer;" 
+            onclick="window.editarRegistro(${indice}, ${jsonLimpio})">
+            ✏️
+        </button>
+        <button type="button" class="btn-delete" 
+            style="cursor:pointer;" 
+            onclick="window.borrarRegistro(${indice})">
+            🗑️
+        </button>
+    </td></tr>`;
+    
+    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+}
+
+// AMARRE DE RED GLOBAL: Esto elimina el error ReferenceError de la consola
+window.Secc30_1_DibujarRenglonEnPantalla = Secc30_1_DibujarRenglonEnPantalla;
+
+// ==========================================================
 // SECCIÓN 3.1 (DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación: Centro (Sección de Cambios Frecuentes)
 // ==========================================================
@@ -196,7 +237,8 @@ function recibirDatosDesdeGoogle(json) {
                 campo8: celdasPlanas[i+7] || ""    
             };
 
-            Secc30_1_DibujarRenglonEnPantalla(
+            // Llamada segura conectada al entorno global window
+            window.Secc30_1_DibujarRenglonEnPantalla(
                 contadorBloque, 
                 objetoFila, 
                 llavesMapeo
@@ -204,9 +246,8 @@ function recibirDatosDesdeGoogle(json) {
             contadorBloque++;
         }
     } else {
-        // CORRECCIÓN AQUÍ: Se pasa de forma correcta 'celdasPlanas'
         datosMatriz.forEach((objetoCampos, indice) => {
-            Secc30_1_DibujarRenglonEnPantalla(
+            window.Secc30_1_DibujarRenglonEnPantalla(
                 indice, 
                 objetoCampos, 
                 llavesMapeo
@@ -216,7 +257,7 @@ function recibirDatosDesdeGoogle(json) {
 }
 
 // ==========================================================
-// ADICIÓN: INTERCEPTOR DE ALERTAS Y CONFIRMACIONES PASTELES
+// ADICIÓN PURIFICADA: INTERCEPTOR DE ALERTAS PASTELES
 // ==========================================================
 function mostrarAlertaPastel(mensaje, tipo) {
   const iconosAlerta = {
@@ -235,52 +276,23 @@ function mostrarAlertaPastel(mensaje, tipo) {
   if (!contenedorAlertas) {
     contenedorAlertas = document.createElement('div');
     contenedorAlertas.id = 'contenedor-alertas-pasteles';
-    contenedorAlertas.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      max-width: 340px;
-      width: calc(100% - 40px);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    `;
+    contenedorAlertas.className = 'contenedor-toast-global';
     document.body.appendChild(contenedorAlertas);
   }
 
   const alerta = document.createElement('div');
   alerta.className = `alerta-pastel alerta-${tipo}`;
-  alerta.style.cssText = `
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background-color: var(--bg-pastel-${tipo}, #f3f4f6); 
-    border-left: 5px solid var(--border-pastel-${tipo}, #9ca3af);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    pointer-events: auto;
-    font-weight: 500;
-    font-size: 0.95rem;
-    animation: entradaAlertaPastel 0.3s ease-out forwards;
-  `;
 
   alerta.innerHTML = `
-    <span style="font-size:1.25rem; flex-shrink:0; 
-        display:inline-flex; align-items:center;">
-        ${iconoHtml}
-    </span>
-    <span style="flex-grow:1; color:#1e293b; line-height:1.4;">
-        ${mensaje}
-    </span>
+    <span class="alerta-icono">${iconoHtml}</span>
+    <span class="alerta-texto">${mensaje}</span>
   `;
 
   contenedorAlertas.appendChild(alerta);
 
+  // Temporizador de lectura: 6 segundos en total con clases dinámicas
   setTimeout(() => {
-    alerta.style.animation = 'salidaAlertaPastel 0.3s ease-in forwards';
+    alerta.classList.add('salida');
     setTimeout(() => {
       alerta.remove();
       if (contenedorAlertas.childElementCount === 0) {
@@ -291,6 +303,7 @@ function mostrarAlertaPastel(mensaje, tipo) {
 }
 
 window.mostrarAlertaPastel = mostrarAlertaPastel;
+
 
 
 // =========================================================================
