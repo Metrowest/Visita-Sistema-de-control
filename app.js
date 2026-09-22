@@ -229,6 +229,55 @@ function recibirDatosDesdeGoogle(json) {
     }
 }
 
+// ==========================================
+// ADICIÓN PURIFICADA: INTERCEPTOR DE ALERTAS PASTELES
+// ==========================================
+function mostrarAlertaPastel(mensaje, tipo) {
+  // Diccionario obligatorio de emojis
+  const iconosAlerta = {
+    'exito': '✨',         
+    'confirmacion': '🤔',  
+    'advertencia': '⚠️',   
+    'error': '🚨'          
+  };
+
+  const iconoHtml = iconosAlerta[tipo] || '📌';
+
+  let contenedorAlertas = document.getElementById(
+      'contenedor-alertas-pasteles'
+  );
+  
+  if (!contenedorAlertas) {
+    contenedorAlertas = document.createElement('div');
+    contenedorAlertas.id = 'contenedor-alertas-pasteles';
+    contenedorAlertas.className = 'contenedor-toast-global';
+    document.body.appendChild(contenedorAlertas);
+  }
+
+  const alerta = document.createElement('div');
+  alerta.className = `alerta-pastel alerta-${tipo}`;
+
+  alerta.innerHTML = `
+    <span class="alerta-icono">${iconoHtml}</span>
+    <span class="alerta-texto">${mensaje}</span>
+  `;
+
+  contenedorAlertas.appendChild(alerta);
+
+  // Temporizador de lectura: 6 segundos en total
+  setTimeout(() => {
+    alerta.classList.add('salida');
+    setTimeout(() => {
+      alerta.remove();
+      if (contenedorAlertas.childElementCount === 0) {
+        contenedorAlertas.remove();
+      }
+    }, 300); 
+  }, 6000); 
+}
+
+window.mostrarAlertaPastel = mostrarAlertaPastel;
+
 // =========================================================================
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 3)
