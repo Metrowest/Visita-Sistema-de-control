@@ -506,78 +506,38 @@ button#btnInstalarPWA {
 }
 
 /* ==========================================================
-   SECCIÓN 7: ALERTAS PASTEL INTEGRADAS (NOTIFICACIONES)
+   SECCIÓN 7: ALERTAS ANIMADAS FLOTANTES (TOASTS) ORIGINALES
+   Descripción: Mantiene únicamente el catálogo de mensajes 
+   base de la primera versión solicitada por el usuario.
    ========================================================== */
-.contenedor-toast-global {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    max-width: 340px;
-    width: calc(100% - 40px);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none;
-}
-
-.alerta-pastel {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    pointer-events: auto;
+.alerta-toast {
+    background-color: #2cbbb0; 
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: var(--fuente-sistema, sans-serif);
+    font-size: 0.9rem;
     font-weight: 500;
-    font-size: 0.95rem;
-    animation: entradaAlertaPastel 0.3s ease-out forwards;
-}
-
-/* 🛡️ CORRECCIÓN DE ACOPLE: Éxito Pastel explícito */
-.alerta-pastel.alerta-exito {
-    background-color: #e6f4ea !important;
-    border-left: 5px solid #34a853 !important;
-}
-
-.alerta-pastel.alerta-confirmacion {
-    background-color: #e8f0fe !important;
-    border-left: 5px solid #1a73e8 !important;
-}
-
-.alerta-pastel.alerta-advertencia {
-    background-color: #fef7e0 !important;
-    border-left: 5px solid #fbbc04 !important;
-}
-
-.alerta-pastel.alerta-error {
-    background-color: #fce8e6 !important;
-    border-left: 5px solid #ea4335 !important;
-}
-
-.alerta-icono {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-    display: inline-flex;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    animation: entradaToast 0.3s ease-out forwards;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.alerta-texto {
-    flex-grow: 1;
-    color: #1e293b;
-    line-height: 1.4;
+.alerta-toast.toast-error {
+    background-color: #e53e3e;
 }
 
-.alerta-pastel.salida {
-    animation: salidaAlertaPastel 0.3s ease-in forwards;
-}
-
-@keyframes entradaAlertaPastel {
-    from { opacity: 0; transform: translateX(100%); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes salidaAlertaPastel {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(100%); }
+@keyframes entradaToast {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
