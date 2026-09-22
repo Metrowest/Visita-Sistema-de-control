@@ -508,16 +508,17 @@ function cargarDatos() {
 }
 
 // =========================================================================
-// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO Y CONTROL DE TRANSMISIÓN SEGURO (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
+// SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL INMÓVIL
 // =========================================================================
-
 function actualizarEnlaceUbicacion() {
     const selector = document.getElementById("selectorHoja");
     if (!selector) return;
 
     const hojaSeleccionada = selector.value;
     
+    // CRUCIAL: Si el usuario selecciona el Gestor de Carpetas, este script detiene 
+    // su ejecución al instante para dejar que carpetas.js pinte la tarjeta azul libremente
     if (hojaSeleccionada === "Gestor_Carpetas") {
         console.log("Cediendo control total visual al archivo carpetas.js...");
         return; 
@@ -529,9 +530,26 @@ function actualizarEnlaceUbicacion() {
     const lbl1 = document.getElementById("lblCampo1"), lbl2 = document.getElementById("lblCampo2"), lbl3 = document.getElementById("lblCampo3"), lbl4 = document.getElementById("lblCampo4"), lbl5 = document.getElementById("lblCampo5"), lbl6 = document.getElementById("lblCampo6"), lbl7 = document.getElementById("lblCampo7"), lbl8 = document.getElementById("lblCampo8");
     const c4 = document.getElementById("contenedorCampo4"), c5 = document.getElementById("contenedorCampo5"), c6 = document.getElementById("contenedorCampo6"), c7 = document.getElementById("contenedorCampo7"), c8 = document.getElementById("contenedorCampo8");
 
+    // Bloques contenedores adicionales para campos 2 y 3 (vitales para ocultar en Seguridad)
+    const c2 = document.getElementById("contenedorCampo2") || document.getElementById("txtSuperintendente")?.parentElement;
+    const c3 = document.getElementById("contenedorCampo3") || document.getElementById("txtTelefono")?.parentElement;
+
+    // Captura de los inputs físicos reales para manipular su obligatoriedad en red
+    const input2 = document.getElementById("txtSuperintendente");
+    const input3 = document.getElementById("txtTelefono");
+
     if (etiquetaEnlace) {
         etiquetaEnlace.target = "_blank";
-        const urlDestinoReal = ENLACES_HOJAS[hojaSeleccionada];
+        
+        let nombreHojaLimpio = hojaSeleccionada.replace(/_/g, " ");
+        if (nombreHojaLimpio === "Estudios Dia 1") nombreHojaLimpio = "Estudios Día 1";
+        if (nombreHojaLimpio === "Estudios Dia 2") nombreHojaLimpio = "Estudios Día 2";
+        if (nombreHojaLimpio === "Estudios Dia 3") nombreHojaLimpio = "Estudios Día 3";
+        if (nombreHojaLimpio === "Pastoreo Dia 1") nombreHojaLimpio = "Pastoreo Día 1";
+        if (nombreHojaLimpio === "Pastoreo Dia 2") nombreHojaLimpio = "Pastoreo Día 2";
+        if (nombreHojaLimpio === "Pastoreo Dia 3") nombreHojaLimpio = "Pastoreo Día 3";
+
+        const urlDestinoReal = ENLACES_HOJAS[nombreHojaLimpio];
         etiquetaEnlace.href = urlDestinoReal || "#";
 
         if (hojaSeleccionada === "Hospitalidad") {
@@ -541,116 +559,67 @@ function actualizarEnlaceUbicacion() {
         } else if (hojaSeleccionada === "Seguridad") {
             etiquetaEnlace.innerHTML = "🛡️ Seguridad";
         } else {
-            const textoLimpio = hojaSeleccionada.replace(/_/g, " ");
-            etiquetaEnlace.innerHTML = `📚 ${textoLimpio}`;
+            etiquetaEnlace.innerHTML = `📚 ${nombreHojaLimpio}`;
         }
-        console.log("Enlace dinámico corregido con éxito hacia: " + etiquetaEnlace.href);
     }
 
-    if (hojaSeleccionada === "Hospitalidad") {
+    // 🌟 RESTAURACIÓN GENERAL DE VISIBILIDAD Y OBLIGATORIEDAD (Protege las hojas de la 1 a la 8)
+    if (c2) c2.style.display = "flex";
+    if (c3) c3.style.display = "flex";
+    if (input2) input2.required = true;
+    if (input3) input3.required = true;
+
+    // CONMUTADOR VISUAL DE ENTORNO RESPONSIVO TRADICIONAL PARA HOJAS
+    if (hojaSeleccionada === "Seguridad") {
+        if (tituloFormulario) tituloFormulario.innerText = "Control de Seguridad (Celda A1)";
+        if (lbl1) lbl1.innerText = "Fecha / Estado";
+        
+        // 🌟 APAGADO DE OBLIGATORIEDAD: Evita el error de enfoque del navegador en controles ocultos
+        if (input2) input2.required = false;
+        if (input3) input3.required = false;
+
+        // Ocultamos de forma absoluta los inputs redundantes para dejar un solo campo activo
+        if (c2) c2.style.display = "none"; 
+        if (c3) c3.style.display = "none";
+        if (c4) c4.style.display = "none"; 
+        if (c5) c5.style.display = "none";
+        if (c6) c6.style.display = "none"; 
+        if (c7) c7.style.display = "none"; 
+        if (c8) c8.style.display = "none";
+
+    } else if (hojaSeleccionada === "Hospitalidad") {
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Hospitalidad)";
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Encargado"; if (lbl3) lbl3.innerText = "Contacto";
         if (lbl4) lbl4.innerText = "Dirección";
+
         if (c4) c4.style.display = "flex";
         if (c5) c5.style.display = "none"; if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
 
-    } else if (hojaSeleccionada === "Seguridad") {
-        if (tituloFormulario) tituloFormulario.innerText = "Modificar Programa (Seguridad)";
-        if (lbl1) lbl1.innerText = "Fecha / Estado"; 
-        if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
-        if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
-
-        // Mantenemos el precargador visual síncrono que ya te funcionaba bien
-        setTimeout(function() {
-            const input2 = document.getElementById("txtSuperintendente");
-            const input3 = document.getElementById("txtTelefono");
-            const primeraFila = document.querySelector("#tablaCuerpo tr");
-            if (primeraFila && primeraFila.cells) {
-                if (input2 && (input2.value === "" || input2.value === "-")) {
-                    if (primeraFila.cells[1]) input2.value = (primeraFila.cells[1].textContent || primeraFila.cells[1].innerText).trim();
-                }
-                if (input3 && (input3.value === "" || input3.value === "-")) {
-                    if (primeraFila.cells[2]) input3.value = (primeraFila.cells[2].textContent || primeraFila.cells[2].innerText).trim();
-                }
-            }
-        }, 150);
-
     } else if (hojaSeleccionada.includes("Estudios")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada.replace(/_/g, " ")})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Visitante"; if (lbl3) lbl3.innerText = "Acompañante";
         if (lbl4) lbl4.innerText = "Teléfono"; if (lbl5) lbl5.innerText = "Estudiante"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Publicación"; if (lbl8) lbl8.innerText = "Detalles";
+        
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
 
     } else if (hojaSeleccionada.includes("Pastoreo")) {
-        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada})`;
+        if (tituloFormulario) tituloFormulario.innerText = `Añadir Registro (${hojaSeleccionada.replace(/_/g, " ")})`;
         if (lbl1) lbl1.innerText = "Día"; if (lbl2) lbl2.innerText = "Acompañante"; if (lbl3) lbl3.innerText = "Teléfono";
         if (lbl4) lbl4.innerText = "Hogar"; if (lbl5) lbl5.innerText = "Contacto"; if (lbl6) lbl6.innerText = "Dirección"; if (lbl7) lbl7.innerText = "Detalles"; if (lbl8) lbl8.innerText = "Objetivo";
+        
         if (c4) c4.style.display = "flex"; if (c5) c5.style.display = "flex";
         if (c6) c6.style.display = "flex"; if (c7) c7.style.display = "flex"; if (c8) c8.style.display = "flex";
         
     } else {
         if (lbl1) lbl1.innerText = "Grupo / Día"; if (lbl2) lbl2.innerText = "Superintendente / Encargado"; if (lbl3) lbl3.innerText = "Teléfono / Contacto";
+        
         if (c4) c4.style.display = "none"; if (c5) c5.style.display = "none";
         if (c6) c6.style.display = "none"; if (c7) c7.style.display = "none"; if (c8) c8.style.display = "none";
         if (tituloFormulario) tituloFormulario.innerText = "Añadir Registro (Superintendentes)";
     }
 }
 
-// 🌟 INTEGRACIÓN DE LA MODIFICACIÓN CRÍTICA EN EL MOTOR DE ENVÍO
-// Sobreescribimos la función para que intercepte el submit antes del barrido masivo
-async function guardarRegistro(e) {
-    e.preventDefault();
-    const hoja = document.getElementById("selectorHoja").value;
-    const formData = new FormData(e.target);
-    const datos = {};
-    let payload = {};
-
-    // 🛡️ EL BLINDAJE DE EXCLUSIÓN: Si es Seguridad, abortamos el bucle destructivo .forEach
-    if (hoja === "Seguridad" || hoja === "Seguridad (Programa)") {
-        // Recorremos síncronamente el valor escrito en el único input visible (txtGrupo)
-        const valorA1 = formData.get("txtGrupo") || document.getElementById("txtGrupo")?.value;
-
-        payload = {
-            action: "update",
-            hoja: "Seguridad",
-            tipoEstructura: "vertical",
-            index: 0, // Indica fijación estricta en la primera fila (Celda A1)
-            datos: { "Grupo / Día": valorA1 }, // Empaquetado puro de una sola variable para A1
-            soloCelda: true // Bandera de seguridad para el servidor
-        };
-        console.warn("🛡️ [Modificación Aplicada] Saltando bucle masivo .forEach. Transmitiendo celda A1 aislada.");
-    } else {
-        // =========================================================================
-        // TU MOTOR ORIGINAL SÍNCRONO INTACTO PARA TODAS LAS DEMÁS HOJAS
-        // Aquí es donde corre el .forEach regular que ya te funciona perfecto
-        // =========================================================================
-        estructuras[hoja].campos.forEach(c => datos[c] = formData.get(c));
-
-        payload = {
-            action: registroEditandoIndex !== null ? "update" : "create",
-            hoja: hoja,
-            tipoEstructura: estructuras[hoja].tipo,
-            index: registroEditandoIndex,
-            datos: datos
-        };
-    }
-
-    // --- PROCESO DE TRANSMISIÓN DE FÁBRICA ---
-    document.getElementById("btnGuardar").innerText = "Procesando...";
-
-    try {
-        await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
-        alert("¡Registro guardado con éxito!");
-    } catch (err) {
-        alert("Error al guardar.");
-    }
-
-    document.getElementById("btnGuardar").innerText = "💾 Guardar Registro";
-    e.target.reset();
-    if (typeof inicializarFormulario === "function") inicializarFormulario();
-    if (typeof cargarDatos === "function") cargarDatos();
-}
 
 // =========================================================================
 // SECCIÓN 9 (NUEVA): MAQUINARIA INTERACTIVA DE INSTALACIÓN PWA (APP.JS)
