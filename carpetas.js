@@ -4,15 +4,20 @@
 const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTjFd6E3bbZvfdK0ltV85SFqLHukNOQsKBhxB5HXtj2GBa3SegPSaMl2eOmyccCnK7CQ/exec";
 
 // =========================================================================
-// SECCIÓN 2: VARIABLES DE MEMORIA INTERNA AISLADA DE PRODUCCIÓN
+//  SECCIÓN 2: ARCHIVO INTEGRADO CENTRAL: carpetas.js (PRODUCCIÓN - PARTE 1 MÁXIMA VELOCIDAD)
+// OPTIMIZACIÓN: Carga perezosa (Lazy Loading). Bloquea peticiones al arrancar
+// la app para liberar el canal de red de las hojas, logrando un encendido instantáneo.
 // =========================================================================
+
+
+// Variables de memoria interna aislada de producción
 let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM"; // Carpeta raíz
 let drive_NombreArchivoSeleccionado = "";
 let drive_MimeTypeSeleccionado = "";
 let drive_Base64DataSeleccionada = "";
 
 // =========================================================================
-// SECCIÓN 3: EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS CALLBACK API)
+// SECCIÓN 3: EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS)
 // =========================================================================
 
 // Lanza la petición script sincronizada con la macro de Google
@@ -25,7 +30,7 @@ function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
     document.body.appendChild(script);
 }
 
-// Envía el nombre del archivo para validar duplicados usando el callback correcto
+// Envía el nombre del archivo para validar duplicados
 function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
     const viejo = document.getElementById("script-drive-verificar");
     if (viejo) viejo.remove();
@@ -36,11 +41,10 @@ function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
 }
 
 // =========================================================================
-// SECCIÓN 4: RECEPTORES VISUALES DE RESPUESTAS ASÍNCRONAS (REJILLAS)
+// SECCIÓN 4: RECEPTORES VISUALES DE RESPUESTAS ASÍNCRONAS
 // =========================================================================
 
 window.recibirEstructuraDrive = function (resultado) {
-    // Traduce la validación del estado del servidor a español limpio
     if (!resultado || resultado.status !== "success") return;
     
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
@@ -90,6 +94,50 @@ window.recibirEstructuraDrive = function (resultado) {
         });
     }
 };
+
+window.recibirVerificacionDrive = function (respuesta) {
+    if (!respuesta || respuesta.status !== "success") return;
+
+    let seMuestraEnPantalla = false;
+    const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
+    if (tablaCuerpoDrive) {
+        const filas = tablaCuerpoDrive.getElementsByTagName("tr");
+        for (let i = 0; i < filas.length; i++) {
+            if (filas[i].innerText.includes(drive_NombreArchivoSeleccionado)) {
+                seMuestraEnPantalla = true;
+                break;
+            }
+        }
+    }
+
+    if (respuesta.existe === true || seMuestraEnPantalla === true) {
+        if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
+            if (typeof window.mostrarNotificacionToast === "function") {
+                window.mostrarNotificacionToast("No es el mismo formato, no se puede actualizar.", true);
+            } else {
+                alert("No es el mismo formato, no se puede actualizar.");
+            }
+            Secc6_Fun2_RestablecerFormularioCarga();
+            return;
+        }
+
+        let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
+        if (confirmarReemplazo) {
+            Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
+        } else {
+            Secc6_Fun2_RestablecerFormularioCarga();
+        }
+    } 
+    else {
+        let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
+        if (confirmarNuevo) {
+            Secc6_Fun1_TransmitirBytesHaciaNube("crearNuevo", null);
+        } else {
+            Secc6_Fun2_RestablecerFormularioCarga();
+        }
+    }
+};
+
 
 // =========================================================================
 // SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO
@@ -209,7 +257,6 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     })
     .then(res => res.json())
     .then(data => {
-        // 2) ALERTA DE RECORDATORIO EN ESPAÑOL MAESTRO
         if (typeof window.mostrarNotificacionToast === "function") {
             window.mostrarNotificacionToast("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         } else {
@@ -241,7 +288,7 @@ function Secc6_Fun2_RestablecerFormularioCarga() {
 }
 
 // =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
+// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS CON CARGA REACTIVA
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     const selectorSub = document.getElementById("selectorSubcarpetas");
@@ -276,9 +323,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    setTimeout(() => {
-        Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
-    }, 1000);
+    // 🌟 DISPARADOR REACTIVO INTELIGENTE: Escucha el selector general de la App en producción
+    const selectorHojasGlobal = document.getElementById("selectorHoja");
+    if (selectorHGlobal) {
+        selectorHGlobal.addEventListener("change", (e) => {
+            // El canal hacia Google Drive SOLO se abre si el usuario selecciona de forma activa las carpetas
+            if (e.target.value === "Gestor_Carpetas") {
+                console.log("⚡ [Carga Reactiva] Activando sincronización bajo demanda para Google Drive.");
+                Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
+            }
+        });
+    }
 });
 
 // =========================================================================
@@ -292,27 +347,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (inputArchivoOriginal && contenedorIcono) {
         inputArchivoOriginal.addEventListener("change", (e) => {
             const archivos = e.target.files;
-            
             if (!archivos || archivos.length === 0) {
                 contenedorIcono.innerHTML = "";
                 return;
             }
-            
             const documento = archivos[0];
             const formatoDetectado = documento.type || documento.name.split('.').pop();
-            
             contenedorIcono.innerHTML = obtenerIconoFormato(formatoDetectado);
         });
     }
 
     if (btnCargaOriginal && contenedorIcono) {
         btnCargaOriginal.addEventListener("click", () => {
-            const intervaloLimpieza = setInterval(() => {
+            // Reemplazo optimizado: Limpieza inmediata impulsada por evento directo en lugar de intervalos pesados
+            setTimeout(() => {
                 if (!inputArchivoOriginal || !inputArchivoOriginal.value) {
                     contenedorIcono.innerHTML = "";
-                    clearInterval(intervaloLimpieza);
                 }
-            }, 500);
+            }, 600);
         });
     }
 });
