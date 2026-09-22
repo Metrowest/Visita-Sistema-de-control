@@ -82,21 +82,30 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
 // al 100% intacta tu lógica original de antidesfase vertical y flujos horizontales.
 // =========================================================================
 function recibirDatosDesdeGoogle(json) {
-    console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
+    console.log("¡Decodificador maestro activado! Clasificando datos...");
     const tablaCabecera = document.getElementById("tablaCabecera");
     const tablaCuerpo = document.getElementById("tablaCuerpo");
     
     if(tablaCuerpo) tablaCuerpo.innerHTML = "";
 
     let datosMatriz = json && json.data ? json.data : json;
-    if (json && json.status === "success" && json.message && Array.isArray(json.message)) { 
+    if (json && json.status === "success" && json.message && 
+        Array.isArray(json.message)) { 
         datosMatriz = json.message; 
     }
 
-    if (!datosMatriz || !Array.isArray(datosMatriz) || datosMatriz.length === 0) {
+    if (!datosMatriz || !Array.isArray(datosMatriz) || 
+        datosMatriz.length === 0) {
         const hojaActiva = document.getElementById("selectorHoja").value;
-        const totalColumnas = (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) ? 9 : (hojaActiva === "Hospitalidad" ? 5 : 4);
-        if(tablaCuerpo) tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">No hay registros guardados en esta sección.</td></tr>`;
+        const totalColumnas = (hojaActiva.includes("Estudios") || 
+            hojaActiva.includes("Pastoreo")) ? 9 : 
+            (hojaActiva === "Hospitalidad" ? 5 : 4);
+            
+        if(tablaCuerpo) {
+            tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">
+                No hay registros guardados en esta sección.
+            </td></tr>`;
+        }
         return;
     }
 
@@ -109,7 +118,7 @@ function recibirDatosDesdeGoogle(json) {
     // =========================================================================
     if (hojaActiva === "Seguridad") {
         encabezadosTextos = ["Fecha / Estado"];
-        llavesMapeo = ["grupo"]; // Mapea de forma temporal la celda al input superior txtGrupo
+        llavesMapeo = ["grupo"]; 
         
     } else if (hojaActiva === "Superintendentes") {
         encabezadosTextos = ["Grupo", "Superintendente", "Teléfono"];
@@ -120,12 +129,16 @@ function recibirDatosDesdeGoogle(json) {
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
         
     } else if (hojaActiva.includes("Estudios")) {
-        encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", "Estudiante", "Dirección", "Publicación", "Detalles"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
+        encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", 
+            "Estudiante", "Dirección", "Publicación", "Detalles"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", 
+            "campo5", "campo6", "campo7", "campo8"];
         
     } else if (hojaActiva.includes("Pastoreo")) {
-        encabezadosTextos = ["Día", "Acompañante", "Teléfono", "Hogar", "Contacto", "Dirección", "Detalles", "Objetivo"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", "campo5", "campo6", "campo7", "campo8"];
+        encabezadosTextos = ["Día", "Acompañante", "Teléfono", "Hogar", 
+            "Contacto", "Dirección", "Detalles", "Objetivo"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", 
+            "campo5", "campo6", "campo7", "campo8"];
     }
 
     // Dibujamos las cabeceras de columnas en sentido estrictamente horizontal
@@ -139,146 +152,119 @@ function recibirDatosDesdeGoogle(json) {
     // =========================================================================
     if (hojaActiva === "Seguridad") {
         datosMatriz.forEach((row, index) => {
-            // Extrae el valor de la fila de forma tolerante (por clave u objeto de matriz plano)
-            let valorReal = (typeof row === "object" && row !== null) ? (row["Fecha / Estado"] || row["grupo"] || Object.values(row)[0]) : row;
+            let valorReal = (typeof row === "object" && row !== null) ? 
+                (row["Fecha / Estado"] || row["grupo"] || 
+                Object.values(row)[0]) : row;
             
-            // Ignoramos la línea si repite por accidente el nombre de la cabecera
             if (String(valorReal).trim() === "Fecha / Estado") return;
 
             let htmlFila = "<tr>";
             htmlFila += `<td>${String(valorReal || "").trim()}</td>`;
-            
-            // Creamos un objeto limpio compatible con tu actualizador para inyectar en los inputs superiores
             let objetoFila = { grupo: String(valorReal || "").trim() };
             
             htmlFila += `<td>
-                <button type="button" class="btn-edit" style="cursor:pointer;" onclick="window.editarRegistro(${index}, ${JSON.stringify(objetoFila).replace(/"/g, '&quot;')})">✏️</button>
+                <button type="button" class="btn-edit" style="cursor:pointer;" 
+                    onclick="window.editarRegistro(${index}, 
+                    ${JSON.stringify(objetoFila).replace(/"/g, '&quot;')})">
+                    ✏️
+                </button>
             </td></tr>`;
             
-            if(tablaCuerpo) tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+            if(tablaCuerpo) {
+                tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+            }
         });
-        return; // Finaliza el flujo de Seguridad con blindaje absoluto
+        return; 
     }
 
     // =========================================================================
-    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO (INTACTO)
+    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
     // =========================================================================
     if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
         
         let celdasPlanasRaw = [];
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
-                celdasPlanasRaw.push(fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "");
+                celdasPlanasRaw.push(fila[0] !== undefined && fila[0] !== null ? 
+                    fila[0].toString().trim() : "");
             } else {
-                celdasPlanasRaw.push(fila !== undefined && fila !== null ? fila.toString().trim() : "");
+                celdasPlanasRaw.push(fila !== undefined && fila !== null ? 
+                    fila.toString().trim() : "");
             }
         });
 
-        // REGLA DE DETECCIÓN INTELIGENTE: Si en la Columna A la celda actual y la siguiente 
-        // son idénticas, limpiamos el duplicado en memoria para realinear todo el vector vertical
         let celdasPlanas = [];
         for (let k = 0; k < celdasPlanasRaw.length; k++) {
-            if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
-                console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
-                continue; // Saltamos el elemento repetido para empujar las variables un lugar hacia atrás
+            if (k > 0 && celdasPlanasRaw[k] !== "" && 
+                celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && 
+                celdasPlanasRaw[k].includes("Dia:")) {
+                console.log("¡Desfase físico detectado en la Columna A!");
+                continue; 
             }
             celdasPlanas.push(celdasPlanasRaw[k]);
         }
         
         let contadorBloque = 0;
         
-        // Recorremos la lista limpia saltando de 8 en 8 celdas consecutivas hacia abajo
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
-            if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
+            if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && 
+                celdasPlanas[i+2] === "") continue;
 
             let objetoFila = {
-                grupo: celdasPlanas[i] || "",            // Celda 1: Día
-                superintendente: celdasPlanas[i+1] || "", // Celda 2: Acompañante o Visitante
-                telefono: celdasPlanas[i+2] || "",        // Celda 3: Teléfono o Acompañante
-                campo4: celdasPlanas[i+3] || "",          // Celda 4: Hogar o Teléfono
-                campo5: celdasPlanas[i+4] || "",          // Celda 5: Contacto o Estudiante
-                campo6: celdasPlanas[i+5] || "",          // Celda 6: Dirección
-                campo7: celdasPlanas[i+6] || "",          // Celda 7: Detalles o Publicación
-                campo8: celdasPlanas[i+7] || ""           // Celda 8: Objetivo o Detalles
+                grupo: celdasPlanas[i] || "",            
+                superintendente: celdasPlanas[i+1] || "", 
+                telefono: celdasPlanas[i+2] || "",        
+                campo4: celdasPlanas[i+3] || "",          
+                campo5: celdasPlanas[i+4] || "",          
+                campo6: celdasPlanas[i+5] || "",          
+                campo7: celdasPlanas[i+6] || "",          
+                campo8: celdasPlanas[i+7] || ""           
             };
             
-            Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
+            Secc30_1_DibujarRenglonEnPantalla(
+                contadorBloque, 
+                objetoFila, 
+                llavesMapeo
+            );
             contadorBloque++;
         }
         
         if (contadorBloque === 0 && tablaCuerpo) {
-            tablaCuerpo.innerHTML = `<tr><td colspan="9">No hay registros válidos guardados en esta sección.</td></tr>`;
+            tablaCuerpo.innerHTML = `<tr><td colspan="9">
+                No hay registros válidos guardados en esta sección.
+            </td></tr>`;
         }
         
     } else {
-        // Flujo horizontal estándar para las primeras dos pestañas (A, B, C, D)
+        // =========================================================================
+        // PARTE COMPLETADA: Flujo horizontal estándar para las primeras dos pestañas
+        // =========================================================================
         for (let i = 1; i < datosMatriz.length; i++) {
             const fila = datosMatriz[i];
             if (!fila || fila.length === 0) continue;
 
             let objetoFila = {
-                grupo: fila[0] !== undefined && fila[0] !== null ? fila[0].toString().trim() : "",
-                superintendente: fila[1] !== undefined && fila[1] !== null ? fila[1].toString().trim() : "",
-                telefono: fila[2] !== undefined && fila[2] !== null ? fila[2].toString().trim() : "",
-                direccion: fila[3] !== undefined && fila[3] !== null ? fila[3].toString().trim() : ""
+                grupo: fila[0] !== undefined && fila[0] !== null ? 
+                    fila[0].toString().trim() : "",
+                superintendente: fila[1] !== undefined && fila[1] !== null ? 
+                    fila[1].toString().trim() : "",
+                telefono: fila[2] !== undefined && fila[2] !== null ? 
+                    fila[2].toString().trim() : "",
+                direccion: fila[3] !== undefined && fila[3] !== null ? 
+                    fila[3].toString().trim() : ""
             };
             
-            Secc30_1_DibujarRenglonEnPantalla(i - 1, objetoFila, llavesMapeo);
+            Secc30_1_DibujarRenglonEnPantalla(
+                i - 1, 
+                objetoFila, 
+                llavesMapeo
+            );
         }
     }
 }
 
-// ==========================================
-// ADICIÓN PURIFICADA: INTERCEPTOR DE ALERTAS PASTELES
-// ==========================================
-function mostrarAlertaPastel(mensaje, tipo) {
-  // Diccionario obligatorio de emojis
-  const iconosAlerta = {
-    'exito': '✨',         
-    'confirmacion': '🤔',  
-    'advertencia': '⚠️',   
-    'error': '🚨'          
-  };
-
-  const iconoHtml = iconosAlerta[tipo] || '📌';
-
-  let contenedorAlertas = document.getElementById(
-      'contenedor-alertas-pasteles'
-  );
-  
-  if (!contenedorAlertas) {
-    contenedorAlertas = document.createElement('div');
-    contenedorAlertas.id = 'contenedor-alertas-pasteles';
-    contenedorAlertas.className = 'contenedor-toast-global';
-    document.body.appendChild(contenedorAlertas);
-  }
-
-  const alerta = document.createElement('div');
-  alerta.className = `alerta-pastel alerta-${tipo}`;
-
-  alerta.innerHTML = `
-    <span class="alerta-icono">${iconoHtml}</span>
-    <span class="alerta-texto">${mensaje}</span>
-  `;
-
-  contenedorAlertas.appendChild(alerta);
-
-  // Temporizador de lectura: 6 segundos en total
-  setTimeout(() => {
-    alerta.classList.add('salida');
-    setTimeout(() => {
-      alerta.remove();
-      if (contenedorAlertas.childElementCount === 0) {
-        contenedorAlertas.remove();
-      }
-    }, 300); 
-  }, 6000); 
-}
-
-window.mostrarAlertaPastel = mostrarAlertaPastel;
-
-// =========================================================================
+// ==========================================================
 // SECCIÓN 4: CONTROLADOR DE EDICIÓN PASIVA TOTALMENTE INTEGRADO (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 3)
 // =========================================================================
