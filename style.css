@@ -376,8 +376,6 @@ tr:last-child td {
 
 /* ==========================================================
    SECCIÓN 6: TABLERO PWA INFRAESTRUCTURA Y MODALES
-   Descripción: Controla el banner compacto fijado abajo 
-   para la instalación autónoma de la WebApp.
    ========================================================== */
 div#bannerInstalacionPWA {
     background-color: #a12cbb;
@@ -509,8 +507,6 @@ button#btnInstalarPWA {
 
 /* ==========================================================
    SECCIÓN 7: ALERTAS PASTEL INTEGRADAS (NOTIFICACIONES)
-   Descripción: Controla la apariencia visual de los Toasts
-   acoplados a las clases inyectadas desde app.js.
    ========================================================== */
 .contenedor-toast-global {
     position: fixed;
@@ -530,8 +526,6 @@ button#btnInstalarPWA {
     align-items: center;
     gap: 12px;
     padding: 14px 16px;
-    background-color: #e6f4ea; 
-    border-left: 5px solid #34a853;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     pointer-events: auto;
@@ -540,20 +534,25 @@ button#btnInstalarPWA {
     animation: entradaAlertaPastel 0.3s ease-out forwards;
 }
 
-/* Variaciones cromáticas pasteles específicas */
+/* 🛡️ CORRECCIÓN DE ACOPLE: Éxito Pastel explícito */
+.alerta-pastel.alerta-exito {
+    background-color: #e6f4ea !important;
+    border-left: 5px solid #34a853 !important;
+}
+
 .alerta-pastel.alerta-confirmacion {
-    background-color: #e8f0fe;
-    border-left-color: #1a73e8;
+    background-color: #e8f0fe !important;
+    border-left: 5px solid #1a73e8 !important;
 }
 
 .alerta-pastel.alerta-advertencia {
-    background-color: #fef7e0;
-    border-left-color: #fbbc04;
+    background-color: #fef7e0 !important;
+    border-left: 5px solid #fbbc04 !important;
 }
 
 .alerta-pastel.alerta-error {
-    background-color: #fce8e6;
-    border-left-color: #ea4335;
+    background-color: #fce8e6 !important;
+    border-left: 5px solid #ea4335 !important;
 }
 
 .alerta-icono {
