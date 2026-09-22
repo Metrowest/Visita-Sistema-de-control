@@ -530,7 +530,7 @@ button#btnInstalarPWA {
     align-items: center;
     gap: 12px;
     padding: 14px 16px;
-    background-color: #e6f4ea; /* Éxito por defecto */
+    background-color: #e6f4ea; 
     border-left: 5px solid #34a853;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -569,7 +569,6 @@ button#btnInstalarPWA {
     line-height: 1.4;
 }
 
-/* Animaciones de transición de las notificaciones */
 .alerta-pastel.salida {
     animation: salidaAlertaPastel 0.3s ease-in forwards;
 }
@@ -583,5 +582,3 @@ button#btnInstalarPWA {
     from { opacity: 1; transform: translateX(0); }
     to { opacity: 0; transform: translateX(100%); }
 }
-
-
