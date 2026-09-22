@@ -323,10 +323,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 🌟 DISPARADOR REACTIVO INTELIGENTE: Escucha el selector general de la App en producción
+    // 🌟 ENRUTADOR REACTIVO INTELIGENTE CORREGIDO: Las variables coinciden perfectamente
     const selectorHojasGlobal = document.getElementById("selectorHoja");
-    if (selectorHGlobal) {
-        selectorHGlobal.addEventListener("change", (e) => {
+    if (selectorHojasGlobal) {
+        selectorHojasGlobal.addEventListener("change", (e) => {
             // El canal hacia Google Drive SOLO se abre si el usuario selecciona de forma activa las carpetas
             if (e.target.value === "Gestor_Carpetas") {
                 console.log("⚡ [Carga Reactiva] Activando sincronización bajo demanda para Google Drive.");
@@ -368,3 +368,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
