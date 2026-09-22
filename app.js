@@ -22,6 +22,7 @@ const ENLACES_HOJAS = {
     "Seguridad": "https://metrowest.github.io/Visita/seguridad.html"
 };
 
+
 // =========================================================================
 // SECCIÓN 2: DISPARADOR AUTOMÁTICO DE LECTURA DINÁMICA (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 1)
@@ -52,12 +53,11 @@ function cargarDatos() {
 }
 
 // =========================================================================
-// SECCIÓN 3 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
-// Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
+// SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
+// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA NUNCA MODIFICAR)
 // =========================================================================
 function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisibles) {
     const tablaCuerpo = document.getElementById("tablaCuerpo");
-    if (!tablaCuerpo) return;
     
     // Construimos la fila en sentido estrictamente horizontal recorriendo las llaves del registro
     let htmlFila = "<tr>";
@@ -78,8 +78,8 @@ function Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, columnasVisible
 // SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
 // Descripción: Clasifica y procesa de forma adaptativa las estructuras. Si es 
-// Seguridad, rompe la regla limitadora vieja, genera la cabecera "Fecha / Estado" 
-// y despliega las 67 líneas completas. Mantiene intactos tus flujos verticales y horizontales.
+// Seguridad, genera la cabecera e indexa de forma tolerante cada línea. Mantiene 
+// al 100% intacta tu lógica original de antidesfase vertical y flujos horizontales.
 // =========================================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado! Clasificando datos de Google por su tipo de estructura...");
@@ -135,20 +135,20 @@ function recibirDatosDesdeGoogle(json) {
     if(tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
 
     // =========================================================================
-    // 🛡️ ENRUTADOR EXCLUSIVO ADAPTATIVO PARA DESPLEGAR LAS 67 LÍNEAS DE SEGURIDAD
+    // 🛡️ ENRUTADOR EXCLUSIVO ADAPTATIVO PARA HOJA SEGURIDAD
     // =========================================================================
     if (hojaActiva === "Seguridad") {
         datosMatriz.forEach((row, index) => {
             // Extrae el valor de la fila de forma tolerante (por clave u objeto de matriz plano)
             let valorReal = (typeof row === "object" && row !== null) ? (row["Fecha / Estado"] || row["grupo"] || Object.values(row)[0]) : row;
             
-            // Ignoramos la línea si repite por accidente el nombre de la cabecera de la hoja
+            // Ignoramos la línea si repite por accidente el nombre de la cabecera
             if (String(valorReal).trim() === "Fecha / Estado") return;
 
             let htmlFila = "<tr>";
             htmlFila += `<td>${String(valorReal || "").trim()}</td>`;
             
-            // Creamos un objeto limpio compatible con tu actualizador para inyectar en el input txtGrupo
+            // Creamos un objeto limpio compatible con tu actualizador para inyectar en los inputs superiores
             let objetoFila = { grupo: String(valorReal || "").trim() };
             
             htmlFila += `<td>
@@ -157,7 +157,7 @@ function recibirDatosDesdeGoogle(json) {
             
             if(tablaCuerpo) tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
         });
-        return; // Finaliza el flujo de Seguridad de forma aislada con blindaje absoluto
+        return; // Finaliza el flujo de Seguridad con blindaje absoluto
     }
 
     // =========================================================================
@@ -174,30 +174,33 @@ function recibirDatosDesdeGoogle(json) {
             }
         });
 
+        // REGLA DE DETECCIÓN INTELIGENTE: Si en la Columna A la celda actual y la siguiente 
+        // son idénticas, limpiamos el duplicado en memoria para realinear todo el vector vertical
         let celdasPlanas = [];
         for (let k = 0; k < celdasPlanasRaw.length; k++) {
             if (k > 0 && celdasPlanasRaw[k] !== "" && celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && celdasPlanasRaw[k].includes("Dia:")) {
                 console.log("¡Desfase físico detectado en la Columna A de la hoja! Corrigiendo alineación...");
-                continue; 
+                continue; // Saltamos el elemento repetido para empujar las variables un lugar hacia atrás
             }
             celdasPlanas.push(celdasPlanasRaw[k]);
         }
         
         let contadorBloque = 0;
         
+        // Recorremos la lista limpia saltando de 8 en 8 celdas consecutivas hacia abajo
         for (let i = 0; i < celdasPlanas.length; i += 8) {
             if (i >= celdasPlanas.length) break;
             if (celdasPlanas[i] === "" && celdasPlanas[i+1] === "" && celdasPlanas[i+2] === "") continue;
 
             let objetoFila = {
-                grupo: celdasPlanas[i] || "",            
-                superintendente: celdasPlanas[i+1] || "", 
-                telefono: celdasPlanas[i+2] || "",        
-                campo4: celdasPlanas[i+3] || "",          
-                campo5: celdasPlanas[i+4] || "",          
-                campo6: celdasPlanas[i+5] || "",          
-                campo7: celdasPlanas[i+6] || "",          
-                campo8: celdasPlanas[i+7] || ""           
+                grupo: celdasPlanas[i] || "",            // Celda 1: Día
+                superintendente: celdasPlanas[i+1] || "", // Celda 2: Acompañante o Visitante
+                telefono: celdasPlanas[i+2] || "",        // Celda 3: Teléfono o Acompañante
+                campo4: celdasPlanas[i+3] || "",          // Celda 4: Hogar o Teléfono
+                campo5: celdasPlanas[i+4] || "",          // Celda 5: Contacto o Estudiante
+                campo6: celdasPlanas[i+5] || "",          // Celda 6: Dirección
+                campo7: celdasPlanas[i+6] || "",          // Celda 7: Detalles o Publicación
+                campo8: celdasPlanas[i+7] || ""           // Celda 8: Objetivo o Detalles
             };
             
             Secc30_1_DibujarRenglonEnPantalla(contadorBloque, objetoFila, llavesMapeo);
@@ -264,6 +267,8 @@ function editarRegistro(index, rowData) {
 // =========================================================================
 // SECCIÓN 5: INTERCEPTOR DE GUARDADO CON TRADUCTOR DE ENTORNO UNIVERSAL (APP.JS)
 // Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN 4)
+// Descripción: Empaqueta los datos del formulario antes de transmitir de forma remota.
+// Envía el índice exacto de la línea y el valor del input a la nueva lógica del Code.gs.
 // =========================================================================
 function procesarGuardadoRegistro(evento) {
     evento.preventDefault();
@@ -289,15 +294,15 @@ function procesarGuardadoRegistro(evento) {
     console.log("Transmitiendo datos de forma segura hacia la pestaña de la nube: " + hoja);
 
     const grupo = document.getElementById("txtGrupo").value.trim();
-    const superint = document.getElementById("txtSuperintendente").value.trim();
+    let superint = document.getElementById("txtSuperintendente").value.trim();
     let tel = document.getElementById("txtTelefono").value.trim();
 
-    // 1. ACOPLE HORIZONTAL: Si es Hospitalidad, adjuntamos la dirección
+    // 1. ACOPLE HORIZONTAL TRADICIONAL: Si es Hospitalidad, adjuntamos la dirección
     if (hoja === "Hospitalidad") {
         const direccionExtra = document.getElementById("txtCampo4").value.trim();
         tel = `${tel}&direccion=${encodeURIComponent(direccionExtra)}`;
     }
-    // 2. ACOPLE VERTICAL: Si la pestaña es de Estudios o Pastoreo, serializamos los 8 campos consecutivos
+    // 2. ACOPLE VERTICAL REGULAR: Si la pestaña es de Estudios o Pastoreo, serializamos los 8 campos de forma normal
     else if (hoja.includes("Estudios") || hoja.includes("Pastoreo")) {
         const c4 = document.getElementById("txtCampo4").value.trim();
         const c5 = document.getElementById("txtCampo5").value.trim();
@@ -314,7 +319,7 @@ function procesarGuardadoRegistro(evento) {
     const script = document.createElement("script");
     script.id = "script-guardar-hojas";
     
-    // Despachamos la URL corregida con el nombre de hoja purificado con espacios y acentos
+    // Despachamos la URL limpia. El Code.gs ya sabe qué hacer si la hoja es "Seguridad" sin necesidad de parches
     script.src = `${WEB_APP_URL}?accion=guardar&hoja=${encodeURIComponent(hoja)}&index=${registroEditandoIndex}&grupo=${encodeURIComponent(grupo)}&superintendente=${encodeURIComponent(superint)}&telefono=${(hoja === "Hospitalidad" || hoja.includes("Estudios") || hoja.includes("Pastoreo")) ? tel : encodeURIComponent(tel)}`;
     document.body.appendChild(script);
 }
@@ -426,25 +431,20 @@ window.recibirRespuestaAccion = recibirRespuestaAccion;
 window.editarRegistro = editarRegistro;
 window.borrarRegistro = Secc53_1_ActivarBorradoPuente;
 
-// Disparamos la lectura automática de la base de datos en cuanto se abre el archivo
-document.addEventListener("DOMContentLoaded", cargarDatos);
-
 // =========================================================================
-// SECCIÓN 8.2.1 (FIJA): MOTOR DE INYECCIÓN DE SCRIPTS ASÍNCRONOS
-// Ubicación del bloque: PARTE INFERIOR (COMPONENTE DE RED SEGURO)
+// SECCIÓN 8.2.1 (FIJA - NO SE TOCA): MOTOR PURO DE INYECCIÓN LOCAL (APP.JS)
+// Ubicación del bloque: ABAJO DEL TODO (FINAL ABSOLUTO DEL ARCHIVO)
 // =========================================================================
-
-function Secc821_1_DispararPeticionServidor(url) {
-    console.log("Inyectando etiqueta script de red de forma segura...");
-    
+function Secc821_1_DispararPeticionServidor(urlFinalConParametros) {
+    console.log("¡Motor fijo inyectando script local libre de CORS!");
     const scriptViejo = document.getElementById("script-carga-hojas");
     if (scriptViejo) scriptViejo.remove();
 
     const script = document.createElement("script");
     script.id = "script-carga-hojas";
-    script.src = url;
+    script.src = urlFinalConParametros;
     document.body.appendChild(script);
-} // <-- Esta es la llave de cierre crítica que se pudo haber perdido
+}
 
 // =========================================================================
 // SECCIÓN 8.2.2 (CONFIGURACIÓN DINÁMICA): TABLERO DE CONTROL DE HOJAS TOLEANTE
@@ -454,25 +454,7 @@ function cargarDatos() {
     const hojaRaw = document.getElementById("selectorHoja").value;
     console.log("Configurando parámetros de URL para la sección activa: " + hojaRaw);
     
-    const bloqueSuper = document.getElementById("contenedorCampo2");
-    const bloqueTelef = document.getElementById("contenedorCampo3");
-    const inputSuper = document.getElementById("txtSuperintendente");
-    const inputTelef = document.getElementById("txtTelefono");
-
-    // REGLA DE ADAPTACIÓN DE FORMULARIO PARA SEGURIDAD
-    if (hojaRaw === "Seguridad") {
-        console.log("Adaptando formulario para Seguridad: Ocultando campos excedentes.");
-        if (bloqueSuper) bloqueSuper.style.display = "none";
-        if (bloqueTelef) bloqueTelef.style.display = "none";
-        if (inputSuper) inputSuper.required = false;
-        if (inputTelef) inputTelef.required = false;
-    } else {
-        if (bloqueSuper) bloqueSuper.style.display = "block";
-        if (bloqueTelef) bloqueTelef.style.display = "block";
-        if (inputSuper) inputSuper.required = true;
-        if (inputTelef) inputTelef.required = true;
-    }
-    
+    // BLINDAJE DE CONVERSIÓN: Traduce guiones bajos en espacios y quita acentos básicos si se requiere
     let hoja = hojaRaw.replace(/_/g, " ");
     if (hoja === "Estudios Dia 1") hoja = "Estudios Día 1";
     if (hoja === "Estudios Dia 2") hoja = "Estudios Día 2";
@@ -483,7 +465,12 @@ function cargarDatos() {
     
     let urlConstruida = "";
 
-    if (hoja === "Superintendentes" || hoja === "Hospitalidad" || hoja === "Seguridad") {
+    // 🌟 VALIDACIÓN INTERACTIVA DINÁMICA CON REGISTRO DE CANAL PARA SEGURIDAD
+    if (hoja === "Seguridad") {
+        // Generamos el puente de lectura directo hacia la macro para tu hoja de control de una columna
+        urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
+        
+    } else if (hoja === "Superintendentes" || hoja === "Hospitalidad") {
         urlConstruida = `${WEB_APP_URL}?accion=leer&hoja=${encodeURIComponent(hoja)}`;
         
     } else if (hoja === "Estudios Día 1" || hoja === "Estudios Día 2" || hoja === "Estudios Día 3") {
@@ -494,21 +481,7 @@ function cargarDatos() {
     }
 
     if (urlConstruida !== "") {
-        // PUENTE DE SEGURIDAD: Si la función original no está definida, usamos la genérica de la app para no congelar
-        if (typeof Secc821_1_DispararPeticionServidor === "function") {
-            Secc821_1_DispararPeticionServidor(urlConstruida);
-        } else if (typeof cargarDatosDesdeServidor === "function") {
-            cargarDatosDesdeServidor(urlConstruida);
-        } else if (typeof Secc3_1_SincronizarConHojas === "function") {
-            Secc3_1_SincronizarConHojas(urlConstruida);
-        } else {
-            // Tercera opción de respaldo nativa del motor de Sheets
-            console.warn("Función primaria ausente. Redirigiendo petición de datos de forma directa.");
-            fetch(urlConstruida)
-                .then(res => res.json())
-                .then(datos => { if (typeof recibirDatosHoja === "function") recibirDatosHoja(datos); })
-                .catch(err => console.error("Error en puente de datos: ", err));
-        }
+        Secc821_1_DispararPeticionServidor(urlConstruida);
     } else {
         console.error("Error: La hoja seleccionada no tiene una ruta en el tablero de control.");
     }
@@ -516,7 +489,7 @@ function cargarDatos() {
 
 // =========================================================================
 // SECCIÓN 8.2.3: ACTUALIZADOR EN VIVO CON CLAÚSULA DE ESCAPE PARA DRIVE (APP.JS)
-// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL INMÓVIL
+// Ubicación del bloque: FINAL ABSOLUTO DE TU ARCHIVO APP.JS CENTRAL
 // =========================================================================
 function actualizarEnlaceUbicacion() {
     const selector = document.getElementById("selectorHoja");
