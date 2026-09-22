@@ -53,44 +53,6 @@ function cargarDatos() {
 }
 
 // ==========================================================
-// SECCIÓN 3.0 (FIJA): MOTOR CONSTRUCTOR VISUAL DE FILAS
-// Ubicación: Centro (Parte Media - Función Fija)
-// ==========================================================
-function Secc30_1_DibujarRenglonEnPantalla(
-    indice, 
-    objetoCampos, 
-    columnasVisibles
-) {
-    const tablaCuerpo = document.getElementById("tablaCuerpo");
-    
-    // Construcción horizontal recorriendo las llaves
-    let htmlFila = "<tr>";
-    columnasVisibles.forEach(propiedad => {
-        const val = objetoCampos[propiedad];
-        htmlFila += `<td>${val !== undefined ? val : ""}</td>`;
-    });
-    
-    // Inyección de botones con puentes de red locales
-    const jsonLimpio = JSON.stringify(objetoCampos)
-        .replace(/"/g, '&quot;');
-
-    htmlFila += `<td>
-        <button type="button" class="btn-edit" 
-            style="cursor:pointer;" 
-            onclick="window.editarRegistro(${indice}, ${jsonLimpio})">
-            ✏️
-        </button>
-        <button type="button" class="btn-delete" 
-            style="cursor:pointer;" 
-            onclick="window.borrarRegistro(${indice})">
-            🗑️
-        </button>
-    </td></tr>`;
-    
-    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
-}
-
-// ==========================================================
 // SECCIÓN 3.1 (DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
 // Ubicación: Centro (Sección de Cambios Frecuentes)
 // ==========================================================
@@ -242,6 +204,7 @@ function recibirDatosDesdeGoogle(json) {
             contadorBloque++;
         }
     } else {
+        // CORRECCIÓN AQUÍ: Se pasa de forma correcta 'celdasPlanas'
         datosMatriz.forEach((objetoCampos, indice) => {
             Secc30_1_DibujarRenglonEnPantalla(
                 indice, 
@@ -316,7 +279,6 @@ function mostrarAlertaPastel(mensaje, tipo) {
 
   contenedorAlertas.appendChild(alerta);
 
-  // Temporizador de lectura: 6 segundos en total
   setTimeout(() => {
     alerta.style.animation = 'salidaAlertaPastel 0.3s ease-in forwards';
     setTimeout(() => {
