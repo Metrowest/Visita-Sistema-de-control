@@ -52,67 +52,72 @@ function cargarDatos() {
     document.body.appendChild(script);
 }
 
-// =========================================================================
-// SECCIÓN 3.0 (FIJA - NO SE TOCA): MOTOR CONSTRUCTOR VISUAL DE FILAS (APP.JS)
-// Ubicación del bloque: CENTRO (PARTE MEDIA - FUNCIÓN FIJA NUNCA MODIFICAR)
-// =========================================================================
+// ==========================================================
+// SECCIÓN 3.0 (FIJA): MOTOR CONSTRUCTOR VISUAL DE FILAS
+// ==========================================================
 function Secc30_1_DibujarRenglonEnPantalla(
     indice, 
     objetoCampos, 
     columnasVisibles
 ) {
     const tablaCuerpo = document.getElementById("tablaCuerpo");
-    
-    // Construimos la fila en sentido estrictamente horizontal
     let htmlFila = "<tr>";
+    
     columnasVisibles.forEach(propiedad => {
-        htmlFila += `<td>${objetoCampos[propiedad] !== undefined ? 
-            objetoCampos[propiedad] : ""}</td>`;
+        const val = objetoCampos[propiedad];
+        htmlFila += `<td>${val !== undefined ? val : ""}</td>`;
     });
     
-    // Inyección fija universal de botones interactivos con puentes locales
+    const jsonLimpio = JSON.stringify(objetoCampos)
+        .replace(/"/g, '&quot;');
+
     htmlFila += `<td>
-        <button type="button" class="btn-edit" style="cursor:pointer;" 
-            onclick="window.editarRegistro(${indice}, 
-            ${JSON.stringify(objetoCampos).replace(/"/g, '&quot;')})">
+        <button type="button" class="btn-edit" 
+            style="cursor:pointer;" 
+            onclick="window.editarRegistro(${indice}, ${jsonLimpio})">
             ✏️
         </button>
-        <button type="button" class="btn-delete" style="cursor:pointer;" 
+        <button type="button" class="btn-delete" 
+            style="cursor:pointer;" 
             onclick="window.borrarRegistro(${indice})">
             🗑️
         </button>
     </td></tr>`;
     
-    tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+    if (tablaCuerpo) {
+        tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+    }
 }
 
-// =========================================================================
-// SECCIÓN 3.1 (CONFIGURACIÓN DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
-// Ubicación del bloque: CENTRO (PARTE MEDIA - SECCIÓN DE CAMBIOS FRECUENTES)
-// Descripción: Clasifica y procesa de forma adaptativa las estructuras.
-// Mantiene al 100% intacta tu lógica original de antidesfase vertical.
-// =========================================================================
+// 🛡️ AMARRE CRÍTICO GLOBAL: Obliga al navegador a reconocer la función de inmediato
+window.Secc30_1_DibujarRenglonEnPantalla = Secc30_1_DibujarRenglonEnPantalla;
+
+
+// ==========================================================
+// SECCIÓN 3.1 (DINÁMICA): DECODIFICADOR MAESTRO DE MATRICES
+// ==========================================================
 function recibirDatosDesdeGoogle(json) {
     console.log("¡Decodificador maestro activado!");
-    const tablaCabecera = document.getElementById("tablaCabecera");
-    const tablaCuerpo = document.getElementById("tablaCuerpo");
+    const tCabecera = document.getElementById("tablaCabecera");
+    const tCuerpo = document.getElementById("tablaCuerpo");
     
-    if(tablaCuerpo) tablaCuerpo.innerHTML = "";
+    if (tCuerpo) tCuerpo.innerHTML = "";
 
     let datosMatriz = json && json.data ? json.data : json;
-    if (json && json.status === "success" && json.message && 
-        Array.isArray(json.message)) { 
+    if (json && json.status === "success" && 
+        json.message && Array.isArray(json.message)) { 
         datosMatriz = json.message; 
     }
 
     if (!datosMatriz || !Array.isArray(datosMatriz) || 
         datosMatriz.length === 0) {
-        const hojaActiva = document.getElementById("selectorHoja").value;
-        const totalColumnas = (hojaActiva.includes("Estudios") || 
-            hojaActiva.includes("Pastoreo")) ? 9 : 
-            (hojaActiva === "Hospitalidad" ? 5 : 4);
-        if(tablaCuerpo) {
-            tablaCuerpo.innerHTML = `<tr><td colspan="${totalColumnas}">
+        const hoja = document.getElementById("selectorHoja").value;
+        const totalCol = (hoja.includes("Estudios") || 
+            hoja.includes("Pastoreo")) ? 9 : 
+            (hoja === "Hospitalidad" ? 5 : 4);
+        
+        if (tCuerpo) {
+            tCuerpo.innerHTML = `<tr><td colspan="${totalCol}">
                 No hay registros guardados en esta sección.
             </td></tr>`;
         }
@@ -120,79 +125,82 @@ function recibirDatosDesdeGoogle(json) {
     }
 
     const hojaActiva = document.getElementById("selectorHoja").value;
-    let encabezadosTextos = [];
+    let encTextos = [];
     let llavesMapeo = [];
 
-    // CONFIGURACIÓN DE TABLAS: Mapeamos los títulos reales de tus hojas
     if (hojaActiva === "Seguridad") {
-        encabezadosTextos = ["Fecha / Estado"];
+        encTextos = ["Fecha / Estado"];
         llavesMapeo = ["grupo"]; 
         
     } else if (hojaActiva === "Superintendentes") {
-        encabezadosTextos = ["Grupo", "Superintendente", "Teléfono"];
+        encTextos = ["Grupo", "Superintendente", "Teléfono"];
         llavesMapeo = ["grupo", "superintendente", "telefono"];
         
     } else if (hojaActiva === "Hospitalidad") {
-        encabezadosTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
+        encTextos = ["Día", "Nombre", "Teléfono", "Dirección"];
         llavesMapeo = ["grupo", "superintendente", "telefono", "direccion"];
         
     } else if (hojaActiva.includes("Estudios")) {
-        encabezadosTextos = ["Día", "Visitante", "Acompañante", "Teléfono", 
-            "Estudiante", "Dirección", "Publicación", "Detalles"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", 
-            "campo5", "campo6", "campo7", "campo8"];
+        encTextos = ["Día", "Visitante", "Acompañante", 
+            "Teléfono", "Estudiante", "Dirección", 
+            "Publicación", "Detalles"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", 
+            "campo4", "campo5", "campo6", "campo7", "campo8"];
         
     } else if (hojaActiva.includes("Pastoreo")) {
-        encabezadosTextos = ["Día", "Acompañante", "Teléfono", "Hogar", 
-            "Contacto", "Dirección", "Detalles", "Objetivo"];
-        llavesMapeo = ["grupo", "superintendente", "telefono", "campo4", 
-            "campo5", "campo6", "campo7", "campo8"];
+        encTextos = ["Día", "Acompañante", "Teléfono", 
+            "Hogar", "Contacto", "Dirección", 
+            "Detalles", "Objetivo"];
+        llavesMapeo = ["grupo", "superintendente", "telefono", 
+            "campo4", "campo5", "campo6", "campo7", "campo8"];
     }
 
-    // Dibujamos las cabeceras de columnas en sentido horizontal
     let htmlCabecera = "<tr>";
-    encabezadosTextos.forEach(col => htmlCabecera += `<th>${col}</th>`);
+    encTextos.forEach(col => {
+        htmlCabecera += `<th>${col}</th>`;
+    });
     htmlCabecera += "<th>Acciones</th></tr>";
-    if(tablaCabecera) tablaCabecera.innerHTML = htmlCabecera;
+    if (tCabecera) tCabecera.innerHTML = htmlCabecera;
 
-    // 🛡️ ENRUTADOR EXCLUSIVO ADAPTATIVO PARA HOJA SEGURIDAD
     if (hojaActiva === "Seguridad") {
         datosMatriz.forEach((row, index) => {
-            let valorReal = (typeof row === "object" && row !== null) ? 
+            let valReal = (typeof row === "object" && row !== null) ? 
                 (row["Fecha / Estado"] || row["grupo"] || 
                 Object.values(row)[0]) : row;
-            
-            if (String(valorReal).trim() === "Fecha / Estado") return;
+                
+            if (String(valReal).trim() === "Fecha / Estado") return;
 
             let htmlFila = "<tr>";
-            htmlFila += `<td>${String(valorReal || "").trim()}</td>`;
-            let objetoFila = { grupo: String(valorReal || "").trim() };
+            htmlFila += `<td>${String(valReal || "").trim()}</td>`;
+            let objetoFila = { grupo: String(valReal || "").trim() };
             
             htmlFila += `<td>
-                <button type="button" class="btn-edit" style="cursor:pointer;" 
+                <button type="button" class="btn-edit" 
+                    style="cursor:pointer;" 
                     onclick="window.editarRegistro(${index}, 
                     ${JSON.stringify(objetoFila).replace(/"/g, '&quot;')})">
                     ✏️
                 </button>
             </td></tr>`;
             
-            if(tablaCuerpo) {
-                tablaCuerpo.insertAdjacentHTML("beforeend", htmlFila);
+            if (tCuerpo) {
+                tCuerpo.insertAdjacentHTML("beforeend", htmlFila);
             }
         });
         return; 
     }
 
-    // ENRUTADOR DE PROCESAMIENTO VERTICAL CON EXTRACTOR ANTIDESFASE UNIFICADO
-    if (hojaActiva.includes("Estudios") || hojaActiva.includes("Pastoreo")) {
+    if (hojaActiva.includes("Estudios") || 
+        hojaActiva.includes("Pastoreo")) {
+        
         let celdasPlanasRaw = [];
         datosMatriz.forEach(fila => {
             if (Array.isArray(fila)) {
-                celdasPlanasRaw.push(fila[0] !== undefined && fila[0] !== null ? 
-                    fila[0].toString().trim() : "");
+                celdasPlanasRaw.push(fila[0] !== undefined && 
+                    fila[0] !== null ? fila[0].toString().trim() : "");
             } else {
-                celdasPlanasRaw.push(fila !== undefined && fila !== null ? 
-                    fila.toString().trim() : "");
+                celdasPlanasRaw.push(fila !== undefined && 
+                    fila !== null ? fila.toString().trim() : "");
             }
         });
 
@@ -201,7 +209,6 @@ function recibirDatosDesdeGoogle(json) {
             if (k > 0 && celdasPlanasRaw[k] !== "" && 
                 celdasPlanasRaw[k] === celdasPlanasRaw[k-1] && 
                 celdasPlanasRaw[k].includes("Dia:")) {
-                console.log("¡Desfase físico detectado! Alineando vector...");
                 continue; 
             }
             celdasPlanas.push(celdasPlanasRaw[k]);
@@ -225,7 +232,7 @@ function recibirDatosDesdeGoogle(json) {
                 campo8: celdasPlanas[i+7] || ""    
             };
 
-            Secc30_1_DibujarRenglonEnPantalla(
+            window.Secc30_1_DibujarRenglonEnPantalla(
                 contadorBloque, 
                 objetoFila, 
                 llavesMapeo
@@ -234,10 +241,61 @@ function recibirDatosDesdeGoogle(json) {
         }
     } else {
         datosMatriz.forEach((objetoCampos, indice) => {
-            Secc30_1_DibujarRenglonEnPantalla(indice, objetoCampos, llavesMapeo);
+            window.Secc30_1_DibujarRenglonEnPantalla(
+                indice, 
+                objetoCampos, 
+                llavesMapeo
+            );
         });
     }
 }
+
+// ==========================================================
+// ADICIÓN PURIFICADA: INTERCEPTOR DE ALERTAS PASTELES
+// ==========================================================
+function mostrarAlertaPastel(mensaje, tipo) {
+  const iconosAlerta = {
+    'exito': '✨',         
+    'confirmacion': '🤔',  
+    'advertencia': '⚠️',   
+    'error': '🚨'          
+  };
+
+  const iconoHtml = iconosAlerta[tipo] || '📌';
+
+  let contenedorAlertas = document.getElementById(
+      'contenedor-alertas-pasteles'
+  );
+  
+  if (!contenedorAlertas) {
+    contenedorAlertas = document.createElement('div');
+    contenedorAlertas.id = 'contenedor-alertas-pasteles';
+    contenedorAlertas.className = 'contenedor-toast-global';
+    document.body.appendChild(contenedorAlertas);
+  }
+
+  const alerta = document.createElement('div');
+  alerta.className = `alerta-pastel alerta-${tipo}`;
+
+  alerta.innerHTML = `
+    <span class="alerta-icono">${iconoHtml}</span>
+    <span class="alerta-texto">${mensaje}</span>
+  `;
+
+  contenedorAlertas.appendChild(alerta);
+
+  setTimeout(() => {
+    alerta.classList.add('salida');
+    setTimeout(() => {
+      alerta.remove();
+      if (contenedorAlertas.childElementCount === 0) {
+        contenedorAlertas.remove();
+      }
+    }, 300); 
+  }, 6000); 
+}
+
+window.mostrarAlertaPastel = mostrarAlertaPastel;
 
 
 // =========================================================================
