@@ -4,23 +4,18 @@
 const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTjFd6E3bbZvfdK0ltV85SFqLHukNOQsKBhxB5HXtj2GBa3SegPSaMl2eOmyccCnK7CQ/exec";
 
 // =========================================================================
-//  SECCIÓN 2: ARCHIVO INTEGRADO CENTRAL: carpetas.js (PRODUCCIÓN - PARTE 1 MÁXIMA VELOCIDAD)
-// OPTIMIZACIÓN: Carga perezosa (Lazy Loading). Bloquea peticiones al arrancar
-// la app para liberar el canal de red de las hojas, logrando un encendido instantáneo.
+// SECCIÓN 2: VARIABLES DE MEMORIA INTERNA AISLADA DE PRODUCCIÓN
 // =========================================================================
-
-
-// Variables de memoria interna aislada de producción
 let drive_IdCarpetaActiva = "1FaVX1EbJlhJWSgnaoqL7WqJqRaJbGzKM"; // Carpeta raíz
 let drive_NombreArchivoSeleccionado = "";
 let drive_MimeTypeSeleccionado = "";
 let drive_Base64DataSeleccionada = "";
 
 // =========================================================================
-// SECCIÓN 3: EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS)
+// SECCIÓN 3: EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS CALLBACK API)
 // =========================================================================
 
-// Lanza la petición script sincronizada con la macro de Google
+// REQ 1 y 2: Lanza la petición script sincronizada con la macro de Google
 function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
     const viejo = document.getElementById("script-drive-carga");
     if (viejo) viejo.remove();
@@ -30,7 +25,7 @@ function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
     document.body.appendChild(script);
 }
 
-// Envía el nombre del archivo para validar duplicados
+// REQ 4: Envía el nombre del archivo para validar duplicados usando el callback correcto
 function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
     const viejo = document.getElementById("script-drive-verificar");
     if (viejo) viejo.remove();
@@ -41,7 +36,7 @@ function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
 }
 
 // =========================================================================
-// SECCIÓN 4: RECEPTORES VISUALES DE RESPUESTAS ASÍNCRONAS
+// SECCIÓN 4: RECEPTORES VISUALES DE RESPUESTAS ASÍNCRONAS (REJILLAS)
 // =========================================================================
 
 window.recibirEstructuraDrive = function (resultado) {
@@ -95,50 +90,6 @@ window.recibirEstructuraDrive = function (resultado) {
     }
 };
 
-window.recibirVerificacionDrive = function (respuesta) {
-    if (!respuesta || respuesta.status !== "success") return;
-
-    let seMuestraEnPantalla = false;
-    const tablaCuerpoDrive = document.getElementById("tablaCuerpoDrive");
-    if (tablaCuerpoDrive) {
-        const filas = tablaCuerpoDrive.getElementsByTagName("tr");
-        for (let i = 0; i < filas.length; i++) {
-            if (filas[i].innerText.includes(drive_NombreArchivoSeleccionado)) {
-                seMuestraEnPantalla = true;
-                break;
-            }
-        }
-    }
-
-    if (respuesta.existe === true || seMuestraEnPantalla === true) {
-        if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
-            if (typeof window.mostrarNotificacionToast === "function") {
-                window.mostrarNotificacionToast("No es el mismo formato, no se puede actualizar.", true);
-            } else {
-                alert("No es el mismo formato, no se puede actualizar.");
-            }
-            Secc6_Fun2_RestablecerFormularioCarga();
-            return;
-        }
-
-        let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
-        if (confirmarReemplazo) {
-            Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
-        } else {
-            Secc6_Fun2_RestablecerFormularioCarga();
-        }
-    } 
-    else {
-        let confirmarNuevo = confirm("Este es un documento que no está en la carpeta, debes confirmar si quieres subirlo");
-        if (confirmarNuevo) {
-            Secc6_Fun1_TransmitirBytesHaciaNube("crearNuevo", null);
-        } else {
-            Secc6_Fun2_RestablecerFormularioCarga();
-        }
-    }
-};
-
-
 // =========================================================================
 // SECCIÓN 5: INTERCEPTOR EVALUADOR DE PREEXISTENCIA Y DIÁLOGOS SÍ/NO
 // =========================================================================
@@ -159,18 +110,12 @@ window.recibirVerificacionDrive = function (respuesta) {
     }
 
     if (respuesta.existe === true || seMuestraEnPantalla === true) {
-        // 1) VALIDACIÓN DE FORMATO IDÉNTICO: Alerta Toast en español limpio
         if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
-            if (typeof window.mostrarNotificacionToast === "function") {
-                window.mostrarNotificacionToast("No es el mismo formato, no se puede actualizar.", true);
-            } else {
-                alert("No es el mismo formato, no se puede actualizar.");
-            }
+            alert("No es el mismo formato, no se puede actualizar.");
             Secc6_Fun2_RestablecerFormularioCarga();
             return;
         }
 
-        // 3) CONFIRMACIÓN DE REEMPLAZO
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
             Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
@@ -257,21 +202,13 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     })
     .then(res => res.json())
     .then(data => {
-        if (typeof window.mostrarNotificacionToast === "function") {
-            window.mostrarNotificacionToast("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
-        } else {
-            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
-        }
+        alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 300);
     })
     .catch(err => {
         console.error("Aviso original de red:", err);
-        if (typeof window.mostrarNotificacionToast === "function") {
-            window.mostrarNotificacionToast("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
-        } else {
-            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
-        }
+        alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
     });
@@ -288,7 +225,7 @@ function Secc6_Fun2_RestablecerFormularioCarga() {
 }
 
 // =========================================================================
-// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS CON CARGA REACTIVA
+// SECCIÓN 8: ESCUCHAS DE EVENTOS BINDING AUTOMÁTICOS
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     const selectorSub = document.getElementById("selectorSubcarpetas");
@@ -312,32 +249,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnCarga) {
         btnCarga.addEventListener("click", () => {
             if (!drive_NombreArchivoSeleccionado) {
-                if (typeof window.mostrarNotificacionToast === "function") {
-                    window.mostrarNotificacionToast("Por favor, selecciona un documento primero.", true);
-                } else {
-                    alert("Por favor, selecciona un documento primero.");
-                }
+                alert("Por favor, selecciona un documento primero.");
                 return;
             }
             Secc3_Fun2_DispararVerificacionPreexistenciaNube(drive_NombreArchivoSeleccionado);
         });
     }
 
-    // 🌟 ENRUTADOR REACTIVO INTELIGENTE CORREGIDO: Las variables coinciden perfectamente
-    const selectorHojasGlobal = document.getElementById("selectorHoja");
-    if (selectorHojasGlobal) {
-        selectorHojasGlobal.addEventListener("change", (e) => {
-            // El canal hacia Google Drive SOLO se abre si el usuario selecciona de forma activa las carpetas
-            if (e.target.value === "Gestor_Carpetas") {
-                console.log("⚡ [Carga Reactiva] Activando sincronización bajo demanda para Google Drive.");
-                Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
-            }
-        });
-    }
+    setTimeout(() => {
+        Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
+    }, 1000);
 });
 
 // =========================================================================
-// PROGRAMACIÓN COMPLEMENTARIA: VISTA PREVIA DEL ICONO EN TIEMPO REAL
+// PROGRAMACIÓN COMPLEMENTARIA INDEPENDIENTE: VISTA PREVIA DEL ICONO EN TIEMPO REAL
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     const inputArchivoOriginal = document.getElementById("archivoSubirDrive");
@@ -347,24 +272,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (inputArchivoOriginal && contenedorIcono) {
         inputArchivoOriginal.addEventListener("change", (e) => {
             const archivos = e.target.files;
+            
             if (!archivos || archivos.length === 0) {
                 contenedorIcono.innerHTML = "";
                 return;
             }
+            
             const documento = archivos[0];
             const formatoDetectado = documento.type || documento.name.split('.').pop();
+            
             contenedorIcono.innerHTML = obtenerIconoFormato(formatoDetectado);
         });
     }
 
     if (btnCargaOriginal && contenedorIcono) {
         btnCargaOriginal.addEventListener("click", () => {
-            // Reemplazo optimizado: Limpieza inmediata impulsada por evento directo en lugar de intervalos pesados
-            setTimeout(() => {
+            const intervaloLimpieza = setInterval(() => {
                 if (!inputArchivoOriginal || !inputArchivoOriginal.value) {
                     contenedorIcono.innerHTML = "";
+                    clearInterval(intervaloLimpieza);
                 }
-            }, 600);
+            }, 500);
         });
     }
 });
