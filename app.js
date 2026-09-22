@@ -389,6 +389,26 @@ function mostrarNotificacionToast(mensaje, esError = false) {
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
+// 🌟 CONSTRUCTOR DE NOTIFICACIONES FLOTANTES ANIMADAS (TOASTS)
+function mostrarNotificacionToast(mensaje, esError = false) {
+    const contenedor = document.getElementById("contenedor-toasts");
+    if (!contenedor) return;
+
+    // Creamos la tarjeta del elemento HTML dinámicamente
+    const toast = document.createElement("div");
+    toast.className = `alerta-toast${esError ? " toast-error" : ""}`;
+    toast.innerHTML = `<span>${mensaje}</span><span style="cursor:pointer; font-weight:bold; margin-left:10px;" onclick="this.parentElement.remove()">×</span>`;
+
+    // Lo inyectamos en el contenedor de la pantalla
+    contenedor.appendChild(toast);
+
+    // Programamos su desvanecimiento automático y remoción a los 4 segundos
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "scale(0.9)";
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
 
 
 // =========================================================================
