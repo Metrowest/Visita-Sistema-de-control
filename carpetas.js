@@ -15,7 +15,7 @@ let drive_Base64DataSeleccionada = "";
 // SECCIÓN 3: EMISORES DE PETICIONES DE CONSULTA (JSONP MOTORS CALLBACK API)
 // =========================================================================
 
-// REQ 1 y 2: Lanza la petición script sincronizada con la macro de Google
+// Lanza la petición script sincronizada con la macro de Google
 function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
     const viejo = document.getElementById("script-drive-carga");
     if (viejo) viejo.remove();
@@ -25,7 +25,7 @@ function Secc3_Fun1_DispararCargaEstructuraNube(folderId) {
     document.body.appendChild(script);
 }
 
-// REQ 4: Envía el nombre del archivo para validar duplicados usando el callback correcto
+// Envía el nombre del archivo para validar duplicados usando el callback correcto
 function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
     const viejo = document.getElementById("script-drive-verificar");
     if (viejo) viejo.remove();
@@ -40,6 +40,7 @@ function Secc3_Fun2_DispararVerificacionPreexistenciaNube(nombreArc) {
 // =========================================================================
 
 window.recibirEstructuraDrive = function (resultado) {
+    // Traduce la validación del estado del servidor a español limpio
     if (!resultado || resultado.status !== "success") return;
     
     drive_IdCarpetaActiva = resultado.idCarpetaActual;
@@ -110,7 +111,7 @@ window.recibirVerificacionDrive = function (respuesta) {
     }
 
     if (respuesta.existe === true || seMuestraEnPantalla === true) {
-        // 1) VALIDACIÓN DE FORMATO IDÉNTICO: Alerta Toast roja animada si no coincide
+        // 1) VALIDACIÓN DE FORMATO IDÉNTICO: Alerta Toast en español limpio
         if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
             if (typeof window.mostrarNotificacionToast === "function") {
                 window.mostrarNotificacionToast("No es el mismo formato, no se puede actualizar.", true);
@@ -121,7 +122,7 @@ window.recibirVerificacionDrive = function (respuesta) {
             return;
         }
 
-        // 3) PREGUNTA DE CONFIRMACIÓN DE REEMPLAZO SI EL DOCUMENTO YA EXISTE
+        // 3) CONFIRMACIÓN DE REEMPLAZO
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
             Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
@@ -208,7 +209,7 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     })
     .then(res => res.json())
     .then(data => {
-        // 2) ALERTA DE RECORDATORIO DE ÉXITO EN TOAST TURQUESA FLOTANTE ANIMADO
+        // 2) ALERTA DE RECORDATORIO EN ESPAÑOL MAESTRO
         if (typeof window.mostrarNotificacionToast === "function") {
             window.mostrarNotificacionToast("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
         } else {
@@ -281,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================================================================
-// PROGRAMACIÓN COMPLEMENTARIA INDEPENDIENTE: VISTA PREVIA DEL ICONO EN TIEMPO REAL
+// PROGRAMACIÓN COMPLEMENTARIA: VISTA PREVIA DEL ICONO EN TIEMPO REAL
 // =========================================================================
 document.addEventListener("DOMContentLoaded", () => {
     const inputArchivoOriginal = document.getElementById("archivoSubirDrive");
