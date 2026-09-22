@@ -1,9 +1,4 @@
 // =========================================================================
-// ARCHIVO INTEGRADO CENTRAL: carpetas.js (PRODUCCIÓN - PARTE 1)
-// REQUISITOS INTEGRADOS: CUMPLIMIENTO ESTRICTO DE LAS EMISIONES 1 A 11
-// =========================================================================
-
-// =========================================================================
 // SECCIÓN 1: ENLACE DE RED WEB APP DE PRODUCCIÓN PARA DRIVE (CONECTADO)
 // =========================================================================
 const CARPETAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyTjFd6E3bbZvfdK0ltV85SFqLHukNOQsKBhxB5HXtj2GBa3SegPSaMl2eOmyccCnK7CQ/exec";
@@ -115,12 +110,18 @@ window.recibirVerificacionDrive = function (respuesta) {
     }
 
     if (respuesta.existe === true || seMuestraEnPantalla === true) {
+        // 1) VALIDACIÓN DE FORMATO IDÉNTICO: Alerta Toast roja animada si no coincide
         if (respuesta.mimeTypeOriginal && respuesta.mimeTypeOriginal !== drive_MimeTypeSeleccionado) {
-            alert("No es el mismo formato, no se puede actualizar.");
+            if (typeof window.mostrarNotificacionToast === "function") {
+                window.mostrarNotificacionToast("No es el mismo formato, no se puede actualizar.", true);
+            } else {
+                alert("No es el mismo formato, no se puede actualizar.");
+            }
             Secc6_Fun2_RestablecerFormularioCarga();
             return;
         }
 
+        // 3) PREGUNTA DE CONFIRMACIÓN DE REEMPLAZO SI EL DOCUMENTO YA EXISTE
         let confirmarReemplazo = confirm("¿Estás seguro de que quieres reemplazar el documento?");
         if (confirmarReemplazo) {
             Secc6_Fun1_TransmitirBytesHaciaNube("actualizarExistente", respuesta.fileIdOriginal);
@@ -207,13 +208,22 @@ function Secc6_Fun1_TransmitirBytesHaciaNube(tipoAccion, fileIdOriginal) {
     })
     .then(res => res.json())
     .then(data => {
-        alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        // 2) ALERTA DE RECORDATORIO DE ÉXITO EN TOAST TURQUESA FLOTANTE ANIMADO
+        if (typeof window.mostrarNotificacionToast === "function") {
+            window.mostrarNotificacionToast("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        } else {
+            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        }
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 300);
     })
     .catch(err => {
         console.error("Aviso original de red:", err);
-        alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        if (typeof window.mostrarNotificacionToast === "function") {
+            window.mostrarNotificacionToast("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        } else {
+            alert("Recuerda confirmar si el nuevo documento se ve en el WebApp \"Visita\".");
+        }
         Secc6_Fun2_RestablecerFormularioCarga();
         setTimeout(() => Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva), 1000);
     });
@@ -254,7 +264,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnCarga) {
         btnCarga.addEventListener("click", () => {
             if (!drive_NombreArchivoSeleccionado) {
-                alert("Por favor, selecciona un documento primero.");
+                if (typeof window.mostrarNotificacionToast === "function") {
+                    window.mostrarNotificacionToast("Por favor, selecciona un documento primero.", true);
+                } else {
+                    alert("Por favor, selecciona un documento primero.");
+                }
                 return;
             }
             Secc3_Fun2_DispararVerificacionPreexistenciaNube(drive_NombreArchivoSeleccionado);
@@ -265,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Secc3_Fun1_DispararCargaEstructuraNube(drive_IdCarpetaActiva);
     }, 1000);
 });
+
 // =========================================================================
 // PROGRAMACIÓN COMPLEMENTARIA INDEPENDIENTE: VISTA PREVIA DEL ICONO EN TIEMPO REAL
 // =========================================================================
@@ -274,7 +289,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const contenedorIcono = document.getElementById("vistaPreviaIconoDrive");
     
     if (inputArchivoOriginal && contenedorIcono) {
-        // 1. Escuchar la selección para pintar el icono de color al lado del nombre nativo
         inputArchivoOriginal.addEventListener("change", (e) => {
             const archivos = e.target.files;
             
@@ -286,16 +300,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const documento = archivos[0];
             const formatoDetectado = documento.type || documento.name.split('.').pop();
             
-            // Inyectamos únicamente el HTML del icono con su color sin repetir texto
             contenedorIcono.innerHTML = obtenerIconoFormato(formatoDetectado);
         });
     }
 
     if (btnCargaOriginal && contenedorIcono) {
-        // 2. Monitorear el botón verde para borrar el icono cuando el sistema termine de subir
         btnCargaOriginal.addEventListener("click", () => {
             const intervaloLimpieza = setInterval(() => {
-                // Cuando tu lógica nativa original limpie el input de archivos, removemos el icono de color
                 if (!inputArchivoOriginal || !inputArchivoOriginal.value) {
                     contenedorIcono.innerHTML = "";
                     clearInterval(intervaloLimpieza);
