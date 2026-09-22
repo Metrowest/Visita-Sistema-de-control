@@ -89,10 +89,13 @@ body {
 .tarjeta-cabecera {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;              /* Aumentado de 10px a 14px para separar más el icono del texto */
+    padding-top: 14px;      /* Espacio superior para que el icono no choque arriba */
+    padding-left: 16px;     /* ¡Clave! Despega el icono del borde izquierdo del contenedor */
+    padding-right: 16px;    /* Equilibrio en el extremo derecho */
+    padding-bottom: 14px;   /* Ajustado para mantener la simetría con la línea divisoria */
     margin-bottom: 20px;
     border-bottom: 1px solid var(--color-borde);
-    padding-bottom: 12px;
 }
 
 .tarjeta-modulo .campo-formulario,
